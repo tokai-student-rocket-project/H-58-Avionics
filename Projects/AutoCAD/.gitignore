@@ -1,0 +1,13 @@
+# AutoCAD バックアップファイル
+*.bak
+
+# AutoCAD WHOHAS
+*.dwl
+*.dwl2
+
+# AutoCAD エラーファイル
+*.err
+*.dmp
+
+# AutoCAD 印刷のログファイル
+plot.log

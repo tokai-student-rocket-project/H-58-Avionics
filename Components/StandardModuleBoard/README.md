@@ -4,6 +4,6 @@ STM32とCAN-BUSへの接続を実装した基板です。計器タワーに搭�
 
 ## 基板形状
 
-※未確定
-
-![StandardModuleBoardShape.png](../../Projects/AutoCAD/StandardModuleBoard/StandardModuleBoardShape.png)
+|||
+|-|-|
+|![StandardModuleBoardShape.png](../../Projects/AutoCAD/StandardModuleBoard/StandardModuleBoardShape.png)|![StandardModuleBoardShapeWithSTM.png](../../Projects/AutoCAD/StandardModuleBoard/StandardModuleBoardShapeWithSTM.png)|
