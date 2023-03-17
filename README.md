@@ -1,8 +1,9 @@
 # H-58 搭載計器
 
-## 会議用の資料とか
+## 開発資料
 
 - [要件定義書](./Documents/RequirementsDocument.md) (2023/03/21 解析会議)
+- [お買い物リスト](./Documents/OKAIMONOList.md) (2023年度すぐに買うもの)
 
 ## 標準規格
 
