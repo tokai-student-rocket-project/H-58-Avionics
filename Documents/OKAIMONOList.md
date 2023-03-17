@@ -18,4 +18,3 @@
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=12112) (¥2,354)
 - レギュレータ付きI2Cレベル変換モジュール (x1) ... 3.3V->1.8V変換とI2Cレベル変換が入ってるやつ
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=19406) (¥770)
-
