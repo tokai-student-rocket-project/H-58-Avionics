@@ -28,3 +28,5 @@
 ## メモリ
 - マイクロSDカードスロット (x2)
   - [秋月](https://akizukidenshi.com/catalog/g/gK-05488/) (¥300)
+- EEPROM (x5)
+  - [秋月](https://akizukidenshi.com/catalog/g/gI-03568/) (¥90)
