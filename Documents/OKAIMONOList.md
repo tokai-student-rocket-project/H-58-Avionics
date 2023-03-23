@@ -18,6 +18,8 @@
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=20948) (¥1,980)
 - ADXL375モジュール (x2) ... 3軸加速度±200g
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=12112) (¥2,354)
+- LPS22HWモジュール (x2) ... 防水気圧
+  - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=12133) (¥1,958)
 - MCP9601モジュール (x1) ... 熱電対モジュール
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=19601) (¥4,180)
 - レギュレータ付きI2Cレベル変換モジュール (x2) ... 3.3V->1.8V変換とI2Cレベル変換が入ってるやつ
