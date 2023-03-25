@@ -26,6 +26,7 @@
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=10304) (¥770)
 
 ## メモリ
+
 - マイクロSDカードスロット (x2)
   - [秋月](https://akizukidenshi.com/catalog/g/gK-05488/) (¥300)
 - EEPROM (x5)
