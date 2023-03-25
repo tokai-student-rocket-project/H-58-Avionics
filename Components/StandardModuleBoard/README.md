@@ -2,10 +2,9 @@
 
 STM32とCAN-BUSへの接続を実装した基板です。計器タワーに搭載する基板は、この基板を継承して設計してください。
 
-- Nucleo-F303K8
-- CANトランシーバー
-- 汎用EEPROM
-- 汎用SDカードスロット
+## 構成
+
+![StandardModuleBoardBlockDiagram.png](./Documents/StandardModuleBoardBlockDiagram.drawio.png)
 
 ## 基板形状
 
