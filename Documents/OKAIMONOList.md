@@ -22,8 +22,8 @@
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=12133) (¥1,958)
 - MCP9601モジュール (x1) ... 熱電対モジュール
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=19601) (¥4,180)
-- レギュレータ付きI2Cレベル変換モジュール (x2) ... 3.3V->1.8V変換とI2Cレベル変換が入ってるやつ
-  - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=19406) (¥770)
+- レギュレータ付きSPIレベル変換モジュール (x2) ... 3.3V->1.8V変換とSPIレベル変換が入ってるやつ
+  - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=10304) (¥770)
 
 ## メモリ
 - マイクロSDカードスロット (x2)
