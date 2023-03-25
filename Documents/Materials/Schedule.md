@@ -1,6 +1,6 @@
 # 工程計画書
 
-![Schedule.png](Schedule.drawio.png)
+![Schedule.png](../../Projects/Drawio/Documents/Schedule.drawio.png)
 
 DRと安全審査の時期が未定なので暫定版
 

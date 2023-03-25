@@ -2,9 +2,9 @@
 
 ## 開発資料
 
-- [工程計画書](./Documents/Schedule.md)
-- [要件定義書](./Documents/RequirementsDocument.md)
-- [お買い物リスト](./Documents/OKAIMONOList.md) (2023年度すぐに買うもの)
+- [工程計画書](./Documents/Materials/Schedule.md)
+- [要件定義書](./Documents/Materials/RequirementsDocument.md)
+- [お買い物リスト](./Documents/Materials/OKAIMONOList.md) (2023年度すぐに買うもの)
 
 ## 標準規格
 
@@ -22,3 +22,7 @@
 - 飛翔管理モジュール ... フライトモード管理, 分離制御
 - [通信モジュール](./Components/CommunicationModule/) ... アップリンク, ダウンリンク
 - THR制御モジュール ... 推進系計測, バルブ制御
+
+## HOW TO
+
+- [シンボリックリンク作り方](./Documents/Materials/HowTo/MakeSymbolicLink.md)

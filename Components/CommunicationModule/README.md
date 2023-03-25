@@ -6,11 +6,11 @@
 
 ### 高速ダウンリンク, アップリンク
 
-![CommunicationModule.png](./Documents/CommunicationModule.drawio.png)
+![CommunicationModule.png](../../Projects/Drawio/CommunicationModule/CommunicationModule.drawio.png)
 
 ### 低速ダウンリンク
 
-![CommunicationModuleGNSS.png](./Documents/CommunicationModuleGNSS.drawio.png)
+![CommunicationModuleGNSS.png](../../Projects/Drawio/CommunicationModule/CommunicationModuleGNSS.drawio.png)
 
 ## 基板形状
 

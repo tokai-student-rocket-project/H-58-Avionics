@@ -4,7 +4,7 @@
 
 ## 構成
 
-![SensingModule.png](./Documents/SensingModule.drawio.png)
+![SensingModule.png](../../Projects/Drawio/SensingModule/SensingModule.drawio.png)
 
 ## 基板形状
 
