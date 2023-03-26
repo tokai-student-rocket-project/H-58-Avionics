@@ -23,7 +23,11 @@ H-57-Avionics/Projects/KiCad/TestModule/
 
 ### 1. 管理者権限でコマンドプロンプトを起動する
 
-### 2. コマンドを実行
+### 2. Gitでシンボリックリンクを扱えるように設定する
+
+`git config --global core.symlinks true`
+
+### 3. コマンドを実行
 
 `mklink /d <link> <target>`
 
@@ -37,3 +41,9 @@ H-57-Avionics/Projects/KiCad/TestModule/
 
 ※注意  
 `<target>`は`<link>`**からの絶対パス**で指定すること。Githubで共有した際に他の人が使えなくなるほか、あなたのユーザー名が晒されます。(一敗)
+
+---
+
+全部説明されてた
+
+[シンボリックリンクの使い方 | Zenn](https://zenn.dev/kunosu/articles/f2a459431c3a4dfc48cb)
