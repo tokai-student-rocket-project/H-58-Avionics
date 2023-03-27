@@ -7,10 +7,15 @@
 - Nucleo-F303K8 (x5)
   - [秋月](https://akizukidenshi.com/catalog/g/gM-10172/) (¥2,200)
   - [DigiKey](https://www.digikey.jp/short/vvwbvcq3) ($10.99)
-- MCP2515 (x2)
+
+## IC
+
+- MCP2515 (x2) ... CANコントローラ
   - [秋月](https://akizukidenshi.com/catalog/g/gI-12030/) (¥350)
 - MCP2562 (x5) ... CANトランシーバ
   - [秋月](https://akizukidenshi.com/catalog/g/gI-14383/) (¥190)
+- TLP241B (x4) ... フォトカプラ
+  - [秋月](https://akizukidenshi.com/catalog/g/gI-16705/) (¥180)
 
 ## センサ
 
