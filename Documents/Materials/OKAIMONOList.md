@@ -22,7 +22,7 @@
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=12112) (¥2,354)
 - LPS22HWモジュール (x2) ... 防水気圧
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=12133) (¥1,958)
-- MAX31856モジュール (x1) ... 熱電対モジュール
+- MAX31856モジュール (x2) ... 熱電対モジュール
   - [秋月](https://akizukidenshi.com/catalog/g/gM-08218/) (¥1,980)
 - レギュレータ付きSPIレベル変換モジュール (x2) ... 3.3V->1.8V変換とSPIレベル変換が入ってるやつ
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=10304) (¥770)
