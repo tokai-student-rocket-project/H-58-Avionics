@@ -1,6 +1,6 @@
 # お買い物リスト
 
-2023年度すぐに買うものリスト。2022年度のうちに買えるものは買う。
+2023年度すぐに買うものリスト。~~2022年度のうちに買えるものは買う。~~
 
 ## マイコン
 
@@ -16,7 +16,8 @@
   - [秋月](https://akizukidenshi.com/catalog/g/gI-14383/) (¥190)
 - TLP241B (x4) ... フォトカプラ
   - [秋月](https://akizukidenshi.com/catalog/g/gI-16705/) (¥180)
-
+- LTC1480CN8#PBF (x3)...RS485ドライバ
+  - [秋月](https://akizukidenshi.com/catalog/g/gI-16602/) (¥790)
 ## センサ
 
 - ICM-20948モジュール (x2) ... 9軸
@@ -38,3 +39,12 @@
   - [秋月](https://akizukidenshi.com/catalog/g/gK-05488/) (¥300)
 - EEPROM (x5)
   - [秋月](https://akizukidenshi.com/catalog/g/gI-03568/) (¥90)
+
+---
+BBM製作後に購入予定のもの
+## マイコン
+## IC
+## センサ
+- MAX31856MUD+T (x10?)
+  - [DigiKey](https://www.digikey.jp/ja/products/detail/analog-devices-inc-maxim-integrated/MAX31856MUD-T/5050206) (¥1,450)
+## メモリ
