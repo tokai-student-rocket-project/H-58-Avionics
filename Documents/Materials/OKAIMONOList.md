@@ -16,7 +16,7 @@
   - [秋月](https://akizukidenshi.com/catalog/g/gI-14383/) (¥190)
 - TLP241B (x4) ... フォトカプラ
   - [秋月](https://akizukidenshi.com/catalog/g/gI-16705/) (¥180)
-- LTC1480CN8#PBF (x3)...RS485ドライバ
+- LTC1480CN8#PBF (x2)...RS485トランシーバ
   - [秋月](https://akizukidenshi.com/catalog/g/gI-16602/) (¥790)
 ## センサ
 
@@ -46,7 +46,13 @@
 BBM製作後に購入予定のもの
 ## マイコン
 ## IC
+- LTC1480IN8#PBF (x4)
+  - [DigiKey](https://www.digikey.jp/ja/products/detail/analog-devices-inc/LTC1480IN8-PBF/963146)
+  - 優先度：小
+  - LTC1480CN8#PBFの産業用仕様(Industrial)。動作温度帯が-40~85℃。
 ## センサ
-- MAX31856MUD+T (x10?)
+- MAX31856MUD+T or MAX31856MUD+ (x10?)
   - [DigiKey](https://www.digikey.jp/ja/products/detail/analog-devices-inc-maxim-integrated/MAX31856MUD-T/5050206) (¥1,450)
+  - 優先度：中
+  - 出荷時の梱包がテープかチューブかの違い。
 ## メモリ
