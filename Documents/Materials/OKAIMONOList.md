@@ -30,6 +30,8 @@
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=12133) (¥1,958)
 - MAX31856モジュール (x2) ... 熱電対モジュール
   - [秋月](https://akizukidenshi.com/catalog/g/gM-08218/) (¥1,980)
+- NTCサーミスタ5個入り (x1)
+  - [秋月](https://akizukidenshi.com/catalog/g/gP-05251/) (¥200)
 - レギュレータ付きSPIレベル変換モジュール (x2) ... 3.3V->1.8V変換とSPIレベル変換が入ってるやつ
   - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=10304) (¥770)
 
