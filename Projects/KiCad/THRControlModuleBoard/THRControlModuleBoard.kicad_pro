@@ -34,9 +34,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.762,
-          "height": 1.524,
-          "width": 1.524
+          "drill": 0.0,
+          "height": 0.41,
+          "width": 1.5
         },
         "silk_line_width": 0.15,
         "silk_text_italic": false,
@@ -381,7 +381,7 @@
       "no_connect_dangling": "warning",
       "pin_not_connected": "error",
       "pin_not_driven": "error",
-      "pin_to_pin": "warning",
+      "pin_to_pin": "error",
       "power_pin_not_driven": "error",
       "similar_labels": "warning",
       "simulation_model_issue": "error",
@@ -485,6 +485,10 @@
     [
       "79fd2516-dad6-414c-bb46-91ee9bfb5006",
       ""
+    ],
+    [
+      "f6014a5d-9cc0-416f-9341-c878d8d048fe",
+      "STM32F303K8"
     ]
   ],
   "text_variables": {}

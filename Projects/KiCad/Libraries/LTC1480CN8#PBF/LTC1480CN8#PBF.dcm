@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP LTC1480CN8#PBF
+D Linear Technology LTC1480CN8#PBF, Line Transceiver, RS-422/ RS-485, 3.3 V, 8-Pin PDIP
+K
+F https://www.analog.com/media/en/technical-documentation/data-sheets/1480fa.pdf
+$ENDCMP
+#
+#End Doc Library
