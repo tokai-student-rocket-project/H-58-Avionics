@@ -6,3 +6,7 @@ fp-info-cache
 
 # KiCad ローカル設定ファイル
 *.kicad_prl
+
+# KiCad オートセーブファイル
+_autosave-*
+*auto_saved_files*
