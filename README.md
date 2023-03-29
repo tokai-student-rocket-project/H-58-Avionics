@@ -10,7 +10,7 @@
 
 ### 基板
 
-- [標準モジュール基板](./Components/StandardModuleBoard/) ... STM32とCAN-BUSへの接続を実装した基板
+- [標準モジュール](./Components/StandardModuleBoard/) ... STM32とCAN-BUSへの接続を実装した基板
 
 ### 接続
 
