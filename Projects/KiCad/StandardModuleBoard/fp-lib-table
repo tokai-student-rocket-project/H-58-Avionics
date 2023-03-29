@@ -1,2 +1,4 @@
 (fp_lib_table
+  (version 7)
+  (lib (name "NUCLEO-F303K8")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/NUCLEO-F303K8")(options "")(descr ""))
 )
