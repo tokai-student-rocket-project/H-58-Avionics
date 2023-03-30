@@ -65,3 +65,8 @@ BBM製作後に購入予定のもの
 
 
 ## 半導体
+
+- SSR-25DA (x2)
+  - [秋月](https://akizukidenshi.com/catalog/g/gI-14017/)
+  - オーブントースターリフロー炉用
+    - 信号レベル変換基板を挟めば[リフロートースターコントローラーキット](https://mag.switch-science.com/2013/10/15/toaster-controller/)で5Vで使用可能だと思う。
