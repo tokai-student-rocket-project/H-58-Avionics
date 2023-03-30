@@ -45,14 +45,26 @@
 ---
 BBM製作後に購入予定のもの
 ## マイコン
+
+
 ## IC
 - LTC1480IN8#PBF (x4)
-  - [DigiKey](https://www.digikey.jp/ja/products/detail/analog-devices-inc/LTC1480IN8-PBF/963146)
+  - [DigiKey](https://www.digikey.jp/ja/products/detail/analog-devices-inc/LTC1480IN8-PBF/963146) (¥1,341)
   - 優先度：小
   - LTC1480CN8#PBFの産業用仕様(Industrial)。動作温度帯が-40~85℃。
+
+
 ## センサ
 - MAX31856MUD+T or MAX31856MUD+ (x10?)
   - [DigiKey](https://www.digikey.jp/ja/products/detail/analog-devices-inc-maxim-integrated/MAX31856MUD-T/5050206) (¥1,450)
   - 優先度：中
   - 出荷時の梱包がテープかチューブかの違い。
+
+
 ## メモリ
+
+
+## 半導体
+- SSR-25DA (x2)
+  - [秋月](https://akizukidenshi.com/catalog/g/gI-14017/) (¥900)
+  - オーブントースターリフロー炉用
