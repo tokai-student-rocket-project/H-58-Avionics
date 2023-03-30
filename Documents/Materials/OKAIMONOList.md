@@ -70,3 +70,6 @@ BBM製作後に購入予定のもの
   - [秋月](https://akizukidenshi.com/catalog/g/gI-14017/)
   - オーブントースターリフロー炉用
     - 信号レベル変換基板を挟めば[リフロートースターコントローラーキット](https://mag.switch-science.com/2013/10/15/toaster-controller/)で5Vで使用可能だと思う。
+- CL240D10 (x2)
+  - [秋月](https://www.mouser.jp/ProductDetail/Crydom/CL240D10?qs=3FxHq6lNtC7Q6TB3CqdpvA%3D%3D)
+  - オーブントースターリフロー炉用
