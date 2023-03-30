@@ -65,6 +65,3 @@ BBM製作後に購入予定のもの
 
 
 ## 半導体
-- SSR-25DA (x2)
-  - [秋月](https://akizukidenshi.com/catalog/g/gI-14017/) (¥900)
-  - オーブントースターリフロー炉用
