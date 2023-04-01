@@ -21,7 +21,7 @@
 - [計測モジュール](./Components/SensingModule/) ... センサ, データ算出
 - 飛翔管理モジュール ... フライトモード管理, 分離制御
 - [通信モジュール](./Components/CommunicationModule/) ... アップリンク, ダウンリンク
-- THR制御モジュール ... 推進系計測, バルブ制御
+- [THR制御モジュール](./Components/THRControlModule/) ... 推進系計測, バルブ制御
 
 ## HOW TO
 
