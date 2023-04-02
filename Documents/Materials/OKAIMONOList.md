@@ -17,6 +17,8 @@
     - [秋月](https://akizukidenshi.com/catalog/g/gI-16705/) (¥180)
   - LTC1480CN8#PBF (x2)...RS485トランシーバ
     - [秋月](https://akizukidenshi.com/catalog/g/gI-16602/) (¥790)
+  - DTC143EL (x10)...抵抗入トランジスタ
+    - [秋月](https://akizukidenshi.com/catalog/g/gI-12469/) (¥10)
 - センサ
   - BNO055モジュール (x2) ... 9軸
     - [秋月](https://akizukidenshi.com/catalog/g/gK-16996/) (¥2,450)
@@ -56,6 +58,8 @@
   - CL240D10 (x2)
     - [秋月](https://www.mouser.jp/ProductDetail/Crydom/CL240D10?qs=3FxHq6lNtC7Q6TB3CqdpvA%3D%3D)
     - オーブントースターリフロー炉用
+  - DTC143ZU3HZG (x1)...抵抗入トランジスタ
+    - [秋月](https://akizukidenshi.com/catalog/g/gI-16746/) (¥180)
 - センサ
   - MAX31856MUD+T or MAX31856MUD+ (x10?)
     - [DigiKey](https://www.digikey.jp/ja/products/detail/analog-devices-inc-maxim-integrated/MAX31856MUD-T/5050206) (¥1,450)
