@@ -32,16 +32,16 @@
   - ~~EEPROM (x5)~~
     - [秋月](https://akizukidenshi.com/catalog/g/gI-03568/) (¥90)
 
-## 発注
+## 発注 → 発注依頼済み
 
 - センサ
   - ICM-20948モジュール (x2) ... 9軸
     - 【在庫切れ】~~[StrawberryLinux](https://strawberry-linux.com/catalog/items?code=20948) (¥1,980)~~
-  - ADXL375モジュール (x2) ... 3軸加速度±200g
+  - ~~ADXL375モジュール (x2) ... 3軸加速度±200g~~
     - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=12112) (¥2,354)
-  - LPS22HWモジュール (x2) ... 防水気圧
+  - ~~LPS22HWモジュール (x2) ... 防水気圧~~
     - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=12133) (¥1,958)
-  - レギュレータ付きSPIレベル変換モジュール (x2) ... 3.3V->1.8V変換とSPIレベル変換が入ってるやつ
+  - ~~レギュレータ付きSPIレベル変換モジュール (x2) ... 3.3V->1.8V変換とSPIレベル変換が入ってるやつ~~
     - [StrawberryLinux](https://strawberry-linux.com/catalog/items?code=10304) (¥770)
 
 ## BBM製作後に購入予定
