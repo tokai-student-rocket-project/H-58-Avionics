@@ -5,31 +5,31 @@
 ## 直接買いに行く
 
 - マイコン
-  - Nucleo-F303K8 (x5)
+  - ~~Nucleo-F303K8 (x5)~~3個購入済み
     - [秋月](https://akizukidenshi.com/catalog/g/gM-10172/) (¥2,200)
     - [DigiKey](https://www.digikey.jp/short/vvwbvcq3) ($10.99)
 - IC
-  - MCP2515 (x3) ... CANコントローラ
+  - ~~MCP2515 (x3) ... CANコントローラ~~
     - [秋月](https://akizukidenshi.com/catalog/g/gI-12030/) (¥350)
-  - MCP2562 (x5) ... CANトランシーバ
+  - ~~MCP2562 (x5) ... CANトランシーバ~~
     - [秋月](https://akizukidenshi.com/catalog/g/gI-14383/) (¥190)
-  - TLP241B (x4) ... フォトカプラ
+  - ~~TLP241B (x4) ... フォトカプラ~~
     - [秋月](https://akizukidenshi.com/catalog/g/gI-16705/) (¥180)
-  - LTC1480CN8#PBF (x2)...RS485トランシーバ
+  - ~~LTC1480CN8#PBF (x2)...RS485トランシーバ~~
     - [秋月](https://akizukidenshi.com/catalog/g/gI-16602/) (¥790)
-  - DTC143EL (x10)...抵抗入トランジスタ
+  - ~~DTC143EL (x10)...抵抗入トランジスタ~~
     - [秋月](https://akizukidenshi.com/catalog/g/gI-12469/) (¥10)
 - センサ
-  - BNO055モジュール (x2) ... 9軸
+  - ~~BNO055モジュール (x2) ... 9軸~~
     - [秋月](https://akizukidenshi.com/catalog/g/gK-16996/) (¥2,450)
-  - MAX31856モジュール (x2) ... 熱電対モジュール
+  - ~~MAX31856モジュール (x2) ... 熱電対モジュール~~
     - [秋月](https://akizukidenshi.com/catalog/g/gM-08218/) (¥1,980)
-  - NTCサーミスタ5個入り (x1)
+  - ~~NTCサーミスタ5個入り (x1)~~
     - [秋月](https://akizukidenshi.com/catalog/g/gP-05251/) (¥200)
 - メモリ
   - マイクロSDカードスロット (x2)
     - [秋月](https://akizukidenshi.com/catalog/g/gK-05488/) (¥300)
-  - EEPROM (x5)
+  - ~~EEPROM (x5)~~
     - [秋月](https://akizukidenshi.com/catalog/g/gI-03568/) (¥90)
 
 ## 発注
