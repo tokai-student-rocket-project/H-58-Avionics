@@ -5,7 +5,7 @@
 ## 直接買いに行く
 
 - マイコン
-  - ~~Nucleo-F303K8 (x5)~~3個購入済み
+  - ~~Nucleo-F303K8 (x5)~~ 3個購入済み
     - [秋月](https://akizukidenshi.com/catalog/g/gM-10172/) (¥2,200)
     - [DigiKey](https://www.digikey.jp/short/vvwbvcq3) ($10.99)
 - IC
