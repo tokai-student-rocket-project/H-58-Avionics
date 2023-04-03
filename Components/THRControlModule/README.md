@@ -5,3 +5,6 @@
 ## 構成
 
 ![THRControlModule](../../Projects/Drawio/THRControlModule/THRControlModule.drawio.png)
+
+## B3Mシリーズについて
+B3M_Softwareを詳しくみるには[コチラ](https://kondo-robot.com/w/wp-content/uploads/B3M_SoftwareManual1.2.0.3.pdf)
