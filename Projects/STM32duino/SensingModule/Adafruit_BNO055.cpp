@@ -68,10 +68,10 @@ Adafruit_BNO055::Adafruit_BNO055(int32_t sensorID, uint8_t address) {
  */
 bool Adafruit_BNO055::begin(adafruit_bno055_opmode_t mode) {
   /* Make sure we have the right device */
-  uint8_t id = read8(BNO055_CHIP_ID_ADDR);
+  uint8_t id = read8((adafruit_bno055_reg_t)0x00);
   if (id != BNO055_ID) {
     delay(1000); // hold on for boot
-    id = read8(BNO055_CHIP_ID_ADDR);
+    id = read8((adafruit_bno055_reg_t)0x00);
     if (id != BNO055_ID) {
       return false; // still not? ok bail
     }
@@ -81,39 +81,21 @@ bool Adafruit_BNO055::begin(adafruit_bno055_opmode_t mode) {
   setMode(OPERATION_MODE_CONFIG);
 
   /* Reset */
-  write8(BNO055_SYS_TRIGGER_ADDR, 0x20);
+  write8((adafruit_bno055_reg_t)0x3F, 0x20);
   /* Delay incrased to 30ms due to power issues https://tinyurl.com/y375z699 */
   delay(30);
-  while (read8(BNO055_CHIP_ID_ADDR) != BNO055_ID) {
+  while (read8((adafruit_bno055_reg_t)0x00) != BNO055_ID) {
     delay(10);
   }
   delay(50);
 
   /* Set to normal power mode */
-  write8(BNO055_PWR_MODE_ADDR, POWER_MODE_NORMAL);
+  write8((adafruit_bno055_reg_t)0x3E, 0x00);
   delay(10);
 
-  write8(BNO055_PAGE_ID_ADDR, 0);
+  write8((adafruit_bno055_reg_t)0x07, 0);
 
-  /* Set the output units */
-  /*
-  uint8_t unitsel = (0 << 7) | // Orientation = Android
-                    (0 << 4) | // Temperature = Celsius
-                    (0 << 2) | // Euler = Degrees
-                    (1 << 1) | // Gyro = Rads
-                    (0 << 0);  // Accelerometer = m/s^2
-  write8(BNO055_UNIT_SEL_ADDR, unitsel);
-  */
-
-  /* Configure axis mapping (see section 3.4) */
-  /*
-  write8(BNO055_AXIS_MAP_CONFIG_ADDR, REMAP_CONFIG_P2); // P0-P7, Default is P1
-  delay(10);
-  write8(BNO055_AXIS_MAP_SIGN_ADDR, REMAP_SIGN_P2); // P0-P7, Default is P1
-  delay(10);
-  */
-
-  write8(BNO055_SYS_TRIGGER_ADDR, 0x0);
+  write8((adafruit_bno055_reg_t)0x3F, 0x0);
   delay(10);
   /* Set the requested operating mode (see section 3.3) */
   setMode(mode);
@@ -142,7 +124,7 @@ bool Adafruit_BNO055::begin(adafruit_bno055_opmode_t mode) {
  */
 void Adafruit_BNO055::setMode(adafruit_bno055_opmode_t mode) {
   _mode = mode;
-  write8(BNO055_OPR_MODE_ADDR, _mode);
+  write8((adafruit_bno055_reg_t)0x3D, mode);
   delay(30);
 }
 

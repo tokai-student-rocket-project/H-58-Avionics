@@ -313,13 +313,14 @@ public:
   void enterSuspendMode();
   void enterNormalMode();
 
+  adafruit_bno055_opmode_t _mode;
+
 private:
   byte read8(adafruit_bno055_reg_t);
   bool readLen(adafruit_bno055_reg_t, byte* buffer, uint8_t len);
   bool write8(adafruit_bno055_reg_t, byte value);
 
   int32_t _sensorID;
-  adafruit_bno055_opmode_t _mode;
 };
 
 #endif
