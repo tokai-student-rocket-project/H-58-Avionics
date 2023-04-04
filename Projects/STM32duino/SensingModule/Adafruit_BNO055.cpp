@@ -43,15 +43,8 @@
   *  @param  theWire
   *          Wire object
   */
-Adafruit_BNO055::Adafruit_BNO055(int32_t sensorID, uint8_t address,
-  TwoWire* theWire) {
-  // BNO055 clock stretches for 500us or more!
-#ifdef ESP8266
-  theWire->setClockStretchLimit(1000); // Allow for 1000us of clock stretching
-#endif
-
+Adafruit_BNO055::Adafruit_BNO055(int32_t sensorID, uint8_t address) {
   _sensorID = sensorID;
-  i2c_dev = new Adafruit_I2CDevice(address, theWire);
 }
 
 /*!
@@ -74,27 +67,6 @@ Adafruit_BNO055::Adafruit_BNO055(int32_t sensorID, uint8_t address,
  *  @return true if process is successful
  */
 bool Adafruit_BNO055::begin(adafruit_bno055_opmode_t mode) {
-  // Start without a detection
-  i2c_dev->begin(false);
-
-#if defined(TARGET_RP2040)
-  // philhower core seems to work with this speed?
-  i2c_dev->setSpeed(50000);
-#endif
-
-  // can take 850 ms to boot!
-  int timeout = 850; // in ms
-  while (timeout > 0) {
-    if (i2c_dev->begin()) {
-      break;
-    }
-    // wasnt detected... we'll retry!
-    delay(10);
-    timeout -= 10;
-  }
-  if (timeout <= 0)
-    return false;
-
   /* Make sure we have the right device */
   uint8_t id = read8(BNO055_CHIP_ID_ADDR);
   if (id != BNO055_ID) {
@@ -850,17 +822,22 @@ void Adafruit_BNO055::enterNormalMode() {
  *  @brief  Writes an 8 bit value over I2C
  */
 bool Adafruit_BNO055::write8(adafruit_bno055_reg_t reg, byte value) {
-  uint8_t buffer[2] = { (uint8_t)reg, (uint8_t)value };
-  return i2c_dev->write(buffer, 2);
+  Wire.beginTransmission(0x28);
+  Wire.write((uint8_t)reg);
+  Wire.write((uint8_t)value);
+  Wire.endTransmission();
+  return true;
 }
 
 /*!
  *  @brief  Reads an 8 bit value over I2C
  */
 byte Adafruit_BNO055::read8(adafruit_bno055_reg_t reg) {
-  uint8_t buffer[1] = { reg };
-  i2c_dev->write_then_read(buffer, 1, buffer, 1);
-  return (byte)buffer[0];
+  Wire.beginTransmission(0x28);
+  Wire.write((uint8_t)reg);
+  Wire.endTransmission();
+  Wire.requestFrom(0x28, 1);
+  return (byte)Wire.read();
 }
 
 /*!
@@ -868,6 +845,13 @@ byte Adafruit_BNO055::read8(adafruit_bno055_reg_t reg) {
  */
 bool Adafruit_BNO055::readLen(adafruit_bno055_reg_t reg, byte* buffer,
   uint8_t len) {
-  uint8_t reg_buf[1] = { (uint8_t)reg };
-  return i2c_dev->write_then_read(reg_buf, 1, buffer, len);
+  Wire.beginTransmission(0x28);
+  Wire.write((uint8_t)reg);
+  Wire.endTransmission();
+  Wire.requestFrom(0x28, len);
+  for (uint8_t i = 0; i < len; i++) {
+    buffer[i] = Wire.read();
+  }
+
+  return true;
 }

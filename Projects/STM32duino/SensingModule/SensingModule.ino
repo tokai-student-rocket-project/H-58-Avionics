@@ -4,12 +4,12 @@
 #include "Adafruit_BNO055.h"
 #include <TaskManager.h>
 
-Adafruit_BNO055 bno = Adafruit_BNO055(-1, 0x28, &Wire);
+Adafruit_BNO055 bno = Adafruit_BNO055();
 
 double acceleration_x, acceleration_y, acceleration_z;
 
 void setup() {
-  Serial.begin(250000);
+  Serial.begin(115200);
 
   Wire.setSDA(PB_7);
   Wire.setSCL(PB_6);
@@ -17,7 +17,7 @@ void setup() {
   Wire.setClock(400000);
   delay(100);
 
-  bno.begin(OPERATION_MODE_ACCONLY);
+  bno.begin();
   delay(1000);
 
   bno.setExtCrystalUse(true);
