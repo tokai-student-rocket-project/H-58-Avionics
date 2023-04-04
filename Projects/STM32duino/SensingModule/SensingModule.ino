@@ -1,11 +1,7 @@
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_I2CDevice.h>
-#include "Adafruit_BNO055.h"
 #include <TaskManager.h>
 
-Adafruit_BNO055 bno = Adafruit_BNO055();
-
+int16_t acceleration_x_raw, acceleration_y_raw, acceleration_z_raw;
 double acceleration_x, acceleration_y, acceleration_z;
 
 bool write8(uint8_t reg, uint8_t value) {
@@ -34,7 +30,6 @@ void setup() {
   delay(100);
 
   // OPR_MODEをCONFIGMODEに変更
-  bno._mode = (adafruit_bno055_opmode_t)0x00;
   write8(0x3D, 0x00);
   delay(50);
 
@@ -49,9 +44,8 @@ void setup() {
   write8(0x3F, 0x80);
   delay(10);
 
-  // OPR_MODEをACCONLYに変更
-  bno._mode = (adafruit_bno055_opmode_t)0x01;
-  write8(0x3D, 0x01);
+  // OPR_MODEをNDOFに変更
+  write8(0x3D, 0x0C);
   delay(50);
 
   Tasks.add(task100Hz)->startIntervalMsec(10);
@@ -62,11 +56,18 @@ void loop() {
 }
 
 void task100Hz() {
-  sensors_event_t accelerometerData;
-  bno.getEvent(&accelerometerData, Adafruit_BNO055::VECTOR_ACCELEROMETER);
-  acceleration_x = accelerometerData.acceleration.x;
-  acceleration_y = accelerometerData.acceleration.y;
-  acceleration_z = accelerometerData.acceleration.z;
+  Wire.beginTransmission(0x28);
+  Wire.write(0x08);
+  Wire.endTransmission();
+  Wire.requestFrom(0x28, 6);
+
+  acceleration_x_raw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  acceleration_y_raw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  acceleration_z_raw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+
+  acceleration_x = ((double)acceleration_x_raw) / 100.0;
+  acceleration_y = ((double)acceleration_y_raw) / 100.0;
+  acceleration_z = ((double)acceleration_z_raw) / 100.0;
 
   Serial.print(acceleration_x); Serial.print(",");
   Serial.print(acceleration_y); Serial.print(",");
