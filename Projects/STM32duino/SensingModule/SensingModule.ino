@@ -8,64 +8,20 @@ Adafruit_BNO055 bno = Adafruit_BNO055();
 
 double acceleration_x, acceleration_y, acceleration_z;
 
-bool write8(Adafruit_BNO055::adafruit_bno055_reg_t reg, byte value) {
+bool write8(uint8_t reg, uint8_t value) {
   Wire.beginTransmission(0x28);
-  Wire.write((uint8_t)reg);
-  Wire.write((uint8_t)value);
+  Wire.write(reg);
+  Wire.write(value);
   Wire.endTransmission();
   return true;
 }
 
-byte read8(Adafruit_BNO055::adafruit_bno055_reg_t reg) {
+uint8_t read8(uint8_t reg) {
   Wire.beginTransmission(0x28);
-  Wire.write((uint8_t)reg);
+  Wire.write(reg);
   Wire.endTransmission();
   Wire.requestFrom(0x28, 1);
-  return (byte)Wire.read();
-}
-
-void setMode(adafruit_bno055_opmode_t mode) {
-  bno._mode = mode;
-  write8((Adafruit_BNO055::adafruit_bno055_reg_t)0x3D, mode);
-  delay(30);
-}
-
-bool begin(adafruit_bno055_opmode_t mode) {
-  /* Make sure we have the right device */
-  uint8_t id = read8((Adafruit_BNO055::adafruit_bno055_reg_t)0x00);
-  if (id != BNO055_ID) {
-    delay(1000); // hold on for boot
-    id = read8((Adafruit_BNO055::adafruit_bno055_reg_t)0x00);
-    if (id != BNO055_ID) {
-      return false; // still not? ok bail
-    }
-  }
-
-  /* Switch to config mode (just in case since this is the default) */
-  setMode(OPERATION_MODE_CONFIG);
-
-  /* Reset */
-  write8((Adafruit_BNO055::adafruit_bno055_reg_t)0x3F, 0x20);
-  /* Delay incrased to 30ms due to power issues https://tinyurl.com/y375z699 */
-  delay(30);
-  while (read8((Adafruit_BNO055::adafruit_bno055_reg_t)0x00) != BNO055_ID) {
-    delay(10);
-  }
-  delay(50);
-
-  /* Set to normal power mode */
-  write8((Adafruit_BNO055::adafruit_bno055_reg_t)0x3E, 0x00);
-  delay(10);
-
-  write8((Adafruit_BNO055::adafruit_bno055_reg_t)0x07, 0);
-
-  write8((Adafruit_BNO055::adafruit_bno055_reg_t)0x3F, 0x0);
-  delay(10);
-  /* Set the requested operating mode (see section 3.3) */
-  setMode(mode);
-  delay(20);
-
-  return true;
+  return (uint8_t)Wire.read();
 }
 
 void setup() {
@@ -77,10 +33,26 @@ void setup() {
   Wire.setClock(400000);
   delay(100);
 
-  begin(OPERATION_MODE_ACCONLY);
-  delay(1000);
+  // OPR_MODEをCONFIGMODEに変更
+  bno._mode = (adafruit_bno055_opmode_t)0x00;
+  write8(0x3D, 0x00);
+  delay(50);
 
-  bno.setExtCrystalUse(true);
+  // PWR_MODEをNormal Modeに変更
+  write8(0x3E, 0x00);
+  delay(10);
+
+  // PAGEを0に変更
+  write8(0x07, 0);
+
+  //SYS_TRIGGERのCLK_SELをトリガー
+  write8(0x3F, 0x80);
+  delay(10);
+
+  // OPR_MODEをACCONLYに変更
+  bno._mode = (adafruit_bno055_opmode_t)0x01;
+  write8(0x3D, 0x01);
+  delay(50);
 
   Tasks.add(task100Hz)->startIntervalMsec(10);
 }
