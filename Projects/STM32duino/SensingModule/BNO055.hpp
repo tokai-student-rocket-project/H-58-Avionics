@@ -1,26 +1,50 @@
+#ifndef BNO_055_HPP_
+#define BNO_055_HPP_
+
+
 #include <Wire.h>
 
 
 class BNO055 {
-private:
 public:
-  const uint8_t SLAVE_ADDRESS = 0x28;
+  typedef enum  REGISTER {
+    PAGE_ID = 0x07,
+    ACC_DATA = 0x08,
+    OPR_MODE = 0x3D,
+    PWR_MODE = 0x3E,
+    SYS_TRIGGER = 0x3F,
+  } register_t;
 
-  const uint8_t REGISTER_PAGE = 0x07;
+  typedef enum  OPR_MODE {
+    CONFIGMODE = 0b00000000,
+    NDOF = 0b00001100,
+  } opr_mode_t;
 
-  const uint8_t REGISTER_OPR_MODE = 0x3D;
-  const uint8_t OPR_MODE_CONFIGMODE = 0x00;
-  const uint8_t OPR_MODE_NDOF = 0x0C;
+  typedef enum PWR_MODE {
+    NORMALMODE = 0b00000000,
+  } pwr_mode_t;
 
-  const uint8_t REGISTER_PWR_MODE = 0x3E;
-  const uint8_t PWR_MODE_NORMALMODE = 0x00;
+  typedef enum SYS_TRIGGER {
+    CLK_SEL = 0b10000000,
+  } sys_trigger_t;
 
-  const uint8_t REGISTER_SYS_TRIGGER = 0x3F;
-  const uint8_t CLK_SEL = 0x80;
-
-  const uint8_t RESISTER_ACC_DATA = 0x08;
-
+  BNO055(TwoWire* wire, uint8_t address);
   void initialize();
 
+  void setPage(uint8_t pageId);
+  void setOperatingMode(opr_mode_t operatingMode);
+  void setPowerMode(pwr_mode_t powerMode);
+  void setClockSelect(bool isExternalCrystal);
+
   void getAcceleration(double* x, double* y, double* z);
+
+private:
+  TwoWire* _wire;
+  uint8_t _address;
+
+  void writeByte(register_t reg, uint8_t content);
+  void requestBytes(register_t reg, uint8_t length);
 };
+
+
+#endif

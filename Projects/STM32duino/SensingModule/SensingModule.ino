@@ -2,7 +2,7 @@
 #include <TaskManager.h>
 #include "BNO055.hpp"
 
-BNO055 bno055;
+BNO055 bno055(&Wire, 0x28);
 
 double acceleration_x, acceleration_y, acceleration_z;
 
@@ -13,7 +13,6 @@ void setup() {
   Wire.setSCL(PB_6);
   Wire.begin();
   Wire.setClock(400000);
-  delay(100);
 
   bno055.initialize();
 
