@@ -12,6 +12,8 @@ public:
 
     // PAGE 0
     ACC_DATA = 0x08,
+    MAG_DATA = 0x0E,
+    GYR_DATA = 0x14,
     EUL_DATA = 0x1A,
     QUA_DATA = 0x20,
     LIA_DATA = 0x28,
@@ -89,6 +91,8 @@ public:
   void setMagnetometerConfig(mag_config_data_output_rate_t dataOutputRate, mag_config_operation_mode_t operationMode, mag_config_power_mode_t powerMode);
 
   void getAcceleration(double* x, double* y, double* z);
+  void getMagnetometer(double* x, double* y, double* z);
+  void getGyroscope(double* x, double* y, double* z);
   void getEuler(double* heading, double* roll, double* pitch);
   void getQuaternion(double* w, double* x, double* y, double* z);
   void getLinearAcceleration(double* x, double* y, double* z);

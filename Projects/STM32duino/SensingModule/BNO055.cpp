@@ -58,6 +58,16 @@ void BNO055::getAcceleration(double* x, double* y, double* z) {
 }
 
 
+void BNO055::getMagnetometer(double* x, double* y, double* z) {
+  readVector3(REGISTER::MAG_DATA, x, y, z, 16.0);
+}
+
+
+void BNO055::getGyroscope(double* x, double* y, double* z) {
+  readVector3(REGISTER::GYR_DATA, x, y, z, 16.0);
+}
+
+
 void BNO055::getEuler(double* heading, double* roll, double* pitch) {
   readVector3(REGISTER::EUL_DATA, heading, roll, pitch, 16.0);
 }
