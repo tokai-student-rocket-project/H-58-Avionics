@@ -36,18 +36,19 @@ void loop() {
 
 
 void task20Hz() {
-  bno055.getGravityVector(&magnetometer_x, &magnetometer_y, &magnetometer_z);
+  bno055.getMagnetometer(&magnetometer_x, &magnetometer_y, &magnetometer_z);
 }
 
 
 void task100Hz() {
   bno055.getAcceleration(&acceleration_x, &acceleration_y, &acceleration_z);
   bno055.getGyroscope(&gyroscope_x, &gyroscope_y, &gyroscope_z);
+  bno055.getEuler(&euler_heading, &euler_roll, &euler_pitch);
   bno055.getQuaternion(&quaternion_w, &quaternion_x, &quaternion_y, &quaternion_z);
   bno055.getLinearAcceleration(&linear_acceleration_x, &linear_acceleration_y, &linear_acceleration_z);
   bno055.getGravityVector(&gravity_x, &gravity_y, &gravity_z);
 
-  Serial.print(linear_acceleration_x); Serial.print(",");
-  Serial.print(linear_acceleration_y); Serial.print(",");
-  Serial.println(linear_acceleration_z);
+  Serial.print(euler_heading); Serial.print(",");
+  Serial.print(euler_roll); Serial.print(",");
+  Serial.println(euler_pitch);
 }

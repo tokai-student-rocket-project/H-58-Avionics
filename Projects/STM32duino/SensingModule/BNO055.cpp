@@ -38,6 +38,7 @@ void BNO055::setClockSelect(bool isExternalCrystal) {
   writeByte(REGISTER::SYS_TRIGGER, isExternalCrystal ? SYS_TRIGGER_CLK_SEL : 0x00);
 }
 
+
 void BNO055::setAccelerometerConfig(acc_config_g_range_t gRange, acc_config_bandwidth_t bandwidth, acc_config_operation_mode_t operationMode) {
   writeByte(REGISTER::ACC_CONFIG, gRange | bandwidth | operationMode);
 }
