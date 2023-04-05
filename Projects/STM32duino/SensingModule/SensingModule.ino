@@ -1,39 +1,30 @@
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BNO055.h>
 #include <TaskManager.h>
+#include "BNO055.hpp"
 
-Adafruit_BNO055 bno = Adafruit_BNO055(-1, 0x28, &Wire);
+BNO055 bno055(&Wire, 0x28);
 
 double acceleration_x, acceleration_y, acceleration_z;
 
 void setup() {
-  Serial.begin(250000);
+  Serial.begin(115200);
 
   Wire.setSDA(PB_7);
   Wire.setSCL(PB_6);
   Wire.begin();
   Wire.setClock(400000);
-  delay(100);
 
-  bno.begin(OPERATION_MODE_ACCONLY);
-  delay(1000);
+  bno055.initialize();
 
-  bno.setExtCrystalUse(true);
-
-  Tasks.add(readAcc)->startIntervalMsec(10);
+  Tasks.add(task100Hz)->startIntervalMsec(10);
 }
 
 void loop() {
   Tasks.update();
 }
 
-void readAcc() {
-  sensors_event_t accelerometerData;
-  bno.getEvent(&accelerometerData, Adafruit_BNO055::VECTOR_ACCELEROMETER);
-  acceleration_x = accelerometerData.acceleration.x;
-  acceleration_y = accelerometerData.acceleration.y;
-  acceleration_z = accelerometerData.acceleration.z;
+void task100Hz() {
+  bno055.getAcceleration(&acceleration_x, &acceleration_y, &acceleration_z);
 
   Serial.print(acceleration_x); Serial.print(",");
   Serial.print(acceleration_y); Serial.print(",");
