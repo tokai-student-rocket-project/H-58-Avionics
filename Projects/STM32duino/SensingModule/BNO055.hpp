@@ -12,6 +12,10 @@ public:
 
     // PAGE 0
     ACC_DATA = 0x08,
+    EUL_DATA = 0x1A,
+    QUA_DATA = 0x20,
+    LIA_DATA = 0x28,
+    GRV_DATA = 0x2E,
     OPR_MODE = 0x3D,
     PWR_MODE = 0x3E,
     SYS_TRIGGER = 0x3F,
@@ -85,13 +89,18 @@ public:
   void setMagnetometerConfig(mag_config_data_output_rate_t dataOutputRate, mag_config_operation_mode_t operationMode, mag_config_power_mode_t powerMode);
 
   void getAcceleration(double* x, double* y, double* z);
+  void getEuler(double* heading, double* roll, double* pitch);
+  void getQuaternion(double* w, double* x, double* y, double* z);
+  void getLinearAcceleration(double* x, double* y, double* z);
+  void getGravityVector(double* x, double* y, double* z);
 
 private:
   TwoWire* _wire;
   uint8_t _address;
 
   void writeByte(register_t reg, uint8_t content);
-  void requestBytes(register_t reg, uint8_t length);
+  void readVector3(register_t reg, double* x, double* y, double* z, double lsb);
+  void readVector4(register_t reg, double* w, double* x, double* y, double* z, double lsb);
 };
 
 

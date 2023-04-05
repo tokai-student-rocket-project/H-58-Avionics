@@ -54,16 +54,27 @@ void BNO055::setMagnetometerConfig(mag_config_data_output_rate_t dataOutputRate,
 
 
 void BNO055::getAcceleration(double* x, double* y, double* z) {
-  requestBytes(REGISTER::ACC_DATA, 6);
+  readVector3(REGISTER::ACC_DATA, x, y, z, 100.0);
+}
 
-  int16_t xRaw, yRaw, zRaw;
-  xRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
-  yRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
-  zRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
 
-  *x = ((double)xRaw) / 100.0;
-  *y = ((double)yRaw) / 100.0;
-  *z = ((double)zRaw) / 100.0;
+void BNO055::getEuler(double* heading, double* roll, double* pitch) {
+  readVector3(REGISTER::EUL_DATA, heading, roll, pitch, 16.0);
+}
+
+
+void BNO055::getQuaternion(double* w, double* x, double* y, double* z) {
+  readVector4(REGISTER::QUA_DATA, w, x, y, z, 16384.0);
+}
+
+
+void BNO055::getLinearAcceleration(double* x, double* y, double* z) {
+  readVector3(REGISTER::LIA_DATA, x, y, z, 100.0);
+}
+
+
+void BNO055::getGravityVector(double* x, double* y, double* z) {
+  readVector3(REGISTER::GRV_DATA, x, y, z, 100.0);
 }
 
 
@@ -75,9 +86,37 @@ void BNO055::writeByte(register_t reg, uint8_t content) {
 }
 
 
-void BNO055::requestBytes(register_t reg, uint8_t length) {
+void BNO055::readVector3(register_t reg, double* x, double* y, double* z, double lsb) {
   Wire.beginTransmission(_address);
   Wire.write(reg);
   Wire.endTransmission();
-  Wire.requestFrom(_address, length);
+  Wire.requestFrom(_address, 6);
+
+  int16_t xRaw, yRaw, zRaw;
+  xRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  yRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  zRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+
+  *x = ((double)xRaw) / lsb;
+  *y = ((double)yRaw) / lsb;
+  *z = ((double)zRaw) / lsb;
+}
+
+
+void BNO055::readVector4(register_t reg, double* w, double* x, double* y, double* z, double lsb) {
+  Wire.beginTransmission(_address);
+  Wire.write(reg);
+  Wire.endTransmission();
+  Wire.requestFrom(_address, 8);
+
+  int16_t wRaw, xRaw, yRaw, zRaw;
+  wRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  xRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  yRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  zRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+
+  *w = ((double)wRaw) / lsb;
+  *x = ((double)xRaw) / lsb;
+  *y = ((double)yRaw) / lsb;
+  *z = ((double)zRaw) / lsb;
 }
