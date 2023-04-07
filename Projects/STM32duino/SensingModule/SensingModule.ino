@@ -1,8 +1,11 @@
 #include <Wire.h>
 #include <TaskManager.h>
+#include "CANBUS.hpp"
 #include "BNO055.hpp"
 #include "Thermistor.hpp"
 
+
+CANBUS canbus;
 
 BNO055 bno055(&Wire, 0x28);
 Thermistor thermistor1(PA_2);
@@ -31,11 +34,14 @@ void setup() {
   Wire.begin();
   Wire.setClock(400000);
 
+  canbus.initialize();
+
   bno055.initialize();
   thermistor1.initialize();
   thermistor2.initialize();
 
-  Tasks.add(task10Hz)->startIntervalMsec(10);
+  Tasks.add(task1Hz)->startIntervalMsec(1000);
+  Tasks.add(task10Hz)->startIntervalMsec(100);
   Tasks.add(task20Hz)->startIntervalMsec(50);
   Tasks.add(task100Hz)->startIntervalMsec(10);
 }
@@ -43,6 +49,11 @@ void setup() {
 
 void loop() {
   Tasks.update();
+}
+
+
+void task1Hz() {
+  canbus.sendMessage();
 }
 
 
