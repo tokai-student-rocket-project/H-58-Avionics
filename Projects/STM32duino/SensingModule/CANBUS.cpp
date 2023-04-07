@@ -2,233 +2,254 @@
 
 
 void CANBUS::initialize() {
-  BITRATE bitrate = CAN_1000KBPS;
-  int remap = 0;
+  CAN_TypeDef* instance = CAN;
+  uint32_t prescaler = 2;
+  uint32_t mode = 0x00000000;
+  uint32_t syncJumpWidth = 0x00000000;
+  uint32_t timeSeg1 = CAN_BTR_TS1_2 | CAN_BTR_TS1_1 | CAN_BTR_TS1_0;
+  uint32_t timeSeg2 = CAN_BTR_TS2_2 | CAN_BTR_TS2_1;
+  FunctionalState timeTriggeredMode = DISABLE;
+  FunctionalState autoBusOff = DISABLE;
+  FunctionalState autoWakeUp = DISABLE;
+  FunctionalState autoRetransmission = DISABLE;
+  FunctionalState receiveFifoLocked = DISABLE;
+  FunctionalState transmitFifoPriority = DISABLE;
 
-  // Reference manual
-  // https://www.st.com/content/ccc/resource/technical/document/reference_manual/4a/19/6e/18/9d/92/43/32/DM00043574.pdf/files/DM00043574.pdf/jcr:content/translations/en.DM00043574.pdf
+  /* Request initialisation */
+  SET_BIT(instance->MCR, CAN_MCR_INRQ);
+  while ((instance->MSR & CAN_MSR_INAK) == 0U);
 
-  RCC->APB1ENR |= 0x2000000UL;          // Enable CAN clock 
+  /* Exit from sleep mode */
+  CLEAR_BIT(instance->MCR, CAN_MCR_SLEEP);
+  while ((instance->MSR & CAN_MSR_SLAK) != 0U);
 
-  if (remap == 0) {
-    RCC->AHBENR |= 0x20000UL;           // Enable GPIOA clock 
-    setGpio(GPIOA, 11, AF9, 3);         // Set PA11 to AF9
-    setGpio(GPIOA, 12, AF9, 3);         // Set PA12 to AF9
+  /* Set the time triggered communication mode */
+  if (timeTriggeredMode == ENABLE) {
+    SET_BIT(instance->MCR, CAN_MCR_TTCM);
+  }
+  else {
+    CLEAR_BIT(instance->MCR, CAN_MCR_TTCM);
   }
 
-  if (remap == 2) {
-    RCC->AHBENR |= 0x40000UL;           // Enable GPIOB clock 
-    setGpio(GPIOB, 8, AF9, 3);          // Set PB8 to AF9
-    setGpio(GPIOB, 9, AF9, 3);          // Set PB9 to AF9
+  /* Set the automatic bus-off management */
+  if (autoBusOff == ENABLE) {
+    SET_BIT(instance->MCR, CAN_MCR_ABOM);
+  }
+  else {
+    CLEAR_BIT(instance->MCR, CAN_MCR_ABOM);
   }
 
-  if (remap == 3) {
-    RCC->AHBENR |= 0x100000UL;          // Enable GPIOD clock 
-    setGpio(GPIOD, 0, AF7, 3);          // Set PD0 to AF7
-    setGpio(GPIOD, 1, AF7, 3);          // Set PD1 to AF7
+  /* Set the automatic wake-up mode */
+  if (autoWakeUp == ENABLE) {
+    SET_BIT(instance->MCR, CAN_MCR_AWUM);
+  }
+  else {
+    CLEAR_BIT(instance->MCR, CAN_MCR_AWUM);
   }
 
-  CAN1->MCR |= 0x1UL;                   // Set CAN to Initialization mode 
-  while (!(CAN1->MSR & 0x1UL));         // Wait for Initialization mode
+  /* Set the automatic retransmission */
+  if (autoRetransmission == ENABLE) {
+    CLEAR_BIT(instance->MCR, CAN_MCR_NART);
+  }
+  else {
+    SET_BIT(instance->MCR, CAN_MCR_NART);
+  }
 
-  //CAN1->MCR = 0x51UL;                 // Hardware initialization(No automatic retransmission)
-  CAN1->MCR = 0x41UL;                   // Hardware initialization(With automatic retransmission)
+  /* Set the receive FIFO locked mode */
+  if (receiveFifoLocked == ENABLE) {
+    SET_BIT(instance->MCR, CAN_MCR_RFLM);
+  }
+  else {
+    CLEAR_BIT(instance->MCR, CAN_MCR_RFLM);
+  }
 
-  // Set bit rates 
-  //CAN1->BTR &= ~(((0x03) << 24) | ((0x07) << 20) | ((0x0F) << 16) | (0x1FF)); 
-  //CAN1->BTR |=  (((can_configs[bitrate].TS2-1) & 0x07) << 20) | (((can_configs[bitrate].TS1-1) & 0x0F) << 16) | ((can_configs[bitrate].BRP-1) & 0x1FF);
-  CAN1->BTR &= ~(((0x03) << 24) | ((0x07) << 20) | ((0x0F) << 16) | (0x3FF));
-  CAN1->BTR |= (((can_configs[bitrate].TS2 - 1) & 0x07) << 20) | (((can_configs[bitrate].TS1 - 1) & 0x0F) << 16) | ((can_configs[bitrate].BRP - 1) & 0x3FF);
-  printRegister("CAN1->BTR=", CAN1->BTR);
+  /* Set the transmit FIFO priority */
+  if (transmitFifoPriority == ENABLE) {
+    SET_BIT(instance->MCR, CAN_MCR_TXFP);
+  }
+  else {
+    CLEAR_BIT(instance->MCR, CAN_MCR_TXFP);
+  }
 
-  // Configure Filters to default values
-  CAN1->FMR |= 0x1UL;                // Set to filter initialization mode
-  CAN1->FMR &= 0xFFFFC0FF;             // Clear CAN2 start bank
+  /* Set the bit timing register */
+  WRITE_REG(instance->BTR, (uint32_t)(mode |
+    syncJumpWidth |
+    timeSeg1 |
+    timeSeg2 |
+    (prescaler - 1U)));
 
-  // bxCAN has 28 filters.
-  // These filters are used for both CAN1 and CAN2.
-  // STM32F303 has only CAN1, so all 28 are used for CAN1
-  CAN1->FMR |= 0x1C << 8;              // Assign all filters to CAN1
 
-  // Set fileter 0
-  // Single 32-bit scale configuration 
-  // Two 32-bit registers of filter bank x are in Identifier Mask mode
-  // Filter assigned to FIFO 0 
-  // Filter bank register to all 0
-  setFilter(0, 1, 0, 0, 0x0UL, 0x0UL);
+  uint32_t filterBank = 0;
+  uint32_t filterMode = 0x00000001;
+  uint32_t filterScale = 0x00000000;
+  uint32_t filterIdHigh = 0x456 << 5;
+  uint32_t filterIdLow = 0x456 << 5;
+  uint32_t filterMaskIdHigh = 0x456 << 5;
+  uint32_t filterMaskIdLow = 0x456 << 5;
+  uint32_t filterFIFOAssignment = 0x00000000;
+  uint32_t filterActivation = ENABLE;
 
-  CAN1->FMR &= ~(0x1UL);              // Deactivate initialization mode
+  /* Initialisation mode for the filter */
+  SET_BIT(instance->FMR, CAN_FMR_FINIT);
 
-  uint16_t TimeoutMilliseconds = 1000;
-  bool can1 = false;
-  CAN1->MCR &= ~(0x1UL);              // Require CAN1 to normal mode 
+  /* Convert filter number into bit position */
+  uint32_t filternbrbitpos;
+  filternbrbitpos = (uint32_t)1 << (filterBank & 0x1FU);
 
-  // Wait for normal mode
-  // If the connection is not correct, it will not return to normal mode.
-  for (uint16_t wait_ack = 0; wait_ack < TimeoutMilliseconds; wait_ack++) {
-    if ((CAN1->MSR & 0x1UL) == 0) {
-      can1 = true;
-      break;
+  /* Filter Deactivation */
+  CLEAR_BIT(instance->FA1R, filternbrbitpos);
+
+  /* Filter Scale */
+  if (filterScale == 0x00000000)
+  {
+    /* 16-bit scale for the filter */
+    CLEAR_BIT(instance->FS1R, filternbrbitpos);
+
+    /* First 16-bit identifier and First 16-bit mask */
+    /* Or First 16-bit identifier and Second 16-bit identifier */
+    instance->sFilterRegister[filterBank].FR1 =
+      ((0x0000FFFFU & filterMaskIdLow) << 16U) |
+      (0x0000FFFFU & filterIdLow);
+
+    /* Second 16-bit identifier and Second 16-bit mask */
+    /* Or Third 16-bit identifier and Fourth 16-bit identifier */
+    instance->sFilterRegister[filterBank].FR2 =
+      ((0x0000FFFFU & filterMaskIdHigh) << 16U) |
+      (0x0000FFFFU & filterIdHigh);
+  }
+
+  if (filterScale == 0x00000001)
+  {
+    /* 32-bit scale for the filter */
+    SET_BIT(instance->FS1R, filternbrbitpos);
+
+    /* 32-bit identifier or First 32-bit identifier */
+    instance->sFilterRegister[filterBank].FR1 =
+      ((0x0000FFFFU & filterIdHigh) << 16U) |
+      (0x0000FFFFU & filterIdLow);
+
+    /* 32-bit mask or Second 32-bit identifier */
+    instance->sFilterRegister[filterBank].FR2 =
+      ((0x0000FFFFU & filterMaskIdHigh) << 16U) |
+      (0x0000FFFFU & filterMaskIdLow);
+  }
+
+  /* Filter Mode */
+  if (filterMode == 0x00000000)
+  {
+    /* Id/Mask mode for the filter*/
+    CLEAR_BIT(instance->FM1R, filternbrbitpos);
+  }
+  else /* CAN_FilterInitStruct->CAN_FilterMode == CAN_FilterMode_IdList */
+  {
+    /* Identifier list mode for the filter*/
+    SET_BIT(instance->FM1R, filternbrbitpos);
+  }
+
+  /* Filter FIFO assignment */
+  if (filterFIFOAssignment == 0x00000000)
+  {
+    /* FIFO 0 assignation for the filter */
+    CLEAR_BIT(instance->FFA1R, filternbrbitpos);
+  }
+  else
+  {
+    /* FIFO 1 assignation for the filter */
+    SET_BIT(instance->FFA1R, filternbrbitpos);
+  }
+
+  /* Filter activation */
+  if (filterActivation == 0x00000001)
+  {
+    SET_BIT(instance->FA1R, filternbrbitpos);
+  }
+
+  /* Leave the initialisation mode for the filter */
+  CLEAR_BIT(instance->FMR, CAN_FMR_FINIT);
+
+
+  /* Request leave initialisation */
+  CLEAR_BIT(instance->MCR, CAN_MCR_INRQ);
+  while ((instance->MSR & CAN_MSR_INAK) != 0U);
+}
+
+
+void CANBUS::send() {
+  CAN_TypeDef* instance = CAN;
+
+  uint32_t stdId = 1234;
+  uint32_t extId;
+  uint32_t rTR = 0x00000000;
+  uint32_t iDE = 0x00000000;
+  uint32_t dLC = 3;
+  FunctionalState transmitGlobalTime = DISABLE;
+  _txData[0] = 100;
+  _txData[1] = 200;
+  _txData[2] = 300;
+
+  uint32_t tsr = READ_REG(instance->TSR);
+
+  /* Check that all the Tx mailboxes are not full */
+  if (((tsr & CAN_TSR_TME0) != 0U) ||
+    ((tsr & CAN_TSR_TME1) != 0U) ||
+    ((tsr & CAN_TSR_TME2) != 0U)) {
+    /* Select an empty transmit mailbox */
+    uint32_t transmitmailbox;
+    transmitmailbox = (tsr & CAN_TSR_CODE) >> CAN_TSR_CODE_Pos;
+
+    /* Set up the Id */
+    if (iDE == 0x00000000) {
+      instance->sTxMailBox[transmitmailbox].TIR = ((stdId << CAN_TI0R_STID_Pos) | rTR);
     }
-    delayMicroseconds(1000);
-  }
-  //Serial.print("can1=");
-  //Serial.println(can1);
-  if (can1) {
-    Serial.println("CAN1 initialize ok");
-  }
-  else {
-    Serial.println("CAN1 initialize fail!!");
-  }
-}
+    else {
+      instance->sTxMailBox[transmitmailbox].TIR = ((extId << CAN_TI0R_EXID_Pos) | iDE | rTR);
+    }
 
+    /* Set up the DLC */
+    instance->sTxMailBox[transmitmailbox].TDTR = (dLC);
 
-void CANBUS::sendMessage() {
-  CAN_msg_t CAN_TX_msg;
+    /* Set up the Transmit Global Time mode */
+    if (transmitGlobalTime == ENABLE)
+    {
+      SET_BIT(instance->sTxMailBox[transmitmailbox].TDTR, CAN_TDT0R_TGT);
+    }
 
-  CAN_TX_msg.data[0] = 0x00;
-  CAN_TX_msg.data[1] = 0x01;
-  CAN_TX_msg.data[2] = 0x02;
-  CAN_TX_msg.data[3] = 0x03;
-  CAN_TX_msg.data[4] = 0x04;
-  CAN_TX_msg.data[5] = 0x05;
-  CAN_TX_msg.data[6] = 0x06;
-  CAN_TX_msg.data[7] = 0x07;
-  CAN_TX_msg.len = 8;
+    /* Set up the data field */
+    WRITE_REG(instance->sTxMailBox[transmitmailbox].TDHR,
+      ((uint32_t)_txData[7] << CAN_TDH0R_DATA7_Pos) |
+      ((uint32_t)_txData[6] << CAN_TDH0R_DATA6_Pos) |
+      ((uint32_t)_txData[5] << CAN_TDH0R_DATA5_Pos) |
+      ((uint32_t)_txData[4] << CAN_TDH0R_DATA4_Pos));
+    WRITE_REG(instance->sTxMailBox[transmitmailbox].TDLR,
+      ((uint32_t)_txData[3] << CAN_TDL0R_DATA3_Pos) |
+      ((uint32_t)_txData[2] << CAN_TDL0R_DATA2_Pos) |
+      ((uint32_t)_txData[1] << CAN_TDL0R_DATA1_Pos) |
+      ((uint32_t)_txData[0] << CAN_TDL0R_DATA0_Pos));
 
-  CAN_TX_msg.type = DATA_FRAME;
-  CAN_TX_msg.format = EXTENDED_FORMAT;
-  CAN_TX_msg.id = 0xFF;
-
-  //  --------------------------------------------------------------------------------------------------
-  volatile int count = 0;
-
-  uint32_t out = 0;
-  if (CAN_TX_msg.format == EXTENDED_FORMAT) { // Extended frame format
-    out = ((CAN_TX_msg.id & CAN_EXT_ID_MASK) << 3U) | STM32_CAN_TIR_IDE;
-  }
-  else {                                  // Standard frame format
-    out = ((CAN_TX_msg.id & CAN_STD_ID_MASK) << 21U);
-  }
-
-  // Remote frame
-  if (CAN_TX_msg.type == REMOTE_FRAME) {
-    out |= STM32_CAN_TIR_RTR;
-  }
-
-  CAN1->sTxMailBox[0].TDTR &= ~(0xF);
-  CAN1->sTxMailBox[0].TDTR |= CAN_TX_msg.len & 0xFUL;
-
-  CAN1->sTxMailBox[0].TDLR = (((uint32_t)CAN_TX_msg.data[3] << 24) |
-    ((uint32_t)CAN_TX_msg.data[2] << 16) |
-    ((uint32_t)CAN_TX_msg.data[1] << 8) |
-    ((uint32_t)CAN_TX_msg.data[0]));
-  CAN1->sTxMailBox[0].TDHR = (((uint32_t)CAN_TX_msg.data[7] << 24) |
-    ((uint32_t)CAN_TX_msg.data[6] << 16) |
-    ((uint32_t)CAN_TX_msg.data[5] << 8) |
-    ((uint32_t)CAN_TX_msg.data[4]));
-
-  // Send Go
-  CAN1->sTxMailBox[0].TIR = out | STM32_CAN_TIR_TXRQ;
-
-  // Wait until the mailbox is empty
-  while (CAN1->sTxMailBox[0].TIR & 0x1UL && count++ < 1000000);
-
-  // The mailbox don't becomes empty while loop
-  if (CAN1->sTxMailBox[0].TIR & 0x1UL) {
-    Serial.println("Send Fail");
-    Serial.println(CAN1->ESR, BIN);
-    Serial.println(CAN1->MSR, BIN);
-    Serial.println(CAN1->TSR, BIN);
-  }
-}
-
-
-void CANBUS::setGpio(GPIO_TypeDef* addr, uint8_t index, uint8_t afry, uint8_t speed) {
-  uint8_t _index2 = index * 2;
-  uint8_t _index4 = index * 4;
-  uint8_t ofs = 0;
-  uint8_t setting;
-
-  if (index > 7) {
-    _index4 = (index - 8) * 4;
-    ofs = 1;
-  }
-
-  uint32_t mask;
-  printRegister("GPIO_AFR(b)=", addr->AFR[1]);
-  mask = 0xF << _index4;
-  addr->AFR[ofs] &= ~mask;         // Reset alternate function
-  //setting = 0x9;                    // AF9
-  setting = afry;                   // Alternative function selection
-  mask = setting << _index4;
-  addr->AFR[ofs] |= mask;          // Set alternate function
-  printRegister("GPIO_AFR(a)=", addr->AFR[1]);
-
-  printRegister("GPIO_MODER(b)=", addr->MODER);
-  mask = 0x3 << _index2;
-  addr->MODER &= ~mask;           // Reset mode
-  setting = 0x2;                    // Alternate function mode
-  mask = setting << _index2;
-  addr->MODER |= mask;            // Set mode
-  printRegister("GPIO_MODER(a)=", addr->MODER);
-
-  printRegister("GPIO_OSPEEDR(b)=", addr->OSPEEDR);
-  mask = 0x3 << _index2;
-  addr->OSPEEDR &= ~mask;           // Reset speed
-  setting = speed;
-  mask = setting << _index2;
-  addr->OSPEEDR |= mask;            // Set speed
-  printRegister("GPIO_OSPEEDR(a)=", addr->OSPEEDR);
-
-  printRegister("GPIO_OTYPER(b)=", addr->OTYPER);
-  mask = 0x1 << index;
-  addr->OTYPER &= ~mask;           // Reset Output push-pull
-  printRegister("GPIO_OTYPER(a)=", addr->OTYPER);
-
-  printRegister("GPIO_PUPDR(b)=", addr->PUPDR);
-  mask = 0x3 << _index2;
-  addr->PUPDR &= ~mask;           // Reset port pull-up/pull-down
-  printRegister("GPIO_PUPDR(a)=", addr->PUPDR);
-}
-
-
-void CANBUS::setFilter(uint8_t index, uint8_t scale, uint8_t mode, uint8_t fifo, uint32_t bank1, uint32_t bank2) {
-  if (index > 27) return;
-
-  CAN1->FA1R &= ~(0x1UL << index);               // Deactivate filter
-
-  if (scale == 0) {
-    CAN1->FS1R &= ~(0x1UL << index);             // Set filter to Dual 16-bit scale configuration
+    /* Request transmission */
+    SET_BIT(instance->sTxMailBox[transmitmailbox].TIR, CAN_TI0R_TXRQ);
   }
   else {
-    CAN1->FS1R |= (0x1UL << index);              // Set filter to single 32 bit configuration
-  }
-  if (mode == 0) {
-    CAN1->FM1R &= ~(0x1UL << index);             // Set filter to Mask mode
-  }
-  else {
-    CAN1->FM1R |= (0x1UL << index);              // Set filter to List mode
+    return;
   }
 
-  if (fifo == 0) {
-    CAN1->FFA1R &= ~(0x1UL << index);            // Set filter assigned to FIFO 0
+
+  uint32_t freelevel = 0;
+
+  /* Check Tx Mailbox 0 status */
+  if ((instance->TSR & CAN_TSR_TME0) != 0U) {
+    freelevel++;
   }
-  else {
-    CAN1->FFA1R |= (0x1UL << index);             // Set filter assigned to FIFO 1
+
+  /* Check Tx Mailbox 1 status */
+  if ((instance->TSR & CAN_TSR_TME1) != 0U) {
+    freelevel++;
   }
 
-  CAN1->sFilterRegister[index].FR1 = bank1;    // Set filter bank registers1
-  CAN1->sFilterRegister[index].FR2 = bank2;    // Set filter bank registers2
+  /* Check Tx Mailbox 2 status */
+  if ((instance->TSR & CAN_TSR_TME2) != 0U) {
+    freelevel++;
+  }
 
-  CAN1->FA1R |= (0x1UL << index);                // Activate filter
-
-}
-
-
-void CANBUS::printRegister(char* buf, uint32_t reg) {
-  Serial.print(buf);
-  Serial.print("0x");
-  Serial.print(reg, BIN);
-  Serial.println();
+  while (freelevel != 3);
 }
