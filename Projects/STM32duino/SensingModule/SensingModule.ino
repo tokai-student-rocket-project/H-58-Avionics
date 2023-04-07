@@ -53,7 +53,7 @@ void loop() {
 
 
 void task1Hz() {
-  canbus.sendMessage();
+  canbus.send();
 }
 
 
