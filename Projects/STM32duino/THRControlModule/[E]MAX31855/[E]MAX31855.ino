@@ -1,18 +1,23 @@
 #include <SPI.h>
 #include "Adafruit_MAX31855.h"
 
-// #define MAXDO 3
-// #define MAXCS 4
-// #define MAXCLK 5
-// MAX31855 thermocouple(MAXCLK, MAXCS, MAXDO);
+#define MAXDO 3
+#define MAXCS 4
+#define MAXCLK 5
+Adafruit_MAX31855 thermocouple(MAXCLK, MAXCS, MAXDO);
 
-#define MAXCS 10
-// Adafruit_MAX31855 thermocouple(MAXCS, SPI1);
-Adafruit_MAX31855 thermocouple(MAXCS);
+// #define MAXCS 10
+
+// Adafruit_MAX31855 thermocouple(MAXCS, SPI);
+// Adafruit_MAX31855 thermocouple(MAXCS, MAXDO);
 
 void setup()
 {
     Serial2.begin(9600);
+    // SPI.beginTransaction(SPISettings(5000000, MSBFIRST, SPI_MODE0));
+    // SPISettings(5000000, MSBFIRST, SPI_MODE0);
+    // SPI.begin();
+    
 
     while (!Serial2)
         delay(100);
@@ -43,7 +48,7 @@ void loop()
         if (e & MAX31855_FAULT_SHORT_GND)Serial2.println("FAULT: Thermocouple is short --circuited to GND");
         if (e & MAX31855_FAULT_SHORT_VCC)Serial2.println("FAULT: Thermocouple is short --circuited to VCC");
     }else{
-        Serial2.println("c = ");
+        Serial2.print("c = ");
         Serial2.println(c);
     }
 
