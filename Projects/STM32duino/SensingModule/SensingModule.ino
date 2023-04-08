@@ -1,17 +1,14 @@
 #include <Wire.h>
 #include <TaskManager.h>
-#include "CANBUS.hpp"
+#include "CanBus.hpp"
 #include "BNO055.hpp"
 #include "Thermistor.hpp"
 
 
-CANBUS canbus;
+CanBusNamespace::CanBus can;
+CanBusNamespace::Frame tx;
 
 BNO055 bno055(&Wire, 0x28);
-Thermistor thermistor1(PA_2);
-Thermistor thermistor2(PA_3);
-
-
 double acceleration_x, acceleration_y, acceleration_z;
 double magnetometer_x, magnetometer_y, magnetometer_z;
 double gyroscope_x, gyroscope_y, gyroscope_z;
@@ -20,7 +17,10 @@ double quaternion_w, quaternion_x, quaternion_y, quaternion_z;
 double linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 double gravity_x, gravity_y, gravity_z;
 
+Thermistor thermistor1(PA_2);
 double temperature1;
+
+Thermistor thermistor2(PA_3);
 double temperature2;
 
 
@@ -34,7 +34,9 @@ void setup() {
   Wire.begin();
   Wire.setClock(400000);
 
-  canbus.initialize();
+  bool ret = can.begin(CanBusNamespace::Bitrate::CAN_1000KBPS, CanBusNamespace::Pinout::RX_PA11_TX_PA12);
+  Serial.println(ret ? "BOOT OK" : "BOOT FAILURE");
+  if (!ret) while (true);
 
   bno055.initialize();
   thermistor1.initialize();
@@ -53,7 +55,8 @@ void loop() {
 
 
 void task1Hz() {
-  canbus.send();
+  tx = { 0x17FF, 3, {0x01, 0x02, 0x03}, CanBusNamespace::FrameFormat::Extended, CanBusNamespace::FrameType::Data };
+  can.send(&tx);
 }
 
 
