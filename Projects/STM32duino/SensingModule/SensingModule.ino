@@ -4,13 +4,6 @@
 #include "BNO055.hpp"
 #include "Thermistor.hpp"
 
-#define ARDUINO_NUCLEO_F303K8
-
-
-static uint32_t gSendDate = 0;
-static uint32_t gSentCount = 0;
-static uint32_t gReceivedCount = 0;
-
 
 BNO055 bno055(&Wire, 0x28);
 double acceleration_x, acceleration_y, acceleration_z;
@@ -43,38 +36,11 @@ void setup() {
   thermistor2.initialize();
 
   pinMode(LED_BUILTIN, OUTPUT);
-
-  ACAN_STM32_Settings settings(1000 * 1000);
-
-  Serial.print("Bit Rate prescaler: ");
-  Serial.println(settings.mBitRatePrescaler);
-  Serial.print("Phase segment 1: ");
-  Serial.println(settings.mPhaseSegment1);
-  Serial.print("Phase segment 2: ");
-  Serial.println(settings.mPhaseSegment2);
-  Serial.print("RJW: ");
-  Serial.println(settings.mRJW);
-  Serial.print("Actual Bit Rate: ");
-  Serial.print(settings.actualBitRate());
-  Serial.println(" bit/s");
-  Serial.print("Sample point: ");
-  Serial.print(settings.samplePointFromBitStart());
-  Serial.println("%");
-  Serial.print("Exact Bit Rate ? ");
-  Serial.println(settings.exactBitRate() ? "yes" : "no");
-
+  ACAN_STM32_Settings settings(125 * 1000); // 125 kbit/s
   settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
+  can.begin(settings);
 
-  const uint32_t errorCode = can.begin(settings);
-  if (0 == errorCode) {
-    Serial.println("can ok");
-  }
-  else {
-    Serial.print("Error can: 0x");
-    Serial.println(errorCode, HEX);
-  }
-
-  Tasks.add(task1Hz)->startIntervalMsec(1000);
+  Tasks.add(task1Hz)->startIntervalMsec(10);
   Tasks.add(task10Hz)->startIntervalMsec(100);
   Tasks.add(task20Hz)->startIntervalMsec(50);
   Tasks.add(task100Hz)->startIntervalMsec(10);
@@ -88,24 +54,24 @@ void loop() {
 
 void task1Hz() {
   CANMessage message;
-  message.id = 0x542;
-  message.len = 8;
-  message.data[0] = 0;
-  message.data[1] = 1;
-  message.data[2] = 2;
-  message.data[3] = 3;
-  message.data[4] = 4;
-  message.data[5] = 5;
-  message.data[6] = 6;
-  message.data[7] = 7;
+  message.id = 0xCA;
+  message.len = 4;
+  uint32_t valueRaw = (uint32_t)(temperature1 * 4096.0);
+  message.data[0] = (uint8_t)((valueRaw & 0xFF000000) >> 24);
+  message.data[1] = (uint8_t)((valueRaw & 0x00FF0000) >> 16);
+  message.data[2] = (uint8_t)((valueRaw & 0x0000FF00) >> 8);
+  message.data[3] = (uint8_t)((valueRaw & 0x000000FF) >> 0);
+
   const bool ok = can.tryToSendReturnStatus(message);
-  if (ok) {
-    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-    gSendDate += 1000;
-    gSentCount += 1;
-    Serial.print("Sent: ");
-    Serial.println(gSentCount);
-  }
+  Serial.print("Sended: ");
+  Serial.print(message.data[0], HEX);
+  Serial.print(" ");
+  Serial.print(message.data[1], HEX);
+  Serial.print(" ");
+  Serial.print(message.data[2], HEX);
+  Serial.print(" ");
+  Serial.println(message.data[3], HEX);
+  digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
 }
 
 
