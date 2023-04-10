@@ -21,3 +21,21 @@ void CANBUS::send(uint32_t id, double value) {
 
   can.tryToSendReturnStatus(message);
 }
+
+
+void CANBUS::sendVector(uint32_t id,
+  uint8_t xLSB, uint8_t xMSB,
+  uint8_t yLSB, uint8_t yMSB,
+  uint8_t zLSB, uint8_t zMSB) {
+  CANMessage message;
+  message.id = id;
+  message.len = 6;
+  message.data[0] = xLSB;
+  message.data[1] = xMSB;
+  message.data[2] = yLSB;
+  message.data[3] = yMSB;
+  message.data[4] = zLSB;
+  message.data[5] = zMSB;
+
+  can.tryToSendReturnStatus(message);
+}

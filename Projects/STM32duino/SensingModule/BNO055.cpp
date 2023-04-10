@@ -69,8 +69,21 @@ void BNO055::getGyroscope(double* x, double* y, double* z) {
 }
 
 
-void BNO055::getEuler(double* heading, double* roll, double* pitch) {
-  readVector3(REGISTER::EUL_DATA, heading, roll, pitch, 16.0);
+void BNO055::getEuler(
+  uint8_t* headingLSB, uint8_t* headingMSB,
+  uint8_t* rollLSB, uint8_t* rollMSB,
+  uint8_t* pitchLSB, uint8_t* pitchMSB) {
+  Wire.beginTransmission(_address);
+  Wire.write(REGISTER::EUL_DATA);
+  Wire.endTransmission();
+  Wire.requestFrom(_address, 6);
+
+  *headingLSB = Wire.read();
+  *headingMSB = Wire.read();
+  *rollLSB = Wire.read();
+  *rollMSB = Wire.read();
+  *pitchLSB = Wire.read();
+  *pitchMSB = Wire.read();
 }
 
 
