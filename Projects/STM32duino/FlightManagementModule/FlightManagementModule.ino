@@ -5,7 +5,7 @@ void setup() {
   Serial.begin(115200);
 
   pinMode(LED_BUILTIN, OUTPUT);
-  ACAN_STM32_Settings settings(125 * 1000); // 125 kbit/s
+  ACAN_STM32_Settings settings(1000000); // 1 Mbit/s
   settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
   can.begin(settings);
 }
