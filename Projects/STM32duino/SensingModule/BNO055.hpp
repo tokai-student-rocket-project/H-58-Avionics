@@ -93,7 +93,10 @@ public:
   void getAcceleration(double* x, double* y, double* z);
   void getMagnetometer(double* x, double* y, double* z);
   void getGyroscope(double* x, double* y, double* z);
-  void getEuler(double* heading, double* roll, double* pitch);
+  void getEuler(
+    uint8_t* headingLSB, uint8_t* headingMSB,
+    uint8_t* rollLSB, uint8_t* rollMSB,
+    uint8_t* pitchLSB, uint8_t* pitchMSB);
   void getQuaternion(double* w, double* x, double* y, double* z);
   void getLinearAcceleration(double* x, double* y, double* z);
   void getGravityVector(double* x, double* y, double* z);
