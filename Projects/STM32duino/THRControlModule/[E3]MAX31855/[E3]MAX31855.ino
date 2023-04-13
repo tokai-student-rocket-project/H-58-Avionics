@@ -1,5 +1,5 @@
 /***************************************************************************************************/
-/* 
+/*
    Example for 12-bit MAX6675 K-Thermocouple to Digital Converter with Cold Junction Compensation
 
    written by : enjoyneering79
@@ -41,6 +41,7 @@
 */
 /***************************************************************************************************/
 #include <EX_MAX31855.h>
+#include <Arduino.h>
 
 int32_t rawData = 0;
 
@@ -50,8 +51,7 @@ int32_t rawData = 0;
   cs - chip select
 */
 
-MAX31855 myMAX31855(3); //chip select pin, for ESP8266 change to D4 (fails to BOOT/FLASH if pin LOW)
-
+MAX31855 myMAX31855(3); // chip select pin, for ESP8266 change to D4 (fails to BOOT/FLASH if pin LOW)
 
 void setup()
 {
@@ -66,36 +66,40 @@ void setup()
     delay(5000);
   }
   Serial.println(F("MAX31855 OK"));
+  // Serial.println("setup");
 }
 
 void loop()
 {
-  // while (myMAX31855.detectThermocouple() != MAX31855_THERMOCOUPLE_OK)
-  // {
-  //   switch (myMAX31855.detectThermocouple())
-  //   {
-  //     case MAX31855_THERMOCOUPLE_SHORT_TO_VCC:
-  //       Serial.println(F("Thermocouple short to VCC"));
-  //       break;
+  while (myMAX31855.detectThermocouple() != MAX31855_THERMOCOUPLE_OK)
+  {
+    switch (myMAX31855.detectThermocouple())
+    {
+    case MAX31855_THERMOCOUPLE_SHORT_TO_VCC:
+      Serial.println(F("Thermocouple short to VCC"));
+      break;
 
-  //     case MAX31855_THERMOCOUPLE_SHORT_TO_GND:
-  //       Serial.println(F("Thermocouple short to GND"));
-  //       break;
+    case MAX31855_THERMOCOUPLE_SHORT_TO_GND:
+      Serial.println(F("Thermocouple short to GND"));
+      break;
 
-  //     case MAX31855_THERMOCOUPLE_NOT_CONNECTED:
-  //       Serial.println(F("Thermocouple not connected"));
-  //       break;
+    case MAX31855_THERMOCOUPLE_NOT_CONNECTED:
+      Serial.println(F("Thermocouple not connected"));
+      break;
 
-  //     case MAX31855_THERMOCOUPLE_UNKNOWN:
-  //       Serial.println(F("Thermocouple unknown error"));
-  //       break;
+    case MAX31855_THERMOCOUPLE_UNKNOWN:
+      Serial.println(F("Thermocouple unknown error"));
+      break;
 
-  //     case MAX31855_THERMOCOUPLE_READ_FAIL:
-  //       Serial.println(F("Thermocouple read error, check chip & spi cable"));
-  //       break;
-  //   }
-  //   delay(5000);
-  // }
+    case MAX31855_THERMOCOUPLE_READ_FAIL:
+      Serial.println(F("Thermocouple read error, check chip & spi cable"));
+      break;
+    }
+    delay(5000);
+  }
+
+  // Serial.print("loop");
+  // Serial.println(rawData);
 
   rawData = myMAX31855.readRawData();
 
@@ -103,12 +107,14 @@ void loop()
   // Serial.println(myMAX31855.getChipID(rawData));
 
   // Serial.print(F("Cold Junction: "));
-  Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
+  // Serial.print(">Cold:");
+  Serial.println(myMAX31855.getColdJunctionTemperature(rawData));
 
-  Serial.print(",");
+  // Serial.print(",");
 
   // Serial.print(F("Thermocouple: "));
+  // Serial.print(">Temp:");
   Serial.println(myMAX31855.getTemperature(rawData));
 
-  // delay(1000);
+  delay(10);
 }
