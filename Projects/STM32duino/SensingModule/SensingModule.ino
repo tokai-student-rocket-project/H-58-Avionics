@@ -77,12 +77,21 @@ void task100Hz() {
     &euler_roll_LSB, &euler_roll_MSB,
     &euler_pitch_LSB, &euler_pitch_MSB);
 
-  Serial.println((double)(((int16_t)euler_heading_LSB) | (((int16_t)euler_heading_MSB) << 8)));
-
   canbus.sendVector(0xCA,
     euler_heading_LSB, euler_heading_MSB,
     euler_roll_LSB, euler_roll_MSB,
     euler_pitch_LSB, euler_pitch_MSB);
+
+
+  double xRaw = ((int16_t)euler_heading_LSB) | (((int16_t)euler_heading_MSB) << 8);
+  double yRaw = ((int16_t)euler_roll_LSB) | (((int16_t)euler_roll_MSB) << 8);
+  double zRaw = ((int16_t)euler_pitch_LSB) | (((int16_t)euler_pitch_MSB) << 8);
+
+  Serial.print(xRaw / 16.0);
+  Serial.print(",");
+  Serial.print(yRaw / 16.0);
+  Serial.print(",");
+  Serial.println(zRaw / 16.0);
 }
 
 
