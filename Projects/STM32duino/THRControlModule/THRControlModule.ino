@@ -1,4 +1,5 @@
 #include "IcsHardSerialClass.h"
+#include "EX_MAX31855.h" //test用のhファイル
 
 /*B3M Servo Config START*/
 const byte EN_PIN = 2;
@@ -13,6 +14,11 @@ int Launch_Count = 0;
 int Waiting_Count = 0;
 int Position = 1;
 /*Position Change Config END*/
+
+/*MAX31855 Config START*/
+int32_t rawData = 0;
+MAX31855 myMAX31855(3);
+/*MAX31855 Config END*/
 
 void setup()
 {
@@ -33,10 +39,29 @@ void setup()
     delay(500);
     B3MwriteCommand(0x00, 0x00, 0x28); // 動作モード：Normal
     delay(500);
+
+    myMAX31855.begin();
+    while (myMAX31855.getChipID() != MAX31855_ID)
+    {
+        Serial.println(F("MAX31855 error"));
+        delay(5000);
+    }
+
+    Serial.println("");
+    Serial.println(F("MAX31855 GO"));
 }
 
 void loop()
 {
+    MAX31855Errornotification();
+    rawData = myMAX31855.readRawData();
+
+    Serial.print(F("ColdJuncction = "));
+    Serial.println(myMAX31855.getColdJunctionTemperature(rawData));
+
+    Serial.print(F("ThermoCouple = "));
+    Serial.println(myMAX31855.getTemperature(rawData));
+
     if (Position == 1 && digitalRead(8) == LOW)
     {
         Launch_Count++;
@@ -151,4 +176,34 @@ int B3MsetPosition(byte id, int Pos, int Time)
     reData = RxCommand[2];
 
     return reData;
+}
+
+void MAX31855Errornotification()
+{
+    while (myMAX31855.detectThermocouple() != MAX31855_THERMOCOUPLE_OK)
+    {
+        switch (myMAX31855.detectThermocouple())
+        {
+        case MAX31855_THERMOCOUPLE_SHORT_TO_VCC:
+            Serial.println(F("Thermocouple short to VCC"));
+            break;
+
+        case MAX31855_THERMOCOUPLE_SHORT_TO_GND:
+            Serial.println(F("Thermocouple short to GND"));
+            break;
+
+        case MAX31855_THERMOCOUPLE_NOT_CONNECTED:
+            Serial.println(F("Thermocouple not connected"));
+            break;
+
+        case MAX31855_THERMOCOUPLE_UNKNOWN:
+            Serial.println(F("Thermocouple unknown error"));
+            break;
+
+        case MAX31855_THERMOCOUPLE_READ_FAIL:
+            Serial.println(F("Thermocouple read error, check chip & spi cable"));
+            break;
+        }
+        delay(5000);
+    }
 }
