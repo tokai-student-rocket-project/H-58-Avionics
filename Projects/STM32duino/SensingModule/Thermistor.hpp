@@ -1,5 +1,4 @@
-#ifndef THERMISTOR_HPP_
-#define THERMISTOR_HPP_
+#pragma once
 
 
 #include <Arduino.h>
@@ -20,6 +19,3 @@ private:
 
   uint8_t _pinNumber;
 };
-
-
-#endif

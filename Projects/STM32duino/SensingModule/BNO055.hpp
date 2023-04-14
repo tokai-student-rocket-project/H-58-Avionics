@@ -1,5 +1,4 @@
-#ifndef BNO_055_HPP_
-#define BNO_055_HPP_
+#pragma once
 
 
 #include <Wire.h>
@@ -106,6 +105,3 @@ private:
   void writeByte(register_t reg, uint8_t content);
   void requestBytes(register_t reg, uint8_t length);
 };
-
-
-#endif

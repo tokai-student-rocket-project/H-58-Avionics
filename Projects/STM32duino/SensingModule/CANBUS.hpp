@@ -1,5 +1,4 @@
-#ifndef CAN_BUS_HPP_
-#define CAN_BUS_HPP_
+#pragma once
 
 #include <ACAN_STM32.h>
 #include "DataType.hpp"
@@ -12,6 +11,3 @@ public:
   void sendVector(uint32_t id, raw_t x, raw_t y, raw_t z);
 private:
 };
-
-
-#endif

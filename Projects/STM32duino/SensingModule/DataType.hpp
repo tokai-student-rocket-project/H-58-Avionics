@@ -1,5 +1,4 @@
-#ifndef DATA_TYPE_HPP_
-#define DATA_TYPE_HPP_
+#pragma once
 
 
 struct raw_t {
@@ -14,6 +13,3 @@ struct raw_t {
     return (float)combine() / lsb;
   }
 };
-
-
-#endif
