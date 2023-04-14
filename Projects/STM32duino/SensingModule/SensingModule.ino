@@ -1,5 +1,6 @@
 #include <Wire.h>
 #include <TaskManager.h>
+#include "DataType.hpp"
 #include "CANBUS.hpp"
 #include "BNO055.hpp"
 #include "Thermistor.hpp"
@@ -8,22 +9,19 @@
 CANBUS canbus;
 
 BNO055 bno055(&Wire, 0x28);
-double acceleration_x, acceleration_y, acceleration_z;
-double magnetometer_x, magnetometer_y, magnetometer_z;
-double gyroscope_x, gyroscope_y, gyroscope_z;
-double quaternion_w, quaternion_x, quaternion_y, quaternion_z;
-double linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
-double gravity_x, gravity_y, gravity_z;
-
-uint8_t euler_heading_LSB, euler_heading_MSB;
-uint8_t euler_roll_LSB, euler_roll_MSB;
-uint8_t euler_pitch_LSB, euler_pitch_MSB;
+raw_t acceleration_x, acceleration_y, acceleration_z;
+raw_t magnetometer_x, magnetometer_y, magnetometer_z;
+raw_t gyroscope_x, gyroscope_y, gyroscope_z;
+raw_t quaternion_w, quaternion_x, quaternion_y, quaternion_z;
+raw_t gravity_x, gravity_y, gravity_z;
+raw_t linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
+raw_t euler_heading, euler_roll, euler_pitch;
 
 Thermistor thermistor1(PA_2);
-double temperature1;
+float temperature1;
 
 Thermistor thermistor2(PA_3);
-double temperature2;
+float temperature2;
 
 
 void setup() {
@@ -42,7 +40,7 @@ void setup() {
 
   canbus.initialize();
 
-  Tasks.add(task10Hz)->startIntervalMsec(100);
+  Tasks.add(task2Hz)->startIntervalMsec(500);
   Tasks.add(task20Hz)->startIntervalMsec(50);
   Tasks.add(task100Hz)->startIntervalMsec(10);
   Tasks.add(task1kHz)->startIntervalMsec(1);
@@ -54,7 +52,7 @@ void loop() {
 }
 
 
-void task10Hz() {
+void task2Hz() {
   thermistor1.getTemperature(&temperature1);
   thermistor2.getTemperature(&temperature2);
 }
@@ -69,29 +67,17 @@ void task100Hz() {
   bno055.getAcceleration(&acceleration_x, &acceleration_y, &acceleration_z);
   bno055.getGyroscope(&gyroscope_x, &gyroscope_y, &gyroscope_z);
   bno055.getQuaternion(&quaternion_w, &quaternion_x, &quaternion_y, &quaternion_z);
-  bno055.getLinearAcceleration(&linear_acceleration_x, &linear_acceleration_y, &linear_acceleration_z);
   bno055.getGravityVector(&gravity_x, &gravity_y, &gravity_z);
+  bno055.getLinearAcceleration(&linear_acceleration_x, &linear_acceleration_y, &linear_acceleration_z);
+  bno055.getEuler(&euler_heading, &euler_roll, &euler_pitch);
 
-  bno055.getEuler(
-    &euler_heading_LSB, &euler_heading_MSB,
-    &euler_roll_LSB, &euler_roll_MSB,
-    &euler_pitch_LSB, &euler_pitch_MSB);
+  canbus.sendVector(0xCA, euler_heading, euler_roll, euler_pitch);
 
-  canbus.sendVector(0xCA,
-    euler_heading_LSB, euler_heading_MSB,
-    euler_roll_LSB, euler_roll_MSB,
-    euler_pitch_LSB, euler_pitch_MSB);
-
-
-  double xRaw = ((int16_t)euler_heading_LSB) | (((int16_t)euler_heading_MSB) << 8);
-  double yRaw = ((int16_t)euler_roll_LSB) | (((int16_t)euler_roll_MSB) << 8);
-  double zRaw = ((int16_t)euler_pitch_LSB) | (((int16_t)euler_pitch_MSB) << 8);
-
-  Serial.print(xRaw / 16.0);
+  Serial.print(euler_heading.toFloat(16.0));
   Serial.print(",");
-  Serial.print(yRaw / 16.0);
+  Serial.print(euler_roll.toFloat(16.0));
   Serial.print(",");
-  Serial.println(zRaw / 16.0);
+  Serial.println(euler_pitch.toFloat(16.0));
 }
 
 

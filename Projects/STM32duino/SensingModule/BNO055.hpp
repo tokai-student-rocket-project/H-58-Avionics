@@ -3,6 +3,7 @@
 
 
 #include <Wire.h>
+#include "DataType.hpp"
 
 
 class BNO055 {
@@ -90,24 +91,20 @@ public:
   void setGyroscopeConfig(gyr_config_range_t range, gyr_config_bandwidth_t bandwidth, gyr_config_operation_mode_t operationMode);
   void setMagnetometerConfig(mag_config_data_output_rate_t dataOutputRate, mag_config_operation_mode_t operationMode, mag_config_power_mode_t powerMode);
 
-  void getAcceleration(double* x, double* y, double* z);
-  void getMagnetometer(double* x, double* y, double* z);
-  void getGyroscope(double* x, double* y, double* z);
-  void getEuler(
-    uint8_t* headingLSB, uint8_t* headingMSB,
-    uint8_t* rollLSB, uint8_t* rollMSB,
-    uint8_t* pitchLSB, uint8_t* pitchMSB);
-  void getQuaternion(double* w, double* x, double* y, double* z);
-  void getLinearAcceleration(double* x, double* y, double* z);
-  void getGravityVector(double* x, double* y, double* z);
+  void getAcceleration(raw_t* x, raw_t* y, raw_t* z);
+  void getMagnetometer(raw_t* x, raw_t* y, raw_t* z);
+  void getGyroscope(raw_t* x, raw_t* y, raw_t* z);
+  void getQuaternion(raw_t* w, raw_t* x, raw_t* y, raw_t* z);
+  void getGravityVector(raw_t* x, raw_t* y, raw_t* z);
+  void getLinearAcceleration(raw_t* x, raw_t* y, raw_t* z);
+  void getEuler(raw_t* heading, raw_t* roll, raw_t* pitch);
 
 private:
   TwoWire* _wire;
   uint8_t _address;
 
   void writeByte(register_t reg, uint8_t content);
-  void readVector3(register_t reg, double* x, double* y, double* z, double lsb);
-  void readVector4(register_t reg, double* w, double* x, double* y, double* z, double lsb);
+  void requestBytes(register_t reg, uint8_t length);
 };
 
 
