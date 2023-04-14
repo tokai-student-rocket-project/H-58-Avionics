@@ -1,4 +1,5 @@
 #include <SPI.h>
+#include <LoRa.h>
 #include <TaskManager.h>
 #include "mcp2515_can.h"
 
@@ -9,9 +10,12 @@ mcp2515_can can(7);
 void setup() {
   Serial.begin(115200);
 
+  pinMode(LED_BUILTIN, OUTPUT);
+  LoRa.begin(923.8E6);
+
   can.begin(CAN_1000KBPS, MCP_16MHz);
 
-  Tasks.add(task100Hz)->startIntervalMsec(10);
+  Tasks.add(task2Hz)->startIntervalMsec(500);
 }
 
 
@@ -37,5 +41,13 @@ void loop() {
 }
 
 
-void task100Hz() {
+void task2Hz() {
+  uint8_t packet[240];
+
+  LoRa.beginPacket();
+  LoRa.write(packet, 240);
+  LoRa.endPacket();
+
+  digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+  Serial.println("sended");
 }
