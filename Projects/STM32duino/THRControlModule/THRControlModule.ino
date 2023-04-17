@@ -53,7 +53,8 @@ void setup()
 
 void loop()
 {
-    MAX31855Errornotification();
+    MAX31855Errornotification(); //MAX31855 のエラーをお知らせ
+
     rawData = myMAX31855.readRawData();
 
     Serial.print(F("ColdJuncction = "));
