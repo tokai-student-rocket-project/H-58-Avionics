@@ -1,19 +1,13 @@
-#ifndef CAN_BUS_HPP_
-#define CAN_BUS_HPP_
+#pragma once
 
 #include <ACAN_STM32.h>
+#include "DataType.hpp"
 
 
 class CANBUS {
 public:
   void initialize();
   void send(uint32_t id, double value);
-  void sendVector(uint32_t id,
-    uint8_t xLSB, uint8_t xMSB,
-    uint8_t yLSB, uint8_t yMSB,
-    uint8_t zLSB, uint8_t zMSB);
+  void sendVector(uint32_t id, raw_t x, raw_t y, raw_t z);
 private:
 };
-
-
-#endif

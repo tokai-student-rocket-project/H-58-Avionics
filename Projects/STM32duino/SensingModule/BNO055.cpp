@@ -54,51 +54,60 @@ void BNO055::setMagnetometerConfig(mag_config_data_output_rate_t dataOutputRate,
 }
 
 
-void BNO055::getAcceleration(double* x, double* y, double* z) {
-  readVector3(REGISTER::ACC_DATA, x, y, z, 100.0);
+void BNO055::getAcceleration(raw_t* x, raw_t* y, raw_t* z) {
+  requestBytes(REGISTER::ACC_DATA, 6);
+  *x = { Wire.read(), Wire.read() };
+  *y = { Wire.read(), Wire.read() };
+  *z = { Wire.read(), Wire.read() };
 }
 
 
-void BNO055::getMagnetometer(double* x, double* y, double* z) {
-  readVector3(REGISTER::MAG_DATA, x, y, z, 16.0);
+void BNO055::getMagnetometer(raw_t* x, raw_t* y, raw_t* z) {
+  requestBytes(REGISTER::MAG_DATA, 6);
+  *x = { Wire.read(), Wire.read() };
+  *y = { Wire.read(), Wire.read() };
+  *z = { Wire.read(), Wire.read() };
 }
 
 
-void BNO055::getGyroscope(double* x, double* y, double* z) {
-  readVector3(REGISTER::GYR_DATA, x, y, z, 16.0);
+void BNO055::getGyroscope(raw_t* x, raw_t* y, raw_t* z) {
+  requestBytes(REGISTER::GYR_DATA, 6);
+  *x = { Wire.read(), Wire.read() };
+  *y = { Wire.read(), Wire.read() };
+  *z = { Wire.read(), Wire.read() };
 }
 
 
-void BNO055::getEuler(
-  uint8_t* headingLSB, uint8_t* headingMSB,
-  uint8_t* rollLSB, uint8_t* rollMSB,
-  uint8_t* pitchLSB, uint8_t* pitchMSB) {
-  Wire.beginTransmission(_address);
-  Wire.write(REGISTER::EUL_DATA);
-  Wire.endTransmission();
-  Wire.requestFrom(_address, 6);
-
-  *headingLSB = Wire.read();
-  *headingMSB = Wire.read();
-  *rollLSB = Wire.read();
-  *rollMSB = Wire.read();
-  *pitchLSB = Wire.read();
-  *pitchMSB = Wire.read();
+void BNO055::getQuaternion(raw_t* w, raw_t* x, raw_t* y, raw_t* z) {
+  requestBytes(REGISTER::QUA_DATA, 8);
+  *w = { Wire.read(), Wire.read() };
+  *x = { Wire.read(), Wire.read() };
+  *y = { Wire.read(), Wire.read() };
+  *z = { Wire.read(), Wire.read() };
 }
 
 
-void BNO055::getQuaternion(double* w, double* x, double* y, double* z) {
-  readVector4(REGISTER::QUA_DATA, w, x, y, z, 16384.0);
+void BNO055::getGravityVector(raw_t* x, raw_t* y, raw_t* z) {
+  requestBytes(REGISTER::GRV_DATA, 6);
+  *x = { Wire.read(), Wire.read() };
+  *y = { Wire.read(), Wire.read() };
+  *z = { Wire.read(), Wire.read() };
 }
 
 
-void BNO055::getLinearAcceleration(double* x, double* y, double* z) {
-  readVector3(REGISTER::LIA_DATA, x, y, z, 100.0);
+void BNO055::getLinearAcceleration(raw_t* x, raw_t* y, raw_t* z) {
+  requestBytes(REGISTER::LIA_DATA, 6);
+  *x = { Wire.read(), Wire.read() };
+  *y = { Wire.read(), Wire.read() };
+  *z = { Wire.read(), Wire.read() };
 }
 
 
-void BNO055::getGravityVector(double* x, double* y, double* z) {
-  readVector3(REGISTER::GRV_DATA, x, y, z, 100.0);
+void BNO055::getEuler(raw_t* heading, raw_t* roll, raw_t* pitch) {
+  requestBytes(REGISTER::EUL_DATA, 6);
+  *heading = { Wire.read(), Wire.read() };
+  *roll = { Wire.read(), Wire.read() };
+  *pitch = { Wire.read(), Wire.read() };
 }
 
 
@@ -110,37 +119,9 @@ void BNO055::writeByte(register_t reg, uint8_t content) {
 }
 
 
-void BNO055::readVector3(register_t reg, double* x, double* y, double* z, double lsb) {
+void BNO055::requestBytes(register_t reg, uint8_t length) {
   Wire.beginTransmission(_address);
   Wire.write(reg);
   Wire.endTransmission();
-  Wire.requestFrom(_address, 6);
-
-  int16_t xRaw, yRaw, zRaw;
-  xRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
-  yRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
-  zRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
-
-  *x = ((double)xRaw) / lsb;
-  *y = ((double)yRaw) / lsb;
-  *z = ((double)zRaw) / lsb;
-}
-
-
-void BNO055::readVector4(register_t reg, double* w, double* x, double* y, double* z, double lsb) {
-  Wire.beginTransmission(_address);
-  Wire.write(reg);
-  Wire.endTransmission();
-  Wire.requestFrom(_address, 8);
-
-  int16_t wRaw, xRaw, yRaw, zRaw;
-  wRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
-  xRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
-  yRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
-  zRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
-
-  *w = ((double)wRaw) / lsb;
-  *x = ((double)xRaw) / lsb;
-  *y = ((double)yRaw) / lsb;
-  *z = ((double)zRaw) / lsb;
+  Wire.requestFrom(_address, length);
 }
