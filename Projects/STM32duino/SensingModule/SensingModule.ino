@@ -20,11 +20,12 @@ raw_t quaternion_w, quaternion_x, quaternion_y, quaternion_z;
 raw_t gravity_x, gravity_y, gravity_z;
 raw_t linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 raw_t euler_heading, euler_roll, euler_pitch;
-raw_t pressure;
-float temperature;
-float altitude;
 
-float basePressure = 1013.25;
+raw_t pressure;
+raw_t temperature;
+raw_t altitude;
+
+raw_t basePressure = raw_t::raw(1013.25);
 
 void setup() {
   analogReadResolution(12);
@@ -66,9 +67,9 @@ void task20Hz() {
 
 void task50Hz() {
   lps33hw.getPressure(&pressure);
-  altitude = calculateAltitude(pressure.toFloat(4096.0), basePressure, temperature);
+  altitude = calculateAltitude(pressure, basePressure, temperature);
 
-  Serial.println(altitude);
+  Serial.println(temperature.toFloat(4096.0));
 }
 
 
@@ -82,10 +83,10 @@ void task100Hz() {
 }
 
 
-float calculateAltitude(float pressure, float basePressure, float temperature) {
+raw_t calculateAltitude(raw_t pressure, raw_t basePressure, raw_t temperature) {
   float p;
-  p = (basePressure / pressure);
+  p = (basePressure.toFloat(4096.0) / pressure.toFloat(4096.0));
   p = pow(p, (1 / 5.25588)) - 1.0;
-  p = (p * (temperature + 273.15)) / 0.0065;
-  return p;
+  p = (p * (temperature.toFloat(4096.0) + 273.15)) / 0.0065;
+  return raw_t::raw(p);
 }

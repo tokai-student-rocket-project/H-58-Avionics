@@ -2,6 +2,7 @@
 
 
 #include <Arduino.h>
+#include "DataType.hpp"
 
 
 class Thermistor {
@@ -9,7 +10,7 @@ public:
   Thermistor(uint8_t pinNumber);
   void initialize();
 
-  void getTemperature(float* temperature);
+  void getTemperature(raw_t* temperature);
 
 private:
   const float B = 3380.0;
