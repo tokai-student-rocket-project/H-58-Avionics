@@ -1,0 +1,95 @@
+
+(kicad_symbol_lib (version 20211014) (generator kicad_symbol_editor)
+  (symbol "PCC-SMP-K-5" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
+    (property "Reference" "J" (id 0) (at -5.08 5.842 0)
+      (effects (font (size 1.27 1.27)) (justify bottom left))
+    )
+    (property "Value" "PCC-SMP-K-5" (id 1) (at -5.08 -8.382 0)
+      (effects (font (size 1.27 1.27)) (justify top left))
+    )
+    (property "Footprint" "OMEGA_PCC-SMP-K-5" (id 2) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (justify bottom) hide)
+    )
+    (property "MANUFACTURER" "OMEGA" (id 4) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (justify bottom) hide)
+    )
+    (property "PARTREV" "N/A" (id 5) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (justify bottom) hide)
+    )
+    (property "STANDARD" "Manufacturer Recommendations" (id 6) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (justify bottom) hide)
+    )
+    (property "MAXIMUM_PACKAGE_HEIGHT" "6.3 mm" (id 7) (at 0 0 0)
+      (effects (font (size 1.27 1.27)) (justify bottom) hide)
+    )
+    (symbol "PCC-SMP-K-5_0_0"
+      (polyline
+        (pts (xy 5.08 3.81) (xy 3.81 5.08)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 5.08 3.81) (xy 5.08 2.54)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 5.08 2.54) (xy 5.08 -6.35)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 5.08 -6.35) (xy 3.81 -7.62)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 3.81 -7.62) (xy -5.08 -7.62)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 -7.62) (xy -5.08 5.08)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy -5.08 5.08) (xy 3.81 5.08)) (stroke (width 0.254))
+      )
+      (polyline
+        (pts (xy 5.08 2.54) (xy 3.81 2.54)) (stroke (width 0.254))
+      )
+      (arc (start 3.175 1.905) (mid 3.81 2.54) (end 3.175 3.175)
+        (stroke (width 0.254) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (polyline
+        (pts (xy 5.08 0.0) (xy 3.81 0.0)) (stroke (width 0.254))
+      )
+      (arc (start 3.175 -0.635) (mid 3.81 0.0) (end 3.175 0.635)
+        (stroke (width 0.254) (type default) (color 0 0 0 0))
+        (fill (type none))
+      )
+      (pin passive line (at 10.16 2.54 180.0) (length 5.08)
+        (name "POS"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "P"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin passive line (at 10.16 0.0 180.0) (length 5.08)
+        (name "NEG"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "N"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin passive line (at 10.16 -5.08 180.0) (length 5.08)
+        (name "SHIELD"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "S1"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+      (pin passive line (at 10.16 -5.08 180.0) (length 5.08)
+        (name "SHIELD"
+          (effects (font (size 1.016 1.016)))
+        )
+        (number "S2"
+          (effects (font (size 1.016 1.016)))
+        )
+      )
+    )
+  )
+)
