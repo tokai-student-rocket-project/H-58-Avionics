@@ -2,11 +2,12 @@
 
 
 struct raw_t {
-  uint8_t LSB;
-  uint8_t MSB;
+  uint8_t XL;
+  uint8_t L;
+  uint8_t H;
 
-  int16_t combine() {
-    return ((int16_t)LSB) | (((int16_t)MSB) << 8);
+  uint32_t combine() {
+    return ((uint32_t)XL) | (((uint32_t)L) << 8) | (((uint32_t)H) << 16);
   }
 
   float toFloat(float lsb) {
