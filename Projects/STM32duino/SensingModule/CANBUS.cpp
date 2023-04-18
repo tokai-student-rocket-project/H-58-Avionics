@@ -27,12 +27,12 @@ void CANBUS::sendVector(uint32_t id, raw_t x, raw_t y, raw_t z) {
   CANMessage message;
   message.id = id;
   message.len = 6;
-  message.data[0] = x.LSB;
-  message.data[1] = x.MSB;
-  message.data[2] = y.LSB;
-  message.data[3] = y.MSB;
-  message.data[4] = z.LSB;
-  message.data[5] = z.MSB;
+  message.data[0] = x.XL;
+  message.data[1] = x.L;
+  message.data[2] = y.XL;
+  message.data[3] = y.L;
+  message.data[4] = z.XL;
+  message.data[5] = z.L;
 
   can.tryToSendReturnStatus(message);
 }
