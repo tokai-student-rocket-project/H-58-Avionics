@@ -10,6 +10,9 @@
 // CANBUS canbus;
 
 BNO055 bno055(&Wire, 0x28);
+LPS33HW lps33hw(&Wire, 0x5C);
+Thermistor thermistor(PA_2);
+
 raw_t acceleration_x, acceleration_y, acceleration_z;
 raw_t magnetometer_x, magnetometer_y, magnetometer_z;
 raw_t gyroscope_x, gyroscope_y, gyroscope_z;
@@ -17,17 +20,11 @@ raw_t quaternion_w, quaternion_x, quaternion_y, quaternion_z;
 raw_t gravity_x, gravity_y, gravity_z;
 raw_t linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 raw_t euler_heading, euler_roll, euler_pitch;
-
-
-LPS33HW lps33hw(&Wire, 0x5C);
 raw_t pressure;
+float temperature;
+float altitude;
 
-Thermistor thermistor1(PA_2);
-float temperature1;
-
-Thermistor thermistor2(PA_3);
-float temperature2;
-
+float basePressure = 1013.25;
 
 void setup() {
   analogReadResolution(12);
@@ -41,8 +38,7 @@ void setup() {
 
   bno055.initialize();
   lps33hw.initialize();
-  thermistor1.initialize();
-  thermistor2.initialize();
+  thermistor.initialize();
 
   // canbus.initialize();
 
@@ -50,7 +46,6 @@ void setup() {
   Tasks.add(task20Hz)->startIntervalMsec(50);
   Tasks.add(task50Hz)->startIntervalMsec(20);
   Tasks.add(task100Hz)->startIntervalMsec(10);
-  Tasks.add(task1kHz)->startIntervalMsec(1);
 }
 
 
@@ -60,8 +55,7 @@ void loop() {
 
 
 void task2Hz() {
-  thermistor1.getTemperature(&temperature1);
-  thermistor2.getTemperature(&temperature2);
+  thermistor.getTemperature(&temperature);
 }
 
 
@@ -72,6 +66,9 @@ void task20Hz() {
 
 void task50Hz() {
   lps33hw.getPressure(&pressure);
+  altitude = calculateAltitude(pressure.toFloat(4096.0), basePressure, temperature);
+
+  Serial.println(altitude);
 }
 
 
@@ -85,5 +82,10 @@ void task100Hz() {
 }
 
 
-void task1kHz() {
+float calculateAltitude(float pressure, float basePressure, float temperature) {
+  float p;
+  p = (basePressure / pressure);
+  p = pow(p, (1 / 5.25588)) - 1.0;
+  p = (p * (temperature + 273.15)) / 0.0065;
+  return p;
 }

@@ -7,8 +7,8 @@ LPS33HW::LPS33HW(TwoWire* wire, uint8_t address) {
 }
 
 
-void LPS33HW::setPowerMode(pwr_mode_t powerMode) {
-  writeByte(REGISTER::PWR_MODE, powerMode);
+void LPS33HW::initialize() {
+  writeByte(REGISTER::CTRL_REG1, 0b0101000);
 }
 
 
