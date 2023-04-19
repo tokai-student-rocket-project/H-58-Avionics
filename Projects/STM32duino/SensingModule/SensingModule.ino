@@ -58,7 +58,9 @@ void task2Hz() {
 
 void task20Hz() {
   bno.getMagnetometer(&magnetometer_x, &magnetometer_y, &magnetometer_z);
-  canbus.sendVector(0x04, magnetometer_x, magnetometer_y, magnetometer_z);
+  canbus.sendVector(0x04, 0, magnetometer_x);
+  canbus.sendVector(0x04, 1, magnetometer_y);
+  canbus.sendVector(0x04, 2, magnetometer_z);
 }
 
 
@@ -70,17 +72,27 @@ void task50Hz() {
 
 void task100Hz() {
   bno.getAcceleration(&acceleration_x, &acceleration_y, &acceleration_z);
-  canbus.sendVector(0x02, acceleration_x, acceleration_y, acceleration_z);
+  canbus.sendVector(0x02, 0, acceleration_x);
+  canbus.sendVector(0x02, 1, acceleration_y);
+  canbus.sendVector(0x02, 2, acceleration_z);
 
   bno.getGyroscope(&gyroscope_x, &gyroscope_y, &gyroscope_z);
-  canbus.sendVector(0x03, gyroscope_x, gyroscope_y, gyroscope_z);
+  canbus.sendVector(0x03, 0, gyroscope_x);
+  canbus.sendVector(0x03, 1, gyroscope_y);
+  canbus.sendVector(0x03, 2, gyroscope_z);
 
   bno.getEuler(&euler_x, &euler_y, &euler_z);
-  canbus.sendVector(0x05, euler_x, euler_y, euler_z);
+  canbus.sendVector(0x05, 0, euler_x);
+  canbus.sendVector(0x05, 1, euler_y);
+  canbus.sendVector(0x05, 2, euler_z);
 
   bno.getLinearAcceleration(&linear_acceleration_x, &linear_acceleration_y, &linear_acceleration_z);
-  canbus.sendVector(0x06, linear_acceleration_x, linear_acceleration_y, linear_acceleration_z);
+  canbus.sendVector(0x06, 0, linear_acceleration_x);
+  canbus.sendVector(0x06, 1, linear_acceleration_y);
+  canbus.sendVector(0x06, 2, linear_acceleration_z);
 
   bno.getGravityVector(&gravity_x, &gravity_y, &gravity_z);
-  canbus.sendVector(0x07, gravity_x, gravity_y, gravity_z);
+  canbus.sendVector(0x07, 0, gravity_x);
+  canbus.sendVector(0x07, 1, gravity_y);
+  canbus.sendVector(0x07, 2, gravity_z);
 }

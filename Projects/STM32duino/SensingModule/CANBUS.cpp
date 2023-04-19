@@ -9,45 +9,29 @@ void CANBUS::initialize() {
 
 
 void CANBUS::send(uint32_t id, float value) {
-  int32_t rawValue = value * 10.0;
-
+  converter.value = value;
   CANMessage message;
   message.id = id;
-  message.len = 2;
-  message.data[0] = (uint8_t)(rawValue);
-  message.data[1] = (uint8_t)(rawValue >> 8);
+  message.len = 4;
+  message.data[0] = converter.data[0];
+  message.data[1] = converter.data[1];
+  message.data[2] = converter.data[2];
+  message.data[3] = converter.data[3];
 
   can.tryToSendReturnStatus(message);
 }
 
 
-void CANBUS::sendVector(uint32_t id, float x, float y, float z) {
-  int32_t xValue = x * 10.0;
-  int32_t yValue = y * 10.0;
-  int32_t zValue = z * 10.0;
-
+void CANBUS::sendVector(uint32_t id, uint8_t axis, float value) {
+  converter.value = value;
   CANMessage message;
   message.id = id;
-  message.len = 6;
-  message.data[0] = (uint8_t)(xValue);
-  message.data[1] = (uint8_t)(xValue >> 8);
-  message.data[2] = (uint8_t)(yValue);
-  message.data[3] = (uint8_t)(yValue >> 8);
-  message.data[4] = (uint8_t)(zValue);
-  message.data[5] = (uint8_t)(zValue >> 8);
+  message.len = 5;
+  message.data[0] = axis;
+  message.data[1] = converter.data[0];
+  message.data[2] = converter.data[1];
+  message.data[3] = converter.data[2];
+  message.data[4] = converter.data[3];
 
   can.tryToSendReturnStatus(message);
-}
-
-
-bool CANBUS::isAvailable() {
-  return can.available0();
-}
-
-
-void CANBUS::receive() {
-  CANMessage message;
-  can.receive0(message);
-
-  Serial.println(message.id);
 }
