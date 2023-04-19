@@ -8,31 +8,44 @@ void CANBUS::initialize() {
 }
 
 
-void CANBUS::send(uint32_t id, double value) {
-  uint32_t valueRaw = (uint32_t)(value * 4096.0);
-
+void CANBUS::send(uint32_t id, float value) {
   CANMessage message;
   message.id = id;
-  message.len = 4;
-  message.data[0] = (uint8_t)((valueRaw & 0xFF000000) >> 24);
-  message.data[1] = (uint8_t)((valueRaw & 0x00FF0000) >> 16);
-  message.data[2] = (uint8_t)((valueRaw & 0x0000FF00) >> 8);
-  message.data[3] = (uint8_t)((valueRaw & 0x000000FF) >> 0);
+  message.len = 2;
+  // message.data[0] = value.L;
+  // message.data[1] = value.H;
 
   can.tryToSendReturnStatus(message);
 }
 
 
-void CANBUS::sendVector(uint32_t id, raw_t x, raw_t y, raw_t z) {
+void CANBUS::sendVector3(uint32_t id, float x, float y, float z) {
   CANMessage message;
   message.id = id;
   message.len = 6;
-  message.data[0] = x.XL;
-  message.data[1] = x.L;
-  message.data[2] = y.XL;
-  message.data[3] = y.L;
-  message.data[4] = z.XL;
-  message.data[5] = z.L;
+  // message.data[0] = x.L;
+  // message.data[1] = x.H;
+  // message.data[2] = y.L;
+  // message.data[3] = y.H;
+  // message.data[4] = z.L;
+  // message.data[5] = z.H;
+
+  can.tryToSendReturnStatus(message);
+}
+
+
+void CANBUS::sendVector4(uint32_t id, float w, float x, float y, float z) {
+  CANMessage message;
+  message.id = id;
+  message.len = 8;
+  // message.data[0] = w.L;
+  // message.data[1] = w.H;
+  // message.data[2] = x.L;
+  // message.data[3] = x.H;
+  // message.data[4] = y.L;
+  // message.data[5] = y.H;
+  // message.data[6] = z.L;
+  // message.data[7] = z.H;
 
   can.tryToSendReturnStatus(message);
 }
