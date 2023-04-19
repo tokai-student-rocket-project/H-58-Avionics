@@ -21,8 +21,6 @@ float pressure;
 Thermistor thermistor(PA_2);
 float temperature;
 
-float basePressure = 1013.25;
-float altitude;
 
 void setup() {
   analogReadResolution(12);
@@ -54,35 +52,35 @@ void loop() {
 
 void task2Hz() {
   thermistor.getTemperature(&temperature);
+  canbus.send(0x00, temperature);
 }
 
 
 void task20Hz() {
   bno.getMagnetometer(&magnetometer_x, &magnetometer_y, &magnetometer_z);
+  canbus.sendVector(0x04, magnetometer_x, magnetometer_y, magnetometer_z);
 }
 
 
 void task50Hz() {
   lps.getPressure(&pressure);
-  altitude = calculateAltitude(pressure, basePressure, temperature);
-
-  Serial.println(altitude);
+  canbus.send(0x01, pressure);
 }
 
 
 void task100Hz() {
   bno.getAcceleration(&acceleration_x, &acceleration_y, &acceleration_z);
+  canbus.sendVector(0x02, acceleration_x, acceleration_y, acceleration_z);
+
   bno.getGyroscope(&gyroscope_x, &gyroscope_y, &gyroscope_z);
+  canbus.sendVector(0x03, gyroscope_x, gyroscope_y, gyroscope_z);
+
   bno.getEuler(&euler_x, &euler_y, &euler_z);
+  canbus.sendVector(0x05, euler_x, euler_y, euler_z);
+
   bno.getLinearAcceleration(&linear_acceleration_x, &linear_acceleration_y, &linear_acceleration_z);
+  canbus.sendVector(0x06, linear_acceleration_x, linear_acceleration_y, linear_acceleration_z);
+
   bno.getGravityVector(&gravity_x, &gravity_y, &gravity_z);
-}
-
-
-float calculateAltitude(float pressure, float basePressure, float temperature) {
-  float p;
-  p = (basePressure / pressure);
-  p = pow(p, (1 / 5.25588)) - 1.0;
-  p = (p * (temperature + 273.15)) / 0.0065;
-  return p;
+  canbus.sendVector(0x07, gravity_x, gravity_y, gravity_z);
 }

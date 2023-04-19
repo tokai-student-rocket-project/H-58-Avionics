@@ -49,5 +49,9 @@ void CANBUS::receive() {
   CANMessage message;
   can.receive0(message);
 
-  Serial.println(message.id);
+  if (message.id == 0x01) {
+    int32_t rawValue = (int32_t)message.data[0] | ((int32_t)message.data[1]) << 8;
+    float value = (float)rawValue / 10.0;
+    Serial.println(value);
+  }
 }
