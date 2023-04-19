@@ -5,16 +5,22 @@
 #include "PullupPin.hpp"
 
 
+namespace canbus {
+  union Converter {
+    float value;
+    uint8_t data[4];
+  }converter;
+
+  void receiveNorm(CANMessage message, float* value);
+  void receiveVector(CANMessage message, float* x, float* y, float* z);
+}
+
+
 FlightModeManager _flightModeManager;
 TimerManager _timerManager;
 
 PullupPin _flightPin(D4);
 
-
-union Converter {
-  float value;
-  uint8_t data[4];
-}converter;
 
 float pressure;
 float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
@@ -46,26 +52,22 @@ void loop() {
 
     switch (message.id) {
     case 0x01:
-      read(message, &pressure);
+      canbus::receiveNorm(message, &pressure);
       break;
     case 0x6:
-      readVector(message, &linear_acceleration_x, &linear_acceleration_y, &linear_acceleration_z);
+      canbus::receiveVector(message, &linear_acceleration_x, &linear_acceleration_y, &linear_acceleration_z);
       break;
 
     default:
       break;
     }
+
+    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }
 }
 
 
 void task100Hz() {
-  Serial.print(linear_acceleration_x);
-  Serial.print(",");
-  Serial.print(linear_acceleration_y);
-  Serial.print(",");
-  Serial.println(linear_acceleration_z);
-
   _flightPin.update();
 
   switch (_flightModeManager.getActiveMode()) {
@@ -153,30 +155,30 @@ void indicateFlightMode(uint8_t mode) {
 }
 
 
-void read(CANMessage message, float* value) {
-  converter.data[0] = message.data[0];
-  converter.data[1] = message.data[1];
-  converter.data[2] = message.data[2];
-  converter.data[3] = message.data[3];
-  *value = converter.value;
+void canbus::receiveNorm(CANMessage message, float* value) {
+  canbus::converter.data[0] = message.data[0];
+  canbus::converter.data[1] = message.data[1];
+  canbus::converter.data[2] = message.data[2];
+  canbus::converter.data[3] = message.data[3];
+  *value = canbus::converter.value;
 }
 
 
-void readVector(CANMessage message, float* x, float* y, float* z) {
-  converter.data[0] = message.data[1];
-  converter.data[1] = message.data[2];
-  converter.data[2] = message.data[3];
-  converter.data[3] = message.data[4];
+void canbus::receiveVector(CANMessage message, float* x, float* y, float* z) {
+  canbus::converter.data[0] = message.data[1];
+  canbus::converter.data[1] = message.data[2];
+  canbus::converter.data[2] = message.data[3];
+  canbus::converter.data[3] = message.data[4];
 
   switch (message.data[0]) {
   case 0:
-    *x = converter.value;
+    *x = canbus::converter.value;
     break;
   case 1:
-    *y = converter.value;
+    *y = canbus::converter.value;
     break;
   case 2:
-    *z = converter.value;
+    *z = canbus::converter.value;
     break;
 
   default:
