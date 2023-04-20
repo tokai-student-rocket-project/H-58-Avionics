@@ -32,15 +32,19 @@ namespace canbus {
   void receiveVector(CANMessage message, float* x, float* y, float* z);
 }
 
+namespace device {
+  PullupPin flightPin(D4);
+}
 
-FlightModeManager _flightModeManager;
-TimerManager _timerManager;
+namespace manager {
+  FlightModeManager flightModeManager;
+  TimerManager timerManager;
+}
 
-PullupPin _flightPin(D4);
-
-
-float pressure;
-float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
+namespace data {
+  float pressure;
+  float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
+}
 
 
 void setup() {
@@ -69,10 +73,10 @@ void loop() {
 
     switch (message.id) {
     case static_cast<uint8_t>(canbus::Id::PRESSURE):
-      canbus::receiveNorm(message, &pressure);
+      canbus::receiveNorm(message, &data::pressure);
       break;
     case static_cast<uint8_t>(canbus::Id::LINEAR_ACCELERATION):
-      canbus::receiveVector(message, &linear_acceleration_x, &linear_acceleration_y, &linear_acceleration_z);
+      canbus::receiveVector(message, &data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
       break;
 
     default:
@@ -85,69 +89,69 @@ void loop() {
 
 
 void task100Hz() {
-  Serial.print(linear_acceleration_x);
+  Serial.print(data::linear_acceleration_x);
   Serial.print(",");
-  Serial.print(linear_acceleration_y);
+  Serial.print(data::linear_acceleration_y);
   Serial.print(",");
-  Serial.println(linear_acceleration_z);
+  Serial.println(data::linear_acceleration_z);
 
-  _flightPin.update();
+  device::flightPin.update();
 
-  switch (_flightModeManager.getActiveMode()) {
+  switch (manager::flightModeManager.getActiveMode()) {
   case (FlightModeManager::FlightMode::SLEEP):
     if (canWakeUp()) {
-      _flightModeManager.changeMode(FlightModeManager::FlightMode::STANDBY);
+      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::STANDBY);
       // Serial.println("WAKE_UP");
     }
     break;
 
   case (FlightModeManager::FlightMode::STANDBY):
     if (canIgnition()) {
-      _flightModeManager.changeMode(FlightModeManager::FlightMode::THRUST);
+      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::THRUST);
       // Serial.println("IGNITION");
 
-      _timerManager.setReferenceTime();
+      manager::timerManager.setReferenceTime();
     }
     break;
 
   case (FlightModeManager::FlightMode::THRUST):
-    if (_timerManager.isElapsedTime(_timerManager.ThrustTime)) {
-      _flightModeManager.changeMode(FlightModeManager::FlightMode::CLIMB);
+    if (manager::timerManager.isElapsedTime(manager::timerManager.ThrustTime)) {
+      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::CLIMB);
       // Serial.println("BURNOUT");
     }
     break;
 
   case (FlightModeManager::FlightMode::CLIMB):
-    if (_timerManager.isElapsedTime(_timerManager.ApogeeTime)) {
-      _flightModeManager.changeMode(FlightModeManager::FlightMode::DESCENT);
+    if (manager::timerManager.isElapsedTime(manager::timerManager.ApogeeTime)) {
+      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::DESCENT);
       // Serial.println("APOGEE");
     }
     break;
 
   case (FlightModeManager::FlightMode::DESCENT):
-    if (_timerManager.isElapsedTime(_timerManager.FirstSeparationTime)) {
-      _flightModeManager.changeMode(FlightModeManager::FlightMode::DECEL);
+    if (manager::timerManager.isElapsedTime(manager::timerManager.FirstSeparationTime)) {
+      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::DECEL);
       // Serial.println("1ST_SEPARATION");
     }
     break;
 
   case (FlightModeManager::FlightMode::DECEL):
-    if (_timerManager.isElapsedTime(_timerManager.SecondSeparationTime)) {
-      _flightModeManager.changeMode(FlightModeManager::FlightMode::PARACHUTE);
+    if (manager::timerManager.isElapsedTime(manager::timerManager.SecondSeparationTime)) {
+      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::PARACHUTE);
       // Serial.println("2ND_SEPARATION");
     }
     break;
 
   case (FlightModeManager::FlightMode::PARACHUTE):
-    if (_timerManager.isElapsedTime(_timerManager.LandTime)) {
-      _flightModeManager.changeMode(FlightModeManager::FlightMode::LAND);
+    if (manager::timerManager.isElapsedTime(manager::timerManager.LandTime)) {
+      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::LAND);
       // Serial.println("LAND");
     }
     break;
 
   case (FlightModeManager::FlightMode::LAND):
-    if (_timerManager.isElapsedTime(_timerManager.ShutdownTime)) {
-      _flightModeManager.changeMode(FlightModeManager::FlightMode::SHUTDOWN);
+    if (manager::timerManager.isElapsedTime(manager::timerManager.ShutdownTime)) {
+      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::SHUTDOWN);
       // Serial.println("SHUTDOWN");
     }
     break;
@@ -156,17 +160,17 @@ void task100Hz() {
     break;
   }
 
-  indicateFlightMode(_flightModeManager.getActiveModeNumber());
+  indicateFlightMode(manager::flightModeManager.getActiveModeNumber());
 }
 
 
 bool canWakeUp() {
-  return !_flightPin.isOpen();
+  return !device::flightPin.isOpen();
 }
 
 
 bool canIgnition() {
-  return !_flightPin.isOpen();
+  return !device::flightPin.isOpen();
 }
 
 
