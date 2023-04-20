@@ -29,7 +29,7 @@ namespace canbus {
   }converter;
 
   void initialize();
-  void sendNorm(canbus::Id id, float value);
+  void sendScalar(canbus::Id id, float value);
   void sendVector(canbus::Id id, canbus::Axis axis, float value);
 }
 
@@ -53,8 +53,6 @@ namespace data {
 
 void setup() {
   analogReadResolution(12);
-
-  Serial.begin(115200);
 
   Wire.setSDA(PB_7);
   Wire.setSCL(PB_6);
@@ -81,7 +79,7 @@ void loop() {
 
 void task2Hz() {
   sensor::thermistor.getTemperature(&data::temperature);
-  canbus::sendNorm(canbus::Id::TEMPERATURE, data::temperature);
+  canbus::sendScalar(canbus::Id::TEMPERATURE, data::temperature);
 }
 
 
@@ -95,7 +93,7 @@ void task20Hz() {
 
 void task50Hz() {
   sensor::lps.getPressure(&data::pressure);
-  canbus::sendNorm(canbus::Id::PRESSURE, data::pressure);
+  canbus::sendScalar(canbus::Id::PRESSURE, data::pressure);
 }
 
 
@@ -134,7 +132,7 @@ void canbus::initialize() {
 }
 
 
-void canbus::sendNorm(canbus::Id id, float value) {
+void canbus::sendScalar(canbus::Id id, float value) {
   CANMessage message;
   message.id = static_cast<uint8_t>(id);
   message.len = 4;

@@ -2,6 +2,7 @@
 #include <TaskManager.h>
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
+#include "Debugger.hpp"
 
 
 namespace canbus {
@@ -28,7 +29,7 @@ namespace canbus {
   }converter;
 
   void initialize();
-  void receiveNorm(CANMessage message, float* value);
+  void receiveScalar(CANMessage message, float* value);
   void receiveVector(CANMessage message, float* x, float* y, float* z);
 }
 
@@ -86,10 +87,13 @@ namespace data {
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 }
 
+namespace develop {
+  Debugger debugger;
+}
+
 
 void setup() {
-  Serial.begin(115200);
-
+  develop::debugger.initialize();
   canbus::initialize();
 
   flightMode::changeMode(flightMode::Mode::SLEEP);
@@ -107,7 +111,7 @@ void loop() {
 
     switch (message.id) {
     case static_cast<uint8_t>(canbus::Id::PRESSURE):
-      canbus::receiveNorm(message, &data::pressure);
+      canbus::receiveScalar(message, &data::pressure);
       break;
     case static_cast<uint8_t>(canbus::Id::LINEAR_ACCELERATION):
       canbus::receiveVector(message, &data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
@@ -123,11 +127,11 @@ void loop() {
 
 
 void task100Hz() {
-  Serial.print(data::linear_acceleration_x);
-  Serial.print(",");
-  Serial.print(data::linear_acceleration_y);
-  Serial.print(",");
-  Serial.println(data::linear_acceleration_z);
+  develop::debugger.printVector("linear_acceleration",
+    data::linear_acceleration_x,
+    data::linear_acceleration_y,
+    data::linear_acceleration_z
+  );
 
   detector::flightPin.update();
 
@@ -205,7 +209,7 @@ void canbus::initialize() {
 }
 
 
-void canbus::receiveNorm(CANMessage message, float* value) {
+void canbus::receiveScalar(CANMessage message, float* value) {
   canbus::converter.data[0] = message.data[0];
   canbus::converter.data[1] = message.data[1];
   canbus::converter.data[2] = message.data[2];
