@@ -179,6 +179,12 @@ int B3MsetPosition(byte id, int Pos, int Time)
     return reData;
 }
 
+int B3MreadPOSITION(byte id, byte RxData, byte Address)
+{
+    byte TxCommand[7];
+    byte RxCommand[5];
+}
+
 void MAX31855Errornotification()
 {
     while (myMAX31855.detectThermocouple() != MAX31855_THERMOCOUPLE_OK)
@@ -208,3 +214,4 @@ void MAX31855Errornotification()
         delay(5000);
     }
 }
+
