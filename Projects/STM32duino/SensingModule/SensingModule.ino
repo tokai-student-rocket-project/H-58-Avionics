@@ -5,14 +5,34 @@
 #include "Thermistor.hpp"
 
 
+#undef EULER
+
+
 namespace canbus {
+  enum class Id {
+    TEMPERATURE,
+    PRESSURE,
+    ACCELERATION,
+    GYROSCOPE,
+    MAGNETOMETER,
+    EULER,
+    LINEAR_ACCELERATION,
+    GRAVITY
+  };
+
+  enum class Axis {
+    X,
+    Y,
+    Z
+  };
+
   union Converter {
     float value;
     uint8_t data[4];
   }converter;
 
-  void sendNorm(uint32_t id, float value);
-  void sendVector(uint32_t id, uint8_t axis, float value);
+  void sendNorm(canbus::Id id, float value);
+  void sendVector(canbus::Id id, canbus::Axis axis, float value);
 }
 
 
@@ -63,55 +83,55 @@ void loop() {
 
 void task2Hz() {
   thermistor.getTemperature(&temperature);
-  canbus::sendNorm(0x00, temperature);
+  canbus::sendNorm(canbus::Id::TEMPERATURE, temperature);
 }
 
 
 void task20Hz() {
   bno.getMagnetometer(&magnetometer_x, &magnetometer_y, &magnetometer_z);
-  canbus::sendVector(0x04, 0, magnetometer_x);
-  canbus::sendVector(0x04, 1, magnetometer_y);
-  canbus::sendVector(0x04, 2, magnetometer_z);
+  canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::X, magnetometer_x);
+  canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::Y, magnetometer_y);
+  canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::Z, magnetometer_z);
 }
 
 
 void task50Hz() {
   lps.getPressure(&pressure);
-  canbus::sendNorm(0x01, pressure);
+  canbus::sendNorm(canbus::Id::PRESSURE, pressure);
 }
 
 
 void task100Hz() {
   bno.getAcceleration(&acceleration_x, &acceleration_y, &acceleration_z);
-  canbus::sendVector(0x02, 0, acceleration_x);
-  canbus::sendVector(0x02, 1, acceleration_y);
-  canbus::sendVector(0x02, 2, acceleration_z);
+  canbus::sendVector(canbus::Id::ACCELERATION, canbus::Axis::X, acceleration_x);
+  canbus::sendVector(canbus::Id::ACCELERATION, canbus::Axis::Y, acceleration_y);
+  canbus::sendVector(canbus::Id::ACCELERATION, canbus::Axis::Z, acceleration_z);
 
   bno.getGyroscope(&gyroscope_x, &gyroscope_y, &gyroscope_z);
-  canbus::sendVector(0x03, 0, gyroscope_x);
-  canbus::sendVector(0x03, 1, gyroscope_y);
-  canbus::sendVector(0x03, 2, gyroscope_z);
+  canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::X, gyroscope_x);
+  canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::Y, gyroscope_y);
+  canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::Z, gyroscope_z);
 
   bno.getEuler(&euler_x, &euler_y, &euler_z);
-  canbus::sendVector(0x05, 0, euler_x);
-  canbus::sendVector(0x05, 1, euler_y);
-  canbus::sendVector(0x05, 2, euler_z);
+  canbus::sendVector(canbus::Id::EULER, canbus::Axis::X, euler_x);
+  canbus::sendVector(canbus::Id::EULER, canbus::Axis::Y, euler_y);
+  canbus::sendVector(canbus::Id::EULER, canbus::Axis::Z, euler_z);
 
   bno.getLinearAcceleration(&linear_acceleration_x, &linear_acceleration_y, &linear_acceleration_z);
-  canbus::sendVector(0x06, 0, linear_acceleration_x);
-  canbus::sendVector(0x06, 1, linear_acceleration_y);
-  canbus::sendVector(0x06, 2, linear_acceleration_z);
+  canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::X, linear_acceleration_x);
+  canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::Y, linear_acceleration_y);
+  canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::Z, linear_acceleration_z);
 
   bno.getGravityVector(&gravity_x, &gravity_y, &gravity_z);
-  canbus::sendVector(0x07, 0, gravity_x);
-  canbus::sendVector(0x07, 1, gravity_y);
-  canbus::sendVector(0x07, 2, gravity_z);
+  canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::X, gravity_x);
+  canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Y, gravity_y);
+  canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Z, gravity_z);
 }
 
 
-void canbus::sendNorm(uint32_t id, float value) {
+void canbus::sendNorm(canbus::Id id, float value) {
   CANMessage message;
-  message.id = id;
+  message.id = static_cast<uint8_t>(id);
   message.len = 4;
 
   canbus::converter.value = value;
@@ -124,11 +144,11 @@ void canbus::sendNorm(uint32_t id, float value) {
 }
 
 
-void canbus::sendVector(uint32_t id, uint8_t axis, float value) {
+void canbus::sendVector(canbus::Id id, canbus::Axis axis, float value) {
   CANMessage message;
-  message.id = id;
+  message.id = static_cast<uint8_t>(id);
   message.len = 5;
-  message.data[0] = axis;
+  message.data[0] = static_cast<uint8_t>(axis);
 
   canbus::converter.value = value;
   message.data[1] = canbus::converter.data[0];

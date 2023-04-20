@@ -5,7 +5,27 @@
 #include "PullupPin.hpp"
 
 
+#undef EULER
+
+
 namespace canbus {
+  enum class Id {
+    TEMPERATURE,
+    PRESSURE,
+    ACCELERATION,
+    GYROSCOPE,
+    MAGNETOMETER,
+    EULER,
+    LINEAR_ACCELERATION,
+    GRAVITY
+  };
+
+  enum class Axis {
+    X,
+    Y,
+    Z
+  };
+
   union Converter {
     float value;
     uint8_t data[4];
@@ -51,10 +71,10 @@ void loop() {
     can.receive0(message);
 
     switch (message.id) {
-    case 0x01:
+    case static_cast<uint8_t>(canbus::Id::PRESSURE):
       canbus::receiveNorm(message, &pressure);
       break;
-    case 0x6:
+    case static_cast<uint8_t>(canbus::Id::LINEAR_ACCELERATION):
       canbus::receiveVector(message, &linear_acceleration_x, &linear_acceleration_y, &linear_acceleration_z);
       break;
 
@@ -68,6 +88,12 @@ void loop() {
 
 
 void task100Hz() {
+  Serial.print(linear_acceleration_x);
+  Serial.print(",");
+  Serial.print(linear_acceleration_y);
+  Serial.print(",");
+  Serial.println(linear_acceleration_z);
+
   _flightPin.update();
 
   switch (_flightModeManager.getActiveMode()) {
@@ -171,13 +197,13 @@ void canbus::receiveVector(CANMessage message, float* x, float* y, float* z) {
   canbus::converter.data[3] = message.data[4];
 
   switch (message.data[0]) {
-  case 0:
+  case static_cast<uint8_t>(canbus::Axis::X):
     *x = canbus::converter.value;
     break;
-  case 1:
+  case static_cast<uint8_t>(canbus::Axis::Y):
     *y = canbus::converter.value;
     break;
-  case 2:
+  case static_cast<uint8_t>(canbus::Axis::Z):
     *z = canbus::converter.value;
     break;
 
