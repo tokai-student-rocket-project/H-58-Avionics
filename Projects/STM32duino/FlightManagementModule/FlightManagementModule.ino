@@ -5,9 +5,6 @@
 #include "PullupPin.hpp"
 
 
-#undef EULER
-
-
 namespace canbus {
   enum class Id {
     TEMPERATURE,
