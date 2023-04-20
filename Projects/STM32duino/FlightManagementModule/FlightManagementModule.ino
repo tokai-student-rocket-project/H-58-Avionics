@@ -1,6 +1,7 @@
 #include <ACAN_STM32.h>
 #include <TaskManager.h>
 #include "PullupPin.hpp"
+#include "OutputPin.hpp"
 
 
 namespace canbus {
@@ -26,12 +27,9 @@ namespace canbus {
     uint8_t data[4];
   }converter;
 
+  void initialize();
   void receiveNorm(CANMessage message, float* value);
   void receiveVector(CANMessage message, float* x, float* y, float* z);
-}
-
-namespace device {
-  PullupPin flightPin(D4);
 }
 
 namespace flightMode {
@@ -67,11 +65,19 @@ namespace timer {
 }
 
 namespace detector {
+  PullupPin flightPin(D4);
+
   bool canWakeUp();
   bool canIgnition();
 }
 
 namespace indicator {
+  OutputPin ledBuiltin(LED_BUILTIN);
+  OutputPin ledFlightModeBit0(D5);
+  OutputPin ledFlightModeBit1(D6);
+  OutputPin ledFlightModeBit2(D7);
+  OutputPin ledFlightModeBit3(D8);
+
   void indicateFlightMode(flightMode::Mode mode);
 }
 
@@ -84,15 +90,7 @@ namespace data {
 void setup() {
   Serial.begin(115200);
 
-  pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(D5, OUTPUT);
-  pinMode(D6, OUTPUT);
-  pinMode(D7, OUTPUT);
-  pinMode(D8, OUTPUT);
-
-  ACAN_STM32_Settings settings(1000000);
-  settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
-  can.begin(settings);
+  canbus::initialize();
 
   flightMode::changeMode(flightMode::Mode::SLEEP);
 
@@ -119,7 +117,7 @@ void loop() {
       break;
     }
 
-    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    indicator::ledBuiltin.toggle();
   }
 }
 
@@ -131,7 +129,7 @@ void task100Hz() {
   Serial.print(",");
   Serial.println(data::linear_acceleration_z);
 
-  device::flightPin.update();
+  detector::flightPin.update();
 
   switch (flightMode::activeMode) {
   case (flightMode::Mode::SLEEP):
@@ -200,32 +198,10 @@ void task100Hz() {
 }
 
 
-void timer::setReferenceTime() {
-  timer::referenceTime = millis();
-}
-
-
-bool timer::isElapsedTime(uint32_t time) {
-  return (millis() - timer::referenceTime) >= time;
-}
-
-
-bool detector::canWakeUp() {
-  return !device::flightPin.isOpen();
-}
-
-
-bool detector::canIgnition() {
-  return !device::flightPin.isOpen();
-}
-
-
-void indicator::indicateFlightMode(flightMode::Mode mode) {
-  uint8_t modeNumber = static_cast<uint8_t>(mode);
-  digitalWrite(D5, (modeNumber & (1 << 0)));
-  digitalWrite(D6, (modeNumber & (1 << 1)));
-  digitalWrite(D7, (modeNumber & (1 << 2)));
-  digitalWrite(D8, (modeNumber & (1 << 3)));
+void canbus::initialize() {
+  ACAN_STM32_Settings settings(1000000);
+  settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
+  can.begin(settings);
 }
 
 
@@ -265,4 +241,33 @@ void flightMode::changeMode(Mode nextMode) {
   if (flightMode::activeMode == nextMode) return;
 
   flightMode::activeMode = nextMode;
+}
+
+
+void timer::setReferenceTime() {
+  timer::referenceTime = millis();
+}
+
+
+bool timer::isElapsedTime(uint32_t time) {
+  return (millis() - timer::referenceTime) >= time;
+}
+
+
+bool detector::canWakeUp() {
+  return !detector::flightPin.isOpen();
+}
+
+
+bool detector::canIgnition() {
+  return !detector::flightPin.isOpen();
+}
+
+
+void indicator::indicateFlightMode(flightMode::Mode mode) {
+  uint8_t modeNumber = static_cast<uint8_t>(mode);
+  indicator::ledFlightModeBit0.set(modeNumber & (1 << 0));
+  indicator::ledFlightModeBit1.set(modeNumber & (1 << 1));
+  indicator::ledFlightModeBit2.set(modeNumber & (1 << 2));
+  indicator::ledFlightModeBit3.set(modeNumber & (1 << 3));
 }
