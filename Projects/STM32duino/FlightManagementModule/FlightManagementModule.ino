@@ -15,7 +15,7 @@ namespace canbus {
     ACCELERATION,
     GYROSCOPE,
     MAGNETOMETER,
-    EULER,
+    ORIENTATION,
     LINEAR_ACCELERATION,
     GRAVITY
   };

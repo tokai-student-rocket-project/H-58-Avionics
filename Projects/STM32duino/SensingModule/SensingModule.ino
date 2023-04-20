@@ -5,9 +5,6 @@
 #include "Thermistor.hpp"
 
 
-#undef EULER
-
-
 namespace canbus {
   enum class Id {
     TEMPERATURE,
@@ -15,7 +12,7 @@ namespace canbus {
     ACCELERATION,
     GYROSCOPE,
     MAGNETOMETER,
-    EULER,
+    ORIENTATION,
     LINEAR_ACCELERATION,
     GRAVITY
   };
@@ -40,7 +37,7 @@ BNO055 bno;
 float acceleration_x, acceleration_y, acceleration_z;
 float magnetometer_x, magnetometer_y, magnetometer_z;
 float gyroscope_x, gyroscope_y, gyroscope_z;
-float euler_x, euler_y, euler_z;
+float orientation_x, orientation_y, orientation_z;
 float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 float gravity_x, gravity_y, gravity_z;
 
@@ -112,10 +109,10 @@ void task100Hz() {
   canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::Y, gyroscope_y);
   canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::Z, gyroscope_z);
 
-  bno.getEuler(&euler_x, &euler_y, &euler_z);
-  canbus::sendVector(canbus::Id::EULER, canbus::Axis::X, euler_x);
-  canbus::sendVector(canbus::Id::EULER, canbus::Axis::Y, euler_y);
-  canbus::sendVector(canbus::Id::EULER, canbus::Axis::Z, euler_z);
+  bno.getOrientation(&orientation_x, &orientation_y, &orientation_z);
+  canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::X, orientation_x);
+  canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::Y, orientation_y);
+  canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::Z, orientation_z);
 
   bno.getLinearAcceleration(&linear_acceleration_x, &linear_acceleration_y, &linear_acceleration_z);
   canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::X, linear_acceleration_x);
