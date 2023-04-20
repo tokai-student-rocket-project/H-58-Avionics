@@ -6,7 +6,7 @@
 
 
 namespace canbus {
-  enum class Id {
+  enum class Id: uint8_t {
     TEMPERATURE,
     PRESSURE,
     ACCELERATION,
@@ -14,10 +14,11 @@ namespace canbus {
     MAGNETOMETER,
     ORIENTATION,
     LINEAR_ACCELERATION,
-    GRAVITY
+    GRAVITY,
+    STATUS
   };
 
-  enum class Axis {
+  enum class Axis: uint8_t {
     X,
     Y,
     Z
@@ -29,12 +30,13 @@ namespace canbus {
   }converter;
 
   void initialize();
+  void sendStatus(canbus::Id id, uint8_t mode);
   void receiveScalar(CANMessage message, float* value);
   void receiveVector(CANMessage message, float* x, float* y, float* z);
 }
 
 namespace flightMode {
-  enum class Mode {
+  enum class Mode: uint8_t {
     SLEEP,
     STANDBY,
     THRUST,
@@ -48,7 +50,7 @@ namespace flightMode {
 
   Mode activeMode;
 
-  void changeMode(Mode nextMode);
+  void changeMode(flightMode::Mode nextMode);
 }
 
 namespace timer {
@@ -98,6 +100,7 @@ void setup() {
 
   flightMode::changeMode(flightMode::Mode::SLEEP);
 
+  Tasks.add(task10Hz)->startIntervalMsec(100);
   Tasks.add(task100Hz)->startIntervalMsec(10);
 }
 
@@ -123,6 +126,11 @@ void loop() {
 
     indicator::ledBuiltin.toggle();
   }
+}
+
+
+void task10Hz() {
+  canbus::sendStatus(canbus::Id::STATUS, static_cast<uint8_t>(flightMode::activeMode));
 }
 
 
@@ -209,6 +217,17 @@ void canbus::initialize() {
 }
 
 
+void canbus::sendStatus(canbus::Id id, uint8_t mode) {
+  CANMessage message;
+  message.id = static_cast<uint8_t>(id);
+  message.len = 1;
+
+  message.data[0] = mode;
+
+  can.tryToSendReturnStatus(message);
+}
+
+
 void canbus::receiveScalar(CANMessage message, float* value) {
   canbus::converter.data[0] = message.data[0];
   canbus::converter.data[1] = message.data[1];
@@ -241,7 +260,7 @@ void canbus::receiveVector(CANMessage message, float* x, float* y, float* z) {
 }
 
 
-void flightMode::changeMode(Mode nextMode) {
+void flightMode::changeMode(flightMode::Mode nextMode) {
   if (flightMode::activeMode == nextMode) return;
 
   flightMode::activeMode = nextMode;
