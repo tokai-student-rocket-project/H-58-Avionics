@@ -67,13 +67,6 @@ namespace timer {
   bool isElapsedTime(uint32_t time);
 }
 
-namespace detector {
-  PullupPin flightPin(D4);
-
-  bool canWakeUp();
-  bool canIgnition();
-}
-
 namespace indicator {
   OutputPin ledBuiltin(LED_BUILTIN);
   OutputPin ledFlightModeBit0(D5);
@@ -91,6 +84,8 @@ namespace data {
 
 namespace develop {
   Debugger debugger;
+  PullupPin wakeUpButton(D3);
+  PullupPin ignitionButton(D4);
 }
 
 
@@ -99,6 +94,7 @@ void setup() {
   canbus::initialize();
 
   flightMode::changeMode(flightMode::Mode::SLEEP);
+  develop::debugger.printMessage("BEGIN");
 
   Tasks.add(task10Hz)->startIntervalMsec(100);
   Tasks.add(task100Hz)->startIntervalMsec(10);
@@ -135,26 +131,18 @@ void task10Hz() {
 
 
 void task100Hz() {
-  develop::debugger.printVector("linear_acceleration",
-    data::linear_acceleration_x,
-    data::linear_acceleration_y,
-    data::linear_acceleration_z
-  );
-
-  detector::flightPin.update();
-
   switch (flightMode::activeMode) {
   case (flightMode::Mode::SLEEP):
-    if (detector::canWakeUp()) {
+    if (!develop::wakeUpButton.isOpen()) {
       flightMode::changeMode(flightMode::Mode::STANDBY);
-      // Serial.println("WAKE_UP");
+      develop::debugger.printMessage("WAKE_UP");
     }
     break;
 
   case (flightMode::Mode::STANDBY):
-    if (detector::canIgnition()) {
+    if (!develop::ignitionButton.isOpen()) {
       flightMode::changeMode(flightMode::Mode::THRUST);
-      // Serial.println("IGNITION");
+      develop::debugger.printMessage("IGNITION");
 
       timer::setReferenceTime();
     }
@@ -163,42 +151,42 @@ void task100Hz() {
   case (flightMode::Mode::THRUST):
     if (timer::isElapsedTime(timer::thrust_time)) {
       flightMode::changeMode(flightMode::Mode::CLIMB);
-      // Serial.println("BURNOUT");
+      develop::debugger.printMessage("BURNOUT");
     }
     break;
 
   case (flightMode::Mode::CLIMB):
     if (timer::isElapsedTime(timer::apogee_time)) {
       flightMode::changeMode(flightMode::Mode::DESCENT);
-      // Serial.println("APOGEE");
+      develop::debugger.printMessage("APOGEE");
     }
     break;
 
   case (flightMode::Mode::DESCENT):
     if (timer::isElapsedTime(timer::first_separation_time)) {
       flightMode::changeMode(flightMode::Mode::DECEL);
-      // Serial.println("1ST_SEPARATION");
+      develop::debugger.printMessage("1ST_SEPARATION");
     }
     break;
 
   case (flightMode::Mode::DECEL):
     if (timer::isElapsedTime(timer::second_separation_time)) {
       flightMode::changeMode(flightMode::Mode::PARACHUTE);
-      // Serial.println("2ND_SEPARATION");
+      develop::debugger.printMessage("2ND_SEPARATION");
     }
     break;
 
   case (flightMode::Mode::PARACHUTE):
     if (timer::isElapsedTime(timer::land_time)) {
       flightMode::changeMode(flightMode::Mode::LAND);
-      // Serial.println("LAND");
+      develop::debugger.printMessage("LAND");
     }
     break;
 
   case (flightMode::Mode::LAND):
     if (timer::isElapsedTime(timer::shutdown_time)) {
       flightMode::changeMode(flightMode::Mode::SHUTDOWN);
-      // Serial.println("SHUTDOWN");
+      develop::debugger.printMessage("SHUTDOWN");
     }
     break;
 
@@ -274,16 +262,6 @@ void timer::setReferenceTime() {
 
 bool timer::isElapsedTime(uint32_t time) {
   return (millis() - timer::referenceTime) >= time;
-}
-
-
-bool detector::canWakeUp() {
-  return !detector::flightPin.isOpen();
-}
-
-
-bool detector::canIgnition() {
-  return !detector::flightPin.isOpen();
 }
 
 
