@@ -1,7 +1,5 @@
 #include <ACAN_STM32.h>
 #include <TaskManager.h>
-#include "FlightModeManager.hpp"
-#include "TimerManager.hpp"
 #include "PullupPin.hpp"
 
 
@@ -36,9 +34,45 @@ namespace device {
   PullupPin flightPin(D4);
 }
 
-namespace manager {
-  FlightModeManager flightModeManager;
-  TimerManager timerManager;
+namespace flightMode {
+  enum class Mode {
+    SLEEP,
+    STANDBY,
+    THRUST,
+    CLIMB,
+    DESCENT,
+    DECEL,
+    PARACHUTE,
+    LAND,
+    SHUTDOWN
+  };
+
+  Mode activeMode;
+
+  void changeMode(Mode nextMode);
+}
+
+namespace timer {
+  uint32_t thrust_time = 3000;
+  uint32_t apogee_time = 10000;
+  uint32_t first_separation_time = 11000;
+  uint32_t second_separation_time = 15000;
+  uint32_t land_time = 25000;
+  uint32_t shutdown_time = 26000;
+
+  uint32_t referenceTime;
+
+  void setReferenceTime();
+  bool isElapsedTime(uint32_t time);
+}
+
+namespace detector {
+  bool canWakeUp();
+  bool canIgnition();
+}
+
+namespace indicator {
+  void indicateFlightMode(flightMode::Mode mode);
 }
 
 namespace data {
@@ -56,9 +90,11 @@ void setup() {
   pinMode(D7, OUTPUT);
   pinMode(D8, OUTPUT);
 
-  ACAN_STM32_Settings settings(1000000); // 1 Mbit/s
+  ACAN_STM32_Settings settings(1000000);
   settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
   can.begin(settings);
+
+  flightMode::changeMode(flightMode::Mode::SLEEP);
 
   Tasks.add(task100Hz)->startIntervalMsec(10);
 }
@@ -97,61 +133,61 @@ void task100Hz() {
 
   device::flightPin.update();
 
-  switch (manager::flightModeManager.getActiveMode()) {
-  case (FlightModeManager::FlightMode::SLEEP):
-    if (canWakeUp()) {
-      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::STANDBY);
+  switch (flightMode::activeMode) {
+  case (flightMode::Mode::SLEEP):
+    if (detector::canWakeUp()) {
+      flightMode::changeMode(flightMode::Mode::STANDBY);
       // Serial.println("WAKE_UP");
     }
     break;
 
-  case (FlightModeManager::FlightMode::STANDBY):
-    if (canIgnition()) {
-      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::THRUST);
+  case (flightMode::Mode::STANDBY):
+    if (detector::canIgnition()) {
+      flightMode::changeMode(flightMode::Mode::THRUST);
       // Serial.println("IGNITION");
 
-      manager::timerManager.setReferenceTime();
+      timer::setReferenceTime();
     }
     break;
 
-  case (FlightModeManager::FlightMode::THRUST):
-    if (manager::timerManager.isElapsedTime(manager::timerManager.ThrustTime)) {
-      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::CLIMB);
+  case (flightMode::Mode::THRUST):
+    if (timer::isElapsedTime(timer::thrust_time)) {
+      flightMode::changeMode(flightMode::Mode::CLIMB);
       // Serial.println("BURNOUT");
     }
     break;
 
-  case (FlightModeManager::FlightMode::CLIMB):
-    if (manager::timerManager.isElapsedTime(manager::timerManager.ApogeeTime)) {
-      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::DESCENT);
+  case (flightMode::Mode::CLIMB):
+    if (timer::isElapsedTime(timer::apogee_time)) {
+      flightMode::changeMode(flightMode::Mode::DESCENT);
       // Serial.println("APOGEE");
     }
     break;
 
-  case (FlightModeManager::FlightMode::DESCENT):
-    if (manager::timerManager.isElapsedTime(manager::timerManager.FirstSeparationTime)) {
-      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::DECEL);
+  case (flightMode::Mode::DESCENT):
+    if (timer::isElapsedTime(timer::first_separation_time)) {
+      flightMode::changeMode(flightMode::Mode::DECEL);
       // Serial.println("1ST_SEPARATION");
     }
     break;
 
-  case (FlightModeManager::FlightMode::DECEL):
-    if (manager::timerManager.isElapsedTime(manager::timerManager.SecondSeparationTime)) {
-      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::PARACHUTE);
+  case (flightMode::Mode::DECEL):
+    if (timer::isElapsedTime(timer::second_separation_time)) {
+      flightMode::changeMode(flightMode::Mode::PARACHUTE);
       // Serial.println("2ND_SEPARATION");
     }
     break;
 
-  case (FlightModeManager::FlightMode::PARACHUTE):
-    if (manager::timerManager.isElapsedTime(manager::timerManager.LandTime)) {
-      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::LAND);
+  case (flightMode::Mode::PARACHUTE):
+    if (timer::isElapsedTime(timer::land_time)) {
+      flightMode::changeMode(flightMode::Mode::LAND);
       // Serial.println("LAND");
     }
     break;
 
-  case (FlightModeManager::FlightMode::LAND):
-    if (manager::timerManager.isElapsedTime(manager::timerManager.ShutdownTime)) {
-      manager::flightModeManager.changeMode(FlightModeManager::FlightMode::SHUTDOWN);
+  case (flightMode::Mode::LAND):
+    if (timer::isElapsedTime(timer::shutdown_time)) {
+      flightMode::changeMode(flightMode::Mode::SHUTDOWN);
       // Serial.println("SHUTDOWN");
     }
     break;
@@ -160,25 +196,36 @@ void task100Hz() {
     break;
   }
 
-  indicateFlightMode(manager::flightModeManager.getActiveModeNumber());
+  indicator::indicateFlightMode(flightMode::activeMode);
 }
 
 
-bool canWakeUp() {
+void timer::setReferenceTime() {
+  timer::referenceTime = millis();
+}
+
+
+bool timer::isElapsedTime(uint32_t time) {
+  return (millis() - timer::referenceTime) >= time;
+}
+
+
+bool detector::canWakeUp() {
   return !device::flightPin.isOpen();
 }
 
 
-bool canIgnition() {
+bool detector::canIgnition() {
   return !device::flightPin.isOpen();
 }
 
 
-void indicateFlightMode(uint8_t mode) {
-  digitalWrite(D5, (mode & (1 << 0)));
-  digitalWrite(D6, (mode & (1 << 1)));
-  digitalWrite(D7, (mode & (1 << 2)));
-  digitalWrite(D8, (mode & (1 << 3)));
+void indicator::indicateFlightMode(flightMode::Mode mode) {
+  uint8_t modeNumber = static_cast<uint8_t>(mode);
+  digitalWrite(D5, (modeNumber & (1 << 0)));
+  digitalWrite(D6, (modeNumber & (1 << 1)));
+  digitalWrite(D7, (modeNumber & (1 << 2)));
+  digitalWrite(D8, (modeNumber & (1 << 3)));
 }
 
 
@@ -211,4 +258,11 @@ void canbus::receiveVector(CANMessage message, float* x, float* y, float* z) {
   default:
     break;
   }
+}
+
+
+void flightMode::changeMode(Mode nextMode) {
+  if (flightMode::activeMode == nextMode) return;
+
+  flightMode::activeMode = nextMode;
 }
