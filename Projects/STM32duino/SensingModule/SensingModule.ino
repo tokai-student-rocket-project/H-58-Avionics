@@ -108,9 +108,6 @@ void loop() {
     case static_cast<uint8_t>(canbus::Id::STATUS):
       canbus::receiveStatus(message);
       break;
-
-    default:
-      break;
     }
 
     indicator::ledBuiltin.toggle();

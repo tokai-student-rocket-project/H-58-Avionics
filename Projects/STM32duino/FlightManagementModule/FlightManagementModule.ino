@@ -115,9 +115,6 @@ void loop() {
     case static_cast<uint8_t>(canbus::Id::LINEAR_ACCELERATION):
       canbus::receiveVector(message, &data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
       break;
-
-    default:
-      break;
     }
 
     indicator::ledBuiltin.toggle();
@@ -189,9 +186,6 @@ void task100Hz() {
       develop::debugger.printMessage("SHUTDOWN");
     }
     break;
-
-  default:
-    break;
   }
 
   indicator::indicateFlightMode(flightMode::activeMode);
@@ -240,9 +234,6 @@ void canbus::receiveVector(CANMessage message, float* x, float* y, float* z) {
     break;
   case static_cast<uint8_t>(canbus::Axis::Z):
     *z = canbus::converter.value;
-    break;
-
-  default:
     break;
   }
 }
