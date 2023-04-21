@@ -65,6 +65,11 @@ namespace timer {
 
   void setReferenceTime();
   bool isElapsedTime(uint32_t time);
+
+  void task10Hz();
+  void task100Hz();
+  void taskSeparatorDrogueAutoOff();
+  void taskSeparatorMainAutoOff();
 }
 
 namespace indicator {
@@ -75,6 +80,12 @@ namespace indicator {
   OutputPin ledFlightModeBit3(D8);
 
   void indicateFlightMode(flightMode::Mode mode);
+}
+
+namespace connection {
+  OutputPin camera(D9);
+  OutputPin separatorDrogue(A1);
+  OutputPin separatorMain(A0);
 }
 
 namespace data {
@@ -96,8 +107,11 @@ void setup() {
   flightMode::changeMode(flightMode::Mode::SLEEP);
   develop::debugger.printMessage("BEGIN");
 
-  Tasks.add(task10Hz)->startIntervalMsec(100);
-  Tasks.add(task100Hz)->startIntervalMsec(10);
+  Tasks.add(timer::task10Hz)->startIntervalMsec(100);
+  Tasks.add(timer::task100Hz)->startIntervalMsec(10);
+
+  Tasks.add("SeparatorDrogueAutoOff", timer::taskSeparatorDrogueAutoOff);
+  Tasks.add("SeparatorMainAutoOff", timer::taskSeparatorMainAutoOff);
 }
 
 
@@ -119,76 +133,6 @@ void loop() {
 
     indicator::ledBuiltin.toggle();
   }
-}
-
-
-void task10Hz() {
-  canbus::sendStatus(canbus::Id::STATUS, static_cast<uint8_t>(flightMode::activeMode));
-}
-
-
-void task100Hz() {
-  switch (flightMode::activeMode) {
-  case (flightMode::Mode::SLEEP):
-    if (!develop::wakeUpButton.isOpen()) {
-      flightMode::changeMode(flightMode::Mode::STANDBY);
-      develop::debugger.printMessage("WAKE_UP");
-    }
-    break;
-
-  case (flightMode::Mode::STANDBY):
-    if (!develop::ignitionButton.isOpen()) {
-      flightMode::changeMode(flightMode::Mode::THRUST);
-      develop::debugger.printMessage("IGNITION");
-
-      timer::setReferenceTime();
-    }
-    break;
-
-  case (flightMode::Mode::THRUST):
-    if (timer::isElapsedTime(timer::thrust_time)) {
-      flightMode::changeMode(flightMode::Mode::CLIMB);
-      develop::debugger.printMessage("BURNOUT");
-    }
-    break;
-
-  case (flightMode::Mode::CLIMB):
-    if (timer::isElapsedTime(timer::apogee_time)) {
-      flightMode::changeMode(flightMode::Mode::DESCENT);
-      develop::debugger.printMessage("APOGEE");
-    }
-    break;
-
-  case (flightMode::Mode::DESCENT):
-    if (timer::isElapsedTime(timer::first_separation_time)) {
-      flightMode::changeMode(flightMode::Mode::DECEL);
-      develop::debugger.printMessage("1ST_SEPARATION");
-    }
-    break;
-
-  case (flightMode::Mode::DECEL):
-    if (timer::isElapsedTime(timer::second_separation_time)) {
-      flightMode::changeMode(flightMode::Mode::PARACHUTE);
-      develop::debugger.printMessage("2ND_SEPARATION");
-    }
-    break;
-
-  case (flightMode::Mode::PARACHUTE):
-    if (timer::isElapsedTime(timer::land_time)) {
-      flightMode::changeMode(flightMode::Mode::LAND);
-      develop::debugger.printMessage("LAND");
-    }
-    break;
-
-  case (flightMode::Mode::LAND):
-    if (timer::isElapsedTime(timer::shutdown_time)) {
-      flightMode::changeMode(flightMode::Mode::SHUTDOWN);
-      develop::debugger.printMessage("SHUTDOWN");
-    }
-    break;
-  }
-
-  indicator::indicateFlightMode(flightMode::activeMode);
 }
 
 
@@ -253,6 +197,96 @@ void timer::setReferenceTime() {
 
 bool timer::isElapsedTime(uint32_t time) {
   return (millis() - timer::referenceTime) >= time;
+}
+
+
+void timer::task10Hz() {
+  canbus::sendStatus(canbus::Id::STATUS, static_cast<uint8_t>(flightMode::activeMode));
+}
+
+
+void timer::task100Hz() {
+  switch (flightMode::activeMode) {
+  case (flightMode::Mode::SLEEP):
+    if (!develop::wakeUpButton.isOpen()) {
+      flightMode::changeMode(flightMode::Mode::STANDBY);
+      develop::debugger.printMessage("WAKE_UP");
+
+      connection::camera.on();
+    }
+    break;
+
+  case (flightMode::Mode::STANDBY):
+    if (!develop::ignitionButton.isOpen()) {
+      flightMode::changeMode(flightMode::Mode::THRUST);
+      develop::debugger.printMessage("IGNITION");
+
+      timer::setReferenceTime();
+    }
+    break;
+
+  case (flightMode::Mode::THRUST):
+    if (timer::isElapsedTime(timer::thrust_time)) {
+      flightMode::changeMode(flightMode::Mode::CLIMB);
+      develop::debugger.printMessage("BURNOUT");
+    }
+    break;
+
+  case (flightMode::Mode::CLIMB):
+    if (timer::isElapsedTime(timer::apogee_time)) {
+      flightMode::changeMode(flightMode::Mode::DESCENT);
+      develop::debugger.printMessage("APOGEE");
+    }
+    break;
+
+  case (flightMode::Mode::DESCENT):
+    if (timer::isElapsedTime(timer::first_separation_time)) {
+      flightMode::changeMode(flightMode::Mode::DECEL);
+      develop::debugger.printMessage("1ST_SEPARATION");
+
+      connection::separatorDrogue.on();
+      Tasks["SeparatorDrogueAutoOff"]->startOnceAfterMsec(1000);
+    }
+    break;
+
+  case (flightMode::Mode::DECEL):
+    if (timer::isElapsedTime(timer::second_separation_time)) {
+      flightMode::changeMode(flightMode::Mode::PARACHUTE);
+      develop::debugger.printMessage("2ND_SEPARATION");
+
+      connection::separatorMain.on();
+      Tasks["SeparatorMainAutoOff"]->startOnceAfterMsec(1000);
+    }
+    break;
+
+  case (flightMode::Mode::PARACHUTE):
+    if (timer::isElapsedTime(timer::land_time)) {
+      flightMode::changeMode(flightMode::Mode::LAND);
+      develop::debugger.printMessage("LAND");
+    }
+    break;
+
+  case (flightMode::Mode::LAND):
+    if (timer::isElapsedTime(timer::shutdown_time)) {
+      flightMode::changeMode(flightMode::Mode::SHUTDOWN);
+      develop::debugger.printMessage("SHUTDOWN");
+
+      connection::camera.off();
+    }
+    break;
+  }
+
+  indicator::indicateFlightMode(flightMode::activeMode);
+}
+
+
+void timer::taskSeparatorDrogueAutoOff() {
+  connection::separatorDrogue.off();
+}
+
+
+void timer::taskSeparatorMainAutoOff() {
+  connection::separatorMain.off();
 }
 
 

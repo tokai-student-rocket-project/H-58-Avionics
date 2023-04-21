@@ -54,6 +54,13 @@ namespace flightMode {
   };
 }
 
+namespace timer {
+  void task2Hz();
+  void task20Hz();
+  void task50Hz();
+  void task100Hz();
+}
+
 namespace sensor {
   BNO055 bno;
   LPS33HW lps;
@@ -90,10 +97,10 @@ void setup() {
 
   canbus::initialize();
 
-  Tasks.add(task2Hz)->startIntervalMsec(500);
-  Tasks.add(task20Hz)->startIntervalMsec(50);
-  Tasks.add(task50Hz)->startIntervalMsec(20);
-  Tasks.add(task100Hz)->startIntervalMsec(10);
+  Tasks.add(timer::task2Hz)->startIntervalMsec(500);
+  Tasks.add(timer::task20Hz)->startIntervalMsec(50);
+  Tasks.add(timer::task50Hz)->startIntervalMsec(20);
+  Tasks.add(timer::task100Hz)->startIntervalMsec(10);
 }
 
 
@@ -111,62 +118,6 @@ void loop() {
     }
 
     indicator::ledBuiltin.toggle();
-  }
-}
-
-
-void task2Hz() {
-  if (internalFlag::doMeasure) {
-    sensor::thermistor.getTemperature(&data::temperature);
-    canbus::sendScalar(canbus::Id::TEMPERATURE, data::temperature);
-  }
-}
-
-
-void task20Hz() {
-  if (internalFlag::doMeasure) {
-    sensor::bno.getMagnetometer(&data::magnetometer_x, &data::magnetometer_y, &data::magnetometer_z);
-    canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::X, data::magnetometer_x);
-    canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::Y, data::magnetometer_y);
-    canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::Z, data::magnetometer_z);
-  }
-}
-
-
-void task50Hz() {
-  if (internalFlag::doMeasure) {
-    sensor::lps.getPressure(&data::pressure);
-    canbus::sendScalar(canbus::Id::PRESSURE, data::pressure);
-  }
-}
-
-
-void task100Hz() {
-  if (internalFlag::doMeasure) {
-    sensor::bno.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
-    canbus::sendVector(canbus::Id::ACCELERATION, canbus::Axis::X, data::acceleration_x);
-    canbus::sendVector(canbus::Id::ACCELERATION, canbus::Axis::Y, data::acceleration_y);
-    canbus::sendVector(canbus::Id::ACCELERATION, canbus::Axis::Z, data::acceleration_z);
-
-    sensor::bno.getGyroscope(&data::gyroscope_x, &data::gyroscope_y, &data::gyroscope_z);
-    canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::X, data::gyroscope_x);
-    canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::Y, data::gyroscope_y);
-    canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::Z, data::gyroscope_z);
-
-    sensor::bno.getOrientation(&data::orientation_x, &data::orientation_y, &data::orientation_z);
-    canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::X, data::orientation_x);
-    canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::Y, data::orientation_y);
-    canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::Z, data::orientation_z);
-
-    sensor::bno.getLinearAcceleration(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
-    canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::X, data::linear_acceleration_x);
-    canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::Y, data::linear_acceleration_y);
-    canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::Z, data::linear_acceleration_z);
-
-    sensor::bno.getGravityVector(&data::gravity_x, &data::gravity_y, &data::gravity_z);
-    canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::X, data::gravity_x);
-    canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Y, data::gravity_y);
-    canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Z, data::gravity_z);
   }
 }
 
@@ -220,4 +171,60 @@ void canbus::receiveStatus(CANMessage message) {
     || mode == flightMode::Mode::DECEL
     || mode == flightMode::Mode::PARACHUTE
     || mode == flightMode::Mode::LAND;
+}
+
+
+void timer::task2Hz() {
+  if (internalFlag::doMeasure) {
+    sensor::thermistor.getTemperature(&data::temperature);
+    canbus::sendScalar(canbus::Id::TEMPERATURE, data::temperature);
+  }
+}
+
+
+void timer::task20Hz() {
+  if (internalFlag::doMeasure) {
+    sensor::bno.getMagnetometer(&data::magnetometer_x, &data::magnetometer_y, &data::magnetometer_z);
+    canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::X, data::magnetometer_x);
+    canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::Y, data::magnetometer_y);
+    canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::Z, data::magnetometer_z);
+  }
+}
+
+
+void timer::task50Hz() {
+  if (internalFlag::doMeasure) {
+    sensor::lps.getPressure(&data::pressure);
+    canbus::sendScalar(canbus::Id::PRESSURE, data::pressure);
+  }
+}
+
+
+void timer::task100Hz() {
+  if (internalFlag::doMeasure) {
+    sensor::bno.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
+    canbus::sendVector(canbus::Id::ACCELERATION, canbus::Axis::X, data::acceleration_x);
+    canbus::sendVector(canbus::Id::ACCELERATION, canbus::Axis::Y, data::acceleration_y);
+    canbus::sendVector(canbus::Id::ACCELERATION, canbus::Axis::Z, data::acceleration_z);
+
+    sensor::bno.getGyroscope(&data::gyroscope_x, &data::gyroscope_y, &data::gyroscope_z);
+    canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::X, data::gyroscope_x);
+    canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::Y, data::gyroscope_y);
+    canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::Z, data::gyroscope_z);
+
+    sensor::bno.getOrientation(&data::orientation_x, &data::orientation_y, &data::orientation_z);
+    canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::X, data::orientation_x);
+    canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::Y, data::orientation_y);
+    canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::Z, data::orientation_z);
+
+    sensor::bno.getLinearAcceleration(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
+    canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::X, data::linear_acceleration_x);
+    canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::Y, data::linear_acceleration_y);
+    canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::Z, data::linear_acceleration_z);
+
+    sensor::bno.getGravityVector(&data::gravity_x, &data::gravity_y, &data::gravity_z);
+    canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::X, data::gravity_x);
+    canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Y, data::gravity_y);
+    canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Z, data::gravity_z);
+  }
 }
