@@ -9,6 +9,7 @@ namespace canbus {
   enum class Id: uint32_t {
     TEMPERATURE,
     PRESSURE,
+    ALTITUDE,
     ACCELERATION,
     GYROSCOPE,
     MAGNETOMETER,
@@ -32,6 +33,7 @@ namespace canbus {
   mcp2515_can can(7);
 
   void initialize();
+  void receiveScalar(uint8_t* data, float* value);
   void receiveVector(uint8_t* data, float* x, float* y, float* z);
 }
 
@@ -58,6 +60,7 @@ namespace transmitter {
 }
 
 namespace data {
+  float altitude;
   float orientation_x, orientation_y, orientation_z;
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 }
@@ -85,6 +88,9 @@ void loop() {
     uint32_t id = canbus::can.getCanId();
 
     switch (id) {
+    case static_cast<uint32_t>(canbus::Id::ALTITUDE):
+      canbus::receiveScalar(data, &data::altitude);
+      break;
     case static_cast<uint32_t>(canbus::Id::ORIENTATION):
       canbus::receiveVector(data, &data::orientation_x, &data::orientation_y, &data::orientation_z);
       break;
@@ -100,6 +106,15 @@ void loop() {
 
 void canbus::initialize() {
   canbus::can.begin(CAN_1000KBPS, MCP_16MHz);
+}
+
+
+void canbus::receiveScalar(uint8_t* data, float* value) {
+  canbus::converter.data[0] = data[1];
+  canbus::converter.data[1] = data[2];
+  canbus::converter.data[2] = data[3];
+  canbus::converter.data[3] = data[4];
+  *value = canbus::converter.value;
 }
 
 
@@ -129,6 +144,8 @@ void timer::task5Hz() {
 
 
 void timer::task10Hz() {
+  transmitter::reserve(data::altitude);
+
   transmitter::reserve(data::orientation_x);
   transmitter::reserve(data::orientation_y);
   transmitter::reserve(data::orientation_z);

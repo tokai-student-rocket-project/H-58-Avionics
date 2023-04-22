@@ -9,6 +9,7 @@ namespace canbus {
   enum class Id: uint32_t {
     TEMPERATURE,
     PRESSURE,
+    ALTITUDE,
     ACCELERATION,
     GYROSCOPE,
     MAGNETOMETER,
@@ -89,7 +90,7 @@ namespace connection {
 }
 
 namespace data {
-  float pressure;
+  float altitude;
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 }
 
@@ -123,8 +124,8 @@ void loop() {
     can.receive0(message);
 
     switch (message.id) {
-    case static_cast<uint32_t>(canbus::Id::PRESSURE):
-      canbus::receiveScalar(message, &data::pressure);
+    case static_cast<uint32_t>(canbus::Id::ALTITUDE):
+      canbus::receiveScalar(message, &data::altitude);
       break;
     case static_cast<uint32_t>(canbus::Id::LINEAR_ACCELERATION):
       canbus::receiveVector(message, &data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);

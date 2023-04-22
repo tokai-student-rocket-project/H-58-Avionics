@@ -10,6 +10,7 @@ namespace canbus {
   enum class Id: uint32_t {
     TEMPERATURE,
     PRESSURE,
+    ALTITUDE,
     ACCELERATION,
     GYROSCOPE,
     MAGNETOMETER,
@@ -72,14 +73,18 @@ namespace indicator {
 }
 
 namespace data {
+  float referencePressure = 1013.25;
+
+  float pressure;
+  float temperature;
+  float altitude;
+
   float acceleration_x, acceleration_y, acceleration_z;
   float magnetometer_x, magnetometer_y, magnetometer_z;
   float gyroscope_x, gyroscope_y, gyroscope_z;
   float orientation_x, orientation_y, orientation_z;
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
   float gravity_x, gravity_y, gravity_z;
-  float pressure;
-  float temperature;
 }
 
 
@@ -191,6 +196,9 @@ void timer::task20Hz() {
 void timer::task50Hz() {
   sensor::lps.getPressure(&data::pressure);
   canbus::sendScalar(canbus::Id::PRESSURE, data::pressure);
+
+  data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::temperature + 273.15)) / 0.0065;
+  canbus::sendScalar(canbus::Id::ALTITUDE, data::altitude);
 }
 
 
