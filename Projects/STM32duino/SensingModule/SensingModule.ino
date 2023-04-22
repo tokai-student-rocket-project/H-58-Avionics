@@ -7,7 +7,7 @@
 
 
 namespace canbus {
-  enum class Id: uint8_t {
+  enum class Id: uint32_t {
     TEMPERATURE,
     PRESSURE,
     ACCELERATION,
@@ -68,7 +68,7 @@ namespace recorder {
 }
 
 namespace indicator {
-  OutputPin ledBuiltin(LED_BUILTIN);
+  OutputPin ledCanReceive(LED_BUILTIN);
 }
 
 namespace data {
@@ -112,12 +112,12 @@ void loop() {
     can.receive0(message);
 
     switch (message.id) {
-    case static_cast<uint8_t>(canbus::Id::STATUS):
+    case static_cast<uint32_t>(canbus::Id::STATUS):
       canbus::receiveStatus(message);
       break;
     }
 
-    indicator::ledBuiltin.toggle();
+    indicator::ledCanReceive.toggle();
   }
 }
 
@@ -131,7 +131,7 @@ void canbus::initialize() {
 
 void canbus::sendScalar(canbus::Id id, float value) {
   CANMessage message;
-  message.id = static_cast<uint8_t>(id);
+  message.id = static_cast<uint32_t>(id);
   message.len = 4;
 
   canbus::converter.value = value;
@@ -146,7 +146,7 @@ void canbus::sendScalar(canbus::Id id, float value) {
 
 void canbus::sendVector(canbus::Id id, canbus::Axis axis, float value) {
   CANMessage message;
-  message.id = static_cast<uint8_t>(id);
+  message.id = static_cast<uint32_t>(id);
   message.len = 5;
   message.data[0] = static_cast<uint8_t>(axis);
 

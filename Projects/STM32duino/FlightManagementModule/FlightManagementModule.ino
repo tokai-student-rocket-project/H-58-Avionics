@@ -6,7 +6,7 @@
 
 
 namespace canbus {
-  enum class Id: uint8_t {
+  enum class Id: uint32_t {
     TEMPERATURE,
     PRESSURE,
     ACCELERATION,
@@ -73,7 +73,7 @@ namespace timer {
 }
 
 namespace indicator {
-  OutputPin ledBuiltin(LED_BUILTIN);
+  OutputPin ledCanReceive(LED_BUILTIN);
   OutputPin ledFlightModeBit0(D5);
   OutputPin ledFlightModeBit1(D6);
   OutputPin ledFlightModeBit2(D7);
@@ -123,15 +123,15 @@ void loop() {
     can.receive0(message);
 
     switch (message.id) {
-    case static_cast<uint8_t>(canbus::Id::PRESSURE):
+    case static_cast<uint32_t>(canbus::Id::PRESSURE):
       canbus::receiveScalar(message, &data::pressure);
       break;
-    case static_cast<uint8_t>(canbus::Id::LINEAR_ACCELERATION):
+    case static_cast<uint32_t>(canbus::Id::LINEAR_ACCELERATION):
       canbus::receiveVector(message, &data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
       break;
     }
 
-    indicator::ledBuiltin.toggle();
+    indicator::ledCanReceive.toggle();
   }
 }
 
@@ -145,7 +145,7 @@ void canbus::initialize() {
 
 void canbus::sendStatus(canbus::Id id, uint8_t mode) {
   CANMessage message;
-  message.id = static_cast<uint8_t>(id);
+  message.id = static_cast<uint32_t>(id);
   message.len = 1;
 
   message.data[0] = mode;
