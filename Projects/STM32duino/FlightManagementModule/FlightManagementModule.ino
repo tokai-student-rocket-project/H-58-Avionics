@@ -274,6 +274,13 @@ void timer::task100Hz() {
       connection::camera.off();
     }
     break;
+
+  case (flightMode::Mode::SHUTDOWN):
+    if (!develop::ignitionButton.isOpen()) {
+      flightMode::changeMode(flightMode::Mode::SLEEP);
+      develop::debugger.printMessage("RESET");
+    }
+    break;
   }
 
   indicator::indicateFlightMode(flightMode::activeMode);
