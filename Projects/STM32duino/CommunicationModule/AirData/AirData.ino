@@ -36,11 +36,25 @@ namespace canbus {
 }
 
 namespace timer {
-  void task100Hz();
+  void task5Hz();
+  void task10Hz();
 }
 
 namespace indicator {
   OutputPin ledCanReceive(LED_BUILTIN);
+}
+
+namespace transmitter {
+  union Converter {
+    float value;
+    uint8_t data[4];
+  }converter;
+
+  uint8_t downlinkData[256];
+  uint8_t offset = 0;
+
+  void reserve(float value);
+  void send();
 }
 
 namespace data {
@@ -55,7 +69,8 @@ void setup() {
 
   canbus::initialize();
 
-  Tasks.add(timer::task100Hz)->startIntervalMsec(10);
+  Tasks.add(timer::task5Hz)->startIntervalMsec(200);
+  Tasks.add(timer::task10Hz)->startIntervalMsec(100);
 }
 
 
@@ -108,11 +123,39 @@ void canbus::receiveVector(uint8_t* data, float* x, float* y, float* z) {
 }
 
 
-void timer::task100Hz() {
-  Serial.print("linear_acceleration_x:");
-  Serial.print(data::orientation_x);
-  Serial.print(",linear_acceleration_y:");
-  Serial.print(data::orientation_y);
-  Serial.print(",linear_acceleration_z:");
-  Serial.println(data::orientation_z);
+void timer::task5Hz() {
+  transmitter::send();
+}
+
+
+void timer::task10Hz() {
+  transmitter::reserve(data::orientation_x);
+  transmitter::reserve(data::orientation_y);
+  transmitter::reserve(data::orientation_z);
+
+  transmitter::reserve(data::linear_acceleration_x);
+  transmitter::reserve(data::linear_acceleration_y);
+  transmitter::reserve(data::linear_acceleration_z);
+}
+
+
+void transmitter::reserve(float value) {
+  transmitter::converter.value = value;
+  transmitter::downlinkData[transmitter::offset + 0] = transmitter::converter.data[0];
+  transmitter::downlinkData[transmitter::offset + 1] = transmitter::converter.data[1];
+  transmitter::downlinkData[transmitter::offset + 2] = transmitter::converter.data[2];
+  transmitter::downlinkData[transmitter::offset + 3] = transmitter::converter.data[3];
+  transmitter::offset += 4;
+}
+
+
+void transmitter::send() {
+  for (uint8_t i = 0; i < offset; i++) {
+    Serial.print(transmitter::downlinkData[i], HEX);
+    Serial.print(" ");
+  }
+
+  Serial.println();
+
+  transmitter::offset = 0;
 }
