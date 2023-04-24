@@ -167,12 +167,16 @@ void transmitter::reserve(float value) {
 
 
 void transmitter::send() {
-  for (uint8_t i = 0; i < offset; i++) {
-    Serial.print(transmitter::downlinkData[i], HEX);
-    Serial.print(" ");
+  // for (uint8_t i = 0; i < offset; i++) {
+  //   Serial.print(transmitter::downlinkData[i], HEX);
+  //   Serial.print(" ");
+  // }
+
+  // Serial.println();
+
+  if (LoRa.beginPacket()) {
+    LoRa.write(transmitter::downlinkData, transmitter::offset);
+    LoRa.endPacket(true);
+    transmitter::offset = 0;
   }
-
-  Serial.println();
-
-  transmitter::offset = 0;
 }
