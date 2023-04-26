@@ -14,5 +14,6 @@ public:
   void on();
   void off();
   void set(bool isOn);
+  bool get();
   void toggle();
 };

@@ -33,7 +33,7 @@ namespace canbus {
   mcp2515_can can(7);
 
   void initialize();
-  void receiveStatus(uint8_t* data, uint8_t* mode);
+  void receiveStatus(uint8_t* data, uint8_t* mode, uint8_t* camera, uint8_t* separatorDrogue, uint8_t* separatorMain);
 }
 
 namespace timer {
@@ -54,6 +54,9 @@ namespace transmitter {
 
 namespace data {
   uint8_t mode;
+  uint8_t camera;
+  uint8_t separatorDrogue;
+  uint8_t separatorMain;
 }
 
 
@@ -79,7 +82,11 @@ void loop() {
 
     switch (id) {
     case static_cast<uint32_t>(canbus::Id::STATUS):
-      canbus::receiveStatus(data, &data::mode);
+      canbus::receiveStatus(data,
+        &data::mode,
+        &data::camera,
+        &data::separatorDrogue,
+        &data::separatorMain);
       break;
     }
 
@@ -93,13 +100,19 @@ void canbus::initialize() {
 }
 
 
-void canbus::receiveStatus(uint8_t* data, uint8_t* mode) {
+void canbus::receiveStatus(uint8_t* data, uint8_t* mode, uint8_t* camera, uint8_t* separatorDrogue, uint8_t* separatorMain) {
   *mode = data[0];
+  *camera = data[1];
+  *separatorDrogue = data[2];
+  *separatorMain = data[3];
 }
 
 
 void timer::task10Hz() {
   transmitter::reserveState(data::mode);
+  transmitter::reserveState(data::camera);
+  transmitter::reserveState(data::separatorDrogue);
+  transmitter::reserveState(data::separatorMain);
 
   transmitter::send();
 }

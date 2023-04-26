@@ -21,7 +21,11 @@ void OutputPin::set(bool isOn) {
   digitalWrite(_pinNumber, isOn ? HIGH : LOW);
 }
 
+bool OutputPin::get() {
+  return digitalRead(_pinNumber) == HIGH;
+}
+
 
 void OutputPin::toggle() {
-  digitalWrite(_pinNumber, !digitalRead(_pinNumber));
+  digitalWrite(_pinNumber, !get());
 }

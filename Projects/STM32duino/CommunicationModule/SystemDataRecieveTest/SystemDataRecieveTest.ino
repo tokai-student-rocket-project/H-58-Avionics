@@ -23,6 +23,9 @@ void loop() {
   if (packetSize) {
     if (LoRa.available()) {
       transmitter::receiveState("mod");
+      transmitter::receiveState("cam");
+      transmitter::receiveState("spd");
+      transmitter::receiveState("spm");
     }
 
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));

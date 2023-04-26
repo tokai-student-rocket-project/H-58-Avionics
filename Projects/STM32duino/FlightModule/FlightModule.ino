@@ -147,9 +147,12 @@ void canbus::initialize() {
 void canbus::sendStatus(canbus::Id id, uint8_t mode) {
   CANMessage message;
   message.id = static_cast<uint32_t>(id);
-  message.len = 1;
+  message.len = 4;
 
   message.data[0] = mode;
+  message.data[1] = connection::camera.get();
+  message.data[2] = connection::separatorDrogue.get();
+  message.data[3] = connection::separatorMain.get();;
 
   can.tryToSendReturnStatus(message);
 }
