@@ -3,6 +3,7 @@
 #include <MsgPacketizer.h>
 #include <mcp2515_can.h>
 #include <TaskManager.h>
+#include <Arduino_MKRGPS.h>
 #include "OutputPin.hpp"
 
 
@@ -60,6 +61,7 @@ namespace data {
 void setup() {
   Serial.begin(115200);
   LoRa.begin(921.8E6);
+  GPS.begin();
 
   canbus::initialize();
 
@@ -106,6 +108,11 @@ void canbus::receiveStatus(uint8_t* data, uint8_t* mode, uint8_t* camera, uint8_
 
 
 void timer::task10Hz() {
+  if (GPS.available()) {
+    data::latitude = GPS.latitude();
+    data::longitude = GPS.longitude();
+  }
+
   const auto& packet = MsgPacketizer::encode(
     0x00,
     data::mode,
@@ -116,8 +123,7 @@ void timer::task10Hz() {
     data::longitude
   );
 
-  if (LoRa.beginPacket()) {
-    LoRa.write(packet.data.data(), packet.data.size());
-    LoRa.endPacket();
-  }
+  LoRa.beginPacket();
+  LoRa.write(packet.data.data(), packet.data.size());
+  LoRa.endPacket();
 }
