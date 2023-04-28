@@ -1,18 +1,11 @@
 #include <SPI.h>
 #include <LoRa.h>
+#include <MsgPacketizer.h>
 #include <ArduinoJson.h>
 
 
 namespace transmitter {
-  union Converter {
-    float value;
-    uint8_t data[4];
-  }converter;
-
   StaticJsonDocument<1024> packet;
-
-  void receiveState(String label);
-  void receiveScalar(String label);
 }
 
 
@@ -21,39 +14,36 @@ void setup() {
 
   pinMode(LED_BUILTIN, OUTPUT);
   LoRa.begin(921.8E6);
+
+  MsgPacketizer::subscribe(LoRa, 0x00,
+    [](
+      uint8_t mode,
+      uint8_t camera,
+      uint8_t separatorDrogue,
+      uint8_t separatorMain,
+      float latitude,
+      float longitude
+      )
+    {
+      transmitter::packet["mod"] = mode;
+      transmitter::packet["cam"] = camera;
+      transmitter::packet["spd"] = separatorDrogue;
+      transmitter::packet["spm"] = separatorMain;
+      transmitter::packet["lat"] = latitude;
+      transmitter::packet["lon"] = longitude;
+
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
+      transmitter::packet.clear();
+
+      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    }
+  );
 }
 
 
 void loop() {
-  int packetSize = LoRa.parsePacket();
-  if (packetSize) {
-    if (LoRa.available()) {
-      transmitter::receiveState("mod");
-      transmitter::receiveState("cam");
-      transmitter::receiveState("spd");
-      transmitter::receiveState("spm");
-
-      transmitter::receiveScalar("lat");
-      transmitter::receiveScalar("lon");
-    }
-
-    digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-
-    serializeJson(transmitter::packet, Serial);
-    Serial.println();
+  if (LoRa.parsePacket()) {
+    MsgPacketizer::parse();
   }
-}
-
-
-void transmitter::receiveState(String label) {
-  transmitter::packet[label] = LoRa.read();
-}
-
-
-void transmitter::receiveScalar(String label) {
-  transmitter::converter.data[0] = LoRa.read();
-  transmitter::converter.data[1] = LoRa.read();
-  transmitter::converter.data[2] = LoRa.read();
-  transmitter::converter.data[3] = LoRa.read();
-  transmitter::packet[label] = transmitter::converter.value;
 }

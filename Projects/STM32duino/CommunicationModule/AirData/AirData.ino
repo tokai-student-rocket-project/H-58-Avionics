@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include <LoRa.h>
+#include <MsgPacketizer.h>
 #include <mcp2515_can.h>
 #include <TaskManager.h>
 #include "OutputPin.hpp"
@@ -43,19 +44,6 @@ namespace timer {
 
 namespace indicator {
   OutputPin ledCanReceive(LED_BUILTIN);
-}
-
-namespace transmitter {
-  union Converter {
-    float value;
-    uint8_t data[4];
-  }converter;
-
-  uint8_t downlinkData[256];
-  uint8_t offset = 0;
-
-  void reserve(float value);
-  void send();
 }
 
 namespace data {
@@ -149,46 +137,28 @@ void canbus::receiveVector(uint8_t* data, float* x, float* y, float* z) {
 
 
 void timer::task10Hz() {
-  transmitter::reserve(data::altitude);
+  const auto& packet = MsgPacketizer::encode(
+    0x00,
+    data::altitude,
+    data::acceleration_x,
+    data::acceleration_y,
+    data::acceleration_z,
+    data::magnetometer_x,
+    data::magnetometer_y,
+    data::magnetometer_z,
+    data::gyroscope_x,
+    data::gyroscope_y,
+    data::gyroscope_z,
+    data::orientation_x,
+    data::orientation_y,
+    data::orientation_z,
+    data::linear_acceleration_x,
+    data::linear_acceleration_y,
+    data::linear_acceleration_z
+  );
 
-  transmitter::reserve(data::acceleration_x);
-  transmitter::reserve(data::acceleration_y);
-  transmitter::reserve(data::acceleration_z);
-
-  transmitter::reserve(data::magnetometer_x);
-  transmitter::reserve(data::magnetometer_y);
-  transmitter::reserve(data::magnetometer_z);
-
-  transmitter::reserve(data::gyroscope_x);
-  transmitter::reserve(data::gyroscope_y);
-  transmitter::reserve(data::gyroscope_z);
-
-  transmitter::reserve(data::orientation_x);
-  transmitter::reserve(data::orientation_y);
-  transmitter::reserve(data::orientation_z);
-
-  transmitter::reserve(data::linear_acceleration_x);
-  transmitter::reserve(data::linear_acceleration_y);
-  transmitter::reserve(data::linear_acceleration_z);
-
-  transmitter::send();
-}
-
-
-void transmitter::reserve(float value) {
-  transmitter::converter.value = value;
-  transmitter::downlinkData[transmitter::offset + 0] = transmitter::converter.data[0];
-  transmitter::downlinkData[transmitter::offset + 1] = transmitter::converter.data[1];
-  transmitter::downlinkData[transmitter::offset + 2] = transmitter::converter.data[2];
-  transmitter::downlinkData[transmitter::offset + 3] = transmitter::converter.data[3];
-  transmitter::offset += 4;
-}
-
-
-void transmitter::send() {
   if (LoRa.beginPacket()) {
-    LoRa.write(transmitter::downlinkData, transmitter::offset);
-    LoRa.endPacket(true);
-    transmitter::offset = 0;
+    LoRa.write(packet.data.data(), packet.data.size());
+    LoRa.endPacket();
   }
 }
