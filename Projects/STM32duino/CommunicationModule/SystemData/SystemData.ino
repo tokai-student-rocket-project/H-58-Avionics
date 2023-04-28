@@ -1,6 +1,7 @@
 #include <SPI.h>
 #include <LoRa.h>
 #include <mcp2515_can.h>
+#include <Arduino_MKRGPS.h>
 #include <TaskManager.h>
 #include "OutputPin.hpp"
 
@@ -42,13 +43,20 @@ namespace timer {
 
 namespace indicator {
   OutputPin ledCanReceive(LED_BUILTIN);
+  OutputPin ledGpsAvailable(11);
 }
 
 namespace transmitter {
+  union Converter {
+    float value;
+    uint8_t data[4];
+  }converter;
+
   uint8_t downlinkData[256];
   uint8_t offset = 0;
 
   void reserveState(uint8_t state);
+  void reserveFloat(float value);
   void send();
 }
 
@@ -57,11 +65,17 @@ namespace data {
   uint8_t camera;
   uint8_t separatorDrogue;
   uint8_t separatorMain;
+
+  float latitude;
+  float longitude;
 }
 
 
 void setup() {
   Serial.begin(115200);
+
+  GPS.begin();
+
   LoRa.begin(921.8E6);
 
   canbus::initialize();
@@ -109,10 +123,22 @@ void canbus::receiveStatus(uint8_t* data, uint8_t* mode, uint8_t* camera, uint8_
 
 
 void timer::task10Hz() {
+  if (GPS.available()) {
+    data::latitude = GPS.latitude();
+    data::longitude = GPS.longitude();
+    indicator::ledGpsAvailable.on();
+  }
+  else {
+    indicator::ledGpsAvailable.off();
+  }
+
   transmitter::reserveState(data::mode);
   transmitter::reserveState(data::camera);
   transmitter::reserveState(data::separatorDrogue);
   transmitter::reserveState(data::separatorMain);
+
+  transmitter::reserveFloat(data::latitude);
+  transmitter::reserveFloat(data::longitude);
 
   transmitter::send();
 }
@@ -121,6 +147,16 @@ void timer::task10Hz() {
 void transmitter::reserveState(uint8_t state) {
   transmitter::downlinkData[transmitter::offset] = state;
   transmitter::offset += 1;
+}
+
+
+void transmitter::reserveFloat(float value) {
+  transmitter::converter.value = value;
+  transmitter::downlinkData[transmitter::offset + 0] = transmitter::converter.data[0];
+  transmitter::downlinkData[transmitter::offset + 1] = transmitter::converter.data[1];
+  transmitter::downlinkData[transmitter::offset + 2] = transmitter::converter.data[2];
+  transmitter::downlinkData[transmitter::offset + 3] = transmitter::converter.data[3];
+  transmitter::offset += 4;
 }
 
 
