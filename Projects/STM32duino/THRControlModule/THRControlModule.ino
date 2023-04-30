@@ -1,114 +1,124 @@
 #include "IcsHardSerialClass.h"
-#include "EX_MAX31855.h" //test用のhファイル
+// #include "EX_MAX31855.h" //test用のhファイル
+#include "HardwareSerial.h"
 
 /*B3M Servo Config START*/
-const byte EN_PIN = 2;
+const byte EN_PIN = PB_4;
 const long BAUNDRATE = 115200;
 const int TIMEOUT = 1000;
-IcsHardSerialClass B3M(&Serial, EN_PIN, BAUNDRATE, TIMEOUT);
+// HardwareSerial SerialX(RX, TX); X = 1, 2, 3...
+// HardwareSerial Serial2(PA_3, PA_2);
+//HardwareSerial Serial1(0, 1);
+IcsHardSerialClass B3M(&Serial2, EN_PIN, BAUNDRATE, TIMEOUT);
 /*B3M Servo Config END*/
 
 /*Position Change Config START*/
-constexpr int POSITION_CHANGING_THRESHOLD = 10;
-int Launch_Count = 0;
-int Waiting_Count = 0;
-int Position = 1;
+// constexpr int POSITION_CHANGING_THRESHOLD = 10;
+// int Launch_Count = 0;
+// int Waiting_Count = 0;
+// int Position = 1;
 /*Position Change Config END*/
 
 /*MAX31855 Config START*/
-int32_t rawData = 0;
-MAX31855 myMAX31855(3);
+// int32_t rawData = 0;
+// MAX31855 myMAX31855(3);
 /*MAX31855 Config END*/
 
 void setup()
 {
-    pinMode(8, INPUT_PULLUP);
-    pinMode(9, INPUT_PULLUP);
+    // pinMode(8, INPUT_PULLUP);
+    // pinMode(9, INPUT_PULLUP);
 
-    B3M.begin();                      // B3Mと通信開始
-    Serial.begin(115200, SERIAL_8N1); // 通信速度、パリティなしに設定
+    B3M.begin(); // B3Mと通信開始
+
+    Serial2.begin(115200, SERIAL_8N1); // 通信速度、パリティなしに設定
+    // Serial2.begin(115200);
     Serial.begin(115200);
 
-    B3MwriteCommand(0x00, 0x02, 0x28); // 動作モード：Free
+    B3MwriteCommand(0x01, 0x02, 0x28); // 動作モード：Free
     delay(500);
-    B3MwriteCommand(0x00, 0x02, 0x28); // 位置制御モードに設定
+    B3MwriteCommand(0x01, 0x02, 0x28); // 位置制御モードに設定
     delay(500);
-    B3MwriteCommand(0x00, 0x01, 0x29); // 起動生成タイプ：Even
+    B3MwriteCommand(0x01, 0x01, 0x29); // 起動生成タイプ：Even
     delay(500);
-    B3MwriteCommand(0x00, 0x00, 0x5c); // ゲインプリセット：No.0
+    B3MwriteCommand(0x01, 0x00, 0x5c); // ゲインプリセット：No.0
     delay(500);
-    B3MwriteCommand(0x00, 0x00, 0x28); // 動作モード：Normal
+    B3MwriteCommand(0x01, 0x00, 0x28); // 動作モード：Normal
     delay(500);
 
-    myMAX31855.begin();
-    while (myMAX31855.getChipID() != MAX31855_ID)
-    {
-        Serial.println(F("MAX31855 error"));
-        delay(5000);
-    }
+    // myMAX31855.begin();
+    // while (myMAX31855.getChipID() != MAX31855_ID)
+    // {
+    //     Serial.println(F("MAX31855 error"));
+    //     delay(5000);
+    // }
 
-    Serial.println("");
-    Serial.println(F("MAX31855 GO"));
+    // Serial.println("");
+    // Serial.println(F("MAX31855 GO"));
 }
 
 void loop()
 {
-    MAX31855Errornotification(); //MAX31855 のエラーをお知らせ
+    // MAX31855Errornotification(); //MAX31855 のエラーをお知らせ
 
-    rawData = myMAX31855.readRawData();
+    // rawData = myMAX31855.readRawData();
 
-    Serial.print(F("ColdJuncction = "));
-    Serial.println(myMAX31855.getColdJunctionTemperature(rawData));
+    // Serial.print(F("ColdJuncction = "));
+    // Serial.println(myMAX31855.getColdJunctionTemperature(rawData));
 
-    Serial.print(F("ThermoCouple = "));
-    Serial.println(myMAX31855.getTemperature(rawData));
+    // Serial.print(F("ThermoCouple = "));
+    // Serial.println(myMAX31855.getTemperature(rawData));
 
-    if (Position == 1 && digitalRead(8) == LOW)
-    {
-        Launch_Count++;
-    }
-    else
-    {
-        Launch_Count = 0;
-    }
+    // if (Position == 1 && digitalRead(8) == LOW)
+    // {
+    //     Launch_Count++;
+    // }
+    // else
+    // {
+    //     Launch_Count = 0;
+    // }
 
-    if (Launch_Count >= POSITION_CHANGING_THRESHOLD)
-    {
-        Launch_Count = 0;
-        B3MsetPosition(0x00, 5000, 500);
-        Position = 2;
-        delay(3000);
-    }
+    // if (Launch_Count >= POSITION_CHANGING_THRESHOLD)
+    // {
+    //     Launch_Count = 0;
+    //     B3MsetPosition(0x00, 5000, 500);
+    //     Position = 2;
+    //     delay(3000);
+    // }
 
-    //-------------------------------------------------//
+    // //-------------------------------------------------//
 
-    if (Position == 2 && digitalRead(9) == LOW)
-    {
-        Waiting_Count++;
-    }
-    else
-    {
-        Waiting_Count = 0;
-    }
+    // if (Position == 2 && digitalRead(9) == LOW)
+    // {
+    //     Waiting_Count++;
+    // }
+    // else
+    // {
+    //     Waiting_Count = 0;
+    // }
 
-    if (Waiting_Count >= POSITION_CHANGING_THRESHOLD)
-    {
-        Waiting_Count = 0;
-        B3MsetPosition(0x00, -5000, 500);
-        Position = 2;
-        delay(3000);
-    }
+    // if (Waiting_Count >= POSITION_CHANGING_THRESHOLD)
+    // {
+    //     Waiting_Count = 0;
+    //     B3MsetPosition(0x00, -5000, 500);
+    //     Position = 2;
+    //     delay(3000);
+    // }
 
     //---テスト用---//
     // Positionで動作角指定
-    // B3MsetPosition(int id, int Pos, int Time)
-    // B3MsetPosition(0x00, 5000, 500);
-    // delay(3000);
-    // B3MsetPosition(0x00, -5000, 1000);
-    // delay(3000);
+
+    B3MsetPosition(0x01, 5000, 500);
+    delay(3000);
+    Serial.println("OPEN");
+    // Serial1.println("Hello");
+    B3MsetPosition(0x01, -5000, 1000);
+    delay(3000);
+    Serial.println("CLOSE");
+    // Serial1.println("TSRP");
 }
 
-int B3MwriteCommand(byte id, byte TxData, byte Address)
+int B3M_writeCmd(byte id, byte TxData, byte Address)
 {
     byte TxCommand[8];
     byte RxCommand[5];
@@ -179,39 +189,38 @@ int B3MsetPosition(byte id, int Pos, int Time)
     return reData;
 }
 
-int B3MreadPOSITION(byte id, byte RxData, byte Address)
-{
-    byte TxCommand[7];
-    byte RxCommand[5];
-}
+// int B3MreadPOSITION(byte id, byte RxData, byte Address)
+// {
+//     byte TxCommand[7];
+//     byte RxCommand[5];
+// }
 
-void MAX31855Errornotification()
-{
-    while (myMAX31855.detectThermocouple() != MAX31855_THERMOCOUPLE_OK)
-    {
-        switch (myMAX31855.detectThermocouple())
-        {
-        case MAX31855_THERMOCOUPLE_SHORT_TO_VCC:
-            Serial.println(F("Thermocouple short to VCC"));
-            break;
+// void MAX31855Errornotification()
+// {
+//     while (myMAX31855.detectThermocouple() != MAX31855_THERMOCOUPLE_OK)
+//     {
+//         switch (myMAX31855.detectThermocouple())
+//         {
+//         case MAX31855_THERMOCOUPLE_SHORT_TO_VCC:
+//             Serial.println(F("Thermocouple short to VCC"));
+//             break;
 
-        case MAX31855_THERMOCOUPLE_SHORT_TO_GND:
-            Serial.println(F("Thermocouple short to GND"));
-            break;
+//         case MAX31855_THERMOCOUPLE_SHORT_TO_GND:
+//             Serial.println(F("Thermocouple short to GND"));
+//             break;
 
-        case MAX31855_THERMOCOUPLE_NOT_CONNECTED:
-            Serial.println(F("Thermocouple not connected"));
-            break;
+//         case MAX31855_THERMOCOUPLE_NOT_CONNECTED:
+//             Serial.println(F("Thermocouple not connected"));
+//             break;
 
-        case MAX31855_THERMOCOUPLE_UNKNOWN:
-            Serial.println(F("Thermocouple unknown error"));
-            break;
+//         case MAX31855_THERMOCOUPLE_UNKNOWN:
+//             Serial.println(F("Thermocouple unknown error"));
+//             break;
 
-        case MAX31855_THERMOCOUPLE_READ_FAIL:
-            Serial.println(F("Thermocouple read error, check chip & spi cable"));
-            break;
-        }
-        delay(5000);
-    }
-}
-
+//         case MAX31855_THERMOCOUPLE_READ_FAIL:
+//             Serial.println(F("Thermocouple read error, check chip & spi cable"));
+//             break;
+//         }
+//         delay(5000);
+//     }
+// }

@@ -5,16 +5,10 @@
 /******************************************************************/
 
 /* グローバル変数定義 */
-// int REDE = PF1; // デジタルPin5(D5)を送信イネーブルピンに設定
-int REDE = 6;
+int REDE = PB_4; // デジタルPin5(D5)を送信イネーブルピンに設定
 // メモ
 // HardwereSerial(RX, TX);
 // HardwareSerial RS485(PA_10, PA_9);
-constexpr int POSITION_CHANGING_THRESHOLD = 10;
-int LCount = 0;
-int WCount = 0;
-
-int Position = 1;
 
 /*-------------------------------------------------*/
 /* 機能   : STM32duino 初期化                         */
@@ -27,11 +21,9 @@ void setup()
     pinMode(REDE, OUTPUT);        // デジタルPin5(REDE)を出力に設定
     pinMode(LED_BUILTIN, OUTPUT); // デバック用LEDを出力に設定
     Serial2.begin(115200);        // ボーレート 115,200bps
-
-    Torque(0x01, 0x01);
-
-    pinMode(8, INPUT_PULLUP);
-    pinMode(9, INPUT_PULLUP);
+    // Serial.begin(115200);
+    // メモ
+    // RS485.begin(115200);
 }
 
 /*-------------------------------------------------*/
@@ -67,12 +59,12 @@ void Torque(unsigned char ID, unsigned char data)
     for (int i = 0; i <= 8; i++)
     {
         Serial2.write(TxData[i]);
-
+        // Serial.write(TxData[i]);
         // メモ
         // RS485.write(TxData[i]);
     }
     Serial2.flush(); // データ送信完了待ち
-
+    // Serial.flush();
     // メモ
     // RS485.flush();
     // delayMicroseconds(700); //必要ないかも
@@ -118,12 +110,13 @@ void Move(unsigned char ID, int Angle, int Speed)
     for (int i = 0; i <= 11; i++)
     {
         Serial2.write(TxData[i]);
+        // Serial.write(TxData[i]);
 
         // メモ
         // RS485.write(TxData[i]);
     }
     Serial2.flush(); // データ送信完了待ち
-
+    // Serial.flush();
     // メモ
     // RS485.flush();
     // delayMicroseconds(700); //必要ないかも
@@ -138,53 +131,17 @@ void Move(unsigned char ID, int Angle, int Speed)
 /*-------------------------------------------------*/
 void loop()
 {
-
-    // setup();    // STM32duino 初期化
-    //delay(100); // wait (100msec)
+    setup();            // STM32duino 初期化
+    delay(100);         // wait (100msec)
     Torque(0x01, 0x01); // ID = 1(0x01) , torque = ON   (0x01)
                         // torque = OFF(0x00), ON(0x01), BRAKE(0x02)
-    //delay(100); // wait (100msec)
+    delay(100);         // wait (100msec)
 
-     Move(1, 900, 50);
-     delay(1000);
-     Move(1, 0, 50);
+    Move(1, 0, 50); // ID = 1 , GoalPosition = 0.00deg(0) , Time = 0.5sec(50)
+    digitalWrite(LED_BUILTIN, 0x00);
+    delay(1100); // wait (1.10sec)
 
-    // WaitingポジションかつLaunch信号がHIGHならLCountを加算する。それ以外ならLCountを0にリセットする
-    // if (Position == 1 && digitalRead(8) == LOW)
-    // {
-    //     LCount++;
-    // }
-    // else
-    // {
-    //     LCount = 0;
-    // }
-
-    // // LCountが閾値以上になればLaunchポジションに変更する
-    // if (LCount >= POSITION_CHANGING_THRESHOLD)
-    // {
-    //     LCount = 0;
-    //     Move(1, 900, 50);
-    //     Position = 2;
-    //     digitalWrite(LED_BUILTIN, 0x01);
-    //     delay(100);
-    // }
-
-    // // 以下、WaitingとLaunchが逆になったバージョン
-    // if (Position == 2 && digitalRead(9) == LOW)
-    // {
-    //     WCount++;
-    // }
-    // else
-    // {
-    //     WCount = 0;
-    // }
-    // if (WCount >= POSITION_CHANGING_THRESHOLD)
-    // {
-    //     WCount = 0;
-
-    //     Move(1, 0, 50);
-    //     Position = 1;
-    //     digitalWrite(LED_BUILTIN, 0x00);
-    //     delay(100);
-    // }
+    Move(1, 900, 100); // ID = 1 , GoalPosition = 90.0deg(900) , Time = 1.0sec(100)
+    digitalWrite(LED_BUILTIN, 0x01);
+    delay(1000); // wait (1.00sec)
 }
