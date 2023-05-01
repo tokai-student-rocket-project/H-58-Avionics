@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "ArduinoMkrGpsShield")(type "KiCad")(uri "/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/Libraries/ArduinoMkrGpsShield/ArduinoMkrGpsShield.pretty")(options "")(descr ""))
+)
