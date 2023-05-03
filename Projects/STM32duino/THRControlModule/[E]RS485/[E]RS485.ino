@@ -5,10 +5,10 @@
 /******************************************************************/
 
 /* グローバル変数定義 */
-int REDE = PB_4; // デジタルPin5(D5)を送信イネーブルピンに設定
+int REDE = 2; // デジタルPin2(D2)を送信イネーブルピンに設定
 // メモ
 // HardwereSerial(RX, TX);
-// HardwareSerial RS485(PA_10, PA_9);
+// HardwareSerial Serial1(PA_10, PA_9);
 
 /*-------------------------------------------------*/
 /* 機能   : STM32duino 初期化                         */
@@ -20,8 +20,11 @@ void setup()
 {
     pinMode(REDE, OUTPUT);        // デジタルPin5(REDE)を出力に設定
     pinMode(LED_BUILTIN, OUTPUT); // デバック用LEDを出力に設定
-    Serial2.begin(115200);        // ボーレート 115,200bps
+    // Serial1.setRx(PA_10);
+    // Serial1.setTx(PA_9);
+    // Serial1.begin(115200); // ボーレート 115,200bps
     // Serial.begin(115200);
+    Serial2.begin(115200);
     // メモ
     // RS485.begin(115200);
 }
@@ -58,12 +61,14 @@ void Torque(unsigned char ID, unsigned char data)
     digitalWrite(REDE, HIGH); // 送信許可
     for (int i = 0; i <= 8; i++)
     {
-        Serial2.write(TxData[i]);
+        // Serial1.write(TxData[i]);
         // Serial.write(TxData[i]);
+        Serial2.write(TxData[i]);
         // メモ
         // RS485.write(TxData[i]);
     }
-    Serial2.flush(); // データ送信完了待ち
+    // Serial1.flush(); // データ送信完了待ち
+    Serial2.flush();
     // Serial.flush();
     // メモ
     // RS485.flush();
@@ -109,14 +114,16 @@ void Move(unsigned char ID, int Angle, int Speed)
     digitalWrite(REDE, HIGH); // 送信許可
     for (int i = 0; i <= 11; i++)
     {
-        Serial2.write(TxData[i]);
+        // Serial1.write(TxData[i]);
         // Serial.write(TxData[i]);
+        Serial2.write(TxData[i]);
 
         // メモ
         // RS485.write(TxData[i]);
     }
-    Serial2.flush(); // データ送信完了待ち
+    // Serial1.flush(); // データ送信完了待ち
     // Serial.flush();
+    Serial2.flush();
     // メモ
     // RS485.flush();
     // delayMicroseconds(700); //必要ないかも

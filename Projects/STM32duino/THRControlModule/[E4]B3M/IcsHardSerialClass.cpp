@@ -8,7 +8,7 @@
 **/
 
 
-#include <Arduino.h>
+#include "Arduino.h"
 #include "IcsHardSerialClass.h"
 
 /**
@@ -27,7 +27,7 @@ IcsHardSerialClass::IcsHardSerialClass()
 *	@param[in] *icsSerial ICSに設定するUART(HardwareSerial型のポインタ)
 * 	@param[in] enpin 送受信切替えピンのピン番号
 **/
-IcsHardSerialClass::IcsHardSerialClass(HardwareSerial *icsSerial,byte enpin)
+IcsHardSerialClass::IcsHardSerialClass(HardwareSerial* icsSerial, byte enpin)
 {
   icsHardSerial = icsSerial;
   enPin = enpin;
@@ -41,7 +41,7 @@ IcsHardSerialClass::IcsHardSerialClass(HardwareSerial *icsSerial,byte enpin)
 * @param[in] timeout 受信タイムアウト(ms)
 
 **/
-IcsHardSerialClass::IcsHardSerialClass(HardwareSerial *hardSerial,byte enpin, long baudrate, int timeout)
+IcsHardSerialClass::IcsHardSerialClass(HardwareSerial *hardSerial, byte enpin, long baudrate, int timeout)
 {
   icsHardSerial = hardSerial;
   enPin = enpin;
