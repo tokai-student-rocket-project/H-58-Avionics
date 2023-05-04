@@ -63,7 +63,7 @@ namespace timer {
 namespace sensor {
   BNO055 bno;
   LPS33HW lps;
-  Thermistor thermistor(PA_2);
+  Thermistor thermistor(A2);
 }
 
 namespace recorder {
@@ -95,6 +95,7 @@ namespace data {
 void setup() {
   analogReadResolution(12);
 
+  //
   Serial.begin(115200);
 
   SPI.setMOSI(A6);
@@ -102,8 +103,8 @@ void setup() {
   SPI.setSCLK(A4);
   SPI.begin();
 
-  Wire.setSDA(PB_7);
-  Wire.setSCL(PB_6);
+  Wire.setSDA(D4);
+  Wire.setSCL(D5);
   Wire.begin();
   Wire.setClock(400000);
 
@@ -207,6 +208,8 @@ void timer::task20Hz() {
 void timer::task50Hz() {
   sensor::lps.getPressure(&data::pressure);
   canbus::sendScalar(canbus::Id::PRESSURE, data::pressure);
+
+  Serial.println(data::pressure);
 
   data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::temperature + 273.15)) / 0.0065;
   canbus::sendScalar(canbus::Id::ALTITUDE, data::altitude);
