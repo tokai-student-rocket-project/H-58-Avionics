@@ -12,7 +12,7 @@
 #ifndef _ics_HardSerial_Servo_h_
 #define _ics_HardSerial_Servo_h_
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include "IcsBaseClass.h"
 
 //IcsHardSerialClassクラス///////////////////////////////////////////////////
