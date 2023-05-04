@@ -1,13 +1,15 @@
 #include <ACAN_STM32.h>
 #include <TaskManager.h>
+#include <SPI.h>
 #include "BNO055.hpp"
 #include "LPS33HW.hpp"
 #include "Thermistor.hpp"
 #include "OutputPin.hpp"
+#include "FRAM.hpp"
 
 
 namespace canbus {
-  enum class Id: uint32_t {
+  enum class Id : uint32_t {
     TEMPERATURE,
     PRESSURE,
     ALTITUDE,
@@ -20,7 +22,7 @@ namespace canbus {
     STATUS
   };
 
-  enum class Axis: uint8_t {
+  enum class Axis : uint8_t {
     X,
     Y,
     Z
@@ -38,7 +40,7 @@ namespace canbus {
 }
 
 namespace flightMode {
-  enum class Mode: uint8_t {
+  enum class Mode : uint8_t {
     SLEEP,
     STANDBY,
     THRUST,
@@ -65,6 +67,8 @@ namespace sensor {
 }
 
 namespace recorder {
+  FRAM fram(A1);
+
   bool doRecord;
 }
 
@@ -90,6 +94,13 @@ namespace data {
 
 void setup() {
   analogReadResolution(12);
+
+  Serial.begin(115200);
+
+  SPI.setMOSI(A6);
+  SPI.setMISO(A5);
+  SPI.setSCLK(A4);
+  SPI.begin();
 
   Wire.setSDA(PB_7);
   Wire.setSCL(PB_6);
