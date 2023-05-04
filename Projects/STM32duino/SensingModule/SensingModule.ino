@@ -73,7 +73,8 @@ namespace recorder {
 }
 
 namespace indicator {
-  OutputPin ledCanReceive(LED_BUILTIN);
+  OutputPin ledCanSend(D11);
+  OutputPin ledCanReceive(D12);
 }
 
 namespace data {
@@ -94,9 +95,6 @@ namespace data {
 
 void setup() {
   analogReadResolution(12);
-
-  //
-  Serial.begin(115200);
 
   SPI.setMOSI(A6);
   SPI.setMISO(A5);
@@ -133,8 +131,6 @@ void loop() {
       canbus::receiveStatus(message);
       break;
     }
-
-    indicator::ledCanReceive.toggle();
   }
 }
 
@@ -158,6 +154,8 @@ void canbus::sendScalar(canbus::Id id, float value) {
   message.data[3] = canbus::converter.data[3];
 
   can.tryToSendReturnStatus(message);
+
+  indicator::ledCanSend.toggle();
 }
 
 
@@ -174,6 +172,8 @@ void canbus::sendVector(canbus::Id id, canbus::Axis axis, float value) {
   message.data[4] = canbus::converter.data[3];
 
   can.tryToSendReturnStatus(message);
+
+  indicator::ledCanSend.toggle();
 }
 
 
@@ -188,6 +188,8 @@ void canbus::receiveStatus(CANMessage message) {
     || mode == flightMode::Mode::DECEL
     || mode == flightMode::Mode::PARACHUTE
     || mode == flightMode::Mode::LAND;
+
+  indicator::ledCanReceive.toggle();
 }
 
 
@@ -208,8 +210,6 @@ void timer::task20Hz() {
 void timer::task50Hz() {
   sensor::lps.getPressure(&data::pressure);
   canbus::sendScalar(canbus::Id::PRESSURE, data::pressure);
-
-  Serial.println(data::pressure);
 
   data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::temperature + 273.15)) / 0.0065;
   canbus::sendScalar(canbus::Id::ALTITUDE, data::altitude);

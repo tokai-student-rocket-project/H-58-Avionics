@@ -7,7 +7,7 @@
 
 
 namespace canbus {
-  enum class Id: uint32_t {
+  enum class Id : uint32_t {
     TEMPERATURE,
     PRESSURE,
     ALTITUDE,
@@ -20,7 +20,7 @@ namespace canbus {
     STATUS
   };
 
-  enum class Axis: uint8_t {
+  enum class Axis : uint8_t {
     X,
     Y,
     Z
@@ -43,7 +43,9 @@ namespace timer {
 }
 
 namespace indicator {
-  OutputPin ledCanReceive(LED_BUILTIN);
+  OutputPin ledCanReceive(D4);
+
+  OutputPin ledLoRaSend(D3);
 }
 
 namespace data {
@@ -96,8 +98,6 @@ void loop() {
       canbus::receiveVector(data, &data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
       break;
     }
-
-    indicator::ledCanReceive.toggle();
   }
 }
 
@@ -113,6 +113,8 @@ void canbus::receiveScalar(uint8_t* data, float* value) {
   canbus::converter.data[2] = data[3];
   canbus::converter.data[3] = data[4];
   *value = canbus::converter.value;
+
+  indicator::ledCanReceive.toggle();
 }
 
 
@@ -133,6 +135,8 @@ void canbus::receiveVector(uint8_t* data, float* x, float* y, float* z) {
     *z = canbus::converter.value;
     break;
   }
+
+  indicator::ledCanReceive.toggle();
 }
 
 
@@ -157,8 +161,8 @@ void timer::task10Hz() {
     data::linear_acceleration_z
   );
 
-  if (LoRa.beginPacket()) {
-    LoRa.write(packet.data.data(), packet.data.size());
-    LoRa.endPacket();
-  }
+  LoRa.beginPacket();
+  LoRa.write(packet.data.data(), packet.data.size());
+  LoRa.endPacket();
+  indicator::ledLoRaSend.toggle();
 }
