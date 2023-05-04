@@ -1,11 +1,12 @@
 #include <ACAN_STM32.h>
 #include <TaskManager.h>
-#include <SPI.h>
 #include "BNO055.hpp"
 #include "LPS33HW.hpp"
 #include "Thermistor.hpp"
+#include "PullupPin.hpp"
 #include "OutputPin.hpp"
 #include "FRAM.hpp"
+#include "Sd.hpp"
 
 
 namespace canbus {
@@ -58,6 +59,8 @@ namespace timer {
   void task20Hz();
   void task50Hz();
   void task100Hz();
+
+  void invalidSdBlink();
 }
 
 namespace sensor {
@@ -68,6 +71,9 @@ namespace sensor {
 
 namespace recorder {
   FRAM fram(A1);
+  Sd sd(A0);
+
+  PullupPin cardDetection(D8);
 
   bool doRecord;
 }
@@ -75,6 +81,9 @@ namespace recorder {
 namespace indicator {
   OutputPin ledCanSend(D11);
   OutputPin ledCanReceive(D12);
+
+  OutputPin ledSdAvailable(D9);
+  OutputPin ledDoRecord(D7);
 }
 
 namespace data {
@@ -96,10 +105,19 @@ namespace data {
 void setup() {
   analogReadResolution(12);
 
+  Serial.begin(115200);
+
   SPI.setMOSI(A6);
   SPI.setMISO(A5);
   SPI.setSCLK(A4);
   SPI.begin();
+
+  if (recorder::sd.begin()) {
+    indicator::ledSdAvailable.on();
+  }
+  else {
+    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startIntervalMsec(500);
+  }
 
   Wire.setSDA(D4);
   Wire.setSCL(D5);
@@ -121,6 +139,17 @@ void setup() {
 
 void loop() {
   Tasks.update();
+
+  if (!recorder::doRecord && !recorder::sd.isRunning() && !recorder::cardDetection.isOpen()) {
+    recorder::sd.begin();
+    Tasks.erase("invalidSdBlink");
+    indicator::ledSdAvailable.on();
+  }
+
+  if (!recorder::doRecord && recorder::sd.isRunning() && recorder::cardDetection.isOpen()) {
+    recorder::sd.end();
+    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startIntervalMsec(500);
+  }
 
   if (can.available0()) {
     CANMessage message;
@@ -189,6 +218,8 @@ void canbus::receiveStatus(CANMessage message) {
     || mode == flightMode::Mode::PARACHUTE
     || mode == flightMode::Mode::LAND;
 
+  indicator::ledDoRecord.set(recorder::doRecord);
+
   indicator::ledCanReceive.toggle();
 }
 
@@ -241,4 +272,9 @@ void timer::task100Hz() {
   canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::X, data::gravity_x);
   canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Y, data::gravity_y);
   canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Z, data::gravity_z);
+}
+
+
+void timer::invalidSdBlink() {
+  indicator::ledSdAvailable.toggle();
 }
