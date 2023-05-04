@@ -3,11 +3,14 @@
 #include "BNO055.hpp"
 #include "LPS33HW.hpp"
 #include "Thermistor.hpp"
+#include "PullupPin.hpp"
 #include "OutputPin.hpp"
+#include "FRAM.hpp"
+#include "Sd.hpp"
 
 
 namespace canbus {
-  enum class Id: uint32_t {
+  enum class Id : uint32_t {
     TEMPERATURE,
     PRESSURE,
     ALTITUDE,
@@ -20,7 +23,7 @@ namespace canbus {
     STATUS
   };
 
-  enum class Axis: uint8_t {
+  enum class Axis : uint8_t {
     X,
     Y,
     Z
@@ -38,7 +41,7 @@ namespace canbus {
 }
 
 namespace flightMode {
-  enum class Mode: uint8_t {
+  enum class Mode : uint8_t {
     SLEEP,
     STANDBY,
     THRUST,
@@ -56,20 +59,31 @@ namespace timer {
   void task20Hz();
   void task50Hz();
   void task100Hz();
+
+  void invalidSdBlink();
 }
 
 namespace sensor {
   BNO055 bno;
   LPS33HW lps;
-  Thermistor thermistor(PA_2);
+  Thermistor thermistor(A2);
 }
 
 namespace recorder {
+  FRAM fram(A1);
+  Sd sd(A0);
+
+  PullupPin cardDetection(D8);
+
   bool doRecord;
 }
 
 namespace indicator {
-  OutputPin ledCanReceive(LED_BUILTIN);
+  OutputPin ledCanSend(D11);
+  OutputPin ledCanReceive(D12);
+
+  OutputPin ledSdAvailable(D9);
+  OutputPin ledDoRecord(D7);
 }
 
 namespace data {
@@ -91,8 +105,22 @@ namespace data {
 void setup() {
   analogReadResolution(12);
 
-  Wire.setSDA(PB_7);
-  Wire.setSCL(PB_6);
+  Serial.begin(115200);
+
+  SPI.setMOSI(A6);
+  SPI.setMISO(A5);
+  SPI.setSCLK(A4);
+  SPI.begin();
+
+  if (recorder::sd.begin()) {
+    indicator::ledSdAvailable.on();
+  }
+  else {
+    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startIntervalMsec(500);
+  }
+
+  Wire.setSDA(D4);
+  Wire.setSCL(D5);
   Wire.begin();
   Wire.setClock(400000);
 
@@ -112,6 +140,17 @@ void setup() {
 void loop() {
   Tasks.update();
 
+  if (!recorder::doRecord && !recorder::sd.isRunning() && !recorder::cardDetection.isOpen()) {
+    recorder::sd.begin();
+    Tasks.erase("invalidSdBlink");
+    indicator::ledSdAvailable.on();
+  }
+
+  if (!recorder::doRecord && recorder::sd.isRunning() && recorder::cardDetection.isOpen()) {
+    recorder::sd.end();
+    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startIntervalMsec(500);
+  }
+
   if (can.available0()) {
     CANMessage message;
     can.receive0(message);
@@ -121,8 +160,6 @@ void loop() {
       canbus::receiveStatus(message);
       break;
     }
-
-    indicator::ledCanReceive.toggle();
   }
 }
 
@@ -146,6 +183,8 @@ void canbus::sendScalar(canbus::Id id, float value) {
   message.data[3] = canbus::converter.data[3];
 
   can.tryToSendReturnStatus(message);
+
+  indicator::ledCanSend.toggle();
 }
 
 
@@ -162,6 +201,8 @@ void canbus::sendVector(canbus::Id id, canbus::Axis axis, float value) {
   message.data[4] = canbus::converter.data[3];
 
   can.tryToSendReturnStatus(message);
+
+  indicator::ledCanSend.toggle();
 }
 
 
@@ -176,6 +217,10 @@ void canbus::receiveStatus(CANMessage message) {
     || mode == flightMode::Mode::DECEL
     || mode == flightMode::Mode::PARACHUTE
     || mode == flightMode::Mode::LAND;
+
+  indicator::ledDoRecord.set(recorder::doRecord);
+
+  indicator::ledCanReceive.toggle();
 }
 
 
@@ -227,4 +272,9 @@ void timer::task100Hz() {
   canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::X, data::gravity_x);
   canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Y, data::gravity_y);
   canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Z, data::gravity_z);
+}
+
+
+void timer::invalidSdBlink() {
+  indicator::ledSdAvailable.toggle();
 }

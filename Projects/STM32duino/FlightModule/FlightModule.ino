@@ -6,7 +6,7 @@
 
 
 namespace canbus {
-  enum class Id: uint32_t {
+  enum class Id : uint32_t {
     TEMPERATURE,
     PRESSURE,
     ALTITUDE,
@@ -19,7 +19,7 @@ namespace canbus {
     STATUS
   };
 
-  enum class Axis: uint8_t {
+  enum class Axis : uint8_t {
     X,
     Y,
     Z
@@ -37,7 +37,7 @@ namespace canbus {
 }
 
 namespace flightMode {
-  enum class Mode: uint8_t {
+  enum class Mode : uint8_t {
     SLEEP,
     STANDBY,
     THRUST,
@@ -74,7 +74,9 @@ namespace timer {
 }
 
 namespace indicator {
-  OutputPin ledCanReceive(LED_BUILTIN);
+  OutputPin ledCanSend(D11);
+  OutputPin ledCanReceive(D12);
+
   OutputPin ledFlightModeBit0(D5);
   OutputPin ledFlightModeBit1(D6);
   OutputPin ledFlightModeBit2(D7);
@@ -131,8 +133,6 @@ void loop() {
       canbus::receiveVector(message, &data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
       break;
     }
-
-    indicator::ledCanReceive.toggle();
   }
 }
 
@@ -155,6 +155,8 @@ void canbus::sendStatus(canbus::Id id, uint8_t mode) {
   message.data[3] = connection::separatorMain.get();;
 
   can.tryToSendReturnStatus(message);
+
+  indicator::ledCanSend.toggle();
 }
 
 
@@ -164,6 +166,8 @@ void canbus::receiveScalar(CANMessage message, float* value) {
   canbus::converter.data[2] = message.data[2];
   canbus::converter.data[3] = message.data[3];
   *value = canbus::converter.value;
+
+  indicator::ledCanReceive.toggle();
 }
 
 
@@ -184,6 +188,8 @@ void canbus::receiveVector(CANMessage message, float* x, float* y, float* z) {
     *z = canbus::converter.value;
     break;
   }
+
+  indicator::ledCanReceive.toggle();
 }
 
 

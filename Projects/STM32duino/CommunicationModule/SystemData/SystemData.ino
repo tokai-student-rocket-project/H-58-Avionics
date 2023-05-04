@@ -8,7 +8,7 @@
 
 
 namespace canbus {
-  enum class Id: uint32_t {
+  enum class Id : uint32_t {
     TEMPERATURE,
     PRESSURE,
     ALTITUDE,
@@ -21,7 +21,7 @@ namespace canbus {
     STATUS
   };
 
-  enum class Axis: uint8_t {
+  enum class Axis : uint8_t {
     X,
     Y,
     Z
@@ -43,8 +43,11 @@ namespace timer {
 }
 
 namespace indicator {
-  OutputPin ledCanReceive(LED_BUILTIN);
-  OutputPin ledGpsAvailable(11);
+  OutputPin ledCanReceive(D4);
+
+  OutputPin ledLoRaSend(D3);
+
+  OutputPin ledGpsAvailable(D1);
 }
 
 namespace data {
@@ -88,8 +91,6 @@ void loop() {
         &data::separatorMain);
       break;
     }
-
-    indicator::ledCanReceive.toggle();
   }
 }
 
@@ -104,6 +105,8 @@ void canbus::receiveStatus(uint8_t* data, uint8_t* mode, uint8_t* camera, uint8_
   *camera = data[1];
   *separatorDrogue = data[2];
   *separatorMain = data[3];
+
+  indicator::ledCanReceive.toggle();
 }
 
 
@@ -111,6 +114,10 @@ void timer::task10Hz() {
   if (GPS.available()) {
     data::latitude = GPS.latitude();
     data::longitude = GPS.longitude();
+    indicator::ledGpsAvailable.on();
+  }
+  else {
+    indicator::ledGpsAvailable.off();
   }
 
   const auto& packet = MsgPacketizer::encode(
@@ -126,4 +133,5 @@ void timer::task10Hz() {
   LoRa.beginPacket();
   LoRa.write(packet.data.data(), packet.data.size());
   LoRa.endPacket();
+  indicator::ledLoRaSend.toggle();
 }
