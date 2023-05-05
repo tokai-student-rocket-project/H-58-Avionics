@@ -115,8 +115,8 @@ bool IcsHardSerialClass::begin(HardwareSerial *serial, int enpin, long baudrate,
 // データ送受信 /////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * @brief ICS通信の送受信
- * @param[in,out] *txBuf
- * @param[in] txLen
+ * @param[in,out] *txBuf 送信格納バッファ
+ * @param[in] txLen  送信データ数
  * @param[out] *rxBuf 受信格納バッファ
  * @param[in] rxLen  受信データ数
  * @retval true 通信成功
@@ -130,39 +130,39 @@ bool IcsHardSerialClass::synchronize(byte *txBuf, byte txLen, byte *rxBuf, byte 
 
   // シリアル初期化確認
 
-  if (icsHardSerial == false)
+  if (icsHardSerial == nullptr)
   {
-    Serial.println("Init ERROR");
+    Serial.println("Serial Init ERROR");
     return false;
   }
 
+  icsHardSerial->flush(); // 待つ
   enHigh();               // 送信切替
-  icsHardSerial->flush(); // 待つ
-
   icsHardSerial->write(txBuf, txLen);
-
   icsHardSerial->flush(); // 待つ
 
-  enLow(); // 受信切替
+  // enLow(); // 受信切替
 
-  // while (icsHardSerial->available() > 0) // 受信バッファを消す
-  // {
-  //   // buff = icsSerial->read();	//空読み
-  //   icsHardSerial->read(); // 空読み
-  // }
+  while (icsHardSerial->available() > 0) // 受信バッファを消す
+  {
+    // buff = icsSerial->read();	//空読み
+    icsHardSerial->read(); // 空読み
+  }
 
-  // enLow();  //受信切替
+  enLow();  //受信切替
 
-  // rxSize = icsHardSerial->readBytes(rxBuf, rxLen);
+  rxSize = icsHardSerial->readBytes(rxBuf, rxLen);
 
-  // rxSize = icsHardSerial->read(rxBuf, rxLen);
+  if (rxSize != rxLen) // 受信数確認
+  {
+    Serial.println("cpp Recieve ERROR");
 
-  // if (rxSize != rxLen) // 受信数確認
-  // {
-  //   Serial.println("cpp Recieve ERROR");
-  //   Serial.println(rxSize);
-  //   Serial.println(rxLen);
-  //   return false;
-  // }
+    Serial.print("rxSize: ");
+    Serial.println(rxSize);
+
+    Serial.print("rxLength: ");
+    Serial.println(rxLen);
+    return false;
+  }
   return true;
 }
