@@ -38,6 +38,19 @@
   )
 
   (setup
+    (stackup
+      (layer "F.SilkS" (type "Top Silk Screen"))
+      (layer "F.Paste" (type "Top Solder Paste"))
+      (layer "F.Mask" (type "Top Solder Mask") (thickness 0.01))
+      (layer "F.Cu" (type "copper") (thickness 0.035))
+      (layer "dielectric 1" (type "core") (thickness 1.51) (material "FR4") (epsilon_r 4.5) (loss_tangent 0.02))
+      (layer "B.Cu" (type "copper") (thickness 0.035))
+      (layer "B.Mask" (type "Bottom Solder Mask") (thickness 0.01))
+      (layer "B.Paste" (type "Bottom Solder Paste"))
+      (layer "B.SilkS" (type "Bottom Silk Screen"))
+      (copper_finish "None")
+      (dielectric_constraints no)
+    )
     (pad_to_mask_clearance 0)
     (pcbplotparams
       (layerselection 0x00010fc_ffffffff)
@@ -2967,10 +2980,40 @@
     )
   )
 
-  (gr_line (start 187.7 126) (end 109.9 126)
-    (stroke (width 0.1) (type default)) (layer "Edge.Cuts") (tstamp 870823d8-328f-48cc-a88d-86afc2043b04))
-  (gr_line (start 191.01 60.431) (end 102.61 60.431)
-    (stroke (width 0.1) (type default)) (layer "Edge.Cuts") (tstamp b6b6bb41-483b-4cd4-848f-dcdaaa8c5b68))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp 02eda940-add0-4b54-9729-b477d0ac1bd8))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp 0f6cd9d3-a6ce-4f51-8e13-86931dcd8bd2))
+  (gr_arc (start 107.890168 136.6) (mid 145.4 41.375474) (end 182.909832 136.6)
+    (stroke (width 0.2) (type solid)) (layer "Edge.Cuts") (tstamp 16407f10-dc8b-4954-87af-a99fab043be2))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp 1663ffb2-55dc-4813-a6c3-30438c59a478))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp 2d43c464-5b90-429b-b19e-6585a19991ff))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp 2ef0aaf6-961e-416b-b369-ce24fa3bbbf0))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp 54b76117-5f5b-4763-8b0f-193e03239677))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp 6ae3d9e0-deb5-44b5-9874-15ed370a52bc))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp 7051c1c9-aa6a-4af1-a04f-d4374640d7f7))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp 7994f68a-6575-4db6-a7d5-2af3b2de868c))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp 9ebd4081-3d82-469b-948d-cb647f83ce62))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp adc2bde1-7d6a-4060-a991-f76b2fa04667))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp da316a41-3531-4383-ad27-9925a38623bb))
+  (gr_line (start 182.909832 136.6) (end 107.890168 136.6)
+    (stroke (width 0.2) (type solid)) (layer "Edge.Cuts") (tstamp de768a8c-8413-48a7-8f38-190f8ccf8624))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp dec51251-748c-4501-a1a5-cca1334c7dda))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp dfc7496d-4f87-4a89-9541-c43c7443b227))
+  (gr_circle (center 145.4 96.6) (end 145.5 96.6)
+    (stroke (width 0.0001) (type solid)) (fill solid) (layer "Edge.Cuts") (tstamp e50dee0a-0c97-447f-b977-912c927439fb))
 
   (segment (start 114.51 68.7485) (end 114.51 70.7535) (width 1) (layer "F.Cu") (net 1) (tstamp 0696ffff-fc39-42cc-be6d-79474628797c))
   (segment (start 123.912 77.184) (end 123.912 80.4215) (width 0.25) (layer "F.Cu") (net 1) (tstamp 0da599c9-64ea-4d37-acd3-ba8d659490dc))
@@ -4007,6 +4050,27 @@
         (xy 134.048207 72.3335)
         (xy 138.0505 72.3335)
       )
+    )
+  )
+  (group "" (id 6e8ac5b0-bd87-4622-b2de-0a6718457d24)
+    (members
+      02eda940-add0-4b54-9729-b477d0ac1bd8
+      0f6cd9d3-a6ce-4f51-8e13-86931dcd8bd2
+      16407f10-dc8b-4954-87af-a99fab043be2
+      1663ffb2-55dc-4813-a6c3-30438c59a478
+      2d43c464-5b90-429b-b19e-6585a19991ff
+      2ef0aaf6-961e-416b-b369-ce24fa3bbbf0
+      54b76117-5f5b-4763-8b0f-193e03239677
+      6ae3d9e0-deb5-44b5-9874-15ed370a52bc
+      7051c1c9-aa6a-4af1-a04f-d4374640d7f7
+      7994f68a-6575-4db6-a7d5-2af3b2de868c
+      9ebd4081-3d82-469b-948d-cb647f83ce62
+      adc2bde1-7d6a-4060-a991-f76b2fa04667
+      da316a41-3531-4383-ad27-9925a38623bb
+      de768a8c-8413-48a7-8f38-190f8ccf8624
+      dec51251-748c-4501-a1a5-cca1334c7dda
+      dfc7496d-4f87-4a89-9541-c43c7443b227
+      e50dee0a-0c97-447f-b977-912c927439fb
     )
   )
 )

@@ -55,52 +55,53 @@ void setup()
   // Writeコマンドで設定
   // B3M_WriteCmd(int id, int Data, int Address)
 
-  int B3M_WriteCmd_1;
+  // int B3M_WriteCmd_1;
   B3M_WriteCmd(0x00, 0x02, 0x28);
 
   // B3M_WriteCmd_1 = B3M_WriteCmd(0x01, 0x02, 0x28); // 動作モード：Free
-  Serial.print("Mode:Free = ");
-  Serial.println(B3M_WriteCmd_1);
+  // Serial.print("Mode:Free = ");
+  // Serial.println(B3M_WriteCmd_1);
+  // Serial.println("");
 
   LED_blink();
   delay(500);
 
-  int B3M_WriteCmd_2;
-  // B3M_WriteCmd(0x00, 0x02, 0x28); // 位置制御モードに設定
+  // int B3M_WriteCmd_2;
+  B3M_WriteCmd(0x00, 0x02, 0x28); // 位置制御モードに設定
 
-  B3M_WriteCmd_2 = B3M_WriteCmd(0x01, 0x02, 0x28); // 位置制御モードに設定
-  Serial.print("Mode:Point = ");
-  Serial.println(B3M_WriteCmd_2);
-
-  LED_blink();
-  delay(500);
-
-  int B3M_WriteCmd_3;
-  // B3M_WriteCmd(0x00, 0x01, s0x29); // 起動生成タイプ：Even
-
-  B3M_WriteCmd_3 = B3M_WriteCmd(0x01, 0x01, 0x29); // 起動生成タイプ：Even
-  Serial.print("Type:EVEN = ");
-  Serial.println(B3M_WriteCmd_3);
+  // B3M_WriteCmd_2 = B3M_WriteCmd(0x01, 0x02, 0x28); // 位置制御モードに設定
+  // Serial.print("Mode:Point = ");
+  // Serial.println(B3M_WriteCmd_2);
 
   LED_blink();
   delay(500);
 
-  int B3M_WriteCmd_4;
-  // B3M_WriteCmd(0x00, 0x00, 0x5C); // ゲインプリセット：No.0
+  // int B3M_WriteCmd_3;
+  B3M_WriteCmd(0x00, 0x01, 0x29); // 起動生成タイプ：Even
 
-  B3M_WriteCmd_4 = B3M_WriteCmd(0x01, 0x00, 0x5C); // ゲインプリセット：No.0
-  Serial.print("Gain:No.0 = ");
-  Serial.println(B3M_WriteCmd_4);
+  // B3M_WriteCmd_3 = B3M_WriteCmd(0x01, 0x01, 0x29); // 起動生成タイプ：Even
+  // Serial.print("Type:EVEN = ");
+  // Serial.println(B3M_WriteCmd_3);
 
   LED_blink();
   delay(500);
 
-  int B3M_WriteCmd_5;
-  // B3M_WriteCmd(0x00, 0x00, 0x28); // 動作モード：Normal
+  // int B3M_WriteCmd_4;
+  B3M_WriteCmd(0x00, 0x00, 0x5C); // ゲインプリセット：No.0
 
-  B3M_WriteCmd_5 = B3M_WriteCmd(0x01, 0x00, 0x28); // 動作モード：Normal
-  Serial.print("Mode:Normal = ");
-  Serial.println(B3M_WriteCmd_5);
+  // B3M_WriteCmd_4 = B3M_WriteCmd(0x01, 0x00, 0x5C); // ゲインプリセット：No.0
+  // Serial.print("Gain:No.0 = ");
+  // Serial.println(B3M_WriteCmd_4);
+
+  LED_blink();
+  delay(500);
+
+  // int B3M_WriteCmd_5;
+  B3M_WriteCmd(0x00, 0x00, 0x28); // 動作モード：Normal
+
+  // B3M_WriteCmd_5 = B3M_WriteCmd(0x01, 0x00, 0x28); // 動作モード：Normal
+  // Serial.print("Mode:Normal = ");
+  // Serial.println(B3M_WriteCmd_5);
 
   LED_blink();
   delay(500);
@@ -112,23 +113,23 @@ void loop()
   // B3M_setPos(int id, int Pos, int Time)
   delay(100);
   // B3M_ResetCmd(0x80, 0x00);
-  B3M_setPos(0x00, 5000, 500);
+  // B3M_setPos(0x00, 5000, 500);
   // int B3M_setPos_1;
   // B3M_setPos_1 = B3M_setPos(0x01, 5000, 500);
   // Serial.print("B3M_setPos_1 = ");
   // Serial.println(B3M_setPos_1);
 
-  delay(2000);
+  delay(1000);
 
   // B3M_ResetCmd(0x80, 0x00);
-  B3M_setPos(0x00, -5000, 1000);
+  // B3M_setPos(0x00, 5000, 1000);
 
   // int B3M_setPos_2;
   // B3M_setPos_2 = B3M_setPos(0x01, -5000, 1000);
   // Serial.print("B3M_setPos_2 = ");
   // Serial.println(B3M_setPos_2);
 
-  delay(2000);
+  delay(1000);
 }
 
 // Writeコマンド（）データが1つだけの時）
@@ -137,7 +138,6 @@ int B3M_WriteCmd(byte id, byte TxData, byte Address)
 
   byte txCmd[8];
   byte rxCmd[5];
-  // unsigned char CheckSum = 0;
   unsigned int reData;
   bool flg;
 
@@ -159,14 +159,16 @@ int B3M_WriteCmd(byte id, byte TxData, byte Address)
     Serial.print(" ");
   }
   txCmd[7] = (byte)(txCmd[7]); // SUM
-  Serial.println("");
+  Serial.println(txCmd[7], HEX);
 
   // コマンドを送受信
   flg = B3M.synchronize(txCmd, 8, rxCmd, 5);
 
+  Serial.println(flg);
+
   if (flg == false) // もし通信エラーが起きたら-1を返し、処理終了
   {
-    Serial.println("synchronize ERROR");
+    // Serial.println("synchronize ERROR");
     return -1;
   }
 
@@ -199,19 +201,20 @@ int B3M_setPos(byte id, int Pos, int Time)
   txCmd[8] = 0x00; // SUM(初期化)
   for (int i = 0; i < 8; i++)
   {
-    txCmd[8] += txCmd[i];
-    Serial.print(txCmd[i], HEX);
-    Serial.print(" ");
+    txCmd[8] ^= txCmd[i];
+    // Serial.print(txCmd[i], HEX);
+    // Serial.print(" ");
   }
   txCmd[8] = (byte)(txCmd[8]); // SUM
-  Serial.println("");
+  // Serial.println(" ");
+  // Serial.println(txCmd[8], HEX);
 
   // コマンドを送受信
   flg = B3M.synchronize(txCmd, 9, rxCmd, 7);
 
   if (flg == false) // もし通信エラーが起きたら-1を返し、処理終了
   {
-    Serial.println("synchronize ERROR");
+    // Serial.println("synchronize ERROR");
     return -1;
   }
 
@@ -261,4 +264,3 @@ void LED_blink()
   digitalWrite(13, LOW);
   delay(500);
 }
-

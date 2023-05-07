@@ -67,7 +67,7 @@ bool IcsHardSerialClass::begin()
 {
   if (icsHardSerial == nullptr)
   {
-    Serial.println("begin() ERROR");
+    // Serial.println("begin() ERROR");
     return false;
   }
 
@@ -132,7 +132,7 @@ bool IcsHardSerialClass::synchronize(byte *txBuf, byte txLen, byte *rxBuf, byte 
 
   if (icsHardSerial == nullptr)
   {
-    Serial.println("Serial Init ERROR");
+    // Serial.println("Serial Init ERROR");
     return false;
   }
 
@@ -151,17 +151,19 @@ bool IcsHardSerialClass::synchronize(byte *txBuf, byte txLen, byte *rxBuf, byte 
 
   enLow();  //受信切替
 
+
   rxSize = icsHardSerial->readBytes(rxBuf, rxLen);
 
   if (rxSize != rxLen) // 受信数確認
   {
-    Serial.println("cpp Recieve ERROR");
+    // Serial.println("cpp Recieve ERROR");
 
-    Serial.print("rxSize: ");
-    Serial.println(rxSize);
+    // Serial.print("rxSize: ");
+    // Serial.println(rxSize);
 
-    Serial.print("rxLength: ");
-    Serial.println(rxLen);
+    // Serial.print("rxLength: ");
+    // Serial.println(rxLen);
+
     return false;
   }
   return true;
