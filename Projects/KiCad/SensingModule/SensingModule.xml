@@ -2,7 +2,7 @@
 <export version="E">
   <design>
     <source>/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/SensingModule/SensingModule.kicad_sch</source>
-    <date>2023 May 09, Tuesday 14:55:04</date>
+    <date>2023 May 09, Tuesday 21:56:50</date>
     <tool>Eeschema 7.0.1-0</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -47,8 +47,8 @@
       <tstamps>3fb744aa-9c32-49ec-9cc2-7c729fc0887f</tstamps>
     </comp>
     <comp ref="C3">
-      <value>470μF</value>
-      <footprint>Capacitor_THT:CP_Radial_D10.0mm_P3.50mm</footprint>
+      <value>100μF</value>
+      <footprint>Capacitor_SMD:CP_Elec_6.3x7.7</footprint>
       <libsource lib="Device" part="C_Polarized" description="Polarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -59,7 +59,7 @@
     </comp>
     <comp ref="D1">
       <value>LED</value>
-      <footprint>LED_SMD:LED_1206_3216Metric_Pad1.42x1.75mm_HandSolder</footprint>
+      <footprint>LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="LED" description="Light emitting diode"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -70,7 +70,7 @@
     </comp>
     <comp ref="D2">
       <value>LED</value>
-      <footprint>LED_SMD:LED_1206_3216Metric_Pad1.42x1.75mm_HandSolder</footprint>
+      <footprint>LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="LED" description="Light emitting diode"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -81,7 +81,7 @@
     </comp>
     <comp ref="D3">
       <value>LED</value>
-      <footprint>LED_SMD:LED_1206_3216Metric_Pad1.42x1.75mm_HandSolder</footprint>
+      <footprint>LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="LED" description="Light emitting diode"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -92,7 +92,7 @@
     </comp>
     <comp ref="D4">
       <value>LED</value>
-      <footprint>LED_SMD:LED_1206_3216Metric_Pad1.42x1.75mm_HandSolder</footprint>
+      <footprint>LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="LED" description="Light emitting diode"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -103,7 +103,7 @@
     </comp>
     <comp ref="D5">
       <value>LED</value>
-      <footprint>LED_SMD:LED_1206_3216Metric_Pad1.42x1.75mm_HandSolder</footprint>
+      <footprint>LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="LED" description="Light emitting diode"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -114,7 +114,7 @@
     </comp>
     <comp ref="D6">
       <value>LED</value>
-      <footprint>LED_SMD:LED_1206_3216Metric_Pad1.42x1.75mm_HandSolder</footprint>
+      <footprint>LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="LED" description="Light emitting diode"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -180,8 +180,8 @@
       <tstamps>bf35e73e-64b6-432f-966c-c30d1d836299</tstamps>
     </comp>
     <comp ref="R1">
-      <value>2.2kΩ</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <value>10kΩ</value>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -192,7 +192,7 @@
     </comp>
     <comp ref="R2">
       <value>10kΩ</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -202,8 +202,8 @@
       <tstamps>27450b64-3f15-4d68-a46b-0d1940b0f086</tstamps>
     </comp>
     <comp ref="R3">
-      <value>2.2kΩ</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <value>10kΩ</value>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -214,7 +214,7 @@
     </comp>
     <comp ref="R4">
       <value>120R1/4W</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -225,7 +225,7 @@
     </comp>
     <comp ref="R5">
       <value>4.7kΩ</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -236,7 +236,7 @@
     </comp>
     <comp ref="R6">
       <value>120Ω</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -247,7 +247,7 @@
     </comp>
     <comp ref="R7">
       <value>120Ω</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -258,7 +258,7 @@
     </comp>
     <comp ref="R8">
       <value>100Ω</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -269,7 +269,7 @@
     </comp>
     <comp ref="R9">
       <value>100Ω</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -280,7 +280,7 @@
     </comp>
     <comp ref="R10">
       <value>4.7kΩ</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -291,7 +291,7 @@
     </comp>
     <comp ref="R11">
       <value>4.7kΩ</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -301,8 +301,8 @@
       <tstamps>65e1694f-d9c4-47de-8860-354234e9ef5a</tstamps>
     </comp>
     <comp ref="R12">
-      <value>100Ω</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <value>300Ω</value>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -312,8 +312,8 @@
       <tstamps>4f68cc16-3170-4ca4-a248-00e2aa630387</tstamps>
     </comp>
     <comp ref="R13">
-      <value>100Ω</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <value>300Ω</value>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -323,8 +323,8 @@
       <tstamps>166149a3-2a8f-473c-81a5-54a4db0034c4</tstamps>
     </comp>
     <comp ref="R14">
-      <value>1kΩ</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <value>300Ω</value>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
@@ -335,7 +335,7 @@
     </comp>
     <comp ref="R15">
       <value>2kΩ</value>
-      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
+      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
