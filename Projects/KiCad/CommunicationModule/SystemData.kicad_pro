@@ -56,11 +56,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        "unconnected_items|130145000|131610000|e71986ad-232c-4974-8e86-b4463ce4b06c|c660692c-cb4c-4edf-a40e-c91af635774e",
-        "unconnected_items|130145000|141960000|c660692c-cb4c-4edf-a40e-c91af635774e|6f690ad8-308e-4b89-abe6-933b3d2c2100",
-        "unconnected_items|141295000|127310000|ba71b49e-00ea-441c-861b-131d61e41f84|e71986ad-232c-4974-8e86-b4463ce4b06c"
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -415,7 +411,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "MissionModule.kicad_pro",
+    "filename": "SystemData.kicad_pro",
     "version": 1
   },
   "net_settings": {
