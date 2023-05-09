@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "Hirose_Connector")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/Hirose_Connector/Hirose_Connector.pretty")(options "")(descr ""))
+)

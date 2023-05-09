@@ -7,4 +7,5 @@
   (lib (name "Hirose_Connector")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/Hirose_Connector/Hirose_Connector.pretty")(options "")(descr ""))
   (lib (name "StrawberryLinux_TUX0304_Module")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/StrawberryLinux_TUX0304_Module/StrawberryLinux_TUX0304_Module.pretty")(options "")(descr ""))
   (lib (name "StrawberryLinux_ICM20948_Module")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/StrawberryLinux_ICM20948_Module/StrawberryLinux_ICM20948_Module.pretty")(options "")(descr ""))
+  (lib (name "Akizuki_BME280_Module")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/Akizuki_BME280_Module/Akizuki_BME280_Module.pretty")(options "")(descr ""))
 )
