@@ -2399,7 +2399,7 @@
 
   (footprint "LTC1480CN8#PBF:DIP794W53P254L1016H394Q8N" (layer "F.Cu")
     (tstamp c8a558a2-fef2-47ec-97d0-5c726f0612b6)
-    (at 211.4 107.8 -90)
+    (at 213.7 97.6 -90)
     (descr "N8 Package 8-Lead PDIP")
     (tags "Integrated Circuit")
     (property "Arrow Part Number" "LTC1480CN8#PBF")
