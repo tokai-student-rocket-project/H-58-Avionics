@@ -1,22 +1,24 @@
 #include "IcsHardSerialClass.h"
 // #include "EX_MAX31855.h" //test用のhファイル
-#include "HardwareSerial.h"
+// #include "HardwareSerial.h"
 
 /*B3M Servo Config START*/
-const byte EN_PIN = PB_4;
+const byte EN_PIN = 3;
 const long BAUNDRATE = 115200;
 const int TIMEOUT = 1000;
 // HardwareSerial SerialX(RX, TX); X = 1, 2, 3...
-// HardwareSerial Serial2(PA_3, PA_2);
-//HardwareSerial Serial1(0, 1);
-IcsHardSerialClass B3M(&Serial2, EN_PIN, BAUNDRATE, TIMEOUT);
+// HardwareSerial Serial1(PA_10, PA_9); // STM32F303K8
+
+//Everyくんを搭載する可能性大
+
+IcsHardSerialClass B3M(&Serial1, EN_PIN, BAUNDRATE, TIMEOUT);
 /*B3M Servo Config END*/
 
 /*Position Change Config START*/
-// constexpr int POSITION_CHANGING_THRESHOLD = 10;
-// int Launch_Count = 0;
-// int Waiting_Count = 0;
-// int Position = 1;
+constexpr int POSITION_CHANGING_THRESHOLD = 10;
+int Launch_Count = 0;
+int Waiting_Count = 0;
+int Position = 1;
 /*Position Change Config END*/
 
 /*MAX31855 Config START*/
@@ -26,25 +28,33 @@ IcsHardSerialClass B3M(&Serial2, EN_PIN, BAUNDRATE, TIMEOUT);
 
 void setup()
 {
-    // pinMode(8, INPUT_PULLUP);
-    // pinMode(9, INPUT_PULLUP);
+    pinMode(8, INPUT_PULLUP);
+    pinMode(9, INPUT_PULLUP);
 
     B3M.begin(); // B3Mと通信開始
+    pinMode(13, OUTPUT);
 
-    Serial2.begin(115200, SERIAL_8N1); // 通信速度、パリティなしに設定
+    Serial1.begin(115200, SERIAL_8N1); // 通信速度、パリティなしに設定
     // Serial2.begin(115200);
     Serial.begin(115200);
 
     B3MwriteCommand(0x01, 0x02, 0x28); // 動作モード：Free
+    LED_Blink();
     delay(500);
     B3MwriteCommand(0x01, 0x02, 0x28); // 位置制御モードに設定
+    LED_Blink();
     delay(500);
     B3MwriteCommand(0x01, 0x01, 0x29); // 起動生成タイプ：Even
+    LED_Blink();
     delay(500);
     B3MwriteCommand(0x01, 0x00, 0x5c); // ゲインプリセット：No.0
+    LED_Blink();
     delay(500);
     B3MwriteCommand(0x01, 0x00, 0x28); // 動作モード：Normal
-    delay(500);
+    LED_Blink();
+    delay(1000);
+
+    B3MsetPosition(0x01, 4500, 100);
 
     // myMAX31855.begin();
     // while (myMAX31855.getChipID() != MAX31855_ID)
@@ -69,130 +79,145 @@ void loop()
     // Serial.print(F("ThermoCouple = "));
     // Serial.println(myMAX31855.getTemperature(rawData));
 
-    // if (Position == 1 && digitalRead(8) == LOW)
-    // {
-    //     Launch_Count++;
-    // }
-    // else
-    // {
-    //     Launch_Count = 0;
-    // }
+    if (Position == 1 && digitalRead(8) == LOW)
+    {
+        Launch_Count++;
+    }
+    else
+    {
+        Launch_Count = 0;
+    }
 
-    // if (Launch_Count >= POSITION_CHANGING_THRESHOLD)
-    // {
-    //     Launch_Count = 0;
-    //     B3MsetPosition(0x00, 5000, 500);
-    //     Position = 2;
-    //     delay(3000);
-    // }
+    if (Launch_Count >= POSITION_CHANGING_THRESHOLD)
+    {
+        Launch_Count = 0;
+        B3MsetPosition(0x01, 4500, 100);
+        digitalWrite(13, HIGH);
+        // Serial.println(Launch_Count);
+        Position = 2;
+        delay(50);
+    }
+    // Serial.println(Launch_Count);
 
-    // //-------------------------------------------------//
+    //-------------------------------------------------//
 
-    // if (Position == 2 && digitalRead(9) == LOW)
-    // {
-    //     Waiting_Count++;
-    // }
-    // else
-    // {
-    //     Waiting_Count = 0;
-    // }
+    if (Position == 2 && digitalRead(9) == LOW)
+    {
+        Waiting_Count++;
+    }
+    else
+    {
+        Waiting_Count = 0;
+    }
 
-    // if (Waiting_Count >= POSITION_CHANGING_THRESHOLD)
-    // {
-    //     Waiting_Count = 0;
-    //     B3MsetPosition(0x00, -5000, 500);
-    //     Position = 2;
-    //     delay(3000);
-    // }
+    if (Waiting_Count >= POSITION_CHANGING_THRESHOLD)
+    {
+        Waiting_Count = 0;
+        B3MsetPosition(0x01, -4500, 100);
+        digitalWrite(13, LOW);
+        // Serial.println(Waiting_Count);
+        Position = 1;
+        delay(50);
+    }
+    //  Serial.println(Waiting_Count);
 
     //---テスト用---//
     // Positionで動作角指定
 
-    B3MsetPosition(0x01, 5000, 500);
-    delay(3000);
-    Serial.println("OPEN");
-    // Serial1.println("Hello");
-    B3MsetPosition(0x01, -5000, 1000);
-    delay(3000);
-    Serial.println("CLOSE");
-    // Serial1.println("TSRP");
+    // B3MsetPosition(0x01, 9000, 5000);
+    // delay(1000);
+    // // Serial.println("OPEN");
+    // // Serial1.println("Hello");
+    // B3MsetPosition(0x01, -9000, 5000);
+    // delay(1000);
+    // // Serial.println("CLOSE");
+    // // Serial1.println("TSRP");
 }
 
-int B3M_writeCmd(byte id, byte TxData, byte Address)
+int B3MwriteCommand(byte id, byte TxData, byte Address)
 {
-    byte TxCommand[8];
-    byte RxCommand[5];
+    byte txCmd[8];
+    byte rxCmd[5];
     unsigned int reData;
     bool flag;
 
-    TxCommand[0] = (byte)(0x08); // SIZE      //一連コマンドのバイト数。今回は8バイト
-    TxCommand[1] = (byte)(0x04); // COMMAND   //何をするための処理か設定。 0x04はWrite
-    TxCommand[2] = (byte)(0x00); // OPTION    //ステータスの読み取り。 0x00はERROR STATUS
-    TxCommand[3] = (byte)(id);   // ID        //制御するサーボID番号を指定
+    txCmd[0] = (byte)(0x08); // SIZE      //一連コマンドのバイト数。今回は8バイト
+    txCmd[1] = (byte)(0x04); // COMMAND   //何をするための処理か設定。 0x04はWrite
+    txCmd[2] = (byte)(0x00); // OPTION    //ステータスの読み取り。 0x00はERROR STATUS
+    txCmd[3] = (byte)(id);   // ID        //制御するサーボID番号を指定
 
-    TxCommand[4] = (byte)(TxData);  // DATA      //
-    TxCommand[5] = (byte)(Address); // ADDRESS   //
+    txCmd[4] = (byte)(TxData);  // DATA      //
+    txCmd[5] = (byte)(Address); // ADDRESS   //
 
-    TxCommand[6] = (byte)(0x01); // COUNT
-    TxCommand[7] = (byte)(0x00); // 初期化
+    txCmd[6] = (byte)(0x01); // COUNT
+    txCmd[7] = (byte)(0x00); // 初期化
 
     for (int i = 0; i < 7; i++)
     {
-        TxCommand[7] += TxCommand[i];
-        Serial.println(TxCommand[i]);
+        txCmd[7] += txCmd[i];
+        Serial.println(txCmd[i]);
     }
-    TxCommand[7] = (byte)(TxCommand[7]); // CHECKSUM
+    txCmd[7] = (byte)(txCmd[7]); // CHECKSUM
 
-    flag = B3M.synchronize(TxCommand, sizeof TxCommand, RxCommand, sizeof RxCommand);
+    // flag = B3M.synchronize(txCmd, sizeof txCmd, rxCmd, sizeof rxCmd);
+    flag = B3M.synchronize(txCmd, 8, rxCmd, 5);
+
     if (flag == false)
     {
         return -1;
     }
-    reData = RxCommand[2];
+    reData = rxCmd[2];
 
     return reData;
 }
 
 int B3MsetPosition(byte id, int Pos, int Time)
 {
-    byte TxCommand[9];
-    byte RxCommand[7];
+    byte txCmd[9];
+    byte rxCmd[7];
     unsigned int reData;
     bool flag;
 
-    TxCommand[0] = (byte)(0x09); // SIZE
-    TxCommand[1] = (byte)(0x06); // COMMAND //0x06はポジションを変更する
-    TxCommand[2] = (byte)(0x00); // OPTION
-    TxCommand[3] = (byte)(id);   // ID
+    txCmd[0] = (byte)(0x09); // SIZE
+    txCmd[1] = (byte)(0x06); // COMMAND //0x06はポジションを変更する
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
 
-    TxCommand[4] = (byte)(Pos & 0xFF);      // POS_L
-    TxCommand[5] = (byte)(Pos >> 8 & 0xFF); // POS_H
+    txCmd[4] = (byte)(Pos & 0xFF);      // POS_L
+    txCmd[5] = (byte)(Pos >> 8 & 0xFF); // POS_H
 
-    TxCommand[6] = (byte)(Time & 0xFF);      // TIME_L
-    TxCommand[7] = (byte)(Time >> 8 & 0xFF); // TIME_H
+    txCmd[6] = (byte)(Time & 0xFF);      // TIME_L
+    txCmd[7] = (byte)(Time >> 8 & 0xFF); // TIME_H
 
-    TxCommand[8] = 0x00;
+    txCmd[8] = 0x00;
 
     for (int i = 0; i < 8; i++)
     {
-        TxCommand[8] += TxCommand[i];
+        txCmd[8] += txCmd[i];
     }
-    TxCommand[8] = (byte)(TxCommand[8]); // SUM
+    txCmd[8] = (byte)(txCmd[8]); // SUM
 
-    flag = B3M.synchronize(TxCommand, sizeof TxCommand, RxCommand, sizeof RxCommand);
+    // flag = B3M.synchronize(txCmd, sizeof txCmd, rxCmd, sizeof rxCmd);
+    flag = B3M.synchronize(txCmd, 9, rxCmd, 7);
+
     if (flag == false)
     {
         return -1;
     }
-    reData = RxCommand[2];
+    reData = rxCmd[7];
+    for (int i = 0; i < 7; i++)
+    {
+        Serial.print(reData, HEX);
+        Serial.print(" ");
+    }
 
     return reData;
 }
 
 // int B3MreadPOSITION(byte id, byte RxData, byte Address)
 // {
-//     byte TxCommand[7];
-//     byte RxCommand[5];
+//     byte txCmd[7];
+//     byte rxCmd[5];
 // }
 
 // void MAX31855Errornotification()
@@ -224,3 +249,11 @@ int B3MsetPosition(byte id, int Pos, int Time)
 //         delay(5000);
 //     }
 // }
+
+void LED_Blink()
+{
+    digitalWrite(13, HIGH);
+    delay(100);
+    digitalWrite(13, LOW);
+    delay(100);
+}
