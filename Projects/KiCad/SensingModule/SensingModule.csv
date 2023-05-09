@@ -2,7 +2,7 @@
 "1","C1, C2","2","0.1μF","Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder",""
 "2","C3","1","100μF","Capacitor_SMD:CP_Elec_6.3x7.7",""
 "3","D1, D2, D3, D4, D5, D6","6","LED","LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder",""
-"4","F1","1","Polyfuse","Fuse:Fuse_BelFuse_0ZRE0005FF_L8.3mm_W3.8mm",""
+"4","F1","1","Polyfuse","Fuse:Fuse_1206_3216Metric_Pad1.42x1.75mm_HandSolder",""
 "5","J1","1","Conn_01x05_Socket","Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Vertical",""
 "6","J2","1","Conn_01x02_Pin","Hirose_Connector:Hirose_DF1B",""
 "7","J3","1","Conn_01x05_Pin","Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical",""

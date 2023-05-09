@@ -2,7 +2,7 @@
 <export version="E">
   <design>
     <source>/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/SensingModule/SensingModule.kicad_sch</source>
-    <date>2023 May 09, Tuesday 21:56:50</date>
+    <date>2023 May 09, Tuesday 22:07:51</date>
     <tool>Eeschema 7.0.1-0</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -125,7 +125,7 @@
     </comp>
     <comp ref="F1">
       <value>Polyfuse</value>
-      <footprint>Fuse:Fuse_BelFuse_0ZRE0005FF_L8.3mm_W3.8mm</footprint>
+      <footprint>Fuse:Fuse_1206_3216Metric_Pad1.42x1.75mm_HandSolder</footprint>
       <libsource lib="Device" part="Polyfuse" description="Resettable fuse, polymeric positive temperature coefficient"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="SensingModule.kicad_sch"/>
