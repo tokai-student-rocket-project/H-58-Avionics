@@ -141,7 +141,7 @@ bool IcsHardSerialClass::synchronize(byte *txBuf, byte txLen, byte *rxBuf, byte 
   icsHardSerial->write(txBuf, txLen);
   icsHardSerial->flush(); // 待つ
 
-  // enLow(); // 受信切替
+  enLow(); // 受信切替
 
   while (icsHardSerial->available() > 0) // 受信バッファを消す
   {
@@ -149,22 +149,22 @@ bool IcsHardSerialClass::synchronize(byte *txBuf, byte txLen, byte *rxBuf, byte 
     icsHardSerial->read(); // 空読み
   }
 
-  enLow();  //受信切替
+  // enLow();  //受信切替
 
 
   rxSize = icsHardSerial->readBytes(rxBuf, rxLen);
 
-  // if (rxSize != rxLen) // 受信数確認
-  // {
-  //   // Serial.println("cpp Recieve ERROR");
+  if (rxSize != rxLen) // 受信数確認
+  {
+    // Serial.println("cpp Recieve ERROR");
 
-  //   // Serial.print("rxSize: ");
-  //   // Serial.println(rxSize);
+    // Serial.print("rxSize: ");
+    // Serial.println(rxSize);
 
-  //   // Serial.print("rxLength: ");
-  //   // Serial.println(rxLen);
+    // Serial.print("rxLength: ");
+    // Serial.println(rxLen);
 
-  //   return false;
-  // }
+    return false;
+  }
   return true;
 }
