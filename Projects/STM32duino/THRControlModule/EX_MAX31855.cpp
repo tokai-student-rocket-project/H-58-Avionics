@@ -250,7 +250,7 @@ int32_t MAX31855::readRawData(void)
   delayMicroseconds(100);    // pulse fall time > 100nS
   digitalWrite(_cs, HIGH); // start measurement/conversion
 
-  // delay(MAX31855_CONVERSION_TIME);
+  // delay(MAX31855_CONVERSION_TIME); //確認時間を削除
 
   SPI.beginTransaction(SPISettings(5000000, MSBFIRST, SPI_MODE0)); // up to 5MHz, read MSB first, SPI mode 0, see note
 
