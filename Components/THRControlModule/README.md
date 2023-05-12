@@ -39,3 +39,11 @@
 - [MAX31856](/Documents/Datasheets/MAX31856/MAX31856_jp.pdf)
 
 > ブラウザ版は[コチラ](https://www.analog.com/jp/products/max31856.html#product-overview)
+
+- [MCP2515](/Documents/)
+
+> ブラウザ版は[コチラ](https://akizukidenshi.com/download/ds/microchip/mcp2515_j.pdf)
+
+- [MCP2562](/Documents/)
+
+> ブラウザ版は[コチラ](https://akizukidenshi.com/download/ds/microchip/MCP2562FD.pdf)
