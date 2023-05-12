@@ -1,12 +1,22 @@
 #include <TaskManager.h>
 #include "IcsHardSerialClass.h"
 #include "EX_MAX31855.h" //test用のhファイル
-// #include "HardwareSerial.h"
+#include <SPI.h>
+#include <mcp2515_can.h>
+
+/* CAN Config START */
+
+const int SPI_CS_PIN = 6;
+// const int CAN_INT_PIN = 2;
+mcp2515_can CAN(SPI_CS_PIN);
+unsigned char sample[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+
+/* CAN Config END */
 
 /*B3M Servo Config START*/
+
 const byte EN_PIN = 2;
 const long BAUNDRATE = 115200;
-// + 1152+100;
 const int TIMEOUT = 500;
 // HardwareSerial SerialX(RX, TX); X = 1, 2, 3...
 // HardwareSerial Serial1(PA_10, PA_9); // STM32F303K8
@@ -18,7 +28,7 @@ IcsHardSerialClass B3M(&Serial1, EN_PIN, BAUNDRATE, TIMEOUT);
 /*B3M Servo Config END*/
 
 /*Position Change Config START*/
-constexpr int POSITION_CHANGING_THRESHOLD = 50;
+constexpr int POSITION_CHANGING_THRESHOLD = 10;
 int Launch_Count = 0;
 int Waiting_Count = 0;
 int Position = 1;
@@ -39,6 +49,8 @@ MAX31855 myMAX31855(3);
 // GND  -------- GND
 // 3Vo  -------- N/C
 // Vin  -------- 3~5V
+
+/*CAN_CS = D6(BBM)*/
 
 void setup()
 {
@@ -76,6 +88,18 @@ void setup()
         delay(5000);
     }
 
+/* --- CAN --- */
+
+    while(!Serial){};
+
+    while(CAN_OK != CAN.begin(CAN_500KBPS)){
+        Serial.println("CAN init fail, retry...");
+        delay(100);
+    }
+    Serial.println("CAN init OK!");
+
+/* --- CAN --- */
+
     Tasks.add("MAX31855_getTemperature", []()
               {
                     Serial.print(myMAX31855.getTemperature(rawData));
@@ -106,7 +130,7 @@ void loop()
 
     if (Launch_Count >= POSITION_CHANGING_THRESHOLD)
     {
-        B3MsetPosition(0x01, 4500, 100);
+        B3MsetPosition(0x01, 4500, 10);
         Launch_Count = 0;
         Position = 2;
         delay(50);
@@ -126,7 +150,7 @@ void loop()
     if (Waiting_Count >= POSITION_CHANGING_THRESHOLD)
     {
         Waiting_Count = 0;
-        B3MsetPosition(0x01, -4500, 100);
+        B3MsetPosition(0x01, -4500, 10);
         Position = 1;
         delay(50);
     }
@@ -137,7 +161,26 @@ void loop()
     MAX31855Errornotification(); // MAX31855 のエラーをお知らせ
     FillingConfirmation();
 
+    sample[7] = sample[7] + 1;
+    
+    if (sample[7] == 100)
+    {
+        sample[7] = 0;
+        sample[6] = sample[6] + 1;
+
+        if (sample[6] == 100){
+            sample[6] = 0;
+            sample[5] = sample[5] +1;
+        }
+    }
+
+    CAN.sendMsgBuf(0x00, 0, 8, sample);
+    delay(100);
+    Serial.println("CAN BUS sendMsgBuf OK!!");
+
+
     // rawData = myMAX31855.readRawData();
+
 
     // Serial.print("| ColdJuncction |");
     // Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
