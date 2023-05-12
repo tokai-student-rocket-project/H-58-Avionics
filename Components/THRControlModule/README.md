@@ -26,24 +26,27 @@
 
 ### 各種ドキュメント
 
-- [B3Mサーボ](/Documents/Datasheets/B3M/B3M_SoftwareManual1.2.0.3.pdf)
+**ハードウェア**
+- [B3Mサーボ](/Documents/Datasheets/B3M/B3M_SoftwareManual1.2.0.3.pdf) [サーボ]
 
 > ブラウザ版は[コチラ](https://kondo-robot.com/w/wp-content/uploads/B3M_SoftwareManual1.2.0.3.pdf)
-- [LTC1480](/Documents/Datasheets/LTC1480/j1480_5.pdf)
+- [LTC1480](/Documents/Datasheets/LTC1480/j1480_5.pdf) [RS485]
+
+
 > ブラウザ版は[コチラ](https://www.analog.com/media/jp/technical-documentation/data-sheets/j1480_5.pdf)
 
-- [MAX31855](/Documents/Datasheets/MAX31855/MAX31855_jp.pdf)
+- [MAX31855](/Documents/Datasheets/MAX31855/MAX31855_jp.pdf) [デジタルコンバーター]
 
 > ブラウザ版は[コチラ](https://www.analog.com/media/en/technical-documentation/data-sheets/MAX31855.pdf)
 
-- [MAX31856](/Documents/Datasheets/MAX31856/MAX31856_jp.pdf)
+- [MAX31856](/Documents/Datasheets/MAX31856/MAX31856_jp.pdf) [デジタルコンバーター]
 
 > ブラウザ版は[コチラ](https://www.analog.com/jp/products/max31856.html#product-overview)
 
-- [MCP2515](/Documents/)
+- [MCP2515](/Documents/) [CAN]
 
 > ブラウザ版は[コチラ](https://akizukidenshi.com/download/ds/microchip/mcp2515_j.pdf)
 
-- [MCP2562](/Documents/)
+- [MCP2562](/Documents/) [CAN]
 
 > ブラウザ版は[コチラ](https://akizukidenshi.com/download/ds/microchip/MCP2562FD.pdf)
