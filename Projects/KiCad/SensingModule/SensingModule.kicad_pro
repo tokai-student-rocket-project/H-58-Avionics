@@ -57,11 +57,7 @@
         }
       ],
       "drc_exclusions": [
-        "lib_footprint_mismatch|151981219|77971937|a6883af2-24a0-494d-ac85-7fe334e09289|00000000-0000-0000-0000-000000000000",
-        "unconnected_items|158300000|131800000|042766e1-8e4c-4af7-8b52-212b8d9aae2a|0e9e0d5f-0cd0-4712-9585-1777a51bee4d",
-        "unconnected_items|158300000|142150000|0e9e0d5f-0cd0-4712-9585-1777a51bee4d|2368b8ed-6a50-40a3-9097-4c08b1ec09fa",
-        "unconnected_items|162435000|82110000|6b6d1867-a1a1-4019-b4b7-caed177c9fbe|feeece74-4574-4117-8094-348a81d8d504",
-        "unconnected_items|169450000|127500000|d0c6ab2c-dcff-48c0-845c-0b7c068ce70c|042766e1-8e4c-4af7-8b52-212b8d9aae2a"
+        "lib_footprint_mismatch|151981219|77971937|a6883af2-24a0-494d-ac85-7fe334e09289|00000000-0000-0000-0000-000000000000"
       ],
       "meta": {
         "version": 2
