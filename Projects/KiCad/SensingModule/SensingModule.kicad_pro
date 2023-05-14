@@ -35,8 +35,8 @@
         "other_text_upright": false,
         "pads": {
           "drill": 4.5,
-          "height": 4.5,
-          "width": 4.5
+          "height": 9.0,
+          "width": 9.0
         },
         "silk_line_width": 0.15,
         "silk_text_italic": false,
@@ -46,7 +46,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.0
+          "min_clearance": 0.3
         }
       },
       "diff_pair_dimensions": [
@@ -56,13 +56,7 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [
-        "lib_footprint_mismatch|151981219|77971937|a6883af2-24a0-494d-ac85-7fe334e09289|00000000-0000-0000-0000-000000000000",
-        "unconnected_items|158300000|131800000|042766e1-8e4c-4af7-8b52-212b8d9aae2a|0e9e0d5f-0cd0-4712-9585-1777a51bee4d",
-        "unconnected_items|158300000|142150000|0e9e0d5f-0cd0-4712-9585-1777a51bee4d|2368b8ed-6a50-40a3-9097-4c08b1ec09fa",
-        "unconnected_items|162435000|82110000|6b6d1867-a1a1-4019-b4b7-caed177c9fbe|feeece74-4574-4117-8094-348a81d8d504",
-        "unconnected_items|169450000|127500000|d0c6ab2c-dcff-48c0-845c-0b7c068ce70c|042766e1-8e4c-4af7-8b52-212b8d9aae2a"
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -120,21 +114,21 @@
         "allow_blind_buried_vias": false,
         "allow_microvias": false,
         "max_error": 0.005,
-        "min_clearance": 0.0,
-        "min_connection": 0.0,
-        "min_copper_edge_clearance": 0.0,
-        "min_hole_clearance": 0.25,
-        "min_hole_to_hole": 0.25,
-        "min_microvia_diameter": 0.19999999999999998,
-        "min_microvia_drill": 0.09999999999999999,
-        "min_resolved_spokes": 2,
-        "min_silk_clearance": 0.0,
-        "min_text_height": 0.7999999999999999,
-        "min_text_thickness": 0.08,
-        "min_through_hole_diameter": 0.3,
-        "min_track_width": 0.19999999999999998,
-        "min_via_annular_width": 0.049999999999999996,
-        "min_via_diameter": 0.39999999999999997,
+        "min_clearance": 0.127,
+        "min_connection": 0.127,
+        "min_copper_edge_clearance": 0.3,
+        "min_hole_clearance": 0.19999999999999998,
+        "min_hole_to_hole": 0.254,
+        "min_microvia_diameter": 0.25,
+        "min_microvia_drill": 0.15,
+        "min_resolved_spokes": 1,
+        "min_silk_clearance": 0.15,
+        "min_text_height": 1.0,
+        "min_text_thickness": 0.153,
+        "min_through_hole_diameter": 0.19999999999999998,
+        "min_track_width": 0.127,
+        "min_via_annular_width": 0.13,
+        "min_via_diameter": 0.25,
         "solder_mask_clearance": 0.0,
         "solder_mask_min_width": 0.0,
         "solder_mask_to_copper_clearance": 0.0,
@@ -183,6 +177,9 @@
       "track_widths": [
         0.0,
         0.0,
+        0.15,
+        0.2,
+        0.3,
         0.5
       ],
       "via_dimensions": [
@@ -446,26 +443,26 @@
         "name": "Default",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.25,
-        "via_diameter": 0.8,
-        "via_drill": 0.4,
+        "track_width": 0.2,
+        "via_diameter": 0.51,
+        "via_drill": 0.25,
         "wire_width": 6
       },
       {
         "bus_width": 12,
-        "clearance": 0.2,
+        "clearance": 0.42,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
-        "name": "Power1A",
+        "name": "Power12V1A",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 1.0,
-        "via_diameter": 1.0,
-        "via_drill": 0.4,
+        "via_diameter": 1.26,
+        "via_drill": 1.0,
         "wire_width": 6
       },
       {
@@ -481,8 +478,8 @@
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.5,
-        "via_diameter": 0.8,
-        "via_drill": 0.4,
+        "via_diameter": 0.51,
+        "via_drill": 0.25,
         "wire_width": 6
       }
     ],
@@ -493,7 +490,7 @@
     "netclass_assignments": null,
     "netclass_patterns": [
       {
-        "netclass": "Power1A",
+        "netclass": "Power12V1A",
         "pattern": "+12V"
       },
       {
@@ -501,7 +498,7 @@
         "pattern": "+3.3V"
       },
       {
-        "netclass": "Default",
+        "netclass": "Power500mA",
         "pattern": "GND"
       },
       {
@@ -511,6 +508,10 @@
       {
         "netclass": "Power500mA",
         "pattern": "MEMORY_POWER"
+      },
+      {
+        "netclass": "Power500mA",
+        "pattern": "Net-(F1-Pad2)"
       }
     ]
   },
