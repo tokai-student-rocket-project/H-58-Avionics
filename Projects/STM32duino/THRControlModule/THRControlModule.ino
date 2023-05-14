@@ -7,10 +7,14 @@
 /* CAN Config START */
 
 const int SPI_CS_PIN = 6;
-// const int CAN_INT_PIN = 2;
 mcp2515_can CAN(SPI_CS_PIN);
 unsigned char sample[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
+union Converter
+{
+    float value;
+    uint8_t data[4];
+} converter;
 /* CAN Config END */
 
 /*B3M Servo Config START*/
@@ -38,7 +42,8 @@ int LaunchPin = 5;
 
 /*MAX31855 Config START*/
 int32_t rawData = 0;
-MAX31855 myMAX31855(3);
+float temperature;
+MAX31855 myMAX31855(3); //Chip Select PIN (CS)
 /*MAX31855 Config END*/
 
 /*MAX31855 Pin Config*/
@@ -50,57 +55,34 @@ MAX31855 myMAX31855(3);
 // 3Vo  -------- N/C
 // Vin  -------- 3~5V
 
-/*CAN_CS = D6(BBM)*/
-
 void setup()
 {
-    pinMode(WaitingPin, INPUT_PULLUP);
-    pinMode(LaunchPin, INPUT_PULLUP);
+    SIGNAL_initialize();
+    MAX31855_initialize();
 
     B3M.begin(); // B3Mと通信開始
-
     Serial1.begin(115200, SERIAL_8N1); // 通信速度、パリティなしに設定
-    //  + 1152+100
     Serial.begin(115200);
 
-    B3MwriteCommand(0x01, 0x02, 0x28); // 動作モード：Free
-    LED_Blink();
-    delay(500);
-    B3MwriteCommand(0x01, 0x02, 0x28); // 位置制御モードに設定
-    LED_Blink();
-    delay(500);
-    B3MwriteCommand(0x01, 0x01, 0x29); // 起動生成タイプ：Even
-    LED_Blink();
-    delay(500);
-    B3MwriteCommand(0x01, 0x00, 0x5c); // ゲインプリセット：No.0
-    LED_Blink();
-    delay(500);
-    B3MwriteCommand(0x01, 0x00, 0x28); // 動作モード：Normal
-    LED_Blink();
-    delay(1000);
+    B3M_initialize();
+    B3M_setPosition(0x01, 4500, 1000);
 
-    B3MsetPosition(0x01, 4500, 1000);
+    /* --- CAN --- */
 
-    myMAX31855.begin();
-    while (myMAX31855.getChipID() != MAX31855_ID)
+    while (!Serial)
     {
-        Serial.println(F("MAX31855 error"));
-        delay(5000);
-    }
+    };
 
-/* --- CAN --- */
-
-    while(!Serial){};
-
-    while(CAN_OK != CAN.begin(CAN_500KBPS)){
+    while (CAN_OK != CAN.begin(CAN_500KBPS))
+    {
         Serial.println("CAN init fail, retry...");
         delay(100);
     }
     Serial.println("CAN init OK!");
 
-/* --- CAN --- */
+    /* --- CAN --- */
 
-    Tasks.add("MAX31855_getTemperature", []()
+    Tasks.add("task", []()
               {
                     Serial.print(myMAX31855.getTemperature(rawData));
                     Serial.print(", ");
@@ -108,8 +90,7 @@ void setup()
                     Serial.print(", ");
                     Serial.print(Launch_Count);
                     Serial.print(", ");
-                    Serial.println(Waiting_Count);
-     })
+                    Serial.println(Waiting_Count); })
         ->startIntervalMsec(5);
 }
 
@@ -130,7 +111,7 @@ void loop()
 
     if (Launch_Count >= POSITION_CHANGING_THRESHOLD)
     {
-        B3MsetPosition(0x01, 4500, 10);
+        B3M_setPosition(0x01, 4500, 10);
         Launch_Count = 0;
         Position = 2;
         delay(50);
@@ -150,7 +131,7 @@ void loop()
     if (Waiting_Count >= POSITION_CHANGING_THRESHOLD)
     {
         Waiting_Count = 0;
-        B3MsetPosition(0x01, -4500, 10);
+        B3M_setPosition(0x01, -4500, 10);
         Position = 1;
         delay(50);
     }
@@ -158,54 +139,35 @@ void loop()
     // Serial.print(rawData);
     // Serial.print(", ");
 
-    MAX31855Errornotification(); // MAX31855 のエラーをお知らせ
-    FillingConfirmation();
+    MAX31855_errornotification(); // MAX31855 のエラーをお知らせ
+    FILLING_confirmation();
 
     sample[7] = sample[7] + 1;
-    
+
     if (sample[7] == 100)
     {
         sample[7] = 0;
         sample[6] = sample[6] + 1;
 
-        if (sample[6] == 100){
+        if (sample[6] == 100)
+        {
             sample[6] = 0;
-            sample[5] = sample[5] +1;
+            sample[5] = sample[5] + 1;
         }
     }
-
+    // send data:  id = 0x00, standrad frame, data len = 8, stmp: data buf
     CAN.sendMsgBuf(0x00, 0, 8, sample);
     delay(100);
     Serial.println("CAN BUS sendMsgBuf OK!!");
 
-
     // rawData = myMAX31855.readRawData();
 
-
-    // Serial.print("| ColdJuncction |");
-    // Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
-    // Serial.print(",");
-    // Serial.print("| ThermoCouple |");
-    // Serial.print(myMAX31855.getTemperature(rawData));
-    // Serial.print(",");
     // Serial.print(Launch_Count);
     // Serial.print(",");
     // Serial.println(Waiting_Count);
-
-    //---テスト用---//
-    // Positionで動作角指定
-
-    // B3MsetPosition(0x01, 9000, 5000);
-    // delay(1000);
-    // Serial.println("OPEN");
-    // Serial1.println("Hello");
-    // B3MsetPosition(0x01, -9000, 5000);
-    // delay(1000);
-    // Serial.println("CLOSE");
-    // Serial1.println("TSRP");
 }
 
-int B3MwriteCommand(byte id, byte TxData, byte Address)
+int B3M_writeCommand(byte id, byte TxData, byte Address)
 {
     byte txCmd[8];
     byte rxCmd[5];
@@ -245,7 +207,7 @@ int B3MwriteCommand(byte id, byte TxData, byte Address)
     return reData;
 }
 
-int B3MsetPosition(byte id, int Pos, int Time)
+int B3M_setPosition(byte id, int Pos, int Time)
 {
     byte txCmd[9];
     byte rxCmd[7];
@@ -289,7 +251,36 @@ int B3MsetPosition(byte id, int Pos, int Time)
     return reData;
 }
 
-void MAX31855Errornotification()
+void B3M_initialize()
+{
+    B3M_writeCommand(0x01, 0x02, 0x28); // 動作モード：Free
+    LED_blink();
+    delay(500);
+    B3M_writeCommand(0x01, 0x02, 0x28); // 位置制御モードに設定
+    LED_blink();
+    delay(500);
+    B3M_writeCommand(0x01, 0x01, 0x29); // 起動生成タイプ：Even
+    LED_blink();
+    delay(500);
+    B3M_writeCommand(0x01, 0x00, 0x5c); // ゲインプリセット：No.0
+    LED_blink();
+    delay(500);
+    B3M_writeCommand(0x01, 0x00, 0x28); // 動作モード：Normal
+    LED_blink();
+    delay(1000);
+}
+
+void MAX31855_initialize()
+{
+    myMAX31855.begin();
+    while (myMAX31855.getChipID() != MAX31855_ID)
+    {
+        Serial.println(F("MAX31855 error"));
+        delay(5000);
+    }
+}
+
+void MAX31855_errornotification()
 {
     while (myMAX31855.detectThermocouple() != MAX31855_THERMOCOUPLE_OK)
     {
@@ -318,7 +309,7 @@ void MAX31855Errornotification()
     }
 }
 
-void FillingConfirmation()
+void FILLING_confirmation()
 {
     // Serial.print(myMAX31855.getTemperature(rawData));
     if (myMAX31855.getTemperature(rawData) >= 30.00)
@@ -327,10 +318,23 @@ void FillingConfirmation()
     }
 }
 
-void LED_Blink()
+void LED_blink()
 {
     digitalWrite(13, HIGH);
     delay(100);
     digitalWrite(13, LOW);
     delay(100);
+}
+
+
+void SIGNAL_initialize()
+{
+    pinMode(WaitingPin, INPUT_PULLUP);
+    pinMode(LaunchPin, INPUT_PULLUP);
+}
+
+void CAN_sendtemperature(uint32_t id, float value)
+{
+    converter.value = value;
+
 }
