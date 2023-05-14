@@ -2306,7 +2306,7 @@
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "DIP254P762X432-18" (at 135.89 144.78 0)
-      (effects (font (size 1.27 1.27)) (justify bottom) hide)
+      (effects (font (size 1.27 1.27)) (justify bottom))
     )
     (property "Datasheet" "" (at 135.89 144.78 0)
       (effects (font (size 1.27 1.27)) hide)
