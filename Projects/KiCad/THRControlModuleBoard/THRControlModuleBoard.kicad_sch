@@ -1030,6 +1030,58 @@
         )
       )
     )
+    (symbol "power:+3.3V" (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+      (property "Reference" "#PWR" (at 0 -3.81 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "Value" "+3.3V" (at 0 3.556 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Footprint" "" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "Datasheet" "" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_keywords" "global power" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_description" "Power symbol creates a global label with name \"+3.3V\"" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (symbol "+3.3V_0_1"
+        (polyline
+          (pts
+            (xy -0.762 1.27)
+            (xy 0 2.54)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 0 0)
+            (xy 0 2.54)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 0 2.54)
+            (xy 0.762 1.27)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+      )
+      (symbol "+3.3V_1_1"
+        (pin power_in line (at 0 0 90) (length 0) hide
+          (name "+3.3V" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27))))
+        )
+      )
+    )
     (symbol "power:GND" (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
       (property "Reference" "#PWR" (at 0 -6.35 0)
         (effects (font (size 1.27 1.27)) hide)
@@ -1318,7 +1370,7 @@
     (stroke (width 0) (type default))
     (uuid 3e0164d8-7fcb-4db7-8cbb-fc9650604b3d)
   )
-  (wire (pts (xy 215.9 36.83) (xy 214.63 36.83))
+  (wire (pts (xy 219.71 36.83) (xy 214.63 36.83))
     (stroke (width 0) (type default))
     (uuid 3fa10ff5-18f8-40e7-bd52-9c89e84b72ae)
   )
@@ -1446,10 +1498,6 @@
     (stroke (width 0) (type default))
     (uuid 7a5ba114-3f3a-45b5-b05e-3d377d541725)
   )
-  (wire (pts (xy 187.96 33.02) (xy 191.77 33.02))
-    (stroke (width 0) (type default))
-    (uuid 7dd8f36d-0820-49d1-86e6-56c006ba2b48)
-  )
   (wire (pts (xy 173.99 49.53) (xy 187.96 49.53))
     (stroke (width 0) (type default))
     (uuid 7e22b6f4-3c3b-4d04-81d3-86cb98b36e67)
@@ -1510,7 +1558,7 @@
     (stroke (width 0) (type default))
     (uuid 8e4eaa75-0a20-4f13-a510-8644c1e57dcd)
   )
-  (wire (pts (xy 182.88 22.86) (xy 182.88 31.75))
+  (wire (pts (xy 182.88 27.94) (xy 182.88 31.75))
     (stroke (width 0) (type default))
     (uuid 8f479b65-20f4-4aa6-95f6-58ab7a6017db)
   )
@@ -1722,10 +1770,6 @@
     (stroke (width 0) (type default))
     (uuid f0a6a5b2-324c-471c-9db3-cb617f5585cf)
   )
-  (wire (pts (xy 184.15 22.86) (xy 182.88 22.86))
-    (stroke (width 0) (type default))
-    (uuid f3ca5201-2b9b-499f-858e-6eee171b5510)
-  )
   (wire (pts (xy 130.81 49.53) (xy 130.81 54.61))
     (stroke (width 0) (type default))
     (uuid f57c4b19-675f-483d-b647-4b311d9bb5d0)
@@ -1746,10 +1790,6 @@
     (stroke (width 0) (type default))
     (uuid f94b6a6a-f583-481c-a746-101457dcfa83)
   )
-  (wire (pts (xy 237.49 91.44) (xy 252.73 91.44))
-    (stroke (width 0) (type default))
-    (uuid fafa7fbf-851e-43f6-a5aa-d7038483c1e8)
-  )
   (wire (pts (xy 228.6 120.65) (xy 228.6 137.16))
     (stroke (width 0) (type default))
     (uuid fb80834b-71a9-48a8-95f6-9c1a0a4c5640)
@@ -1768,7 +1808,7 @@
   )
 
   (text_box "DRDYとFAULTピンは使用しなくてもSPI通信ができるが、念のためはんだブリッジという形で配線しておく。			"
-    (at 199.39 107.95 0) (size 76.2 3.81)
+    (at 205.74 100.33 0) (size 76.2 3.81)
     (stroke (width 0) (type default))
     (fill (type none))
     (effects (font (size 1.27 1.27)) (justify left top))
@@ -1829,34 +1869,6 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
-  (global_label "NanoEvery_3.3V" (shape output) (at 184.15 22.86 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 91ff79c2-cb59-4927-9998-60d7456c4181)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 201.8723 22.86 0)
-      (effects (font (size 1.27 1.27)) (justify left) hide)
-    )
-  )
-  (global_label "NanoEvery_3.3V" (shape output) (at 237.49 91.44 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify right))
-    (uuid 9cf9e609-c7ba-4943-96f2-d32d7e58a7f2)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 219.7677 91.44 0)
-      (effects (font (size 1.27 1.27)) (justify right) hide)
-    )
-  )
-  (global_label "NanoEvery_3.3V" (shape output) (at 191.77 33.02 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 9d2dff11-8fc1-4535-9746-bc9094086327)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 209.4923 33.02 0)
-      (effects (font (size 1.27 1.27)) (justify left) hide)
-    )
-  )
-  (global_label "NanoEvery_3.3V" (shape output) (at 215.9 36.83 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 9f8505ce-05fe-475c-a319-4f5898f329c4)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 233.6223 36.83 0)
-      (effects (font (size 1.27 1.27)) (justify left) hide)
-    )
-  )
   (global_label "External Power Supply" (shape input) (at 38.1 114.3 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid b785d5f1-1ac0-462c-849e-2ec7dfa8272d)
@@ -1889,7 +1901,7 @@
   (symbol (lib_id "Device:D") (at 217.17 67.31 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 00a0527b-f3ad-43c2-94a5-c7b3675f2369)
-    (property "Reference" "D3" (at 217.17 62.23 0)
+    (property "Reference" "D2" (at 217.17 62.23 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "D" (at 217.17 64.77 0)
@@ -1912,7 +1924,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "D3") (unit 1)
+          (reference "D2") (unit 1)
         )
       )
     )
@@ -1947,7 +1959,7 @@
   (symbol (lib_id "Device:C") (at 191.77 43.18 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 02e22c1e-3761-475f-a0c7-891cbca9acd9)
-    (property "Reference" "C4" (at 191.77 36.83 90)
+    (property "Reference" "C6" (at 191.77 36.83 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "0.1uF" (at 191.77 39.37 90)
@@ -1964,7 +1976,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "C4") (unit 1)
+          (reference "C6") (unit 1)
         )
       )
     )
@@ -1973,7 +1985,7 @@
   (symbol (lib_id "Device:LED") (at 107.95 110.49 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 05b0e82d-6d44-4e92-a4eb-043be2275b95)
-    (property "Reference" "D4" (at 109.5375 104.14 0)
+    (property "Reference" "D1" (at 109.5375 104.14 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "LED" (at 109.5375 106.68 0)
@@ -1990,7 +2002,32 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "D4") (unit 1)
+          (reference "D1") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:+3.3V") (at 187.96 33.02 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 05ec1d42-ffdb-46aa-93c3-39dd7855bdd9)
+    (property "Reference" "#PWR014" (at 187.96 36.83 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "+3.3V" (at 187.96 29.21 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 187.96 33.02 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 187.96 33.02 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 2f0138d8-a4fd-4e36-9fdc-82bd75ba9b2b))
+    (instances
+      (project "THRControlModuleBoard"
+        (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
+          (reference "#PWR014") (unit 1)
         )
       )
     )
@@ -1999,7 +2036,7 @@
   (symbol (lib_id "Device:R") (at 97.79 110.49 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 099315e4-8989-450c-9936-1317dc8638b6)
-    (property "Reference" "R10" (at 97.79 105.41 90)
+    (property "Reference" "R1" (at 97.79 105.41 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1k" (at 97.79 107.95 90)
@@ -2016,7 +2053,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "R10") (unit 1)
+          (reference "R1") (unit 1)
         )
       )
     )
@@ -2025,7 +2062,7 @@
   (symbol (lib_id "Device:Q_PMOS_GDS") (at 199.39 149.86 90) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 14cfa26c-9645-44ff-b26f-d44d4a38f917)
-    (property "Reference" "Q3" (at 199.39 157.48 90)
+    (property "Reference" "Q2" (at 199.39 157.48 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Q_PMOS_GDS" (at 199.39 160.02 90)
@@ -2043,7 +2080,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "Q3") (unit 1)
+          (reference "Q2") (unit 1)
         )
       )
     )
@@ -2052,7 +2089,7 @@
   (symbol (lib_id "Connector:Screw_Terminal_01x02") (at 91.44 43.18 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 14ea83a6-c08e-4afc-8fe1-87bd4e818cb0)
-    (property "Reference" "J3" (at 91.44 35.56 0)
+    (property "Reference" "J4" (at 91.44 35.56 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Screw_Terminal_01x02" (at 91.44 38.1 0)
@@ -2069,7 +2106,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "J3") (unit 1)
+          (reference "J4") (unit 1)
         )
       )
     )
@@ -2078,7 +2115,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Bridged") (at 247.65 38.1 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 1705ede5-6c4f-4e00-8b45-d32660f484d6)
-    (property "Reference" "JP5" (at 247.65 33.02 0)
+    (property "Reference" "JP4" (at 247.65 33.02 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "SolderJumper_2_Bridged" (at 247.65 35.56 0)
@@ -2095,7 +2132,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "JP5") (unit 1)
+          (reference "JP4") (unit 1)
         )
       )
     )
@@ -2128,7 +2165,7 @@
   (symbol (lib_id "Device:R") (at 114.3 49.53 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 1917197a-920f-4679-9dbd-7a5c795e4e9d)
-    (property "Reference" "R5" (at 114.3 46.99 90)
+    (property "Reference" "R3" (at 114.3 46.99 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "100" (at 114.3 49.53 90)
@@ -2145,7 +2182,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "R5") (unit 1)
+          (reference "R3") (unit 1)
         )
       )
     )
@@ -2179,7 +2216,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Bridged") (at 240.03 85.09 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 2b8cfa66-7ab0-48d9-9750-3bd9ced0c902)
-    (property "Reference" "JP1" (at 240.03 80.01 0)
+    (property "Reference" "JP2" (at 240.03 80.01 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "SolderJumper_2_Bridged" (at 240.03 82.55 0)
@@ -2196,7 +2233,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "JP1") (unit 1)
+          (reference "JP2") (unit 1)
         )
       )
     )
@@ -2205,7 +2242,7 @@
   (symbol (lib_id "Device:Q_PMOS_GDS") (at 222.25 123.19 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 37ded097-d00b-4f69-b7ea-1ae7997916bd)
-    (property "Reference" "Q2" (at 222.25 114.3 90)
+    (property "Reference" "Q3" (at 222.25 114.3 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Q_PMOS_GDS" (at 222.25 116.84 90)
@@ -2223,7 +2260,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "Q2") (unit 1)
+          (reference "Q3") (unit 1)
         )
       )
     )
@@ -2232,7 +2269,7 @@
   (symbol (lib_id "power:GND") (at 120.65 142.24 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 3ba916b1-67a7-4bb5-9d1d-9efcb29e8638)
-    (property "Reference" "#PWR02" (at 120.65 148.59 0)
+    (property "Reference" "#PWR08" (at 120.65 148.59 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 120.65 147.32 0)
@@ -2248,7 +2285,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR02") (unit 1)
+          (reference "#PWR08") (unit 1)
         )
       )
     )
@@ -2257,7 +2294,7 @@
   (symbol (lib_id "Device:R") (at 220.98 157.48 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 3da10400-50b0-47f7-b280-0a412209034f)
-    (property "Reference" "R9" (at 220.98 152.4 90)
+    (property "Reference" "R10" (at 220.98 152.4 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1K" (at 220.98 154.94 90)
@@ -2274,7 +2311,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "R9") (unit 1)
+          (reference "R10") (unit 1)
         )
       )
     )
@@ -2283,7 +2320,7 @@
   (symbol (lib_id "Device:C") (at 228.6 140.97 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 46216514-de11-4763-b91d-26cc7a12edd5)
-    (property "Reference" "C2" (at 232.41 140.335 0)
+    (property "Reference" "C7" (at 232.41 140.335 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "4.7u" (at 232.41 142.875 0)
@@ -2300,7 +2337,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "C2") (unit 1)
+          (reference "C7") (unit 1)
         )
       )
     )
@@ -2332,9 +2369,9 @@
   )
 
   (symbol (lib_id "power:GND") (at 113.03 111.76 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom yes) (on_board yes) (dnp no)
     (uuid 528e557e-ab96-4576-9e45-f2870d3c7196)
-    (property "Reference" "#PWR019" (at 113.03 118.11 0)
+    (property "Reference" "#PWR06" (at 113.03 118.11 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 113.03 116.84 0)
@@ -2350,7 +2387,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR019") (unit 1)
+          (reference "#PWR06") (unit 1)
         )
       )
     )
@@ -2359,7 +2396,7 @@
   (symbol (lib_id "power:GND") (at 238.76 158.75 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 5431ddbe-7c75-4efa-8df4-b65f00785f68)
-    (property "Reference" "#PWR03" (at 238.76 165.1 0)
+    (property "Reference" "#PWR018" (at 238.76 165.1 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 238.76 163.83 0)
@@ -2375,7 +2412,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR03") (unit 1)
+          (reference "#PWR018") (unit 1)
         )
       )
     )
@@ -2384,7 +2421,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Bridged") (at 247.65 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 555f4952-d18f-4c3c-9f91-0c43236aecd0)
-    (property "Reference" "JP4" (at 247.65 43.18 0)
+    (property "Reference" "JP5" (at 247.65 43.18 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "SolderJumper_2_Bridged" (at 247.65 45.72 0)
@@ -2401,7 +2438,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "JP4") (unit 1)
+          (reference "JP5") (unit 1)
         )
       )
     )
@@ -2410,7 +2447,7 @@
   (symbol (lib_id "power:GND") (at 179.07 76.2 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 5ad2db46-6136-45b3-a817-c67832095183)
-    (property "Reference" "#PWR013" (at 179.07 82.55 0)
+    (property "Reference" "#PWR012" (at 179.07 82.55 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 179.07 81.28 0)
@@ -2426,7 +2463,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR013") (unit 1)
+          (reference "#PWR012") (unit 1)
         )
       )
     )
@@ -2485,7 +2522,7 @@
   (symbol (lib_id "Device:D") (at 224.79 62.23 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 5dff38d5-d220-49ca-a430-5fabad44861b)
-    (property "Reference" "D1" (at 224.79 57.15 0)
+    (property "Reference" "D4" (at 224.79 57.15 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "D" (at 224.79 59.69 0)
@@ -2508,7 +2545,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "D1") (unit 1)
+          (reference "D4") (unit 1)
         )
       )
     )
@@ -2721,7 +2758,7 @@
   (symbol (lib_id "power:GND") (at 102.87 134.62 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 637705d6-d26b-42a2-a7f1-97bb76bb63fe)
-    (property "Reference" "#PWR01" (at 102.87 140.97 0)
+    (property "Reference" "#PWR05" (at 102.87 140.97 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 102.87 139.7 0)
@@ -2737,7 +2774,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR01") (unit 1)
+          (reference "#PWR05") (unit 1)
         )
       )
     )
@@ -2746,7 +2783,7 @@
   (symbol (lib_id "Device:R") (at 209.55 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 70dbb34f-7c9f-412c-9a51-8f67ce514199)
-    (property "Reference" "R7" (at 212.09 47.625 90)
+    (property "Reference" "R8" (at 212.09 47.625 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 212.09 52.07 90)
@@ -2763,7 +2800,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "R7") (unit 1)
+          (reference "R8") (unit 1)
         )
       )
     )
@@ -2772,7 +2809,7 @@
   (symbol (lib_id "Device:C") (at 121.92 55.88 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 75456843-6a49-47d4-9667-b263f22b3a83)
-    (property "Reference" "C5" (at 118.11 57.15 90)
+    (property "Reference" "C3" (at 118.11 57.15 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1uF" (at 125.73 58.42 90)
@@ -2789,7 +2826,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "C5") (unit 1)
+          (reference "C3") (unit 1)
         )
       )
     )
@@ -2798,7 +2835,7 @@
   (symbol (lib_id "power:GND") (at 116.84 36.83 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 76f38f18-8257-46c0-b110-06bba26ccb6f)
-    (property "Reference" "#PWR015" (at 116.84 43.18 0)
+    (property "Reference" "#PWR07" (at 116.84 43.18 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 116.84 41.91 0)
@@ -2814,7 +2851,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR015") (unit 1)
+          (reference "#PWR07") (unit 1)
         )
       )
     )
@@ -2823,7 +2860,7 @@
   (symbol (lib_id "Device:R") (at 204.47 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 770da59d-c278-41da-8971-462cdf17f547)
-    (property "Reference" "R8" (at 207.01 47.625 90)
+    (property "Reference" "R7" (at 207.01 47.625 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 207.01 52.07 90)
@@ -2840,7 +2877,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "R8") (unit 1)
+          (reference "R7") (unit 1)
         )
       )
     )
@@ -2849,7 +2886,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Bridged") (at 247.65 29.21 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 78e9057a-ab80-4152-8494-eb479f16b954)
-    (property "Reference" "JP6" (at 247.65 24.13 0)
+    (property "Reference" "JP3" (at 247.65 24.13 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "SolderJumper_2_Bridged" (at 247.65 26.67 0)
@@ -2866,7 +2903,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "JP6") (unit 1)
+          (reference "JP3") (unit 1)
         )
       )
     )
@@ -2875,7 +2912,7 @@
   (symbol (lib_id "PCC-SMP-K-5:PCC-SMP-K-5") (at 77.47 57.15 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 7c252974-fd65-41cb-a6b6-546431dd93f9)
-    (property "Reference" "J6" (at 77.47 48.26 0)
+    (property "Reference" "J3" (at 77.47 48.26 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "PCC-SMP-K-5" (at 77.47 50.8 0)
@@ -2906,7 +2943,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "J6") (unit 1)
+          (reference "J3") (unit 1)
         )
       )
     )
@@ -2967,7 +3004,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Bridged") (at 247.65 58.42 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 9821ec14-adf0-45d0-a991-c54e4a0a00d5)
-    (property "Reference" "JP3" (at 247.65 53.34 0)
+    (property "Reference" "JP6" (at 247.65 53.34 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "SolderJumper_2_Bridged" (at 247.65 55.88 0)
@@ -2984,7 +3021,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "JP3") (unit 1)
+          (reference "JP6") (unit 1)
         )
       )
     )
@@ -3044,7 +3081,7 @@
   (symbol (lib_id "Device:C") (at 121.92 43.18 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 99c95f24-a716-4ec8-8af9-37cd4350571d)
-    (property "Reference" "C6" (at 125.73 42.545 0)
+    (property "Reference" "C2" (at 125.73 42.545 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.01uF" (at 124.46 44.45 0)
@@ -3061,7 +3098,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "C6") (unit 1)
+          (reference "C2") (unit 1)
         )
       )
     )
@@ -3095,7 +3132,7 @@
   (symbol (lib_id "power:GND") (at 88.9 63.5 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 9d763c2a-0d40-4309-9fae-b513436e5501)
-    (property "Reference" "#PWR030" (at 88.9 69.85 0)
+    (property "Reference" "#PWR03" (at 88.9 69.85 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 88.9 68.58 0)
@@ -3111,7 +3148,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR030") (unit 1)
+          (reference "#PWR03") (unit 1)
         )
       )
     )
@@ -3120,7 +3157,7 @@
   (symbol (lib_id "Device:C") (at 176.53 31.75 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a9f0775b-2af7-4b54-aba0-32d646b00ba8)
-    (property "Reference" "C3" (at 176.53 25.4 90)
+    (property "Reference" "C5" (at 176.53 25.4 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "0.1uF" (at 176.53 27.94 90)
@@ -3137,7 +3174,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "C3") (unit 1)
+          (reference "C5") (unit 1)
         )
       )
     )
@@ -3146,7 +3183,7 @@
   (symbol (lib_id "power:GND") (at 38.1 123.19 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b0817a74-d67a-4d5f-b3c9-8b26ba2f886c)
-    (property "Reference" "#PWR07" (at 31.75 123.19 0)
+    (property "Reference" "#PWR02" (at 31.75 123.19 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 34.29 123.825 90)
@@ -3162,7 +3199,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR07") (unit 1)
+          (reference "#PWR02") (unit 1)
         )
       )
     )
@@ -3171,7 +3208,7 @@
   (symbol (lib_id "Device:R") (at 114.3 124.46 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b1af464c-c9b0-46d3-a39f-22ae5cb2423f)
-    (property "Reference" "R3" (at 116.84 123.825 0)
+    (property "Reference" "R5" (at 116.84 123.825 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "120k" (at 116.84 126.365 0)
@@ -3188,7 +3225,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "R3") (unit 1)
+          (reference "R5") (unit 1)
         )
       )
     )
@@ -3197,7 +3234,7 @@
   (symbol (lib_id "power:GND") (at 175.26 78.74 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b403a75b-1a76-4367-9095-8ffa2be71e63)
-    (property "Reference" "#PWR012" (at 175.26 85.09 0)
+    (property "Reference" "#PWR011" (at 175.26 85.09 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 175.26 83.82 0)
@@ -3213,7 +3250,32 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR012") (unit 1)
+          (reference "#PWR011") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:+3.3V") (at 219.71 36.83 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid bb7db8e0-61d2-4c3e-884d-3c7f44c5e365)
+    (property "Reference" "#PWR016" (at 219.71 40.64 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "+3.3V" (at 219.71 33.02 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 219.71 36.83 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 219.71 36.83 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid ef33e135-5eaa-4b94-9e63-f04130c77447))
+    (instances
+      (project "THRControlModuleBoard"
+        (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
+          (reference "#PWR016") (unit 1)
         )
       )
     )
@@ -3222,7 +3284,7 @@
   (symbol (lib_id "Device:D") (at 220.98 64.77 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid bbe1c026-0a68-4bc8-99ee-6bd62cc9fb1f)
-    (property "Reference" "D2" (at 220.98 59.69 0)
+    (property "Reference" "D3" (at 220.98 59.69 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "D" (at 220.98 62.23 0)
@@ -3245,7 +3307,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "D2") (unit 1)
+          (reference "D3") (unit 1)
         )
       )
     )
@@ -3304,7 +3366,7 @@
   (symbol (lib_id "Device:R") (at 124.46 132.08 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c9fee79d-cd71-40d0-9cf3-ad4e6b902e38)
-    (property "Reference" "R1" (at 124.46 127 90)
+    (property "Reference" "R6" (at 124.46 127 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "68k" (at 124.46 129.54 90)
@@ -3321,7 +3383,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "R1") (unit 1)
+          (reference "R6") (unit 1)
         )
       )
     )
@@ -3330,7 +3392,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Bridged") (at 240.03 76.2 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid d163abbf-c098-42c6-a734-5e155ba67b5f)
-    (property "Reference" "JP2" (at 240.03 71.12 0)
+    (property "Reference" "JP1" (at 240.03 71.12 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "SolderJumper_2_Bridged" (at 240.03 73.66 0)
@@ -3347,7 +3409,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "JP2") (unit 1)
+          (reference "JP1") (unit 1)
         )
       )
     )
@@ -3396,7 +3458,7 @@
   (symbol (lib_id "power:GND") (at 38.1 110.49 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid e7c3a1bd-ae15-4ea1-86a0-52aeee41e70f)
-    (property "Reference" "#PWR06" (at 31.75 110.49 0)
+    (property "Reference" "#PWR01" (at 31.75 110.49 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 34.29 111.125 90)
@@ -3412,7 +3474,32 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR06") (unit 1)
+          (reference "#PWR01") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:+3.3V") (at 182.88 27.94 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid eff06099-7da9-42dc-9f36-126af5c1fca6)
+    (property "Reference" "#PWR013" (at 182.88 31.75 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "+3.3V" (at 182.88 24.13 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 182.88 27.94 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 182.88 27.94 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 580b1dc7-0f12-4fe8-850c-dd9539b6a697))
+    (instances
+      (project "THRControlModuleBoard"
+        (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
+          (reference "#PWR013") (unit 1)
         )
       )
     )
@@ -3421,7 +3508,7 @@
   (symbol (lib_id "Device:R") (at 214.63 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f2b121a8-cb7c-4bc6-9224-426cf464e671)
-    (property "Reference" "R6" (at 217.17 47.625 90)
+    (property "Reference" "R9" (at 217.17 47.625 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 217.17 52.07 90)
@@ -3438,7 +3525,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "R6") (unit 1)
+          (reference "R9") (unit 1)
         )
       )
     )
@@ -3447,7 +3534,7 @@
   (symbol (lib_id "power:GND") (at 228.6 147.32 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid f84a4880-9eb4-48cc-ba64-8e820275d4cd)
-    (property "Reference" "#PWR05" (at 228.6 153.67 0)
+    (property "Reference" "#PWR017" (at 228.6 153.67 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 228.6 152.4 0)
@@ -3463,7 +3550,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR05") (unit 1)
+          (reference "#PWR017") (unit 1)
         )
       )
     )
@@ -3472,7 +3559,7 @@
   (symbol (lib_id "power:GND") (at 196.85 44.45 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f88e16a9-ed88-4d30-be32-2facf4d53a01)
-    (property "Reference" "#PWR011" (at 196.85 50.8 0)
+    (property "Reference" "#PWR015" (at 196.85 50.8 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 196.85 49.53 0)
@@ -3488,7 +3575,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR011") (unit 1)
+          (reference "#PWR015") (unit 1)
         )
       )
     )
@@ -3497,7 +3584,7 @@
   (symbol (lib_id "power:GND") (at 121.92 74.93 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid fd67e389-2ab4-4c43-b12f-59faee3e481e)
-    (property "Reference" "#PWR014" (at 121.92 81.28 0)
+    (property "Reference" "#PWR09" (at 121.92 81.28 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 121.92 80.01 0)
@@ -3513,7 +3600,7 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "#PWR014") (unit 1)
+          (reference "#PWR09") (unit 1)
         )
       )
     )
@@ -3522,7 +3609,7 @@
   (symbol (lib_id "Device:C") (at 121.92 68.58 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid ffd1edeb-73cf-48c8-bc6f-9da857a4b74b)
-    (property "Reference" "C7" (at 125.73 67.945 0)
+    (property "Reference" "C4" (at 125.73 67.945 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.01uF" (at 124.46 69.85 0)
@@ -3539,20 +3626,20 @@
     (instances
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006"
-          (reference "C7") (unit 1)
+          (reference "C4") (unit 1)
         )
       )
     )
   )
 
-  (sheet (at 252.73 25.4) (size 27.94 69.85) (fields_autoplaced)
+  (sheet (at 252.73 25.4) (size 27.94 63.5) (fields_autoplaced)
     (stroke (width 0.1524) (type solid))
     (fill (color 0 0 0 0.0000))
     (uuid c651c84e-0d0e-46aa-94b6-456d48525723)
     (property "Sheetname" "NanoEvery" (at 252.73 24.6884 0)
       (effects (font (size 1.27 1.27)) (justify left bottom))
     )
-    (property "Sheetfile" "NanoEvery.kicad_sch" (at 252.73 95.8346 0)
+    (property "Sheetfile" "NanoEvery.kicad_sch" (at 252.73 89.4846 0)
       (effects (font (size 1.27 1.27)) (justify left top))
     )
     (pin "MAX31856__DRDY-DRDY" bidirectional (at 252.73 76.2 180)
@@ -3563,25 +3650,21 @@
       (effects (font (size 1.27 1.27)) (justify left))
       (uuid 923b74a4-b7a6-432c-8f7a-126d3fd95f7e)
     )
-    (pin "NanoEvery_3.3V" input (at 252.73 91.44 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 0f6ec81c-fc36-4650-8ea6-7eb514b2b012)
-    )
     (pin "MAX31856__~{CS}-~{CS}" passive (at 252.73 29.21 180)
       (effects (font (size 1.27 1.27)) (justify left))
       (uuid 3167bee5-3739-4c4d-9525-545bf01bd4b7)
     )
-    (pin "SPI__SDI-MOSI" bidirectional (at 252.73 48.26 180)
+    (pin "SPI__SCLK" bidirectional (at 252.73 38.1 180)
       (effects (font (size 1.27 1.27)) (justify left))
-      (uuid fb6a9882-2d3f-4f72-9681-1096e9f9617f)
+      (uuid c25888ba-ad8f-4232-bc48-27160e385213)
     )
-    (pin "SPI__SDO-MISO" bidirectional (at 252.73 58.42 180)
+    (pin "SPI__MOSI" bidirectional (at 252.73 48.26 180)
       (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 32409aad-92e0-4e0c-93bc-ccc69fefbd1a)
+      (uuid 6db44154-368f-46eb-9233-9aa11c22244b)
     )
-    (pin "SPI__SCK-SCLK" bidirectional (at 252.73 38.1 180)
+    (pin "SPI__MISO" bidirectional (at 252.73 58.42 180)
       (effects (font (size 1.27 1.27)) (justify left))
-      (uuid ab2ddd7b-2017-4bd8-86f0-8f14179b7f1b)
+      (uuid 4a3f6340-440e-4cee-bed7-68274ef2fbf9)
     )
     (instances
       (project "THRControlModuleBoard"
