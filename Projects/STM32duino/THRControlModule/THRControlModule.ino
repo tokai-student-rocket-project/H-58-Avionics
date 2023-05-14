@@ -5,11 +5,9 @@
 #include <mcp2515_can.h>
 
 /* CAN Config START */
-
 const int SPI_CS_PIN = 6;
 mcp2515_can CAN(SPI_CS_PIN);
 unsigned char sample[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-
 union Converter
 {
     float value;
@@ -18,18 +16,18 @@ union Converter
 /* CAN Config END */
 
 /*B3M Servo Config START*/
-
 const byte EN_PIN = 2;
 const long BAUNDRATE = 115200;
 const int TIMEOUT = 500;
 // HardwareSerial SerialX(RX, TX); X = 1, 2, 3...
 // HardwareSerial Serial1(PA_10, PA_9); // STM32F303K8
 // HardwareSerial Serial1(0, 1); // STM32F303K8
-
-// Everyくんを搭載する可能性大
-
 IcsHardSerialClass B3M(&Serial1, EN_PIN, BAUNDRATE, TIMEOUT);
 /*B3M Servo Config END*/
+
+/*RS405CB Servo Config START*/
+int REDE = 7;
+/*RS405CB Servo Config END*/
 
 /*Position Change Config START*/
 constexpr int POSITION_CHANGING_THRESHOLD = 10;
@@ -57,11 +55,17 @@ MAX31855 myMAX31855(3); //Chip Select PIN (CS)
 
 void setup()
 {
+    pinMode(REDE, OUTPUT);
+    Toque(0x01, 0x01);
+    delay(100);
+    Move(1, 0, 50);
+
     SIGNAL_initialize();
     MAX31855_initialize();
 
     B3M.begin(); // B3Mと通信開始
     Serial1.begin(115200, SERIAL_8N1); // 通信速度、パリティなしに設定
+    Serial1.begin(115200);
     Serial.begin(115200);
 
     B3M_initialize();
@@ -165,6 +169,16 @@ void loop()
     // Serial.print(Launch_Count);
     // Serial.print(",");
     // Serial.println(Waiting_Count);
+
+
+    /*RS405CB テスト用*/
+    delay(100);
+    Move(1, 900, 50); //ID =1, GoalPosition = 90.0deg(900), Time = 0.5sec(50)
+    delay(700);
+    Move(1, -900, 100); //ID =1, GoalPosition = -90.0deg(-900), Time = 1.0sec(100)
+    delay(1100);
+   /*RS405CB テスト用*/
+    
 }
 
 int B3M_writeCommand(byte id, byte TxData, byte Address)
@@ -249,6 +263,75 @@ int B3M_setPosition(byte id, int Pos, int Time)
     Serial.println("");
 
     return reData;
+}
+
+void Toque(unsigned char ID, unsigned char data)
+{
+    unsigned char TxData[9];
+    unsigned char CheckSum = 0;
+
+//パケットデータ生成
+    TxData[0] = 0xFA;  //HEADER
+    TxData[1] = 0xAF;  //HEADER
+    TxData[2] = ID;    //ID
+    TxData[3] = 0x00;  //FLAGS
+    TxData[4] = 0x24;  //ADDRESS
+    TxData[5] = 0x01;  //LENGTH
+    TxData[6] = 0x01;  //COUNT
+    TxData[7] = data;  //DATA
+
+    for (int i = 2; i<=7;i++)
+    {
+        CheckSum = CheckSum ^ TxData[i];
+    }
+    TxData[8] = CheckSum;
+
+    digitalWrite(REDE, HIGH);
+    for (int i = 0; i<=8;i++)
+    {
+        Serial1.write(TxData[i]);
+    }
+
+    Serial1.flush();
+
+    digitalWrite(REDE, LOW);
+}
+
+void Move(unsigned char ID, int Angle, int Speed)
+{
+    unsigned char TxData[12];
+    unsigned char CheckSum = 0;
+
+//パケットデータ生成
+    TxData[0] = 0xFA; //HEADER
+    TxData[1] = 0xAF; //HEADER
+    TxData[2] = ID;   //ID
+    TxData[3] = 0x00; //FLAGS
+    TxData[4] = 0x1E; //ADDRESS
+    TxData[5] = 0x04; //LENGTH
+    TxData[6] = 0x01; //COUNT
+    //Angle
+    TxData[7] = (unsigned char)0x00FF & Angle;
+    TxData[8] = (unsigned char)0x00FF &(Angle >> 8);
+    //Speed
+    TxData[9] = (unsigned char)0x00FF & Speed;
+    TxData[10] = (unsigned char)0x00FF & (Speed >> 8);
+    //チェックサム計算
+    for (int i = 2; i<=10;i++)
+    {
+        CheckSum = CheckSum ^ TxData[i];
+    } 
+    TxData[11] = CheckSum;
+
+    //パケットデータ送信
+    digitalWrite(REDE, HIGH);
+    for (int i = 0; i<=11; i++)
+    {
+        Serial1.write(TxData[i]);
+    }
+    Serial1.flush();
+
+    digitalWrite(REDE, LOW);
 }
 
 void B3M_initialize()
