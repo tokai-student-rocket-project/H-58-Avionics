@@ -2119,7 +2119,7 @@
   (symbol (lib_id "Device:LED") (at 93.98 176.53 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 14fe4006-e4b5-445a-91fb-b88b7828d81d)
-    (property "Reference" "D5" (at 97.79 176.8474 90)
+    (property "Reference" "D6" (at 97.79 176.8474 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "ORANGE" (at 97.79 179.3874 90)
@@ -2136,7 +2136,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D5") (unit 1)
+          (reference "D6") (unit 1)
         )
       )
     )
@@ -2170,7 +2170,7 @@
   (symbol (lib_id "Device:LED") (at 63.5 176.53 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 26aeae62-2ad4-4a91-b761-fa569e537f1c)
-    (property "Reference" "D2" (at 67.31 176.8474 90)
+    (property "Reference" "D3" (at 67.31 176.8474 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "ORANGE" (at 67.31 179.3874 90)
@@ -2187,7 +2187,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D2") (unit 1)
+          (reference "D3") (unit 1)
         )
       )
     )
@@ -2196,7 +2196,7 @@
   (symbol (lib_id "Device:R") (at 156.21 68.58 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 28186237-e8c8-4f5d-9687-f37acd7a08c7)
-    (property "Reference" "R2" (at 156.21 63.5 90)
+    (property "Reference" "R3" (at 156.21 63.5 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "10kΩ" (at 156.21 66.04 90)
@@ -2213,7 +2213,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R2") (unit 1)
+          (reference "R3") (unit 1)
         )
       )
     )
@@ -2222,7 +2222,7 @@
   (symbol (lib_id "Device:C") (at 264.16 39.37 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 28f5fb1a-e0b7-45de-b2cb-6e59282a4c41)
-    (property "Reference" "C5" (at 262.89 45.72 90)
+    (property "Reference" "C7" (at 262.89 45.72 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "15pF" (at 261.62 43.18 90)
@@ -2239,7 +2239,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C5") (unit 1)
+          (reference "C7") (unit 1)
         )
       )
     )
@@ -2248,7 +2248,7 @@
   (symbol (lib_id "Regulator_Linear:L7805") (at 209.55 102.87 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 2a7a1a2a-8c37-4d04-984c-624165701c9e)
-    (property "Reference" "U4" (at 209.55 96.52 0)
+    (property "Reference" "U3" (at 209.55 96.52 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "NJM7805SDL1" (at 209.55 99.06 0)
@@ -2266,7 +2266,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U4") (unit 1)
+          (reference "U3") (unit 1)
         )
       )
     )
@@ -2325,7 +2325,7 @@
   (symbol (lib_id "Device:C") (at 96.52 31.75 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 3fb744aa-9c32-49ec-9cc2-7c729fc0887f)
-    (property "Reference" "C2" (at 99.06 30.48 0)
+    (property "Reference" "C3" (at 99.06 30.48 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1μF" (at 99.06 33.02 0)
@@ -2342,7 +2342,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C2") (unit 1)
+          (reference "C3") (unit 1)
         )
       )
     )
@@ -2402,7 +2402,7 @@
   (symbol (lib_id "Device:LED") (at 83.82 176.53 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 469565b5-7472-4168-b20c-cb68b97334a4)
-    (property "Reference" "D4" (at 87.63 176.8474 90)
+    (property "Reference" "D5" (at 87.63 176.8474 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "ORANGE" (at 87.63 179.3874 90)
@@ -2419,7 +2419,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D4") (unit 1)
+          (reference "D5") (unit 1)
         )
       )
     )
@@ -2479,7 +2479,7 @@
   (symbol (lib_id "Interface_CAN_LIN:MCP2562-E-P") (at 105.41 53.34 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 5609ab7b-a091-49b6-9465-afbbb168953e)
-    (property "Reference" "U2" (at 106.68 41.91 0)
+    (property "Reference" "U1" (at 106.68 41.91 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "MCP2562-E-P" (at 106.68 44.45 0)
@@ -2502,7 +2502,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U2") (unit 1)
+          (reference "U1") (unit 1)
         )
       )
     )
@@ -2511,7 +2511,7 @@
   (symbol (lib_id "Device:C") (at 149.86 26.67 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 57358458-7ede-4be1-a4c2-02d7e064abdc)
-    (property "Reference" "C3" (at 152.4 25.4 0)
+    (property "Reference" "C5" (at 152.4 25.4 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1μF" (at 152.4 27.94 0)
@@ -2528,7 +2528,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C3") (unit 1)
+          (reference "C5") (unit 1)
         )
       )
     )
@@ -2663,7 +2663,7 @@
   (symbol (lib_id "Device:C") (at 87.63 31.75 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 6fdfc056-e204-43f9-92a7-bfe10e0c74b3)
-    (property "Reference" "C1" (at 90.17 30.48 0)
+    (property "Reference" "C4" (at 90.17 30.48 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1μF" (at 90.17 33.02 0)
@@ -2680,7 +2680,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C1") (unit 1)
+          (reference "C4") (unit 1)
         )
       )
     )
@@ -2689,7 +2689,7 @@
   (symbol (lib_id "Device:C") (at 222.25 109.22 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 756759b4-da6e-4350-b865-73fa66a71388)
-    (property "Reference" "C7" (at 226.06 108.585 0)
+    (property "Reference" "C6" (at 226.06 108.585 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1μF" (at 226.06 111.125 0)
@@ -2706,7 +2706,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C7") (unit 1)
+          (reference "C6") (unit 1)
         )
       )
     )
@@ -2765,13 +2765,13 @@
   (symbol (lib_id "ABX00012:ABX00012") (at 90.17 110.49 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 9677f44c-9205-43b4-a4c2-580f7643972b)
-    (property "Reference" "U1" (at 90.17 86.36 0)
+    (property "Reference" "U4" (at 90.17 86.36 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "ABX00012" (at 90.17 88.9 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "ARDUINO_ABX00012" (at 90.17 110.49 0)
+    (property "Footprint" "ABX00012:ARDUINO_ABX00012" (at 90.17 110.49 0)
       (effects (font (size 1.27 1.27)) (justify bottom) hide)
     )
     (property "Datasheet" "" (at 90.17 110.49 0)
@@ -2820,7 +2820,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U1") (unit 1)
+          (reference "U4") (unit 1)
         )
       )
     )
@@ -3031,7 +3031,7 @@
   (symbol (lib_id "Device:C") (at 196.85 109.22 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid bb93875c-4690-475a-9b6d-3e38f6693fe8)
-    (property "Reference" "C6" (at 200.66 108.585 0)
+    (property "Reference" "C2" (at 200.66 108.585 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.33μF" (at 200.66 111.125 0)
@@ -3048,7 +3048,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C6") (unit 1)
+          (reference "C2") (unit 1)
         )
       )
     )
@@ -3057,7 +3057,7 @@
   (symbol (lib_id "MCP2515-I_P:MCP2515-I{slash}P") (at 194.31 45.72 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid bbebb2b4-ed5f-4180-81ac-c4d674cc9ab3)
-    (property "Reference" "U3" (at 194.31 24.13 0)
+    (property "Reference" "U2" (at 194.31 24.13 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "MCP2515-I/P" (at 194.31 26.67 0)
@@ -3108,7 +3108,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U3") (unit 1)
+          (reference "U2") (unit 1)
         )
       )
     )
@@ -3117,7 +3117,7 @@
   (symbol (lib_id "Device:R") (at 54.61 166.37 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid bcc0217f-19b7-4fd4-ad6b-f0dcc349fbd0)
-    (property "Reference" "R3" (at 57.15 165.0999 0)
+    (property "Reference" "R2" (at 57.15 165.0999 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "620Ω" (at 57.15 167.6399 0)
@@ -3134,7 +3134,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R3") (unit 1)
+          (reference "R2") (unit 1)
         )
       )
     )
@@ -3219,7 +3219,7 @@
   (symbol (lib_id "Device:C") (at 264.16 26.67 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid d4e0d3f0-6c7c-49b3-9cb2-10fc189cb73a)
-    (property "Reference" "C4" (at 262.89 20.32 90)
+    (property "Reference" "C1" (at 262.89 20.32 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "15pF" (at 261.62 22.86 90)
@@ -3236,7 +3236,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C4") (unit 1)
+          (reference "C1") (unit 1)
         )
       )
     )
@@ -3245,7 +3245,7 @@
   (symbol (lib_id "Device:LED") (at 73.66 176.53 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid d6bbf79c-0d6a-40fe-94f9-b6aef38f0fd4)
-    (property "Reference" "D3" (at 77.47 176.8474 90)
+    (property "Reference" "D2" (at 77.47 176.8474 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "ORANGE" (at 77.47 179.3874 90)
@@ -3262,7 +3262,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D3") (unit 1)
+          (reference "D2") (unit 1)
         )
       )
     )
@@ -3373,7 +3373,7 @@
   (symbol (lib_id "Diode:1N4007") (at 209.55 92.71 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid f70c3a74-751c-47a5-90fd-292948a1600a)
-    (property "Reference" "D6" (at 209.55 87.63 0)
+    (property "Reference" "D4" (at 209.55 87.63 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1N4007" (at 209.55 90.17 0)
@@ -3396,7 +3396,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D6") (unit 1)
+          (reference "D4") (unit 1)
         )
       )
     )
@@ -3480,7 +3480,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x08") (at 26.67 34.29 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid fe35b9d3-1bc8-4b25-9122-51653ddb6e7d)
-    (property "Reference" "J3" (at 26.67 19.05 0)
+    (property "Reference" "J1" (at 26.67 19.05 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_01x08" (at 26.67 21.59 0)
@@ -3503,7 +3503,7 @@
     (instances
       (project "AirData"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "J3") (unit 1)
+          (reference "J1") (unit 1)
         )
       )
     )

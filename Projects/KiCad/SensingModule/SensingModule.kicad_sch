@@ -2976,7 +2976,7 @@
   (symbol (lib_id "Device:R") (at 181.61 64.77 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 08dbb6a3-5e49-4265-a3ef-ba9e37092263)
-    (property "Reference" "R6" (at 184.15 64.135 0)
+    (property "Reference" "R8" (at 184.15 64.135 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "120Ω" (at 184.15 66.675 0)
@@ -2993,7 +2993,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R6") (unit 1)
+          (reference "R8") (unit 1)
         )
       )
     )
@@ -3002,7 +3002,7 @@
   (symbol (lib_id "Device:LED") (at 252.73 58.42 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 12ecbb8d-b1b3-4642-bac4-fa6595dcea9e)
-    (property "Reference" "D4" (at 256.54 58.7374 90)
+    (property "Reference" "D6" (at 256.54 58.7374 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "GREEN" (at 256.54 61.2774 90)
@@ -3019,7 +3019,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D4") (unit 1)
+          (reference "D6") (unit 1)
         )
       )
     )
@@ -3078,7 +3078,7 @@
   (symbol (lib_id "Device:R") (at 252.73 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 166149a3-2a8f-473c-81a5-54a4db0034c4)
-    (property "Reference" "R13" (at 255.27 46.9899 0)
+    (property "Reference" "R15" (at 255.27 46.9899 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "300Ω" (at 255.27 49.5299 0)
@@ -3095,7 +3095,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R13") (unit 1)
+          (reference "R15") (unit 1)
         )
       )
     )
@@ -3129,7 +3129,7 @@
   (symbol (lib_id "Device:R") (at 232.41 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 1afec356-b7c7-49c8-ac72-9e8ece997d71)
-    (property "Reference" "R9" (at 234.95 46.9899 0)
+    (property "Reference" "R3" (at 234.95 46.9899 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100Ω" (at 234.95 49.5299 0)
@@ -3146,7 +3146,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R9") (unit 1)
+          (reference "R3") (unit 1)
         )
       )
     )
@@ -3180,7 +3180,7 @@
   (symbol (lib_id "Device:R") (at 273.05 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 2025b93c-889b-425e-936a-ba1467f0f878)
-    (property "Reference" "R15" (at 275.59 46.9899 0)
+    (property "Reference" "R7" (at 275.59 46.9899 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "2kΩ" (at 275.59 49.5299 0)
@@ -3197,7 +3197,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R15") (unit 1)
+          (reference "R7") (unit 1)
         )
       )
     )
@@ -3282,7 +3282,7 @@
   (symbol (lib_id "Device:R") (at 36.83 170.18 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 27450b64-3f15-4d68-a46b-0d1940b0f086)
-    (property "Reference" "R2" (at 39.37 169.545 0)
+    (property "Reference" "R9" (at 39.37 169.545 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10kΩ" (at 39.37 172.085 0)
@@ -3299,7 +3299,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R2") (unit 1)
+          (reference "R9") (unit 1)
         )
       )
     )
@@ -3408,7 +3408,7 @@
   (symbol (lib_id "Device:LED") (at 242.57 58.42 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 328ab559-901b-4ce1-839f-1dc3922f8412)
-    (property "Reference" "D3" (at 246.38 58.7374 90)
+    (property "Reference" "D5" (at 246.38 58.7374 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "GREEN" (at 246.38 61.2774 90)
@@ -3425,7 +3425,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D3") (unit 1)
+          (reference "D5") (unit 1)
         )
       )
     )
@@ -3434,7 +3434,7 @@
   (symbol (lib_id "Device:R") (at 161.29 113.03 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 3394cc8e-1663-49f2-8d4f-7fdf28fa5afc)
-    (property "Reference" "R5" (at 160.02 111.76 0)
+    (property "Reference" "R14" (at 160.02 111.76 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "4.7kΩ" (at 160.02 114.3 0)
@@ -3451,7 +3451,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R5") (unit 1)
+          (reference "R14") (unit 1)
         )
       )
     )
@@ -3460,7 +3460,7 @@
   (symbol (lib_id "Connector:Conn_01x02_Pin") (at 26.67 179.07 0) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 35f9ff19-7fc6-4143-90d2-160d97dbe78f)
-    (property "Reference" "J1" (at 27.305 182.88 0)
+    (property "Reference" "J3" (at 27.305 182.88 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_01x02_Pin" (at 27.305 180.34 0)
@@ -3477,7 +3477,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "J1") (unit 1)
+          (reference "J3") (unit 1)
         )
       )
     )
@@ -3587,7 +3587,7 @@
   (symbol (lib_id "Device:R") (at 242.57 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 4f68cc16-3170-4ca4-a248-00e2aa630387)
-    (property "Reference" "R12" (at 245.11 46.9899 0)
+    (property "Reference" "R11" (at 245.11 46.9899 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "300Ω" (at 245.11 49.5299 0)
@@ -3604,7 +3604,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R12") (unit 1)
+          (reference "R11") (unit 1)
         )
       )
     )
@@ -3638,7 +3638,7 @@
   (symbol (lib_id "Memory_NVRAM:MB85RS2MT") (at 257.81 144.78 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 5587abe6-0f50-4413-9530-3b1a1905a061)
-    (property "Reference" "U7" (at 259.7659 135.89 0)
+    (property "Reference" "U6" (at 259.7659 135.89 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "MB85RS2MT" (at 259.7659 138.43 0)
@@ -3661,7 +3661,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U7") (unit 1)
+          (reference "U6") (unit 1)
         )
       )
     )
@@ -3670,7 +3670,7 @@
   (symbol (lib_id "Interface_CAN_LIN:MCP2562-E-P") (at 138.43 35.56 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 5609ab7b-a091-49b6-9465-afbbb168953e)
-    (property "Reference" "U4" (at 139.7 24.13 0)
+    (property "Reference" "U1" (at 139.7 24.13 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "MCP2562-E-P" (at 139.7 26.67 0)
@@ -3693,7 +3693,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U4") (unit 1)
+          (reference "U1") (unit 1)
         )
       )
     )
@@ -3809,7 +3809,7 @@
   (symbol (lib_id "Device:R") (at 262.89 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 646b02ef-7e85-4501-8c5f-4c4a6ded44fa)
-    (property "Reference" "R14" (at 265.43 46.9899 0)
+    (property "Reference" "R10" (at 265.43 46.9899 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "300Ω" (at 265.43 49.5299 0)
@@ -3826,7 +3826,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R14") (unit 1)
+          (reference "R10") (unit 1)
         )
       )
     )
@@ -3886,7 +3886,7 @@
   (symbol (lib_id "Device:R") (at 237.49 140.97 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 65e1694f-d9c4-47de-8860-354234e9ef5a)
-    (property "Reference" "R11" (at 238.76 139.7 0)
+    (property "Reference" "R12" (at 238.76 139.7 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "4.7kΩ" (at 238.76 142.24 0)
@@ -3903,7 +3903,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R11") (unit 1)
+          (reference "R12") (unit 1)
         )
       )
     )
@@ -3912,7 +3912,7 @@
   (symbol (lib_id "Akizuki_BME280_Module:BME280") (at 133.35 168.91 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 6ca91c8d-5b14-4064-8947-69c5ffb700d2)
-    (property "Reference" "U3" (at 144.1959 167.64 0)
+    (property "Reference" "U2" (at 144.1959 167.64 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "~" (at 133.35 165.1 0)
@@ -3933,7 +3933,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U3") (unit 1)
+          (reference "U2") (unit 1)
         )
       )
     )
@@ -3968,7 +3968,7 @@
   (symbol (lib_id "Relay_SolidState:TLP222A") (at 166.37 73.66 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 71069bca-2fea-4d5d-9417-182b6f117ea9)
-    (property "Reference" "U5" (at 166.37 81.28 0)
+    (property "Reference" "U4" (at 166.37 81.28 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "TLP222A" (at 166.37 78.74 0)
@@ -3987,7 +3987,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U5") (unit 1)
+          (reference "U4") (unit 1)
         )
       )
     )
@@ -4021,7 +4021,7 @@
   (symbol (lib_id "Device:R") (at 36.83 123.19 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 7dc90d3e-b057-4917-b77e-07a1339fd339)
-    (property "Reference" "R1" (at 31.75 121.92 0)
+    (property "Reference" "R5" (at 31.75 121.92 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10kΩ" (at 29.21 124.46 0)
@@ -4038,7 +4038,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R1") (unit 1)
+          (reference "R5") (unit 1)
         )
       )
     )
@@ -4047,7 +4047,7 @@
   (symbol (lib_id "Device:LED") (at 273.05 58.42 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 800a80c8-d9b6-47d0-957a-07b209e27cc4)
-    (property "Reference" "D6" (at 276.86 58.7374 90)
+    (property "Reference" "D3" (at 276.86 58.7374 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "RED" (at 276.86 61.2774 90)
@@ -4064,7 +4064,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D6") (unit 1)
+          (reference "D3") (unit 1)
         )
       )
     )
@@ -4250,7 +4250,7 @@
   (symbol (lib_id "Akizuki_BNO055_Module:BNO055") (at 86.36 173.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 9984d32d-ffbd-4e6c-8a35-5bfeb97c96fe)
-    (property "Reference" "U1" (at 92.71 167.64 0)
+    (property "Reference" "U3" (at 92.71 167.64 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "~" (at 86.36 173.99 0)
@@ -4272,7 +4272,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U1") (unit 1)
+          (reference "U3") (unit 1)
         )
       )
     )
@@ -4281,7 +4281,7 @@
   (symbol (lib_id "Device:R") (at 181.61 77.47 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 9d96c464-40e5-438f-a712-3bda1f54552e)
-    (property "Reference" "R7" (at 184.15 76.835 0)
+    (property "Reference" "R6" (at 184.15 76.835 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "120Ω" (at 184.15 79.375 0)
@@ -4298,7 +4298,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R7") (unit 1)
+          (reference "R6") (unit 1)
         )
       )
     )
@@ -4307,13 +4307,13 @@
   (symbol (lib_id "NUCLEO-F303K8:NUCLEO-F303K8") (at 104.14 121.92 0) (unit 2)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid a0d1a2f5-c5e6-4f57-92bd-bd2d21f3c92e)
-    (property "Reference" "U2" (at 104.14 92.71 0)
+    (property "Reference" "U5" (at 104.14 92.71 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "NUCLEO-F303K8" (at 104.14 95.25 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "MODULE_NUCLEO-F303K8" (at 104.14 121.92 0)
+    (property "Footprint" "NUCLEO-F303K8:MODULE_NUCLEO-F303K8" (at 104.14 121.92 0)
       (effects (font (size 1.27 1.27)) (justify bottom) hide)
     )
     (property "Datasheet" "" (at 104.14 121.92 0)
@@ -4367,7 +4367,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U2") (unit 2)
+          (reference "U5") (unit 2)
         )
       )
     )
@@ -4376,7 +4376,7 @@
   (symbol (lib_id "Device:R") (at 237.49 101.6 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid a3321c3a-3119-47a7-bde1-f9be08fc6fd3)
-    (property "Reference" "R10" (at 238.76 100.33 0)
+    (property "Reference" "R13" (at 238.76 100.33 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "4.7kΩ" (at 238.76 102.87 0)
@@ -4393,7 +4393,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R10") (unit 1)
+          (reference "R13") (unit 1)
         )
       )
     )
@@ -4578,7 +4578,7 @@
   (symbol (lib_id "Device:R") (at 41.91 123.19 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid b93def2c-ebf3-497a-a5fb-a8db42c30cd9)
-    (property "Reference" "R3" (at 43.18 121.92 0)
+    (property "Reference" "R4" (at 43.18 121.92 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10kΩ" (at 43.18 124.46 0)
@@ -4595,7 +4595,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R3") (unit 1)
+          (reference "R4") (unit 1)
         )
       )
     )
@@ -4604,7 +4604,7 @@
   (symbol (lib_id "Device:LED") (at 262.89 58.42 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid bcb80a9a-ccc2-41ac-a4b2-ac2ddd30b543)
-    (property "Reference" "D5" (at 266.7 58.7374 90)
+    (property "Reference" "D4" (at 266.7 58.7374 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "RED" (at 266.7 61.2774 90)
@@ -4621,7 +4621,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D5") (unit 1)
+          (reference "D4") (unit 1)
         )
       )
     )
@@ -4790,7 +4790,7 @@
   (symbol (lib_id "Device:R") (at 222.25 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid d9add90d-628b-45ad-ba2f-5365ac8bed40)
-    (property "Reference" "R8" (at 224.79 46.9899 0)
+    (property "Reference" "R1" (at 224.79 46.9899 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100Ω" (at 224.79 49.5299 0)
@@ -4807,7 +4807,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R8") (unit 1)
+          (reference "R1") (unit 1)
         )
       )
     )
@@ -4866,7 +4866,7 @@
   (symbol (lib_id "Device:R") (at 116.84 35.56 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid e2626050-05cc-419f-9de1-e32c5cd3f1ed)
-    (property "Reference" "R4" (at 118.11 34.29 0)
+    (property "Reference" "R2" (at 118.11 34.29 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "120R1/4W" (at 118.11 36.83 0)
@@ -4883,7 +4883,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R4") (unit 1)
+          (reference "R2") (unit 1)
         )
       )
     )
@@ -4892,7 +4892,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x02") (at 30.48 53.34 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid e27f9587-cc98-4cbf-ba7c-f17c60a16a41)
-    (property "Reference" "J3" (at 30.48 45.72 0)
+    (property "Reference" "J1" (at 30.48 45.72 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_01x02" (at 30.48 48.26 0)
@@ -4909,7 +4909,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "J3") (unit 1)
+          (reference "J1") (unit 1)
         )
       )
     )
@@ -4968,13 +4968,13 @@
   (symbol (lib_id "NUCLEO-F303K8:NUCLEO-F303K8") (at 87.63 121.92 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f3ae25ad-d6c9-4382-b528-cc711221aa45)
-    (property "Reference" "U2" (at 87.63 92.71 0)
+    (property "Reference" "U5" (at 87.63 92.71 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "NUCLEO-F303K8" (at 87.63 95.25 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "MODULE_NUCLEO-F303K8" (at 87.63 121.92 0)
+    (property "Footprint" "NUCLEO-F303K8:MODULE_NUCLEO-F303K8" (at 87.63 121.92 0)
       (effects (font (size 1.27 1.27)) (justify bottom) hide)
     )
     (property "Datasheet" "" (at 87.63 121.92 0)
@@ -5028,7 +5028,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U2") (unit 1)
+          (reference "U5") (unit 1)
         )
       )
     )
@@ -5062,7 +5062,7 @@
   (symbol (lib_id "Memory_NVRAM:MB85RS2MT") (at 257.81 105.41 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid f6674180-c917-4658-976c-5e48a1ac79bb)
-    (property "Reference" "U6" (at 259.7659 96.52 0)
+    (property "Reference" "U7" (at 259.7659 96.52 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "MB85RS2MT" (at 259.7659 99.06 0)
@@ -5085,7 +5085,7 @@
     (instances
       (project "SensingModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U6") (unit 1)
+          (reference "U7") (unit 1)
         )
       )
     )

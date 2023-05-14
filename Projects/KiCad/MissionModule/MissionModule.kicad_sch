@@ -3324,7 +3324,7 @@
   (symbol (lib_id "Device:R") (at 213.36 46.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 0009b872-d917-439d-b8da-2ce68418a665)
-    (property "Reference" "R6" (at 215.9 45.7199 0)
+    (property "Reference" "R2" (at 215.9 45.7199 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "620Ω" (at 215.9 48.2599 0)
@@ -3341,7 +3341,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R6") (unit 1)
+          (reference "R2") (unit 1)
         )
       )
     )
@@ -3451,7 +3451,7 @@
   (symbol (lib_id "Device:C") (at 248.92 109.22 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 11dc9d95-5e56-4de0-a13a-396390acf8b6)
-    (property "Reference" "C8" (at 252.73 108.585 0)
+    (property "Reference" "C7" (at 252.73 108.585 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1μF" (at 252.73 111.125 0)
@@ -3468,7 +3468,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C8") (unit 1)
+          (reference "C7") (unit 1)
         )
       )
     )
@@ -3477,7 +3477,7 @@
   (symbol (lib_id "Device:R") (at 271.78 46.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 134d1916-93e4-416a-a867-8185699b5122)
-    (property "Reference" "R14" (at 274.32 45.7199 0)
+    (property "Reference" "R6" (at 274.32 45.7199 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100Ω" (at 274.32 48.2599 0)
@@ -3494,7 +3494,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R14") (unit 1)
+          (reference "R6") (unit 1)
         )
       )
     )
@@ -3656,7 +3656,7 @@
   (symbol (lib_id "Device:R") (at 133.35 66.04 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 28186237-e8c8-4f5d-9687-f37acd7a08c7)
-    (property "Reference" "R2" (at 133.35 60.96 90)
+    (property "Reference" "R3" (at 133.35 60.96 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "10kΩ" (at 133.35 63.5 90)
@@ -3673,7 +3673,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R2") (unit 1)
+          (reference "R3") (unit 1)
         )
       )
     )
@@ -3708,7 +3708,7 @@
   (symbol (lib_id "Regulator_Linear:L7805") (at 236.22 102.87 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 291e3261-1d5a-456e-a0e9-918d0b0fc126)
-    (property "Reference" "U8" (at 236.22 96.52 0)
+    (property "Reference" "U3" (at 236.22 96.52 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "NJM7805SDL1" (at 236.22 99.06 0)
@@ -3726,7 +3726,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U8") (unit 1)
+          (reference "U3") (unit 1)
         )
       )
     )
@@ -3735,7 +3735,7 @@
   (symbol (lib_id "Device:R") (at 252.73 46.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 2b647852-220d-48a7-94e8-84ae0c16f2f8)
-    (property "Reference" "R12" (at 255.27 45.7199 0)
+    (property "Reference" "R15" (at 255.27 45.7199 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "300Ω" (at 255.27 48.2599 0)
@@ -3752,7 +3752,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R12") (unit 1)
+          (reference "R15") (unit 1)
         )
       )
     )
@@ -3811,7 +3811,7 @@
   (symbol (lib_id "Device:LED") (at 242.57 57.15 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 323d67c8-242c-49a5-bc32-7cb1a9481dce)
-    (property "Reference" "D4" (at 246.38 57.4674 90)
+    (property "Reference" "D7" (at 246.38 57.4674 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "GREEN" (at 246.38 60.0074 90)
@@ -3828,7 +3828,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D4") (unit 1)
+          (reference "D7") (unit 1)
         )
       )
     )
@@ -3837,7 +3837,7 @@
   (symbol (lib_id "Device:LED") (at 232.41 57.15 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 36bd6520-2fc2-44c6-8bb3-62366b327e84)
-    (property "Reference" "D3" (at 236.22 57.4674 90)
+    (property "Reference" "D4" (at 236.22 57.4674 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "ORANGE" (at 236.22 60.0074 90)
@@ -3854,7 +3854,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D3") (unit 1)
+          (reference "D4") (unit 1)
         )
       )
     )
@@ -3863,7 +3863,7 @@
   (symbol (lib_id "Device:C") (at 83.82 27.94 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 3fb744aa-9c32-49ec-9cc2-7c729fc0887f)
-    (property "Reference" "C2" (at 86.36 26.67 0)
+    (property "Reference" "C4" (at 86.36 26.67 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1μF" (at 86.36 29.21 0)
@@ -3880,7 +3880,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C2") (unit 1)
+          (reference "C4") (unit 1)
         )
       )
     )
@@ -3889,7 +3889,7 @@
   (symbol (lib_id "Device:R") (at 101.6 128.27 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 40ef9c90-dc27-4fe3-a2a7-0080a4b5e5fb)
-    (property "Reference" "R7" (at 102.87 127 0)
+    (property "Reference" "R14" (at 102.87 127 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "4.7kΩ" (at 102.87 129.54 0)
@@ -3906,7 +3906,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R7") (unit 1)
+          (reference "R14") (unit 1)
         )
       )
     )
@@ -3915,7 +3915,7 @@
   (symbol (lib_id "Device:R") (at 36.83 128.27 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 411a20a3-3e49-4320-9fff-a02e720a6645)
-    (property "Reference" "R8" (at 38.1 127 0)
+    (property "Reference" "R13" (at 38.1 127 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "4.7kΩ" (at 38.1 129.54 0)
@@ -3932,7 +3932,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R8") (unit 1)
+          (reference "R13") (unit 1)
         )
       )
     )
@@ -3991,7 +3991,7 @@
   (symbol (lib_id "Device:C") (at 223.52 109.22 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 431fcbf4-6268-441a-9fb9-fa7060e92af8)
-    (property "Reference" "C7" (at 227.33 108.585 0)
+    (property "Reference" "C3" (at 227.33 108.585 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.33μF" (at 227.33 111.125 0)
@@ -4008,7 +4008,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C7") (unit 1)
+          (reference "C3") (unit 1)
         )
       )
     )
@@ -4042,7 +4042,7 @@
   (symbol (lib_id "Device:R") (at 157.48 179.07 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 4b126ffb-9031-4845-82b5-9b353a88a7b4)
-    (property "Reference" "R5" (at 160.02 178.435 0)
+    (property "Reference" "R8" (at 160.02 178.435 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "120Ω" (at 160.02 180.975 0)
@@ -4059,7 +4059,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R5") (unit 1)
+          (reference "R8") (unit 1)
         )
       )
     )
@@ -4068,7 +4068,7 @@
   (symbol (lib_id "Interface_CAN_LIN:MCP2562-E-P") (at 92.71 49.53 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 5609ab7b-a091-49b6-9465-afbbb168953e)
-    (property "Reference" "U3" (at 93.98 38.1 0)
+    (property "Reference" "U1" (at 93.98 38.1 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "MCP2562-E-P" (at 93.98 40.64 0)
@@ -4091,7 +4091,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U3") (unit 1)
+          (reference "U1") (unit 1)
         )
       )
     )
@@ -4100,7 +4100,7 @@
   (symbol (lib_id "Device:C") (at 127 24.13 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 57358458-7ede-4be1-a4c2-02d7e064abdc)
-    (property "Reference" "C4" (at 129.54 22.86 0)
+    (property "Reference" "C5" (at 129.54 22.86 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1μF" (at 129.54 25.4 0)
@@ -4117,7 +4117,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C4") (unit 1)
+          (reference "C5") (unit 1)
         )
       )
     )
@@ -4151,7 +4151,7 @@
   (symbol (lib_id "Device:LED") (at 281.94 57.15 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 58ac7da6-0c16-4803-81e6-ebab31e9d396)
-    (property "Reference" "D8" (at 285.75 57.4674 90)
+    (property "Reference" "D6" (at 285.75 57.4674 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "ORANGE" (at 285.75 60.0074 90)
@@ -4168,7 +4168,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D8") (unit 1)
+          (reference "D6") (unit 1)
         )
       )
     )
@@ -4202,7 +4202,7 @@
   (symbol (lib_id "Device:R") (at 161.29 119.38 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 5cc4dfee-940f-4278-85ee-1136b3d35a23)
-    (property "Reference" "R3" (at 160.02 118.11 0)
+    (property "Reference" "R12" (at 160.02 118.11 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "4.7kΩ" (at 160.02 120.65 0)
@@ -4219,7 +4219,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R3") (unit 1)
+          (reference "R12") (unit 1)
         )
       )
     )
@@ -4278,7 +4278,7 @@
   (symbol (lib_id "Memory_NVRAM:MB85RS2MT") (at 121.92 132.08 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 6932d271-bf05-4bf3-8909-ad017b2cb0d5)
-    (property "Reference" "U6" (at 123.8759 123.19 0)
+    (property "Reference" "U7" (at 123.8759 123.19 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "MB85RS2MT" (at 123.8759 125.73 0)
@@ -4301,7 +4301,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U6") (unit 1)
+          (reference "U7") (unit 1)
         )
       )
     )
@@ -4310,7 +4310,7 @@
   (symbol (lib_id "StrawberryLinux_ADXL375_Module:ADXL375") (at 46.99 167.64 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 6ac3eb8c-7869-4e2a-be01-bc12f8618e44)
-    (property "Reference" "U1" (at 73.66 170.8403 0)
+    (property "Reference" "U4" (at 73.66 170.8403 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "~" (at 46.99 167.64 0)
@@ -4335,7 +4335,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U1") (unit 1)
+          (reference "U4") (unit 1)
         )
       )
     )
@@ -4344,7 +4344,7 @@
   (symbol (lib_id "Device:C") (at 74.93 27.94 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 6fdfc056-e204-43f9-92a7-bfe10e0c74b3)
-    (property "Reference" "C1" (at 77.47 26.67 0)
+    (property "Reference" "C2" (at 77.47 26.67 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1μF" (at 77.47 29.21 0)
@@ -4361,7 +4361,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C1") (unit 1)
+          (reference "C2") (unit 1)
         )
       )
     )
@@ -4370,7 +4370,7 @@
   (symbol (lib_id "Memory_NVRAM:MB85RS2MT") (at 57.15 132.08 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 79af4945-b793-49f0-8011-caf430a79d84)
-    (property "Reference" "U7" (at 59.1059 123.19 0)
+    (property "Reference" "U8" (at 59.1059 123.19 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "MB85RS2MT" (at 59.1059 125.73 0)
@@ -4393,7 +4393,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U7") (unit 1)
+          (reference "U8") (unit 1)
         )
       )
     )
@@ -4402,7 +4402,7 @@
   (symbol (lib_id "Device:R") (at 262.89 46.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 79e3f0e5-3b45-4fa4-840f-c5ed488bc088)
-    (property "Reference" "R13" (at 265.43 45.7199 0)
+    (property "Reference" "R9" (at 265.43 45.7199 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "300Ω" (at 265.43 48.2599 0)
@@ -4419,7 +4419,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R13") (unit 1)
+          (reference "R9") (unit 1)
         )
       )
     )
@@ -4503,7 +4503,7 @@
   (symbol (lib_id "Device:R") (at 157.48 166.37 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 85952478-cb88-44da-b698-52cee55e0696)
-    (property "Reference" "R4" (at 160.02 165.735 0)
+    (property "Reference" "R10" (at 160.02 165.735 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "120Ω" (at 160.02 168.275 0)
@@ -4520,7 +4520,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R4") (unit 1)
+          (reference "R10") (unit 1)
         )
       )
     )
@@ -4604,13 +4604,13 @@
   (symbol (lib_id "ABX00012:ABX00012") (at 77.47 91.44 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 9677f44c-9205-43b4-a4c2-580f7643972b)
-    (property "Reference" "U2" (at 77.47 67.31 0)
+    (property "Reference" "U6" (at 77.47 67.31 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "ABX00012" (at 77.47 69.85 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "ARDUINO_ABX00012" (at 77.47 91.44 0)
+    (property "Footprint" "ABX00012:ARDUINO_ABX00012" (at 77.47 91.44 0)
       (effects (font (size 1.27 1.27)) (justify bottom) hide)
     )
     (property "Datasheet" "" (at 77.47 91.44 0)
@@ -4659,7 +4659,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U2") (unit 1)
+          (reference "U6") (unit 1)
         )
       )
     )
@@ -4718,7 +4718,7 @@
   (symbol (lib_id "Device:LED") (at 252.73 57.15 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a34baf97-3669-4a9b-a218-4e3ebf04045f)
-    (property "Reference" "D5" (at 256.54 57.4674 90)
+    (property "Reference" "D8" (at 256.54 57.4674 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "GREEN" (at 256.54 60.0074 90)
@@ -4735,7 +4735,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D5") (unit 1)
+          (reference "D8") (unit 1)
         )
       )
     )
@@ -4744,7 +4744,7 @@
   (symbol (lib_id "Device:LED") (at 262.89 57.15 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a3c6c19d-3601-4f3d-926d-fd55f10c3124)
-    (property "Reference" "D6" (at 266.7 57.4674 90)
+    (property "Reference" "D9" (at 266.7 57.4674 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "RED" (at 266.7 60.0074 90)
@@ -4761,7 +4761,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D6") (unit 1)
+          (reference "D9") (unit 1)
         )
       )
     )
@@ -4870,7 +4870,7 @@
   (symbol (lib_id "Device:LED") (at 271.78 57.15 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a8868d93-4f3c-4fb4-b5f2-1391b040f0e1)
-    (property "Reference" "D7" (at 275.59 57.4674 90)
+    (property "Reference" "D5" (at 275.59 57.4674 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "ORANGE" (at 275.59 60.0074 90)
@@ -4887,7 +4887,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D7") (unit 1)
+          (reference "D5") (unit 1)
         )
       )
     )
@@ -4946,7 +4946,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x08") (at 19.05 34.29 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid ae80533a-cae2-4be2-8f4f-62cd4c1eca21)
-    (property "Reference" "J4" (at 19.05 19.05 0)
+    (property "Reference" "J1" (at 19.05 19.05 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_01x08" (at 19.05 21.59 0)
@@ -4969,7 +4969,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "J4") (unit 1)
+          (reference "J1") (unit 1)
         )
       )
     )
@@ -5079,7 +5079,7 @@
   (symbol (lib_id "Diode:1N4007") (at 236.22 92.71 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b7c9a893-7ea9-4285-a245-d379e44aed2d)
-    (property "Reference" "D9" (at 236.22 87.63 0)
+    (property "Reference" "D2" (at 236.22 87.63 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1N4007" (at 236.22 90.17 0)
@@ -5102,7 +5102,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D9") (unit 1)
+          (reference "D2") (unit 1)
         )
       )
     )
@@ -5111,7 +5111,7 @@
   (symbol (lib_id "Device:C_Polarized") (at 261.62 109.22 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b7c9d1a7-2230-486c-b643-7d75b3a3def6)
-    (property "Reference" "C9" (at 265.43 107.696 0)
+    (property "Reference" "C8" (at 265.43 107.696 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100μF" (at 265.43 110.236 0)
@@ -5128,7 +5128,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C9") (unit 1)
+          (reference "C8") (unit 1)
         )
       )
     )
@@ -5137,7 +5137,7 @@
   (symbol (lib_id "Device:C_Polarized") (at 119.38 184.15 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b8018598-54ad-40c8-beb2-2948d25d2ece)
-    (property "Reference" "C3" (at 123.19 182.626 0)
+    (property "Reference" "C9" (at 123.19 182.626 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100μF" (at 123.19 185.166 0)
@@ -5154,7 +5154,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C3") (unit 1)
+          (reference "C9") (unit 1)
         )
       )
     )
@@ -5213,7 +5213,7 @@
   (symbol (lib_id "MCP2515-I_P:MCP2515-I{slash}P") (at 171.45 43.18 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid bbebb2b4-ed5f-4180-81ac-c4d674cc9ab3)
-    (property "Reference" "U5" (at 171.45 21.59 0)
+    (property "Reference" "U2" (at 171.45 21.59 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "MCP2515-I/P" (at 171.45 24.13 0)
@@ -5264,7 +5264,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U5") (unit 1)
+          (reference "U2") (unit 1)
         )
       )
     )
@@ -5273,7 +5273,7 @@
   (symbol (lib_id "Device:R") (at 281.94 46.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid bc011c4b-61d8-405e-87da-96af2ed3cd39)
-    (property "Reference" "R15" (at 284.48 45.7199 0)
+    (property "Reference" "R7" (at 284.48 45.7199 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100Ω" (at 284.48 48.2599 0)
@@ -5290,7 +5290,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R15") (unit 1)
+          (reference "R7") (unit 1)
         )
       )
     )
@@ -5324,7 +5324,7 @@
   (symbol (lib_id "Device:R") (at 232.41 46.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid cbe84ab0-0c54-458c-a441-6921718f8df2)
-    (property "Reference" "R10" (at 234.95 45.7199 0)
+    (property "Reference" "R5" (at 234.95 45.7199 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100Ω" (at 234.95 48.2599 0)
@@ -5341,7 +5341,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R10") (unit 1)
+          (reference "R5") (unit 1)
         )
       )
     )
@@ -5375,7 +5375,7 @@
   (symbol (lib_id "Relay_SolidState:TLP222A") (at 142.24 175.26 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid cf7e9f65-b6e0-49a8-a9a4-d3b4d4aff953)
-    (property "Reference" "U4" (at 142.24 182.88 0)
+    (property "Reference" "U5" (at 142.24 182.88 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "TLP222A" (at 142.24 180.34 0)
@@ -5394,7 +5394,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "U4") (unit 1)
+          (reference "U5") (unit 1)
         )
       )
     )
@@ -5403,7 +5403,7 @@
   (symbol (lib_id "Device:C") (at 160.02 82.55 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid d4e0d3f0-6c7c-49b3-9cb2-10fc189cb73a)
-    (property "Reference" "C5" (at 158.75 76.2 90)
+    (property "Reference" "C1" (at 158.75 76.2 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "15pF" (at 157.48 78.74 90)
@@ -5420,7 +5420,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "C5") (unit 1)
+          (reference "C1") (unit 1)
         )
       )
     )
@@ -5556,7 +5556,7 @@
   (symbol (lib_id "Connector:Micro_SD_Card_Det_Hirose_DM3AT") (at 193.04 133.35 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid eb3fffe0-d5f8-4d40-ac7a-ef39eb8a800f)
-    (property "Reference" "J3" (at 193.675 111.76 0)
+    (property "Reference" "J2" (at 193.675 111.76 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Micro_SD_Card_Det_Hirose_DM3AT" (at 193.675 114.3 0)
@@ -5582,7 +5582,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "J3") (unit 1)
+          (reference "J2") (unit 1)
         )
       )
     )
@@ -5616,7 +5616,7 @@
   (symbol (lib_id "Device:R") (at 222.25 46.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid f001a118-8505-4506-965d-33efdefa66d1)
-    (property "Reference" "R9" (at 224.79 45.7199 0)
+    (property "Reference" "R4" (at 224.79 45.7199 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100Ω" (at 224.79 48.2599 0)
@@ -5633,7 +5633,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "R9") (unit 1)
+          (reference "R4") (unit 1)
         )
       )
     )
@@ -5692,7 +5692,7 @@
   (symbol (lib_id "Device:LED") (at 222.25 57.15 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid f56406d2-5bd4-4307-a204-fdc1b9a59faf)
-    (property "Reference" "D2" (at 226.06 57.4674 90)
+    (property "Reference" "D3" (at 226.06 57.4674 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "ORANGE" (at 226.06 60.0074 90)
@@ -5709,7 +5709,7 @@
     (instances
       (project "MissionModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
-          (reference "D2") (unit 1)
+          (reference "D3") (unit 1)
         )
       )
     )
