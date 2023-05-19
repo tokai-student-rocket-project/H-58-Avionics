@@ -1,6 +1,6 @@
 (footprint "Hirose_DF1B" (version 20221018) (generator pcbnew)
   (layer "F.Cu")
-  (descr "<b>Connector</b>\n<p>2pin")
+  (descr "<b>Connector</b>\r<p>2pin")
   (property "Sheetfile" "THRControlModuleBoard.kicad_sch")
   (property "Sheetname" "")
   (property "ki_description" "Generic connector, single row, 01x02, script generated")
@@ -117,4 +117,9 @@
     (solder_mask_margin 0.1016) (thermal_bridge_angle 45) (tstamp 273be9ae-8c67-4845-b22b-e0b9b4aa324c))
   (pad "2" thru_hole oval (at 2.54 0 90) (size 3.3 1.65) (drill 1.1) (layers "*.Cu" "*.Mask")
     (solder_mask_margin 0.1016) (thermal_bridge_angle 45) (tstamp 5ca02d7c-d9f3-42e2-94ae-66540c8d5731))
+  (model "/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/Libraries/Hirose_Connector/DF1BZ-2P-2.5DS.stp"
+    (offset (xyz 19.7 11 5.75))
+    (scale (xyz 1 1 1))
+    (rotate (xyz 0 -90 -180))
+  )
 )

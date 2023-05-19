@@ -1,0 +1,11 @@
+FILE_TYPE = MULTI_PHYS_TABLE;
+
+PART 'CR123A_PC'
+CLASS = DISCRETE
+{========================================================================================}
+:"MANUFACTURER_NAME", "MANUFACTURER_PART_NUMBER"= "PART_NUMBER", "JEDEC_TYPE", "PACK_TYPE", "MOUSER_PART_NUMBER", "MOUSER_PRICE/STOCK", "ARROW_PART_NUMBER", "ARROW_PRICE/STOCK", "DESCRIPTION", "DATASHEET", "HEIGHT";
+{========================================================================================}
+ "TAKACHI", "CR123A-PC" (!) = "", "CR123APC", "Other", "", "", "", "", "LITHIUM BATTERY HOLDER", "https://in.misumi-ec.com/vona2/detail/222000224510/?HissuCode=CR123A-PC", "16.5 mm"
+END_PART
+
+END.

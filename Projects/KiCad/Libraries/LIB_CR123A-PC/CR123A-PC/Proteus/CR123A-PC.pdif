@@ -1,0 +1,135 @@
+;Proteus Design Interchange Format
+(PDIF
+ (vendor "SamacSys Limited")
+ (version 1 0)
+ (library
+  (part "CR123A-PC"
+   (description "LITHIUM BATTERY HOLDER")
+   (family "ANA")
+   (package "CR123APC")
+   (attribute "Datasheet Link" "https://in.misumi-ec.com/vona2/detail/222000224510/?HissuCode=CR123A-PC")
+   (attribute "Geometry.Height" "16.5mm")
+   (attribute "Manufacturer_Name" "TAKACHI")
+   (attribute "Manufacturer_Part_Number" "CR123A-PC")
+   (attribute "Mouser Part Number" "")
+   (attribute "Mouser Price/Stock" "")
+   (attribute "Arrow Part Number" "")
+   (attribute "Arrow Price/Stock" "")
+   (gate
+    (symbol "CR123A-PC")
+    (pin "-" 1 PS)
+    (pin "+" 2 PS)
+    (pin "MH1" MH1 PS)
+    (pin "MH2" MH2 PS)
+   )
+  )
+  (symbol "CR123A-PC"
+   (units THOU)
+   (origin (pt 0 0))
+   (graphic
+    (stroke 10)
+    (path (pt 200 100) (pt 700 100) (pt 700 -400) (pt 200 -400) (pt 200 100) (closed))
+   )
+   (terminal
+    (body (symbol "PIN") (pt 0 0) (rot 0) (mir 0) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 0 -300) (rot 0) (mir 0) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 0 -100) (rot 0) (mir 0) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+   (terminal
+    (body (symbol "PIN") (pt 0 -200) (rot 0) (mir 0) (visible true))
+    (name (pt 230 0) (rot 0) (just MIDDLE LEFT) (visible true))
+    (number (pt 140 20) (rot 0) (just BOTTOM RIGHT) (visible true)))
+  )
+  (symbol "PIN"
+   (units THOU)
+   (origin (pt 0 0))
+   (graphic
+    (stroke 10)
+    (path (pt 0 0) (pt 200 0))))
+  (symbol "PINSHORT"
+   (units THOU)
+   (origin (pt 0 0))
+   (graphic
+    (stroke 10)
+    (path (pt 0 0) (pt 100 0))))
+  (package "CR123APC"
+   (units MM)
+   (layer TASM
+    (graphic
+     (stroke 0.1)
+     (path
+      (closed true)
+      (pt -1.65 -10.25)
+      (pt 42.25 -10.25)
+      (pt 42.25 10.25)
+      (pt -1.65 10.25)
+      (pt -1.65 -10.25))))
+   (layer TSLK
+    (graphic
+     (stroke 0.2)
+     (path
+      (closed true)
+      (pt -1.65 -10.16)
+      (pt 42.25 -10.16)
+      (pt 42.25 10.25)
+      (pt -1.65 10.25)
+      (pt -1.65 -10.16))))
+   (layer OCCA
+    (graphic
+     (stroke 0.1)
+     (path
+      (closed true)
+      (pt -2.65 11.25)
+      (pt 43.25 11.25)
+      (pt 43.25 -11.25)
+      (pt -2.65 -11.25)
+      (pt -2.65 11.25))))
+   (layer TSLK
+    (graphic
+     (stroke 0.1)
+     (path
+      (closed true)
+      (pt -2.3 0)
+      (arc (pt -2.300 0.000) (pt -2.300 -0.050) (pt -2.200 0.050) (start 180.0) (sweep 180.0))
+      (pt -2.2 0)
+      (arc (pt -2.200 0.000) (pt -2.300 -0.050) (pt -2.200 0.050) (start 180.0) (sweep .0))
+      (pt -2.3 0))))
+   (leg 1 (pt 0.000 0.000) (padstack 1))
+   (leg 2 (pt 40.600 0.000) (padstack 2))
+   (leg MH1 (pt 7.600 0.000) (padstack 0))
+   (leg MH2 (pt 33.000 0.000) (padstack 0))
+   (padstack 0
+    (hole 3.2)
+    (plated true)
+    (pad (layer TCOP) (round 4.800))
+    (pad (layer INNER) (round 4.800))
+    (pad (layer BCOP) (round 4.800))
+   )
+   (padstack 1
+    (hole 0.9)
+    (plated true)
+    (pad (layer TCOP) (square 1.400))
+    (pad (layer INNER) (round 1.400))
+    (pad (layer BCOP) (square 1.400))
+   )
+   (padstack 2
+    (hole 0.9)
+    (plated true)
+    (pad (layer TCOP) (round 1.400))
+    (pad (layer INNER) (round 1.400))
+    (pad (layer BCOP) (round 1.400))
+   )
+   (model "CR123A-PC.stp"
+    (euler 0 0 0)
+    (offset 0 0 0)
+   )
+  )
+ )
+)
