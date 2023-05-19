@@ -1,0 +1,10 @@
+(unit MM)
+
+(package "CR123APC"
+    (type UNDEF)
+    (uver 2)
+    (mountForm default
+        (footprintRef "CR123APC")
+        (spec "default")
+    )
+)

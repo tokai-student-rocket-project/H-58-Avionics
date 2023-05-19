@@ -1,0 +1,19 @@
+.CR123A-PC :1 ;LITHIUM BATTERY HOLDER
+CR123APC
+*STM U
+*NGS
+*PNM 1=1 2=2 3=MH1 4=MH2
+*PLB 1="-" 2="+" 3="MH1" 4="MH2"
+*MXP 4
+*DFN CR123A-PC
+~!Manufacturer_Name (TAKACHI)
+~!Manufacturer_Part_Number (CR123A-PC)
+~!Mouser Part Number (-)
+~!Mouser Price/Stock (-)
+~!Arrow Part Number (-)
+~!Arrow Price/Stock (-)
+~!Link Datasheet (https://in.misumi-ec.com/vona2/detail/222000224510/?HissuCode=CR123A-PC)
+~!Height (16.5mm)
+~!3D_Model (CR123A-PC)
+CR123A-PC
+1.1!U 2.1!U 3.1!U 4.1!U 
