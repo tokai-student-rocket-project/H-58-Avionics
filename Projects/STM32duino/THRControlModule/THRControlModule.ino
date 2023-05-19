@@ -55,6 +55,9 @@ MAX31855 myMAX31855(3); //Chip Select PIN (CS)
 
 void setup()
 {
+    pinMode(A0, INPUT_PULLUP);
+
+
     pinMode(REDE, OUTPUT);
     Toque(0x01, 0x01);
     delay(100);
