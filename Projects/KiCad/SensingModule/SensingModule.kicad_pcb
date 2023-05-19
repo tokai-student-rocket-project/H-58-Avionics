@@ -277,6 +277,11 @@
       (net 2 "GND") (pinfunction "SDO") (pintype "output") (tstamp b1ec8285-2a80-41e7-976b-4ae0dcd81d37))
     (pad "6" thru_hole circle (at 14.35 8.641 180) (size 1.524 1.524) (drill 0.762) (layers "*.Cu" "*.Mask")
       (net 30 "I2C_SCL") (pinfunction "SCK") (pintype "input") (tstamp 69b0b9eb-702a-4866-812d-a1e6966406f4))
+    (model "/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/ReadyMadeModules/BME280/BME280.step"
+      (offset (xyz 16.15 -10.5 2.65))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 180))
+    )
   )
 
   (footprint "Package_DIP:DIP-8_W7.62mm" (layer "F.Cu")
@@ -1775,6 +1780,11 @@
       (net 2 "GND") (pinfunction "GND") (pintype "power_in") (tstamp cb138bf2-fbd0-4c5c-948f-98eeafb35612))
     (pad "8" thru_hole circle (at 3.81 5.06 270) (size 1.524 1.524) (drill 0.762) (layers "*.Cu" "*.Mask")
       (net 40 "unconnected-(U5-VOUT-Pad8)") (pinfunction "VOUT") (pintype "power_out+no_connect") (tstamp 0c2ef753-f7cb-4d94-b2a4-7f3eb6c6c10c))
+    (model "/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/ReadyMadeModules/BNO055/BNO055.step"
+      (offset (xyz 5.5 0.15 2.6))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 90))
+    )
   )
 
   (footprint "NUCLEO-F303K8:MODULE_NUCLEO-F303K8" locked (layer "F.Cu")

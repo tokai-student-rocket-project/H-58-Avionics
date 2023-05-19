@@ -1502,6 +1502,11 @@
       (net 5 "+3.3V") (pinfunction "VS") (pintype "power_in") (tstamp 8c9e708b-452d-4d81-9d6f-07b62e6ad83f))
     (pad "10" thru_hole circle (at 3.89 1.42) (size 1.524 1.524) (drill 0.762) (layers "*.Cu" "*.Mask")
       (net 5 "+3.3V") (pinfunction "VDDI/O") (pintype "power_in") (tstamp 2819f61b-1240-4636-8ccf-489f9d0abd9c))
+    (model "/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/ReadyMadeModules/ADXL375/ADXL375.step"
+      (offset (xyz 5.2 -0.1 2.6))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 90))
+    )
   )
 
   (footprint "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" (layer "F.Cu")
