@@ -2320,7 +2320,7 @@
     (property "Value" "NJM7805SDL1" (at 209.55 99.06 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Package_TO_SOT_SMD:TO-252-3_TabPin2" (at 210.185 106.68 0)
+    (property "Footprint" "Package_TO_SOT_SMD:TO-252-2" (at 210.185 106.68 0)
       (effects (font (size 1.27 1.27) italic) (justify left) hide)
     )
     (property "Datasheet" "http://www.st.com/content/ccc/resource/technical/document/datasheet/41/4f/b3/b0/12/d4/47/88/CD00000444.pdf/files/CD00000444.pdf/jcr:content/translations/en.CD00000444.pdf" (at 209.55 104.14 0)
