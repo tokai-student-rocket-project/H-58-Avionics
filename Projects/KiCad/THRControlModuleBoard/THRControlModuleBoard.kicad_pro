@@ -194,7 +194,9 @@
     "equivalence_files": []
   },
   "erc": {
-    "erc_exclusions": [],
+    "erc_exclusions": [
+      "lib_symbol_issues|1562100|622300|6293a057-db31-49f5-b172-a420e50e8578|00000000-0000-0000-0000-000000000000|||"
+    ],
     "meta": {
       "version": 0
     },
@@ -445,7 +447,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "THRControlModuleBoard.step",
+      "step": "../../../../Users/hirok/Downloads/THRControlModuleBoard.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
