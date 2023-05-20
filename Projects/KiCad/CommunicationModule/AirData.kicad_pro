@@ -505,7 +505,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "SensingModule.step",
+      "step": "AirData.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""

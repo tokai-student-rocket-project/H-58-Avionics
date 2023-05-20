@@ -511,7 +511,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "SensingModule.step",
+      "step": "MissionModule.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
