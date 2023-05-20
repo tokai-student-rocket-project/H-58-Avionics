@@ -39,6 +39,8 @@
 
   (setup
     (pad_to_mask_clearance 0)
+    (aux_axis_origin 79.618059 17.388059)
+    (grid_origin 149.618059 87.388059)
     (pcbplotparams
       (layerselection 0x00010fc_ffffffff)
       (plot_on_all_layers_selection 0x0000000_00000000)
@@ -79,7 +81,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp 025d695f-9837-41fc-9e49-c3d770d5d044)
-    (at 56.291651 -32.5)
+    (at 205.90971 54.888059)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -104,7 +106,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp 081b9195-e36b-453f-9161-81f46adbfd79)
-    (at 45.961941 45.961941)
+    (at 195.58 133.35)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -129,7 +131,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp 10ab1bfd-0be2-4b7e-b433-5a9507049466)
-    (at 16.823238 62.785179)
+    (at 166.441297 150.173238)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -154,7 +156,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp 1c408451-5d7e-4fa4-b29c-bbf74a493b81)
-    (at -65 0)
+    (at 84.618059 87.388059)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -179,7 +181,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp 2a0ced2f-2793-4872-a43a-004ff50cf0a0)
-    (at -16.823238 -62.785179)
+    (at 132.794821 24.60288)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -204,7 +206,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp 67f8ae25-595e-40b2-a16b-f5fbb028cd2d)
-    (at 56.291651 32.5)
+    (at 205.90971 119.888059)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -229,7 +231,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp 6ea89bf5-50e8-44a5-9a56-a59bddd7b53d)
-    (at 16.823238 -62.785179)
+    (at 166.441297 24.60288)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -254,7 +256,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp 731a5b6a-c28e-4fdb-b5c2-f3587f25facc)
-    (at -62.785179 16.823238)
+    (at 86.83288 104.211297)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -279,7 +281,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp 7d48614a-7ba9-4625-a873-731fa2fd4827)
-    (at 32.5 56.291651)
+    (at 182.118059 143.67971)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -304,7 +306,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp 7fd409ae-599b-4acf-ad82-2975f8118c0b)
-    (at -45.961941 45.961941)
+    (at 103.656118 133.35)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -329,7 +331,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp 85ec9a18-f4c3-4693-a046-dfc81f146d85)
-    (at 32.5 -56.291651)
+    (at 182.118059 31.096408)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -354,7 +356,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp 944287fb-9f14-474c-8342-9523b0cc8fd7)
-    (at -62.785179 -16.823238)
+    (at 86.83288 70.564821)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -379,7 +381,7 @@
 
   (footprint "MountingHole:MountingHole_6mm" (layer "F.Cu")
     (tstamp 9f8fa618-d3df-45c7-bff8-5bd143ca39a2)
-    (at -20 48)
+    (at 129.618059 135.388059)
     (descr "Mounting Hole 6mm, no annular")
     (tags "mounting hole 6mm no annular")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -404,7 +406,7 @@
 
   (footprint "MountingHole:MountingHole_8.4mm_M8" (layer "F.Cu")
     (tstamp a048e5a2-acd4-43c9-a9f3-abff6db8aba2)
-    (at 0 50)
+    (at 149.618059 137.388059)
     (descr "Mounting Hole 8.4mm, no annular, M8")
     (tags "mounting hole 8.4mm no annular m8")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -429,7 +431,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp a2025562-a2b0-41a9-aca9-1632f263449e)
-    (at 62.785179 -16.823238)
+    (at 212.403238 70.564821)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -454,7 +456,7 @@
 
   (footprint "MountingHole:MountingHole_4.3mm_M4" (layer "F.Cu")
     (tstamp a2ddc1c5-96c9-45cd-88a4-9c9a1598b044)
-    (at -30 -30)
+    (at 119.618059 57.388059)
     (descr "Mounting Hole 4.3mm, no annular, M4")
     (tags "mounting hole 4.3mm no annular m4")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -479,7 +481,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp a58882ee-a113-47e7-9d6d-b2d90937cf42)
-    (at 45.961941 -45.961941)
+    (at 195.58 41.426118)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -504,7 +506,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp a6f9f144-4f06-48d3-a89e-65b2f12a9ae3)
-    (at -45.961941 -45.961941)
+    (at 103.656118 41.426118)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -529,7 +531,7 @@
 
   (footprint "MountingHole:MountingHole_4.3mm_M4" (layer "F.Cu")
     (tstamp b0b63137-bf31-4594-a88b-b23de2349e43)
-    (at 30 -30)
+    (at 179.618059 57.388059)
     (descr "Mounting Hole 4.3mm, no annular, M4")
     (tags "mounting hole 4.3mm no annular m4")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -554,7 +556,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp b9f7855e-fd6b-4519-a01b-1a197914d492)
-    (at -16.823238 62.785179)
+    (at 132.794821 150.173238)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -579,7 +581,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp c35a323f-a27f-444f-8cf9-038b2cc4b8f1)
-    (at -56.291651 32.5)
+    (at 93.326408 119.888059)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -604,7 +606,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp cbf3ee38-cd08-4d16-b371-1d1a8b9a1a1f)
-    (at -32.5 56.291651)
+    (at 117.118059 143.67971)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -629,7 +631,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp d14d16e2-59ef-49be-ac3e-2ff2c41b1bb6)
-    (at 0 -65)
+    (at 149.618059 22.388059)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -654,7 +656,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp d7fca0ab-e1c8-4b4c-98e2-6d14030f7987)
-    (at 65 0)
+    (at 214.618059 87.388059)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -679,7 +681,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp dc6717df-49d9-4bdb-b7e8-69c63e99c949)
-    (at -56.291651 -32.5)
+    (at 93.326408 54.888059)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -704,32 +706,32 @@
 
   (footprint "MountingHole:MountingHole_6mm" (layer "F.Cu")
     (tstamp ddf6022e-17df-4f2c-bc5c-2c0789aca0f2)
-    (at 20 48)
+    (at 169.618059 135.388059)
     (descr "Mounting Hole 6mm, no annular")
     (tags "mounting hole 6mm no annular")
     (attr exclude_from_pos_files exclude_from_bom)
     (fp_text reference "REF**" (at 0 -7) (layer "F.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)))
-      (tstamp c8864a7c-1c8c-4515-9383-4908fe2d0f4e)
+      (tstamp edc5f8fe-af5e-44b7-b41f-f4cec4a5bbdb)
     )
     (fp_text value "MountingHole_8.2mm" (at 0 7) (layer "F.Fab") hide
         (effects (font (size 1 1) (thickness 0.15)))
-      (tstamp 9b9f75f0-395f-44ee-9c44-3231d92771ea)
+      (tstamp 828a46ac-7db8-4a13-9d4a-3bd9f645e5dc)
     )
     (fp_text user "${REFERENCE}" (at 0 0) (layer "F.Fab") hide
         (effects (font (size 1 1) (thickness 0.15)))
-      (tstamp 32e82a0c-0a6a-4b63-97f8-2a43bd9c254a)
+      (tstamp 91a67c1c-670d-4b38-af9a-9903bf70b39f)
     )
     (fp_circle (center 0 0) (end 6.75 0)
-      (stroke (width 0.15) (type solid)) (fill none) (layer "Cmts.User") (tstamp f7e7018f-e933-4f8f-b252-2673d2e3fd1e))
+      (stroke (width 0.15) (type solid)) (fill none) (layer "Cmts.User") (tstamp 2bf4a83a-21ad-44d1-803c-969a3fb6f596))
     (fp_circle (center 0 0) (end 7.15 0)
-      (stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd") (tstamp c809129a-18ad-4952-8ba0-61e0c20a30a4))
-    (pad "" np_thru_hole circle (at 0 0) (size 8.2 8.2) (drill 8.2) (layers "*.Cu" "*.Mask") (tstamp e7747d70-e999-4a9c-8d06-a3fafa095888))
+      (stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd") (tstamp 8199a8dc-cd7a-4a74-9d93-87ca4ca73c3f))
+    (pad "" np_thru_hole circle (at 0 0) (size 8.2 8.2) (drill 8.2) (layers "*.Cu" "*.Mask") (tstamp c244fdf2-4512-43fc-8e51-881e2c730e55))
   )
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp e7004b61-bbc4-419f-8c26-413371a75488)
-    (at -32.5 -56.291651)
+    (at 117.118059 31.096408)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -754,7 +756,7 @@
 
   (footprint "MountingHole:MountingHole_4.3mm_M4" (layer "F.Cu")
     (tstamp ec3665d5-876a-4819-bbf0-5e34c240e038)
-    (at -30 30)
+    (at 119.618059 117.388059)
     (descr "Mounting Hole 4.3mm, no annular, M4")
     (tags "mounting hole 4.3mm no annular m4")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -779,7 +781,7 @@
 
   (footprint "MountingHole:MountingHole_4.3mm_M4" (layer "F.Cu")
     (tstamp eeab9e8d-5639-4363-a945-deb7db789376)
-    (at 30 30)
+    (at 179.618059 117.388059)
     (descr "Mounting Hole 4.3mm, no annular, M4")
     (tags "mounting hole 4.3mm no annular m4")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -804,7 +806,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp f6f33fa8-5568-4d03-bafd-9b3020cb87fb)
-    (at 62.785179 16.823238)
+    (at 212.403238 104.211297)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -829,7 +831,7 @@
 
   (footprint "LOGO" (layer "F.Cu")
     (tstamp f8c95642-0bb4-4720-b543-f1c42f4bea00)
-    (at 0 -7.5)
+    (at 149.618059 79.888059)
     (attr board_only exclude_from_pos_files exclude_from_bom)
     (fp_text reference "G***" (at 0 0) (layer "F.SilkS") hide
         (effects (font (size 1.5 1.5) (thickness 0.3)))
@@ -5452,7 +5454,7 @@
 
   (footprint "MountingHole:MountingHole_3.2mm_M3" (layer "F.Cu")
     (tstamp fcf34201-8b89-43c0-a94d-b80c37e007e5)
-    (at 0 65)
+    (at 149.618059 152.388059)
     (descr "Mounting Hole 3.2mm, no annular, M3")
     (tags "mounting hole 3.2mm no annular m3")
     (attr exclude_from_pos_files exclude_from_bom)
@@ -5475,15 +5477,15 @@
     (pad "" np_thru_hole circle (at 0 0) (size 3.2 3.2) (drill 3.2) (layers "*.Cu" "*.Mask") (tstamp e88ff921-2ce6-404d-9991-2c4590402172))
   )
 
-  (gr_circle (center 0 0) (end 61 0)
+  (gr_circle (center 149.618059 87.388059) (end 210.618059 87.388059)
     (stroke (width 0.1) (type solid)) (fill none) (layer "F.SilkS") (tstamp 47913152-f14d-42f8-858e-97c9e8dfcda7))
-  (gr_line (start -40 40) (end 40 40)
+  (gr_line (start 109.618059 127.388059) (end 189.618059 127.388059)
     (stroke (width 0.1) (type default)) (layer "F.SilkS") (tstamp 77c51f71-4809-492c-a362-fad6c3f1e052))
-  (gr_arc (start -40 40) (mid 0 -56.568542) (end 40 40)
+  (gr_arc (start 109.618059 127.388059) (mid 149.618059 30.819517) (end 189.618059 127.388059)
     (stroke (width 0.1) (type default)) (layer "F.SilkS") (tstamp f277c3bd-7168-41b2-8c4c-9432758a3169))
-  (gr_circle (center 0 0) (end 70 0)
+  (gr_circle (center 149.618059 87.388059) (end 219.618059 87.388059)
     (stroke (width 0.1) (type default)) (fill none) (layer "Edge.Cuts") (tstamp 52c5aa1d-3bdc-4c26-b19c-5f2734c049af))
-  (gr_text "Lug" (at 0 68) (layer "F.SilkS") (tstamp df6c5931-01b4-4e1f-88bc-95509ec77364)
+  (gr_text "Lug" (at 149.618059 155.388059) (layer "F.SilkS") (tstamp df6c5931-01b4-4e1f-88bc-95509ec77364)
     (effects (font (size 1.5 1.5) (thickness 0.15)))
   )
 
