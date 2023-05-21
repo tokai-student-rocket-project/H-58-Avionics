@@ -6182,6 +6182,11 @@
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
+    (model ":KICAD7_3DMODEL_DIR:Package_SO.3dshapes/MSOP-10-1EP_3x3mm_P0.5mm_EP1.68x1.88mm.step"
+      (offset (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 0))
+    )
   )
 
   (footprint "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" (layer "F.Cu")
@@ -7685,7 +7690,6 @@
         (xy 158.000492 125.849344)
         (xy 158.000492 121.849344)
         (xy 156.700492 122.349344)
-        (xy 155.500492 123.449344)
       )
     )
     (filled_polygon
