@@ -1681,7 +1681,7 @@
   (symbol (lib_id "Device:C") (at 199.39 39.37 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 00b49731-640f-4bc5-8549-005ff2e2eeb6)
-    (property "Reference" "C10" (at 203.2 38.735 0)
+    (property "Reference" "C13" (at 203.2 38.735 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "C" (at 203.2 41.275 0)
@@ -1698,7 +1698,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C10") (unit 1)
+          (reference "C13") (unit 1)
         )
       )
     )
@@ -1792,7 +1792,7 @@
   (symbol (lib_id "Connector:Conn_01x02_Pin") (at 246.38 148.59 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 14f0552f-70d8-4fc0-b408-5fad81ca83f6)
-    (property "Reference" "J1" (at 255.27 148.59 0)
+    (property "Reference" "J2" (at 255.27 148.59 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_01x02_Pin" (at 255.27 146.05 0)
@@ -1809,7 +1809,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "J1") (unit 1)
+          (reference "J2") (unit 1)
         )
       )
       (project "SensingModule"
@@ -1848,7 +1848,7 @@
   (symbol (lib_id "Connector:Conn_01x02_Pin") (at 195.58 78.74 0) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 1d6d0b7a-686f-4661-9115-2ea19e8c3a99)
-    (property "Reference" "J3" (at 186.69 78.74 0)
+    (property "Reference" "J4" (at 186.69 78.74 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_01x02_Pin" (at 186.69 76.2 0)
@@ -1865,7 +1865,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "J3") (unit 1)
+          (reference "J4") (unit 1)
         )
       )
       (project "SensingModule"
@@ -1929,7 +1929,7 @@
   (symbol (lib_id "Device:C") (at 179.07 39.37 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 2456e29e-4f80-48e7-b5d7-548a3dcc25de)
-    (property "Reference" "C8" (at 182.88 38.735 0)
+    (property "Reference" "C11" (at 182.88 38.735 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "C" (at 182.88 41.275 0)
@@ -1946,7 +1946,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C8") (unit 1)
+          (reference "C11") (unit 1)
         )
       )
     )
@@ -1955,7 +1955,7 @@
   (symbol (lib_id "Device:R") (at 53.34 55.88 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 27a8ba5d-c261-4f55-ab74-2272cd4a0d02)
-    (property "Reference" "R1" (at 59.69 57.15 0)
+    (property "Reference" "R2" (at 59.69 57.15 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10kΩ" (at 60.96 54.61 0)
@@ -1972,7 +1972,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "R1") (unit 1)
+          (reference "R2") (unit 1)
         )
       )
       (project "FlightModule"
@@ -2036,7 +2036,7 @@
   (symbol (lib_id "Device:R") (at 46.99 49.53 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 35c652ae-496b-4da1-bd66-810faf47290e)
-    (property "Reference" "R3" (at 45.72 44.45 90)
+    (property "Reference" "R1" (at 45.72 44.45 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "120kΩ" (at 44.45 46.99 90)
@@ -2053,7 +2053,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "R3") (unit 1)
+          (reference "R1") (unit 1)
         )
       )
       (project "FlightModule"
@@ -2067,7 +2067,7 @@
   (symbol (lib_id "Connector:Conn_01x02_Pin") (at 247.65 130.81 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 506350fa-2ba9-4cda-8610-814e47cc51e1)
-    (property "Reference" "J2" (at 256.54 130.81 0)
+    (property "Reference" "J1" (at 256.54 130.81 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_01x02_Pin" (at 256.54 128.27 0)
@@ -2084,7 +2084,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "J2") (unit 1)
+          (reference "J1") (unit 1)
         )
       )
       (project "SensingModule"
@@ -2098,7 +2098,7 @@
   (symbol (lib_id "Device:C") (at 210.82 39.37 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 543bfa22-7fcc-4c80-9049-a3ee00e2c089)
-    (property "Reference" "C11" (at 214.63 38.735 0)
+    (property "Reference" "C12" (at 214.63 38.735 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "C" (at 214.63 41.275 0)
@@ -2115,7 +2115,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C11") (unit 1)
+          (reference "C12") (unit 1)
         )
       )
     )
@@ -2149,7 +2149,7 @@
   (symbol (lib_id "Device:C") (at 48.26 132.08 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 5a436031-5fa4-4fbe-930e-adeafb5a4ac8)
-    (property "Reference" "C1" (at 52.07 131.445 0)
+    (property "Reference" "C4" (at 52.07 131.445 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.33μF" (at 52.07 133.985 0)
@@ -2166,7 +2166,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C1") (unit 1)
+          (reference "C4") (unit 1)
         )
       )
       (project "MissionModule"
@@ -2205,7 +2205,7 @@
   (symbol (lib_id "Connector:Conn_01x02_Pin") (at 245.11 82.55 0) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 61777511-c9a1-4971-a641-c1f6ab3edd82)
-    (property "Reference" "J4" (at 236.22 82.55 0)
+    (property "Reference" "J3" (at 236.22 82.55 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Conn_01x02_Pin" (at 236.22 80.01 0)
@@ -2222,7 +2222,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "J4") (unit 1)
+          (reference "J3") (unit 1)
         )
       )
       (project "SensingModule"
@@ -2236,7 +2236,7 @@
   (symbol (lib_id "Device:C") (at 73.66 132.08 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 6b6ad178-e5ee-41ab-a091-3201c3ae81a3)
-    (property "Reference" "C2" (at 77.47 131.445 0)
+    (property "Reference" "C9" (at 77.47 131.445 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1μF" (at 77.47 133.985 0)
@@ -2253,7 +2253,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C2") (unit 1)
+          (reference "C9") (unit 1)
         )
       )
       (project "MissionModule"
@@ -2292,7 +2292,7 @@
   (symbol (lib_id "Diode:1N4007") (at 80.01 125.73 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 6fc1c2d9-85cb-4d85-b68c-4eb7f9ba4689)
-    (property "Reference" "D2" (at 80.01 120.65 0)
+    (property "Reference" "D6" (at 80.01 120.65 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1N4007" (at 80.01 123.19 0)
@@ -2315,7 +2315,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "D2") (unit 1)
+          (reference "D6") (unit 1)
         )
       )
       (project "MissionModule"
@@ -2329,7 +2329,7 @@
   (symbol (lib_id "Device:C") (at 168.91 39.37 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 7235eb1e-213e-4b1b-9be0-d0a8a7497694)
-    (property "Reference" "C7" (at 172.72 38.735 0)
+    (property "Reference" "C10" (at 172.72 38.735 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "C" (at 172.72 41.275 0)
@@ -2346,7 +2346,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C7") (unit 1)
+          (reference "C10") (unit 1)
         )
       )
     )
@@ -2355,7 +2355,7 @@
   (symbol (lib_id "Device:C") (at 222.25 39.37 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 73545f44-e5f3-4a6c-acb2-0a9299bb76fd)
-    (property "Reference" "C12" (at 226.06 38.735 0)
+    (property "Reference" "C15" (at 226.06 38.735 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "C" (at 226.06 41.275 0)
@@ -2372,7 +2372,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C12") (unit 1)
+          (reference "C15") (unit 1)
         )
       )
     )
@@ -2406,7 +2406,7 @@
   (symbol (lib_id "Device:C") (at 99.06 132.08 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 7bf1b4ea-f2a2-40b8-a855-57d3ed73b244)
-    (property "Reference" "C3" (at 102.87 131.445 0)
+    (property "Reference" "C5" (at 102.87 131.445 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.33μF" (at 102.87 133.985 0)
@@ -2423,7 +2423,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C3") (unit 1)
+          (reference "C5") (unit 1)
         )
       )
       (project "MissionModule"
@@ -2437,7 +2437,7 @@
   (symbol (lib_id "Switch:SW_SPDT") (at 212.09 76.2 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 7ee3af59-6344-4262-8806-d1052d132bac)
-    (property "Reference" "SW2" (at 212.09 69.85 0)
+    (property "Reference" "SW1" (at 212.09 69.85 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "SW_SPDT" (at 212.09 72.39 0)
@@ -2455,7 +2455,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "SW2") (unit 1)
+          (reference "SW1") (unit 1)
         )
       )
     )
@@ -2464,7 +2464,7 @@
   (symbol (lib_id "Diode:1N4007") (at 160.02 144.78 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 7f0ade52-91af-4855-a242-b61970a3872b)
-    (property "Reference" "D8" (at 162.56 144.145 90)
+    (property "Reference" "D2" (at 162.56 144.145 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "1N4007" (at 162.56 146.685 90)
@@ -2487,7 +2487,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "D8") (unit 1)
+          (reference "D2") (unit 1)
         )
       )
       (project "MissionModule"
@@ -2501,7 +2501,7 @@
   (symbol (lib_id "Device:C") (at 147.32 132.08 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 8019064c-7c8b-4ac8-9ce3-f5dd0d11d72e)
-    (property "Reference" "C5" (at 151.13 131.445 0)
+    (property "Reference" "C3" (at 151.13 131.445 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.33μF" (at 151.13 133.985 0)
@@ -2518,7 +2518,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C5") (unit 1)
+          (reference "C3") (unit 1)
         )
       )
       (project "MissionModule"
@@ -2569,7 +2569,7 @@
   (symbol (lib_id "Transistor_FET:QM6015D") (at 147.32 36.83 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 857cb479-2a4e-4ce0-8996-b7598672b6ec)
-    (property "Reference" "Q2" (at 147.32 27.94 90)
+    (property "Reference" "Q3" (at 147.32 27.94 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "TJ8S06M3L" (at 147.32 30.48 90)
@@ -2587,7 +2587,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "Q2") (unit 1)
+          (reference "Q3") (unit 1)
         )
       )
     )
@@ -2621,7 +2621,7 @@
   (symbol (lib_id "Device:C") (at 172.72 132.08 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 8898168b-fb86-4322-bf76-9fc5faa987f2)
-    (property "Reference" "C6" (at 176.53 131.445 0)
+    (property "Reference" "C2" (at 176.53 131.445 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1μF" (at 176.53 133.985 0)
@@ -2638,7 +2638,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C6") (unit 1)
+          (reference "C2") (unit 1)
         )
       )
       (project "MissionModule"
@@ -2652,7 +2652,7 @@
   (symbol (lib_id "Connector:TestPoint") (at 204.47 73.66 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 8b682e64-5ee9-4c0e-bd85-0a86bc015554)
-    (property "Reference" "TP2" (at 201.93 69.723 0)
+    (property "Reference" "TP5" (at 201.93 69.723 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "TestPoint" (at 201.93 72.263 0)
@@ -2668,7 +2668,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "TP2") (unit 1)
+          (reference "TP5") (unit 1)
         )
       )
       (project "FlightModule"
@@ -2719,7 +2719,7 @@
   (symbol (lib_id "Device:C") (at 256.54 39.37 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 8d1fb89f-6547-4427-880e-c2346cbd72c3)
-    (property "Reference" "C15" (at 260.35 38.735 0)
+    (property "Reference" "C8" (at 260.35 38.735 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "C" (at 260.35 41.275 0)
@@ -2736,7 +2736,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C15") (unit 1)
+          (reference "C8") (unit 1)
         )
       )
     )
@@ -2800,7 +2800,7 @@
   (symbol (lib_id "Device:R") (at 219.71 85.09 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 9647009a-b1f9-466f-afe1-199f948d67b6)
-    (property "Reference" "R4" (at 222.25 83.8199 0)
+    (property "Reference" "R3" (at 222.25 83.8199 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "2kΩ" (at 222.25 86.3599 0)
@@ -2817,7 +2817,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "R4") (unit 1)
+          (reference "R3") (unit 1)
         )
       )
       (project "FlightModule"
@@ -2856,7 +2856,7 @@
   (symbol (lib_id "Regulator_Linear:L7812") (at 160.02 125.73 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 9a36b90d-ee07-44f5-82a6-96304625cafe)
-    (property "Reference" "U3" (at 160.02 119.38 0)
+    (property "Reference" "U1" (at 160.02 119.38 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "NJM7812SDL1" (at 160.02 121.92 0)
@@ -2874,7 +2874,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "U3") (unit 1)
+          (reference "U1") (unit 1)
         )
       )
     )
@@ -2950,7 +2950,7 @@
   (symbol (lib_id "Transistor_FET:QM6015D") (at 134.62 36.83 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a1eed9a6-81c8-4bf5-92d7-db9f1dfcf843)
-    (property "Reference" "Q1" (at 134.62 27.94 90)
+    (property "Reference" "Q2" (at 134.62 27.94 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "TJ8S06M3L" (at 134.62 30.48 90)
@@ -2968,7 +2968,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "Q1") (unit 1)
+          (reference "Q2") (unit 1)
         )
       )
     )
@@ -2977,7 +2977,7 @@
   (symbol (lib_id "Connector:TestPoint") (at 236.22 148.59 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid a3ed3e84-285b-45c9-b64e-d3083b8f5ba1)
-    (property "Reference" "TP5" (at 232.41 151.13 90)
+    (property "Reference" "TP1" (at 232.41 151.13 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "TestPoint" (at 232.41 153.67 90)
@@ -2993,7 +2993,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "TP5") (unit 1)
+          (reference "TP1") (unit 1)
         )
       )
       (project "FlightModule"
@@ -3032,7 +3032,7 @@
   (symbol (lib_id "Device:C") (at 189.23 39.37 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a5ccad0a-e967-49d6-bd1b-fdde4150cdeb)
-    (property "Reference" "C9" (at 193.04 38.735 0)
+    (property "Reference" "C14" (at 193.04 38.735 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "C" (at 193.04 41.275 0)
@@ -3049,7 +3049,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C9") (unit 1)
+          (reference "C14") (unit 1)
         )
       )
     )
@@ -3088,7 +3088,7 @@
   (symbol (lib_id "Regulator_Linear:L7812") (at 60.96 125.73 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b4267446-88fd-4066-87fa-22c19afa3668)
-    (property "Reference" "U1" (at 60.96 119.38 0)
+    (property "Reference" "U3" (at 60.96 119.38 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "NJM7812SDL1" (at 60.96 121.92 0)
@@ -3106,7 +3106,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "U1") (unit 1)
+          (reference "U3") (unit 1)
         )
       )
     )
@@ -3167,7 +3167,7 @@
   (symbol (lib_id "Connector:TestPoint") (at 236.22 146.05 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c0d8a0e4-d64d-45aa-a827-a2ca8c8f2b07)
-    (property "Reference" "TP1" (at 232.918 140.97 90)
+    (property "Reference" "TP2" (at 232.918 140.97 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "TestPoint" (at 232.918 143.51 90)
@@ -3183,7 +3183,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "TP1") (unit 1)
+          (reference "TP2") (unit 1)
         )
       )
       (project "FlightModule"
@@ -3197,7 +3197,7 @@
   (symbol (lib_id "Device:C") (at 245.11 39.37 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c42913d1-c8fe-467a-b012-32a16d765215)
-    (property "Reference" "C14" (at 248.92 38.735 0)
+    (property "Reference" "C7" (at 248.92 38.735 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "C" (at 248.92 41.275 0)
@@ -3214,7 +3214,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C14") (unit 1)
+          (reference "C7") (unit 1)
         )
       )
     )
@@ -3223,7 +3223,7 @@
   (symbol (lib_id "Diode:1N4007") (at 111.76 115.57 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid cba0c179-707b-4096-8b7e-906b99fd9f32)
-    (property "Reference" "D4" (at 111.76 110.49 0)
+    (property "Reference" "D8" (at 111.76 110.49 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1N4007" (at 111.76 113.03 0)
@@ -3246,7 +3246,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "D4") (unit 1)
+          (reference "D8") (unit 1)
         )
       )
       (project "MissionModule"
@@ -3260,7 +3260,7 @@
   (symbol (lib_id "Diode:1N4007") (at 179.07 125.73 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid cd092e0e-d254-4ebd-8287-e0641cc3ed96)
-    (property "Reference" "D9" (at 179.07 120.65 0)
+    (property "Reference" "D1" (at 179.07 120.65 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1N4007" (at 179.07 123.19 0)
@@ -3283,7 +3283,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "D9") (unit 1)
+          (reference "D1") (unit 1)
         )
       )
       (project "MissionModule"
@@ -3322,7 +3322,7 @@
   (symbol (lib_id "Connector:TestPoint") (at 38.1 34.29 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid d334c79a-764c-4047-8b12-f46000285f81)
-    (property "Reference" "TP3" (at 34.798 29.21 90)
+    (property "Reference" "TP4" (at 34.798 29.21 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "TestPoint" (at 34.798 31.75 90)
@@ -3338,7 +3338,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "TP3") (unit 1)
+          (reference "TP4") (unit 1)
         )
       )
       (project "FlightModule"
@@ -3377,7 +3377,7 @@
   (symbol (lib_id "Diode:1N4007") (at 130.81 125.73 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid e41eda34-2c8d-414e-a03c-89e707ce2ab9)
-    (property "Reference" "D6" (at 130.81 120.65 0)
+    (property "Reference" "D4" (at 130.81 120.65 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1N4007" (at 130.81 123.19 0)
@@ -3400,7 +3400,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "D6") (unit 1)
+          (reference "D4") (unit 1)
         )
       )
       (project "MissionModule"
@@ -3414,7 +3414,7 @@
   (symbol (lib_id "Device:C") (at 233.68 39.37 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid e5404f4e-839e-4b23-80f1-9dbe2e009963)
-    (property "Reference" "C13" (at 237.49 38.735 0)
+    (property "Reference" "C1" (at 237.49 38.735 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "C" (at 237.49 41.275 0)
@@ -3431,7 +3431,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C13") (unit 1)
+          (reference "C1") (unit 1)
         )
       )
     )
@@ -3471,7 +3471,7 @@
   (symbol (lib_id "Transistor_FET:QM6015D") (at 134.62 74.93 90) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid ef7ffed8-b23b-4830-a116-7bdb17ec18b3)
-    (property "Reference" "Q3" (at 134.62 82.55 90)
+    (property "Reference" "Q1" (at 134.62 82.55 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "TJ8S06M3L" (at 134.62 85.09 90)
@@ -3489,7 +3489,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "Q3") (unit 1)
+          (reference "Q1") (unit 1)
         )
       )
     )
@@ -3568,7 +3568,7 @@
   (symbol (lib_id "Device:R") (at 53.34 43.18 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f281a890-53f3-4027-aa34-a8735a2794b2)
-    (property "Reference" "R2" (at 59.69 44.45 0)
+    (property "Reference" "R4" (at 59.69 44.45 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "70kΩ" (at 60.96 41.91 0)
@@ -3585,7 +3585,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "R2") (unit 1)
+          (reference "R4") (unit 1)
         )
       )
       (project "FlightModule"
@@ -3599,7 +3599,7 @@
   (symbol (lib_id "Connector:TestPoint") (at 163.83 62.23 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid f3a8ba45-5f09-4e5d-b914-0f92852e1e43)
-    (property "Reference" "TP4" (at 166.37 64.897 0)
+    (property "Reference" "TP3" (at 166.37 64.897 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "TestPoint" (at 166.37 67.437 0)
@@ -3615,7 +3615,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "TP4") (unit 1)
+          (reference "TP3") (unit 1)
         )
       )
       (project "FlightModule"
@@ -3629,7 +3629,7 @@
   (symbol (lib_id "Diode:1N4007") (at 60.96 115.57 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid f5c3b6c6-f9ff-4a6f-9c5f-5b81becee7b0)
-    (property "Reference" "D1" (at 60.96 110.49 0)
+    (property "Reference" "D9" (at 60.96 110.49 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "1N4007" (at 60.96 113.03 0)
@@ -3652,7 +3652,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "D1") (unit 1)
+          (reference "D9") (unit 1)
         )
       )
       (project "MissionModule"
@@ -3696,7 +3696,7 @@
   (symbol (lib_id "Device:C") (at 124.46 132.08 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid fc050c13-46f7-4124-acc3-e09cfa97a671)
-    (property "Reference" "C4" (at 128.27 131.445 0)
+    (property "Reference" "C6" (at 128.27 131.445 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1μF" (at 128.27 133.985 0)
@@ -3713,7 +3713,7 @@
     (instances
       (project "Power"
         (path "/23e5419e-1ee8-4d70-ad94-e91b4cdf0126"
-          (reference "C4") (unit 1)
+          (reference "C6") (unit 1)
         )
       )
       (project "MissionModule"
