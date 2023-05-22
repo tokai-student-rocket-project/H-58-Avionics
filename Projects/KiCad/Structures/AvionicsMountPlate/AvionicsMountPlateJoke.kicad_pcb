@@ -4921,7 +4921,7 @@
     (tstamp 4be5a77b-51c3-4747-bd00-69147f205a8e)
     (at 178.828059 87.388059)
     (attr board_only exclude_from_pos_files exclude_from_bom)
-    (fp_text reference "G***" (at 0 0) (layer "F.SilkS")
+    (fp_text reference "G***" (at 0 0) (layer "F.SilkS") hide
         (effects (font (size 1.5 1.5) (thickness 0.3)))
       (tstamp 1912d99e-3e1f-471e-a3ee-7781fc509fcc)
     )
@@ -6739,7 +6739,7 @@
 
   (footprint "LOGO" (layer "F.Cu")
     (tstamp 71384fa0-650a-4ca8-81d6-4a85a2477753)
-    (at 159.778059 116.598059)
+    (at 159.778059 117.868059)
     (attr board_only exclude_from_pos_files exclude_from_bom)
     (fp_text reference "G***" (at 0 0) (layer "F.SilkS") hide
         (effects (font (size 1.5 1.5) (thickness 0.3)))
@@ -9671,7 +9671,7 @@
 
   (footprint "LOGO" (layer "F.Cu")
     (tstamp cd7b5a6e-3116-4808-a6c7-d84bcb8b6cfd)
-    (at 126.758059 87.388059)
+    (at 125.488059 87.388059)
     (attr board_only exclude_from_pos_files exclude_from_bom)
     (fp_text reference "G***" (at 0 0) (layer "F.SilkS") hide
         (effects (font (size 1.5 1.5) (thickness 0.3)))
@@ -10036,7 +10036,7 @@
 
   (footprint "LOGO" (layer "F.Cu")
     (tstamp f05de73e-f1bb-416b-9aef-941bda80135c)
-    (at 136.918059 116.598059)
+    (at 136.918059 117.868059)
     (attr board_only exclude_from_pos_files exclude_from_bom)
     (fp_text reference "G***" (at 0 0) (layer "F.SilkS") hide
         (effects (font (size 1.5 1.5) (thickness 0.3)))
