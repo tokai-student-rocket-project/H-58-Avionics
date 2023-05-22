@@ -1,0 +1,11 @@
+"Source:","/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/Modules/PowerModule/Battery/Battery.kicad_sch"
+"Date:","2023 May 22, Monday 14:22:17"
+"Tool:","Eeschema 7.0.1-0"
+"Generator:","/Applications/KiCad/KiCad.app/Contents/SharedSupport/plugins/bom_csv_grouped_by_value.py"
+"Component Count:","11"
+
+"Collated Components:"
+
+"Item","Qty","Reference(s)","Value","LibPart","Footprint","Datasheet","DNP"
+"1","10","BT1, BT2, BT3, BT4, BT5, BT6, BT7, BT8, BT9, BT10","Battery_Cell","Device:Battery_Cell","KiCad:CR123APC","~",""
+"2","1","J1","Conn_01x02_Socket","Connector:Conn_01x02_Pin","CONNECTOR:CONNECTOR_2-STRAIGHT","~",""
