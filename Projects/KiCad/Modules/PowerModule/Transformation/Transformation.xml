@@ -2,7 +2,7 @@
 <export version="E">
   <design>
     <source>/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/Modules/PowerModule/Transformation/Transformation.kicad_sch</source>
-    <date>2023 May 22, Monday 14:23:31</date>
+    <date>2023 May 23, Tuesday 14:07:54</date>
     <tool>Eeschema 7.0.1-0</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -37,7 +37,7 @@
     </comp>
     <comp ref="C2">
       <value>0.1μF</value>
-      <footprint>Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder</footprint>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="Transformation.kicad_sch"/>
@@ -47,8 +47,8 @@
       <tstamps>8898168b-fb86-4322-bf76-9fc5faa987f2</tstamps>
     </comp>
     <comp ref="C3">
-      <value>0.33μF</value>
-      <footprint>Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder</footprint>
+      <value>10μF</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="Transformation.kicad_sch"/>
@@ -58,8 +58,8 @@
       <tstamps>8019064c-7c8b-4ac8-9ce3-f5dd0d11d72e</tstamps>
     </comp>
     <comp ref="C4">
-      <value>0.33μF</value>
-      <footprint>Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder</footprint>
+      <value>10μF</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="Transformation.kicad_sch"/>
@@ -69,8 +69,8 @@
       <tstamps>5a436031-5fa4-4fbe-930e-adeafb5a4ac8</tstamps>
     </comp>
     <comp ref="C5">
-      <value>0.33μF</value>
-      <footprint>Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder</footprint>
+      <value>10μF</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="Transformation.kicad_sch"/>
@@ -81,7 +81,7 @@
     </comp>
     <comp ref="C6">
       <value>0.1μF</value>
-      <footprint>Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder</footprint>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="Transformation.kicad_sch"/>
@@ -114,7 +114,7 @@
     </comp>
     <comp ref="C9">
       <value>0.1μF</value>
-      <footprint>Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder</footprint>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="Transformation.kicad_sch"/>

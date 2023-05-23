@@ -1,5 +1,5 @@
 "Source:","/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/Modules/MissionModule/MissionModule.kicad_sch"
-"Date:","2023 May 22, Monday 14:27:24"
+"Date:","2023 May 23, Tuesday 13:54:25"
 "Tool:","Eeschema 7.0.1-0"
 "Generator:","/Applications/KiCad/KiCad.app/Contents/SharedSupport/plugins/bom_csv_grouped_by_value.py"
 "Component Count:","49"
@@ -8,8 +8,8 @@
 
 "Item","Qty","Reference(s)","Value","LibPart","Footprint","Datasheet","DNP","DESCRIPTION","MANUFACTURER","MPN","OC_FARNELL","OC_NEWARK","PACKAGE","PARTREV","STANDARD","SUPPLIER","Sim.Device","Sim.Pins"
 "1","2","C1, C6","15pF","Device:C","Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder","~","","","","","","","","","","","",""
-"2","4","C2, C4, C5, C7","0.1μF","Device:C","Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder","~","","","","","","","","","","","",""
-"3","1","C3","0.33μF","Device:C","Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder","~","","","","","","","","","","","",""
+"2","4","C2, C4, C5, C7","0.1μF","Device:C","Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder","~","","","","","","","","","","","",""
+"3","1","C3","10μF","Device:C","Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder","~","","","","","","","","","","","",""
 "4","2","C8, C9","100μF","Device:C_Polarized","Capacitor_SMD:CP_Elec_6.3x7.7","~","","","","","","","","","","","",""
 "5","2","D1, D9","RED","Device:LED","LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder","~","","","","","","","","","","","",""
 "6","1","D2","1N4007","Diode:1N4007","Diode_SMD:D_SOD-123F","http://www.vishay.com/docs/88503/1n4001.pdf","","","","","","","","","","","D","1=K 2=A"
