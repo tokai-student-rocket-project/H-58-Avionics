@@ -1,0 +1,40 @@
+                                                                                
+ADS NASTRAN VERSION 16.1.0.92   15:26  05/23/23                                 
+                                                                                
+MAXIMUM TET ELEMENT ASPECT RATIO            =   3.58 ON ELEMENT 666             
+                                                                                
+MAXIMUM TET ELEMENT FACE SKEW ANGLE      =  72.13 DEGREES ON ELEMENT 2595       
+                                                                                
+TOTAL MASS = 4.447856E-02                                                       
+                                                                                
+MAXIMUM STIFFNESS MATRIX DIAGONAL =  1.4068E+06  AT GRID 10672 COMPONENT 3      
+MINIMUM STIFFNESS MATRIX DIAGONAL =  1.4452E+04  AT GRID 8763  COMPONENT 3      
+                                                                                
+NUMBER OF NEGATIVE TERMS ON FACTOR DIAGONAL = 0                                 
+MAXIMUM MATRIX FACTOR DIAGONAL RATIO = 4.071E+03 AT GRID 12035 COMPONENT 3      
+                                                                                
+FACTORED SPARSE MATRIX SIZE =        6422184 WORDS       98.0 MEGABYTES         
+ADDITIONAL MEMORY ALLOCATED =       13030912 WORDS       99.4 MEGABYTES         
+                                                                                
+MAXIMUM SINGLE POINT CONSTRAINT FORCE MAGNITUDE  =  1.663425E+01  AT GRID 1011  
+MAXIMUM SINGLE POINT CONSTRAINT MOMENT MAGNITUDE =  0.000000E+00  AT GRID 12037 
+                                                                                
+MAXIMUM DISPLACEMENT MAGNITUDE =  2.583915E-01  AT GRID 11277                   
+MAXIMUM ROTATION MAGNITUDE     =  0.000000E+00  AT GRID 12037                   
+                                                                                
+EPSILON       =  3.758183E-11                                                   
+TOPTTDMAXEPSILON = 5.000000E-01                                                 
+STRAIN ENERGY =  3.926184E+00                                                   
+                                                                                
+MAXIMUM TET ELEMENT PRINCIPAL STRESS =  3.582860E+01  AT ELEMENT 3670           
+MAXIMUM TET ELEMENT SHEAR STRESS     =  1.699804E+01  AT ELEMENT 3925           
+MAXIMUM TET ELEMENT VON MISES STRESS =  3.026270E+01  AT ELEMENT 3925           
+MINIMUM TET ELEMENT PRINCIPAL STRESS = -2.581135E+01  AT ELEMENT 2262           
+                                                                                
+SOLID ELEMENT RELATIVE STRESS ERROR =  1.300043E-01                             
+                                                                                
+MAXIMUM SOLID ELEMENT NORMALIZED STRESS ERROR =  1.300043E-01  AT GRID 1032     
+MINIMUM SOLID ELEMENT NORMALIZED STRESS ERROR =  2.829647E-04  AT GRID 1651     
+                                                                                
+TOTAL CPU TIME = 1.2 SECONDS                                                    
+WALLCLOCK TIME = 6.8 SECONDS                                                    
