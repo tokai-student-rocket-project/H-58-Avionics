@@ -1,4 +1,4 @@
 (sym_lib_table
   (version 7)
-  (lib (name "CR123A-PC")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/LIB_CR123A-PC/CR123A-PC/KiCad/CR123A-PC.kicad_sym")(options "")(descr ""))
+  (lib (name "CR123A-PC")(type "KiCad")(uri "${KIPRJMOD}/../../../Libraries/LIB_CR123A-PC/CR123A-PC/KiCad/CR123A-PC.kicad_sym")(options "")(descr ""))
 )

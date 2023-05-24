@@ -1,5 +1,5 @@
 (sym_lib_table
   (version 7)
-  (lib (name "ArduinoMkrGpsShield")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/ArduinoMkrGpsShield/ArduinoMkrGpsShield.kicad_sym")(options "")(descr ""))
-  (lib (name "ABX00012")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/ABX00012/ABX00012.kicad_sym")(options "")(descr ""))
+  (lib (name "ArduinoMkrGpsShield")(type "KiCad")(uri "${KIPRJMOD}/../../../Libraries/ArduinoMkrGpsShield/ArduinoMkrGpsShield.kicad_sym")(options "")(descr ""))
+  (lib (name "ABX00012")(type "KiCad")(uri "${KIPRJMOD}/../../../Libraries/ABX00012/ABX00012.kicad_sym")(options "")(descr ""))
 )

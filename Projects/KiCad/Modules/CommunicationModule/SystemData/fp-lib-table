@@ -1,6 +1,6 @@
 (fp_lib_table
   (version 7)
-  (lib (name "ArduinoMkrGpsShield")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/ArduinoMkrGpsShield/ArduinoMkrGpsShield.pretty")(options "")(descr ""))
-  (lib (name "ABX00012")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/ABX00012")(options "")(descr ""))
-  (lib (name "Hirose_Connector")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/Hirose_Connector/Hirose_Connector.pretty")(options "")(descr ""))
+  (lib (name "ArduinoMkrGpsShield")(type "KiCad")(uri "${KIPRJMOD}/../../../Libraries/ArduinoMkrGpsShield/ArduinoMkrGpsShield.pretty")(options "")(descr ""))
+  (lib (name "ABX00012")(type "KiCad")(uri "${KIPRJMOD}/../../../Libraries/ABX00012")(options "")(descr ""))
+  (lib (name "Hirose_Connector")(type "KiCad")(uri "${KIPRJMOD}/../../../Libraries/Hirose_Connector/Hirose_Connector.pretty")(options "")(descr ""))
 )
