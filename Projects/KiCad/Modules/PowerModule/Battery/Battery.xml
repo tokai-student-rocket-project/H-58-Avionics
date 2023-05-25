@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/Modules/PowerModule/Battery/Battery.kicad_sch</source>
+    <date>2023 May 22, Monday 14:22:17</date>
+    <tool>Eeschema 7.0.1-0</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>Battery.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="BT1">
+      <value>Battery_Cell</value>
+      <footprint>KiCad:CR123APC</footprint>
+      <libsource lib="Device" part="Battery_Cell" description="Single-cell battery"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Battery.kicad_sch"/>
+      <property name="ki_description" value="Single-cell battery"/>
+      <property name="ki_keywords" value="battery cell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9d8fbf59-a24b-4bb6-9e4e-2bbbbd5ba1f4</tstamps>
+    </comp>
+    <comp ref="BT2">
+      <value>Battery_Cell</value>
+      <footprint>KiCad:CR123APC</footprint>
+      <libsource lib="Device" part="Battery_Cell" description="Single-cell battery"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Battery.kicad_sch"/>
+      <property name="ki_description" value="Single-cell battery"/>
+      <property name="ki_keywords" value="battery cell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>fca70989-c50d-48ef-bfae-674868452008</tstamps>
+    </comp>
+    <comp ref="BT3">
+      <value>Battery_Cell</value>
+      <footprint>KiCad:CR123APC</footprint>
+      <libsource lib="Device" part="Battery_Cell" description="Single-cell battery"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Battery.kicad_sch"/>
+      <property name="ki_description" value="Single-cell battery"/>
+      <property name="ki_keywords" value="battery cell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>350e6c7f-8e60-4328-a952-f79e88244f6a</tstamps>
+    </comp>
+    <comp ref="BT4">
+      <value>Battery_Cell</value>
+      <footprint>KiCad:CR123APC</footprint>
+      <libsource lib="Device" part="Battery_Cell" description="Single-cell battery"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Battery.kicad_sch"/>
+      <property name="ki_description" value="Single-cell battery"/>
+      <property name="ki_keywords" value="battery cell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>32f5c4b7-9b7b-464b-a14b-56d01bc50fe5</tstamps>
+    </comp>
+    <comp ref="BT5">
+      <value>Battery_Cell</value>
+      <footprint>KiCad:CR123APC</footprint>
+      <libsource lib="Device" part="Battery_Cell" description="Single-cell battery"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Battery.kicad_sch"/>
+      <property name="ki_description" value="Single-cell battery"/>
+      <property name="ki_keywords" value="battery cell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>af03d6e9-1ff9-43ff-a55e-ace66e5276df</tstamps>
+    </comp>
+    <comp ref="BT6">
+      <value>Battery_Cell</value>
+      <footprint>KiCad:CR123APC</footprint>
+      <libsource lib="Device" part="Battery_Cell" description="Single-cell battery"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Battery.kicad_sch"/>
+      <property name="ki_description" value="Single-cell battery"/>
+      <property name="ki_keywords" value="battery cell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a3d7e46d-36e9-4037-ae0f-4dd30c8bc5a7</tstamps>
+    </comp>
+    <comp ref="BT7">
+      <value>Battery_Cell</value>
+      <footprint>KiCad:CR123APC</footprint>
+      <libsource lib="Device" part="Battery_Cell" description="Single-cell battery"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Battery.kicad_sch"/>
+      <property name="ki_description" value="Single-cell battery"/>
+      <property name="ki_keywords" value="battery cell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>5e6bee08-1e5b-4668-b814-8854a2958846</tstamps>
+    </comp>
+    <comp ref="BT8">
+      <value>Battery_Cell</value>
+      <footprint>KiCad:CR123APC</footprint>
+      <libsource lib="Device" part="Battery_Cell" description="Single-cell battery"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Battery.kicad_sch"/>
+      <property name="ki_description" value="Single-cell battery"/>
+      <property name="ki_keywords" value="battery cell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8da4ddb7-7265-426e-b424-cdd789382af0</tstamps>
+    </comp>
+    <comp ref="BT9">
+      <value>Battery_Cell</value>
+      <footprint>KiCad:CR123APC</footprint>
+      <libsource lib="Device" part="Battery_Cell" description="Single-cell battery"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Battery.kicad_sch"/>
+      <property name="ki_description" value="Single-cell battery"/>
+      <property name="ki_keywords" value="battery cell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>319723f5-157c-4319-bee5-69ef804beccb</tstamps>
+    </comp>
+    <comp ref="BT10">
+      <value>Battery_Cell</value>
+      <footprint>KiCad:CR123APC</footprint>
+      <libsource lib="Device" part="Battery_Cell" description="Single-cell battery"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Battery.kicad_sch"/>
+      <property name="ki_description" value="Single-cell battery"/>
+      <property name="ki_keywords" value="battery cell"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>07a1a0dc-8c8f-40e3-9758-2c78eedf8b49</tstamps>
+    </comp>
+    <comp ref="J1">
+      <value>Conn_01x02_Socket</value>
+      <footprint>CONNECTOR:CONNECTOR_2-STRAIGHT</footprint>
+      <libsource lib="Connector" part="Conn_01x02_Pin" description="Generic connector, single row, 01x02, script generated"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="Battery.kicad_sch"/>
+      <property name="ki_description" value="Generic connector, single row, 01x02, script generated"/>
+      <property name="ki_keywords" value="connector"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>5da296f2-c58a-41b9-8882-4152e908a6f5</tstamps>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Connector" part="Conn_01x02_Pin">
+      <description>Generic connector, single row, 01x02, script generated</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x02_Pin</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="Battery_Cell">
+      <description>Single-cell battery</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">BT</field>
+        <field name="Value">Battery_Cell</field>
+        <field name="Datasheet">~</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+" type="passive"/>
+        <pin num="2" name="-" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="Connector">
+      <uri>/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols//Connector.kicad_sym</uri>
+    </library>
+    <library logical="Device">
+      <uri>/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols//Device.kicad_sym</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(BT1-+)">
+      <node ref="BT1" pin="1" pinfunction="+" pintype="passive"/>
+      <node ref="BT6" pin="1" pinfunction="+" pintype="passive"/>
+      <node ref="J1" pin="2" pinfunction="Pin_2" pintype="passive"/>
+    </net>
+    <net code="2" name="Net-(BT1--)">
+      <node ref="BT1" pin="2" pinfunction="-" pintype="passive"/>
+      <node ref="BT2" pin="1" pinfunction="+" pintype="passive"/>
+    </net>
+    <net code="3" name="Net-(BT2--)">
+      <node ref="BT2" pin="2" pinfunction="-" pintype="passive"/>
+      <node ref="BT3" pin="1" pinfunction="+" pintype="passive"/>
+    </net>
+    <net code="4" name="Net-(BT3--)">
+      <node ref="BT3" pin="2" pinfunction="-" pintype="passive"/>
+      <node ref="BT4" pin="1" pinfunction="+" pintype="passive"/>
+    </net>
+    <net code="5" name="Net-(BT4--)">
+      <node ref="BT4" pin="2" pinfunction="-" pintype="passive"/>
+      <node ref="BT5" pin="1" pinfunction="+" pintype="passive"/>
+    </net>
+    <net code="6" name="Net-(BT6--)">
+      <node ref="BT6" pin="2" pinfunction="-" pintype="passive"/>
+      <node ref="BT7" pin="1" pinfunction="+" pintype="passive"/>
+    </net>
+    <net code="7" name="Net-(BT7--)">
+      <node ref="BT7" pin="2" pinfunction="-" pintype="passive"/>
+      <node ref="BT8" pin="1" pinfunction="+" pintype="passive"/>
+    </net>
+    <net code="8" name="Net-(BT8--)">
+      <node ref="BT8" pin="2" pinfunction="-" pintype="passive"/>
+      <node ref="BT9" pin="1" pinfunction="+" pintype="passive"/>
+    </net>
+    <net code="9" name="Net-(BT10-+)">
+      <node ref="BT10" pin="1" pinfunction="+" pintype="passive"/>
+      <node ref="BT9" pin="2" pinfunction="-" pintype="passive"/>
+    </net>
+    <net code="10" name="Net-(BT10--)">
+      <node ref="BT10" pin="2" pinfunction="-" pintype="passive"/>
+      <node ref="BT5" pin="2" pinfunction="-" pintype="passive"/>
+      <node ref="J1" pin="1" pinfunction="Pin_1" pintype="passive"/>
+    </net>
+  </nets>
+</export>

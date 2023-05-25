@@ -1,4 +1,0 @@
-(sym_lib_table
-  (version 7)
-  (lib (name "LTC4416EMS_PBF")(type "KiCad")(uri "${KIPRJMOD}/../Libraries/LTC4416EMS#PBF/LTC4416EMS_PBF.kicad_sym")(options "")(descr ""))
-)
