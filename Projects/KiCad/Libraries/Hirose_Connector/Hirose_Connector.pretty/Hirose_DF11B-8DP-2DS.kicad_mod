@@ -111,8 +111,8 @@
   (pad "6" thru_hole oval (at 4 2) (size 1.2 1.65) (drill 0.85) (layers "*.Cu" "*.Mask") (tstamp daac8aaf-a458-45dc-9be4-f8797d7c3997))
   (pad "7" thru_hole oval (at 6 0) (size 1.2 1.65) (drill 0.85) (layers "*.Cu" "*.Mask") (tstamp c5b63684-b0f2-47da-9e74-18860d32f564))
   (pad "8" thru_hole oval (at 6 2) (size 1.2 1.65) (drill 0.85) (layers "*.Cu" "*.Mask") (tstamp 6bcaa752-bd23-4b67-9a62-8c16b641bba0))
-  (model "/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/Libraries/Hirose_Connector/DF11-8DP-2DS.stp"
-    (offset (xyz 23.75 -9.75 -22.75))
+  (model ":KICAD7_3RD_PARTY:Hirose_Connector/DF11-8DP-2DS.stp"
+    (offset (xyz 23.8 -9.8 -22.7))
     (scale (xyz 1 1 1))
     (rotate (xyz -90 0 180))
   )
