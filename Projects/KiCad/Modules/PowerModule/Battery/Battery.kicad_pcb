@@ -86,7 +86,7 @@
       (mirror false)
       (drillshape 0)
       (scaleselection 1)
-      (outputdirectory "/Users/waiwai/Projects/H-58-Avionics/Components/PowerModule/Build/01/Battery")
+      (outputdirectory "/Users/waiwai/Projects/H-58-Avionics/Components/Modules/PowerModule/Build/01/Battery")
     )
   )
 
