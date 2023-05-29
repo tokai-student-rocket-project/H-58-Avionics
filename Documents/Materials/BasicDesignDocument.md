@@ -191,6 +191,16 @@ GSEからの信号及びバルブの開閉を検知するためのリミット�
 
 ![AntiChatteringCircuitPullup](./images/AntiChatteringCircuitPullup.png)
 
+### 結露対策(THR制御モジュール)
+
+バルブ周辺に搭載するため急激な温度変化が予想される。そこで、結露対策として[ハヤコート Mark2](https://shop.sunhayato.co.jp/products/ay-302)を用い基板表面に絶縁処理が施された被膜を10μm程度になるよう塗布する。
+
+![AntiDewCondensationMeasures](./images/)
+
+使用感が良かった場合、各種モジュールにも塗布することを検討している。これにより基板が生み出すトラブルを未然に防止することが可能となり搭載計器のさらなる信頼性向上が見込める。
+
+
+
 
 
 
