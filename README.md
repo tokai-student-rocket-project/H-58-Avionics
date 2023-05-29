@@ -4,7 +4,7 @@
 
 - [工程計画書](./Documents/Materials/Schedule.md)
 - [要件定義書](./Documents/Materials/RequirementsDocument.md)
-- [お買い物リスト](./Documents/Materials/OKAIMONOList.md) (2023年度すぐに買うもの)
+- [基本設計書](./Documents/Materials/BasicDesignDocument.md)
 
 ### 開発資料
 
@@ -22,10 +22,13 @@
 
 ## モジュール
 
-- [計測モジュール](./Components/SensingModule/) ... センサ, データ算出
-- フライトモジュール ... フライトモード管理, 分離制御
-- [通信モジュール](./Components/CommunicationModule/) ... アップリンク, ダウンリンク
+- [計測モジュール](./Components/Modules/SensingModule/) ... センサ, データ算出
+- [フライトモジュール](./Components/Modules/FlightModule/) ... フライトモード管理, 分離制御
+- [通信モジュール](./Components/Modules/CommunicationModule/) ... アップリンク, ダウンリンク
 - [THR制御モジュール](./Components/THRControlModule/) ... 推進系計測, バルブ制御
+- [ミッションモジュール](./Components/Modules/MissionModule/) ... 1kHz加速度計測
+
+- [電源系](./Components/Modules/PowerModule/)
 
 ## HOW TO
 
