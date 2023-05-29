@@ -259,7 +259,8 @@ H-57との変更点としてB3M-SC-1170, RS405CB は共にRS485通信規格に�
 ![Tube](./images/Tube.png)
 
 
-THRControlModule取付穴寸法
+
+**THRControlModule取付穴寸法**
 
 取付穴寸法を以下に示す。
 6月上旬に実際のPCBも届くので実寸して再度取付穴寸法を共有する。
