@@ -7,6 +7,7 @@ Thermistor::Thermistor(uint8_t pinNumber) {
 
 
 void Thermistor::initialize() {
+  analogReadResolution(12);
   pinMode(_pinNumber, INPUT_ANALOG);
 }
 

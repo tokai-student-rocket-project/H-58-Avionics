@@ -66,24 +66,29 @@ namespace timer {
 namespace sensor {
   BNO055 bno;
   LPS33HW lps;
-  Thermistor thermistor(A2);
+  Thermistor thermistor(A1);
 }
 
 namespace recorder {
-  FRAM fram(A1);
+  FRAM fram0(A2);
+  FRAM fram1(A3);
   Sd sd(A0);
 
   PullupPin cardDetection(D8);
 
-  bool doRecord;
+  bool doRecording;
 }
 
 namespace indicator {
-  OutputPin ledCanSend(D11);
-  OutputPin ledCanReceive(D12);
+  OutputPin canSend(D12);
+  OutputPin canReceive(D11);
 
-  OutputPin ledSdAvailable(D9);
-  OutputPin ledDoRecord(D7);
+  OutputPin sdStatus(D9);
+  OutputPin recorderStatus(D6);
+}
+
+namespace control {
+  OutputPin recorderPower(D7);
 }
 
 namespace data {
@@ -103,17 +108,20 @@ namespace data {
 
 
 void setup() {
-  analogReadResolution(12);
-
   Serial.begin(115200);
+
+  // 開発中: 保存は常に行う表示
+  control::recorderPower.on();
+  indicator::recorderStatus.on();
 
   SPI.setMOSI(A6);
   SPI.setMISO(A5);
   SPI.setSCLK(A4);
   SPI.begin();
 
+  // SDの初期検知
   if (recorder::sd.begin()) {
-    indicator::ledSdAvailable.on();
+    indicator::sdStatus.on();
   }
   else {
     Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startIntervalMsec(500);
@@ -125,7 +133,10 @@ void setup() {
   Wire.setClock(400000);
 
   sensor::bno.begin();
-  sensor::lps.begin();
+
+  // 開発中: EMではBMEに変更した
+  // sensor::lps.begin();
+
   sensor::thermistor.initialize();
 
   canbus::initialize();
@@ -140,13 +151,16 @@ void setup() {
 void loop() {
   Tasks.update();
 
-  if (!recorder::doRecord && !recorder::sd.isRunning() && !recorder::cardDetection.isOpen()) {
+  // SDの検知の更新
+  // SDを新しく検知した時
+  if (!recorder::doRecording && !recorder::sd.isRunning() && !recorder::cardDetection.isOpen()) {
     recorder::sd.begin();
     Tasks.erase("invalidSdBlink");
-    indicator::ledSdAvailable.on();
+    indicator::sdStatus.on();
   }
 
-  if (!recorder::doRecord && recorder::sd.isRunning() && recorder::cardDetection.isOpen()) {
+  // SDが検知できなくなった時
+  if (!recorder::doRecording && recorder::sd.isRunning() && recorder::cardDetection.isOpen()) {
     recorder::sd.end();
     Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startIntervalMsec(500);
   }
@@ -184,7 +198,7 @@ void canbus::sendScalar(canbus::Id id, float value) {
 
   can.tryToSendReturnStatus(message);
 
-  indicator::ledCanSend.toggle();
+  indicator::canSend.toggle();
 }
 
 
@@ -202,14 +216,14 @@ void canbus::sendVector(canbus::Id id, canbus::Axis axis, float value) {
 
   can.tryToSendReturnStatus(message);
 
-  indicator::ledCanSend.toggle();
+  indicator::canSend.toggle();
 }
 
 
 void canbus::receiveStatus(CANMessage message) {
   flightMode::Mode mode = static_cast<flightMode::Mode>(message.data[0]);
 
-  recorder::doRecord =
+  recorder::doRecording =
     mode == flightMode::Mode::STANDBY
     || mode == flightMode::Mode::THRUST
     || mode == flightMode::Mode::CLIMB
@@ -218,9 +232,7 @@ void canbus::receiveStatus(CANMessage message) {
     || mode == flightMode::Mode::PARACHUTE
     || mode == flightMode::Mode::LAND;
 
-  indicator::ledDoRecord.set(recorder::doRecord);
-
-  indicator::ledCanReceive.toggle();
+  indicator::canReceive.toggle();
 }
 
 
@@ -276,5 +288,5 @@ void timer::task100Hz() {
 
 
 void timer::invalidSdBlink() {
-  indicator::ledSdAvailable.toggle();
+  indicator::sdStatus.toggle();
 }
