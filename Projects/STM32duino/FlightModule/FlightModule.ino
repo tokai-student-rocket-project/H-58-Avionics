@@ -74,21 +74,21 @@ namespace timer {
 }
 
 namespace indicator {
-  OutputPin ledCanSend(D11);
-  OutputPin ledCanReceive(D12);
+  OutputPin canSend(D0);
+  OutputPin canReceive(D1);
 
-  OutputPin ledFlightModeBit0(D5);
-  OutputPin ledFlightModeBit1(D6);
-  OutputPin ledFlightModeBit2(D7);
-  OutputPin ledFlightModeBit3(D8);
+  OutputPin flightModeBit0(D8);
+  OutputPin flightModeBit1(D7);
+  OutputPin flightModeBit2(D6);
+  OutputPin flightModeBit3(D3);
 
   void indicateFlightMode(flightMode::Mode mode);
 }
 
 namespace connection {
   OutputPin camera(D9);
-  OutputPin separatorDrogue(A1);
-  OutputPin separatorMain(A0);
+  OutputPin sn3(A0);
+  OutputPin sn4(D13);
 }
 
 namespace data {
@@ -98,8 +98,9 @@ namespace data {
 
 namespace develop {
   Debugger debugger;
-  PullupPin wakeUpButton(D3);
-  PullupPin ignitionButton(D4);
+  // 開発中: ブートセレクトボタンに割り当ててある
+  PullupPin wakeUpButton(D12);
+  PullupPin ignitionButton(D5);
 }
 
 
@@ -151,12 +152,12 @@ void canbus::sendStatus(canbus::Id id, uint8_t mode) {
 
   message.data[0] = mode;
   message.data[1] = connection::camera.get();
-  message.data[2] = connection::separatorDrogue.get();
-  message.data[3] = connection::separatorMain.get();;
+  message.data[2] = connection::sn3.get();
+  message.data[3] = connection::sn4.get();;
 
   can.tryToSendReturnStatus(message);
 
-  indicator::ledCanSend.toggle();
+  indicator::canSend.toggle();
 }
 
 
@@ -167,7 +168,7 @@ void canbus::receiveScalar(CANMessage message, float* value) {
   canbus::converter.data[3] = message.data[3];
   *value = canbus::converter.value;
 
-  indicator::ledCanReceive.toggle();
+  indicator::canReceive.toggle();
 }
 
 
@@ -189,7 +190,7 @@ void canbus::receiveVector(CANMessage message, float* x, float* y, float* z) {
     break;
   }
 
-  indicator::ledCanReceive.toggle();
+  indicator::canReceive.toggle();
 }
 
 
@@ -254,7 +255,7 @@ void timer::task100Hz() {
       flightMode::changeMode(flightMode::Mode::DECEL);
       develop::debugger.printMessage("1ST_SEPARATION");
 
-      connection::separatorDrogue.on();
+      connection::sn3.on();
       Tasks["SeparatorDrogueAutoOff"]->startOnceAfterMsec(1000);
     }
     break;
@@ -264,7 +265,7 @@ void timer::task100Hz() {
       flightMode::changeMode(flightMode::Mode::PARACHUTE);
       develop::debugger.printMessage("2ND_SEPARATION");
 
-      connection::separatorMain.on();
+      connection::sn4.on();
       Tasks["SeparatorMainAutoOff"]->startOnceAfterMsec(1000);
     }
     break;
@@ -298,19 +299,19 @@ void timer::task100Hz() {
 
 
 void timer::taskSeparatorDrogueAutoOff() {
-  connection::separatorDrogue.off();
+  connection::sn3.off();
 }
 
 
 void timer::taskSeparatorMainAutoOff() {
-  connection::separatorMain.off();
+  connection::sn4.off();
 }
 
 
 void indicator::indicateFlightMode(flightMode::Mode mode) {
   uint8_t modeNumber = static_cast<uint8_t>(mode);
-  indicator::ledFlightModeBit0.set(modeNumber & (1 << 0));
-  indicator::ledFlightModeBit1.set(modeNumber & (1 << 1));
-  indicator::ledFlightModeBit2.set(modeNumber & (1 << 2));
-  indicator::ledFlightModeBit3.set(modeNumber & (1 << 3));
+  indicator::flightModeBit0.set(modeNumber & (1 << 0));
+  indicator::flightModeBit1.set(modeNumber & (1 << 1));
+  indicator::flightModeBit2.set(modeNumber & (1 << 2));
+  indicator::flightModeBit3.set(modeNumber & (1 << 3));
 }
