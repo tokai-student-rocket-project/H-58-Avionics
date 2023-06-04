@@ -26,7 +26,7 @@ IcsHardSerialClass B3M(&Serial1, EN_PIN, BAUNDRATE, TIMEOUT);
 /*B3M Servo Config END*/
 
 /*RS405CB Servo Config START*/
-int REDE = 7;
+int REDE = 3;
 /*RS405CB Servo Config END*/
 
 /*Position Change Config START*/
@@ -34,14 +34,14 @@ constexpr int POSITION_CHANGING_THRESHOLD = 10;
 int Launch_Count = 0;
 int Waiting_Count = 0;
 int Position = 1;
-int WaitingPin = 4;
-int LaunchPin = 5;
+int WaitingPin = 8;
+int LaunchPin = 7;
 /*Position Change Config END*/
 
 /*MAX31855 Config START*/
 int32_t rawData = 0;
 float temperature;
-MAX31855 myMAX31855(3); //Chip Select PIN (CS)
+MAX31855 myMAX31855(5); // Chip Select PIN (CS)
 /*MAX31855 Config END*/
 
 /*MAX31855 Pin Config*/
@@ -55,25 +55,29 @@ MAX31855 myMAX31855(3); //Chip Select PIN (CS)
 
 void setup()
 {
-    pinMode(A0, INPUT_PULLUP);
-
-
-    pinMode(REDE, OUTPUT);
-    Toque(0x01, 0x01);
-    delay(100);
-    Move(1, 0, 50);
-
-    SIGNAL_initialize();
-    MAX31855_initialize();
-
-    B3M.begin(); // B3Mと通信開始
+    pinMode(13, OUTPUT);
+    // pinMode(A0, INPUT_PULLUP);
     Serial1.begin(115200, SERIAL_8N1); // 通信速度、パリティなしに設定
     Serial1.begin(115200);
     Serial.begin(115200);
 
+    Serial.println("Serial OK");
+
+    // RS405CB
+    pinMode(REDE, OUTPUT);
+    Toque(0x01, 0x01);
+    delay(100);
+    Move(1, 0, 50);
+    
+
+
+    // SIGNAL_initialize();
+    MAX31855_initialize();
+
+    // B3M
+    B3M.begin(); // B3Mと通信開始
     B3M_initialize();
     B3M_setPosition(0x01, 4500, 1000);
-
     /* --- CAN --- */
 
     while (!Serial)
@@ -118,6 +122,7 @@ void loop()
 
     if (Launch_Count >= POSITION_CHANGING_THRESHOLD)
     {
+
         B3M_setPosition(0x01, 4500, 10);
         Launch_Count = 0;
         Position = 2;
@@ -147,7 +152,7 @@ void loop()
     // Serial.print(", ");
 
     MAX31855_errornotification(); // MAX31855 のエラーをお知らせ
-    FILLING_confirmation();
+    // FILLING_confirmation();
 
     sample[7] = sample[7] + 1;
 
@@ -162,9 +167,10 @@ void loop()
             sample[5] = sample[5] + 1;
         }
     }
+
     // send data:  id = 0x00, standrad frame, data len = 8, stmp: data buf
     CAN.sendMsgBuf(0x00, 0, 8, sample);
-    delay(100);
+    // delay(100);
     Serial.println("CAN BUS sendMsgBuf OK!!");
 
     // rawData = myMAX31855.readRawData();
@@ -173,15 +179,13 @@ void loop()
     // Serial.print(",");
     // Serial.println(Waiting_Count);
 
-
     /*RS405CB テスト用*/
-    delay(100);
-    Move(1, 900, 50); //ID =1, GoalPosition = 90.0deg(900), Time = 0.5sec(50)
-    delay(700);
-    Move(1, -900, 100); //ID =1, GoalPosition = -90.0deg(-900), Time = 1.0sec(100)
-    delay(1100);
-   /*RS405CB テスト用*/
-    
+    // delay(100);
+    // Move(1, 900, 50); // ID =1, GoalPosition = 90.0deg(900), Time = 0.5sec(50)
+    // delay(700);
+    // Move(1, -900, 100); // ID =1, GoalPosition = -90.0deg(-900), Time = 1.0sec(100)
+    // delay(1100);
+    /*RS405CB テスト用*/
 }
 
 int B3M_writeCommand(byte id, byte TxData, byte Address)
@@ -273,24 +277,24 @@ void Toque(unsigned char ID, unsigned char data)
     unsigned char TxData[9];
     unsigned char CheckSum = 0;
 
-//パケットデータ生成
-    TxData[0] = 0xFA;  //HEADER
-    TxData[1] = 0xAF;  //HEADER
-    TxData[2] = ID;    //ID
-    TxData[3] = 0x00;  //FLAGS
-    TxData[4] = 0x24;  //ADDRESS
-    TxData[5] = 0x01;  //LENGTH
-    TxData[6] = 0x01;  //COUNT
-    TxData[7] = data;  //DATA
+    // パケットデータ生成
+    TxData[0] = 0xFA; // HEADER
+    TxData[1] = 0xAF; // HEADER
+    TxData[2] = ID;   // ID
+    TxData[3] = 0x00; // FLAGS
+    TxData[4] = 0x24; // ADDRESS
+    TxData[5] = 0x01; // LENGTH
+    TxData[6] = 0x01; // COUNT
+    TxData[7] = data; // DATA
 
-    for (int i = 2; i<=7;i++)
+    for (int i = 2; i <= 7; i++)
     {
         CheckSum = CheckSum ^ TxData[i];
     }
     TxData[8] = CheckSum;
 
     digitalWrite(REDE, HIGH);
-    for (int i = 0; i<=8;i++)
+    for (int i = 0; i <= 8; i++)
     {
         Serial1.write(TxData[i]);
     }
@@ -305,30 +309,30 @@ void Move(unsigned char ID, int Angle, int Speed)
     unsigned char TxData[12];
     unsigned char CheckSum = 0;
 
-//パケットデータ生成
-    TxData[0] = 0xFA; //HEADER
-    TxData[1] = 0xAF; //HEADER
-    TxData[2] = ID;   //ID
-    TxData[3] = 0x00; //FLAGS
-    TxData[4] = 0x1E; //ADDRESS
-    TxData[5] = 0x04; //LENGTH
-    TxData[6] = 0x01; //COUNT
-    //Angle
+    // パケットデータ生成
+    TxData[0] = 0xFA; // HEADER
+    TxData[1] = 0xAF; // HEADER
+    TxData[2] = ID;   // ID
+    TxData[3] = 0x00; // FLAGS
+    TxData[4] = 0x1E; // ADDRESS
+    TxData[5] = 0x04; // LENGTH
+    TxData[6] = 0x01; // COUNT
+    // Angle
     TxData[7] = (unsigned char)0x00FF & Angle;
-    TxData[8] = (unsigned char)0x00FF &(Angle >> 8);
-    //Speed
+    TxData[8] = (unsigned char)0x00FF & (Angle >> 8);
+    // Speed
     TxData[9] = (unsigned char)0x00FF & Speed;
     TxData[10] = (unsigned char)0x00FF & (Speed >> 8);
-    //チェックサム計算
-    for (int i = 2; i<=10;i++)
+    // チェックサム計算
+    for (int i = 2; i <= 10; i++)
     {
         CheckSum = CheckSum ^ TxData[i];
-    } 
+    }
     TxData[11] = CheckSum;
 
-    //パケットデータ送信
+    // パケットデータ送信
     digitalWrite(REDE, HIGH);
-    for (int i = 0; i<=11; i++)
+    for (int i = 0; i <= 11; i++)
     {
         Serial1.write(TxData[i]);
     }
@@ -337,23 +341,27 @@ void Move(unsigned char ID, int Angle, int Speed)
     digitalWrite(REDE, LOW);
 }
 
+void LED_blink()
+{
+    delay(100);
+    digitalWrite(13, HIGH);
+    delay(100);
+    digitalWrite(13, LOW);
+    delay(100);
+}
+
+
 void B3M_initialize()
 {
     B3M_writeCommand(0x01, 0x02, 0x28); // 動作モード：Free
-    LED_blink();
-    delay(500);
+
     B3M_writeCommand(0x01, 0x02, 0x28); // 位置制御モードに設定
-    LED_blink();
-    delay(500);
+
     B3M_writeCommand(0x01, 0x01, 0x29); // 起動生成タイプ：Even
-    LED_blink();
-    delay(500);
+
     B3M_writeCommand(0x01, 0x00, 0x5c); // ゲインプリセット：No.0
-    LED_blink();
-    delay(500);
+
     B3M_writeCommand(0x01, 0x00, 0x28); // 動作モード：Normal
-    LED_blink();
-    delay(1000);
 }
 
 void MAX31855_initialize()
@@ -404,14 +412,6 @@ void FILLING_confirmation()
     }
 }
 
-void LED_blink()
-{
-    digitalWrite(13, HIGH);
-    delay(100);
-    digitalWrite(13, LOW);
-    delay(100);
-}
-
 
 void SIGNAL_initialize()
 {
@@ -419,8 +419,7 @@ void SIGNAL_initialize()
     pinMode(LaunchPin, INPUT_PULLUP);
 }
 
-void CAN_sendtemperature(uint32_t id, float value)
-{
-    converter.value = value;
-
-}
+// void CAN_sendtemperature(uint32_t id, float value)
+// {
+//     converter.value = value;
+// }

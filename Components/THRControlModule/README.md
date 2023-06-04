@@ -50,3 +50,12 @@
 - [MCP2562](/Documents/) [CAN]
 
 > ブラウザ版は[コチラ](https://akizukidenshi.com/download/ds/microchip/MCP2562FD.pdf)
+>
+
+**ソフトウェア**
+![建学の精神](images/建学の精神.jpg)
+
+### ガバーデータ
+- [Experiment Model](/Projects/KiCad/THRControlModuleBoard/Gaber/THRControlModule.zip)(2023/5/25に発注 -> 2023/5/30)
+- [Proto Flight Model](/Projects/KiCad/THRControlModuleBoard/)
+- [Flight Model](/Projects/KiCad/THRControlModuleBoard/)
