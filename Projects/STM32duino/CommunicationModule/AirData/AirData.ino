@@ -43,9 +43,9 @@ namespace timer {
 }
 
 namespace indicator {
-  OutputPin ledCanReceive(D4);
+  OutputPin canReceive(1);
 
-  OutputPin ledLoRaSend(D3);
+  OutputPin loRaSend(4);
 }
 
 namespace data {
@@ -60,7 +60,9 @@ namespace data {
 
 void setup() {
   Serial.begin(115200);
+
   LoRa.begin(923.8E6);
+  LoRa.setSignalBandwidth(500E3);
 
   canbus::initialize();
 
@@ -114,7 +116,7 @@ void canbus::receiveScalar(uint8_t* data, float* value) {
   canbus::converter.data[3] = data[4];
   *value = canbus::converter.value;
 
-  indicator::ledCanReceive.toggle();
+  indicator::canReceive.toggle();
 }
 
 
@@ -136,7 +138,7 @@ void canbus::receiveVector(uint8_t* data, float* x, float* y, float* z) {
     break;
   }
 
-  indicator::ledCanReceive.toggle();
+  indicator::canReceive.toggle();
 }
 
 
@@ -164,5 +166,5 @@ void timer::task10Hz() {
   LoRa.beginPacket();
   LoRa.write(packet.data.data(), packet.data.size());
   LoRa.endPacket();
-  indicator::ledLoRaSend.toggle();
+  indicator::loRaSend.toggle();
 }

@@ -43,11 +43,11 @@ namespace timer {
 }
 
 namespace indicator {
-  OutputPin ledCanReceive(D4);
+  OutputPin canReceive(1);
 
-  OutputPin ledLoRaSend(D3);
+  OutputPin loRaSend(4);
 
-  OutputPin ledGpsAvailable(D1);
+  OutputPin gpsStatus(5);
 }
 
 namespace data {
@@ -63,7 +63,10 @@ namespace data {
 
 void setup() {
   Serial.begin(115200);
+
   LoRa.begin(921.8E6);
+  LoRa.setSignalBandwidth(500E3);
+
   GPS.begin();
 
   canbus::initialize();
@@ -106,7 +109,7 @@ void canbus::receiveStatus(uint8_t* data, uint8_t* mode, uint8_t* camera, uint8_
   *separatorDrogue = data[2];
   *separatorMain = data[3];
 
-  indicator::ledCanReceive.toggle();
+  indicator::canReceive.toggle();
 }
 
 
@@ -114,10 +117,10 @@ void timer::task10Hz() {
   if (GPS.available()) {
     data::latitude = GPS.latitude();
     data::longitude = GPS.longitude();
-    indicator::ledGpsAvailable.on();
+    indicator::gpsStatus.on();
   }
   else {
-    indicator::ledGpsAvailable.off();
+    indicator::gpsStatus.off();
   }
 
   const auto& packet = MsgPacketizer::encode(
@@ -133,5 +136,5 @@ void timer::task10Hz() {
   LoRa.beginPacket();
   LoRa.write(packet.data.data(), packet.data.size());
   LoRa.endPacket();
-  indicator::ledLoRaSend.toggle();
+  indicator::loRaSend.toggle();
 }
