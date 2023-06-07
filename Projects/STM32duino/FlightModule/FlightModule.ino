@@ -89,6 +89,8 @@ namespace connection {
   OutputPin camera(D9);
   OutputPin sn3(A0);
   OutputPin sn4(D13);
+
+  PullupPin flightPin(D11);
 }
 
 namespace data {
@@ -197,7 +199,55 @@ void canbus::receiveVector(CANMessage message, float* x, float* y, float* z) {
 void flightMode::changeMode(flightMode::Mode nextMode) {
   if (flightMode::activeMode == nextMode) return;
 
+  switch (nextMode) {
+  case (flightMode::Mode::SLEEP):
+    develop::debugger.printMessage("RESET");
+    break;
+
+  case (flightMode::Mode::STANDBY):
+    develop::debugger.printMessage("WAKE_UP");
+    connection::camera.on();
+    break;
+
+  case (flightMode::Mode::THRUST):
+    develop::debugger.printMessage("IGNITION");
+    timer::setReferenceTime();
+    break;
+
+  case (flightMode::Mode::CLIMB):
+    develop::debugger.printMessage("BURNOUT");
+    break;
+
+  case (flightMode::Mode::DESCENT):
+    develop::debugger.printMessage("APOGEE");
+    break;
+
+  case (flightMode::Mode::DECEL):
+    develop::debugger.printMessage("1ST_SEPARATION");
+    connection::sn3.on();
+    Tasks["SeparatorDrogueAutoOff"]->startOnceAfterMsec(1000);
+    break;
+
+  case (flightMode::Mode::PARACHUTE):
+    develop::debugger.printMessage("2ND_SEPARATION");
+
+    connection::sn4.on();
+    Tasks["SeparatorMainAutoOff"]->startOnceAfterMsec(1000);
+    break;
+
+  case (flightMode::Mode::LAND):
+    develop::debugger.printMessage("LAND");
+    break;
+
+  case (flightMode::Mode::SHUTDOWN):
+    develop::debugger.printMessage("SHUTDOWN");
+    connection::camera.off();
+    break;
+  }
+
   flightMode::activeMode = nextMode;
+
+  indicator::indicateFlightMode(flightMode::activeMode);
 }
 
 
@@ -217,84 +267,69 @@ void timer::task10Hz() {
 
 
 void timer::task100Hz() {
+  if (connection::flightPin.isOpen() && (flightMode::activeMode == flightMode::Mode::SLEEP || flightMode::activeMode == flightMode::Mode::STANDBY)) {
+    flightMode::changeMode(flightMode::Mode::THRUST);
+  }
+
+  if (!connection::flightPin.isOpen() && flightMode::activeMode == flightMode::Mode::SHUTDOWN) {
+    flightMode::changeMode(flightMode::Mode::SLEEP);
+  }
+
   switch (flightMode::activeMode) {
   case (flightMode::Mode::SLEEP):
     if (!develop::wakeUpButton.isOpen()) {
       flightMode::changeMode(flightMode::Mode::STANDBY);
-      develop::debugger.printMessage("WAKE_UP");
-
-      connection::camera.on();
     }
     break;
 
   case (flightMode::Mode::STANDBY):
     if (!develop::ignitionButton.isOpen()) {
       flightMode::changeMode(flightMode::Mode::THRUST);
-      develop::debugger.printMessage("IGNITION");
-
-      timer::setReferenceTime();
     }
     break;
 
   case (flightMode::Mode::THRUST):
     if (timer::isElapsedTime(timer::thrust_time)) {
       flightMode::changeMode(flightMode::Mode::CLIMB);
-      develop::debugger.printMessage("BURNOUT");
     }
     break;
 
   case (flightMode::Mode::CLIMB):
     if (timer::isElapsedTime(timer::apogee_time)) {
       flightMode::changeMode(flightMode::Mode::DESCENT);
-      develop::debugger.printMessage("APOGEE");
     }
     break;
 
   case (flightMode::Mode::DESCENT):
     if (timer::isElapsedTime(timer::first_separation_time)) {
       flightMode::changeMode(flightMode::Mode::DECEL);
-      develop::debugger.printMessage("1ST_SEPARATION");
-
-      connection::sn3.on();
-      Tasks["SeparatorDrogueAutoOff"]->startOnceAfterMsec(1000);
     }
     break;
 
   case (flightMode::Mode::DECEL):
     if (timer::isElapsedTime(timer::second_separation_time)) {
       flightMode::changeMode(flightMode::Mode::PARACHUTE);
-      develop::debugger.printMessage("2ND_SEPARATION");
-
-      connection::sn4.on();
-      Tasks["SeparatorMainAutoOff"]->startOnceAfterMsec(1000);
     }
     break;
 
   case (flightMode::Mode::PARACHUTE):
     if (timer::isElapsedTime(timer::land_time)) {
       flightMode::changeMode(flightMode::Mode::LAND);
-      develop::debugger.printMessage("LAND");
     }
     break;
 
   case (flightMode::Mode::LAND):
     if (timer::isElapsedTime(timer::shutdown_time)) {
       flightMode::changeMode(flightMode::Mode::SHUTDOWN);
-      develop::debugger.printMessage("SHUTDOWN");
-
-      connection::camera.off();
     }
     break;
 
   case (flightMode::Mode::SHUTDOWN):
     if (!develop::ignitionButton.isOpen()) {
       flightMode::changeMode(flightMode::Mode::SLEEP);
-      develop::debugger.printMessage("RESET");
     }
     break;
   }
-
-  indicator::indicateFlightMode(flightMode::activeMode);
 }
 
 

@@ -145,6 +145,17 @@ void setup() {
   Tasks.add(timer::task20Hz)->startIntervalMsec(50);
   Tasks.add(timer::task50Hz)->startIntervalMsec(20);
   Tasks.add(timer::task100Hz)->startIntervalMsec(10);
+
+  // メモリ切断処理
+  // control::recorderPower.off();
+  // SPI.end();
+  // pinMode(A6, OUTPUT); // MOSI
+  // digitalWrite(A6, LOW);
+  // pinMode(A5, OUTPUT); // MISO
+  // digitalWrite(A5, LOW);
+  // digitalWrite(A2, LOW); // CS FRAM0
+  // digitalWrite(A3, LOW); // CS FRAM1
+  // digitalWrite(A0, LOW); // CS SD
 }
 
 
