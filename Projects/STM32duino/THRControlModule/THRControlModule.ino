@@ -19,10 +19,14 @@ union Converter
 const byte EN_PIN = 2;
 const long BAUNDRATE = 115200;
 const int TIMEOUT = 500;
+IcsHardSerialClass B3M(&Serial1, EN_PIN, BAUNDRATE, TIMEOUT);
+
+/* Memo */
 // HardwareSerial SerialX(RX, TX); X = 1, 2, 3...
 // HardwareSerial Serial1(PA_10, PA_9); // STM32F303K8
 // HardwareSerial Serial1(0, 1); // STM32F303K8
-IcsHardSerialClass B3M(&Serial1, EN_PIN, BAUNDRATE, TIMEOUT);
+/* Memo */
+
 /*B3M Servo Config END*/
 
 /*RS405CB Servo Config START*/
@@ -30,9 +34,9 @@ int REDE = 3;
 /*RS405CB Servo Config END*/
 
 /*Position Change Config START*/
-constexpr int POSITION_CHANGING_THRESHOLD = 10;
-int Launch_Count = 0;
-int Waiting_Count = 0;
+constexpr int POSITION_CHANGING_THRESHOLD = 1;
+int LaunchCount = 0;
+int WaitingCount = 0;
 int Position = 1;
 int WaitingPin = 8;
 int LaunchPin = 7;
@@ -69,6 +73,8 @@ void setup()
     Torque(0x01, 0x01);
     delay(100);
     Move(1, 0, 100);
+    delay(1100);
+    Move(1, 900, 100);
 
     SIGNAL_initialize();
     MAX31855_initialize();
@@ -97,15 +103,21 @@ void setup()
 
     Tasks.add("task", []()
               {
+                    Serial.print("Temperature: ");
                     Serial.print(myMAX31855.getTemperature(rawData));
                     Serial.print(", ");
+                    Serial.print("ColdJunctionTemperature: ");
                     Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
                     Serial.print(", ");
-                    Serial.print(Launch_Count);
+                    Serial.print("LaunchCount: ");
+                    Serial.print(LaunchCount);
                     Serial.print(", ");
-                    Serial.print(Waiting_Count);
+                    Serial.print("WaitingCount: ");
+                    Serial.print(WaitingCount);
                     Serial.print(", "); 
-                    Serial.print(rawData); })
+                    Serial.print("RawData: ");
+                    Serial.print(rawData); 
+                    Serial.print(", "); })
 
         ->startIntervalMsec(2);
 }
@@ -118,19 +130,20 @@ void loop()
 
     if (Position == 1 && digitalRead(LaunchPin) == LOW)
     {
-        Launch_Count++;
+        LaunchCount++;
     }
     else
     {
-        Launch_Count = 0;
+        LaunchCount = 0;
     }
 
-    if (Launch_Count >= POSITION_CHANGING_THRESHOLD)
+    if (LaunchCount >= POSITION_CHANGING_THRESHOLD)
     {
-        Launch_Count = 0;
+        LaunchCount = 0;
 
-        Move(1, 900, 100); //RS405CBを90度動作させる
-        delay(10); //10ms 待機
+        Torque(0x01, 0x01);
+        Move(1, 0, 10); //RS405CBを90度動作させる
+        delay(200); //10ms 待機
         B3M_setPosition(0x01, 4500, 10); //B3Mを45度(45000)動作させる
         
         Position = 2;
@@ -141,20 +154,20 @@ void loop()
 
     if (Position == 2 && digitalRead(WaitingPin) == LOW)
     {
-        Waiting_Count++;
+        WaitingCount++;
     }
     else
     {
-        Waiting_Count = 0;
+        WaitingCount = 0;
     }
 
-    if (Waiting_Count >= POSITION_CHANGING_THRESHOLD)
+    if (WaitingCount >= POSITION_CHANGING_THRESHOLD)
     {
-        Waiting_Count = 0;
+        WaitingCount = 0;
         
         Move(1, 900, 100); //RS405CBを90度動作させる
-        delay(10); //10ms 待機
-        B3M_setPosition(0x01, -4500, 10); //B3Mを-45度(-4500)動作させる
+        delay(100); //10ms 待機
+        B3M_setPosition(0x01, -4500, 1000); //B3Mを-45度(-4500)動作させる
         Position = 1;
         delay(50);
     }
@@ -179,8 +192,7 @@ void loop()
     // send data:  id = 0x00, standrad frame, data len = 8, stmp: data buf
     CAN.sendMsgBuf(0x00, 0, 8, sample);
     delay(100);
-    Serial.println("");
-    Serial.println("CAN BUS sendMsgBuf OK!!");
+    Serial.println("CanBus: sendMsgBuf OK!!");
 
     // digitalWrite(A6, HIGH);
     // delay(1000);
@@ -190,23 +202,27 @@ void loop()
 
     // rawData = myMAX31855.readRawData();
 
-    // Serial.print(Launch_Count);
+    // Serial.print(LaunchCount);
     // Serial.print(",");
-    // Serial.println(Waiting_Count);
+    // Serial.println(WaitingCount);
 
     /*B3M テスト用*/
-    B3M_setPosition(0x01, -9000, 100); //B3Mを-90度(-9000)動作させる
-    delay(1100);
-    B3M_setPosition(0x01, 9000, 100);
-    delay(1100);
+    
+    // B3M_setPosition(0x01, -9000, 100); //B3Mを-90度(-9000)動作させる
+    // delay(1100);
+    // B3M_setPosition(0x01, 9000, 100);
+    // delay(1100);
+    
     /*B3M テスト用*/
 
     /*RS405CB テスト用*/
-    delay(100);
-    Move(1, 900, 50); // ID =1, GoalPosition = 90.0deg(900), Time = 0.5sec(50)
-    delay(510);
-    Move(1, -900, 100); // ID =1, GoalPosition = -90.0deg(-900), Time = 1.0sec(100)
-    delay(1100);
+    
+    // delay(100);
+    // Move(1, 900, 50); // ID =1, GoalPosition = 90.0deg(900), Time = 0.5sec(50)
+    // delay(510);
+    // Move(1, -900, 100); // ID =1, GoalPosition = -90.0deg(-900), Time = 1.0sec(100)
+    // delay(1100);
+    
     /*RS405CB テスト用*/
 }
 
@@ -232,7 +248,7 @@ int B3M_writeCommand(byte id, byte TxData, byte Address)
     {
         txCmd[7] += txCmd[i];
         Serial.print(txCmd[i], HEX);
-        Serial.print(" ");
+        Serial.print("");
     }
     Serial.println("");
     txCmd[7] = (byte)(txCmd[7]); // CHECKSUM
@@ -242,7 +258,6 @@ int B3M_writeCommand(byte id, byte TxData, byte Address)
 
     if (flag == false)
     {
-        Serial.println("ERROR");
         return -1;
     }
     reData = rxCmd[2];
