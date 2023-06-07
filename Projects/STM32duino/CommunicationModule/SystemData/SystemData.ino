@@ -1,10 +1,11 @@
 #include <SPI.h>
+#include <Wire.h>
 #include <LoRa.h>
 #include <MsgPacketizer.h>
 #include <mcp2515_can.h>
 #include <TaskManager.h>
-#include <Arduino_MKRGPS.h>
 #include "OutputPin.hpp"
+#include <SparkFun_u-blox_GNSS_Arduino_Library.h>
 
 
 namespace canbus {
@@ -42,6 +43,10 @@ namespace timer {
   void task10Hz();
 }
 
+namespace sensor {
+  SFE_UBLOX_GNSS gnss;
+}
+
 namespace indicator {
   OutputPin canReceive(1);
 
@@ -64,10 +69,15 @@ namespace data {
 void setup() {
   Serial.begin(115200);
 
+  Wire.begin();
+
   LoRa.begin(921.8E6);
   LoRa.setSignalBandwidth(500E3);
 
-  GPS.begin();
+  sensor::gnss.begin();
+  sensor::gnss.setI2COutput(COM_TYPE_UBX);
+  sensor::gnss.setNavigationFrequency(10);
+  sensor::gnss.setAutoPVT(true);
 
   canbus::initialize();
 
@@ -114,13 +124,22 @@ void canbus::receiveStatus(uint8_t* data, uint8_t* mode, uint8_t* camera, uint8_
 
 
 void timer::task10Hz() {
-  if (GPS.available()) {
-    data::latitude = GPS.latitude();
-    data::longitude = GPS.longitude();
-    indicator::gpsStatus.on();
-  }
-  else {
-    indicator::gpsStatus.off();
+  Serial.print("* ");
+
+  if (sensor::gnss.getPVT() && !sensor::gnss.getInvalidLlh()) {
+    int32_t lat = sensor::gnss.getLatitude();
+    int32_t lon = sensor::gnss.getLongitude();
+
+    if (lat != 0 && lon != 0) {
+      data::latitude = (float)lat / 10000000.0;
+      data::longitude = (float)lon / 10000000.0;
+
+      Serial.print(data::latitude, 6);
+      Serial.print("\t");
+      Serial.println(data::longitude, 6);
+
+      indicator::gpsStatus.toggle();
+    }
   }
 
   const auto& packet = MsgPacketizer::encode(
