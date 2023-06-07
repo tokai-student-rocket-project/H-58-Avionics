@@ -15,8 +15,8 @@ namespace settings {
   int32_t bandwidth = 125E3;
 
   // 送信回数
-  // 初期値: 10 (10 Hz)
-  int16_t taskFrequency = 10;
+  // 初期値: 100 (100 Hz)
+  int16_t taskFrequency = 100;
 
   // 送信データ長
   // 初期値: 32 (32 Bytes)
