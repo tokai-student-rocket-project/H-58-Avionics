@@ -5,7 +5,7 @@
 #include <mcp2515_can.h>
 #include <TaskManager.h>
 #include "OutputPin.hpp"
-#include <SparkFun_u-blox_GNSS_Arduino_Library.h>
+#include "GNSS.hpp"
 
 
 namespace canbus {
@@ -44,7 +44,7 @@ namespace timer {
 }
 
 namespace sensor {
-  SFE_UBLOX_GNSS gnss;
+  GNSS gnss;
 }
 
 namespace indicator {
@@ -69,15 +69,10 @@ namespace data {
 void setup() {
   Serial.begin(115200);
 
-  Wire.begin();
-
   LoRa.begin(921.8E6);
   LoRa.setSignalBandwidth(500E3);
 
   sensor::gnss.begin();
-  sensor::gnss.setI2COutput(COM_TYPE_UBX);
-  sensor::gnss.setNavigationFrequency(10);
-  sensor::gnss.setAutoPVT(true);
 
   canbus::initialize();
 
@@ -124,22 +119,11 @@ void canbus::receiveStatus(uint8_t* data, uint8_t* mode, uint8_t* camera, uint8_
 
 
 void timer::task10Hz() {
-  Serial.print("* ");
+  if (sensor::gnss.available()) {
+    data::latitude = sensor::gnss.getLatitude();
+    data::longitude = sensor::gnss.getLongitude();
 
-  if (sensor::gnss.getPVT() && !sensor::gnss.getInvalidLlh()) {
-    int32_t lat = sensor::gnss.getLatitude();
-    int32_t lon = sensor::gnss.getLongitude();
-
-    if (lat != 0 && lon != 0) {
-      data::latitude = (float)lat / 10000000.0;
-      data::longitude = (float)lon / 10000000.0;
-
-      Serial.print(data::latitude, 6);
-      Serial.print("\t");
-      Serial.println(data::longitude, 6);
-
-      indicator::gpsStatus.toggle();
-    }
+    indicator::gpsStatus.toggle();
   }
 
   const auto& packet = MsgPacketizer::encode(
