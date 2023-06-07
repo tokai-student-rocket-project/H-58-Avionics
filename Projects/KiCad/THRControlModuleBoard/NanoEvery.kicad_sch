@@ -1657,7 +1657,7 @@
     (stroke (width 0) (type default))
     (uuid 0a0836c1-79c1-447f-b18a-f86d06aa8ee5)
   )
-  (wire (pts (xy 210.82 33.02) (xy 210.82 41.91))
+  (wire (pts (xy 210.82 39.37) (xy 210.82 41.91))
     (stroke (width 0) (type default))
     (uuid 0a1368c4-36bf-4b93-ace6-730e97f4cacb)
   )
@@ -2497,11 +2497,6 @@
   (text "MAX31855 熱電対-デジタルコンバーター" (at 195.58 93.98 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid fbe087cc-eac6-4bc5-945e-6911e987ba1a)
-  )
-
-  (label "PhotoMos_12Vin" (at 194.31 41.91 90) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 4e6733ee-a34d-464b-b8be-6475e4c4ebf8)
   )
 
   (global_label "Umbilical__waitingPin" (shape input) (at 275.59 58.42 90) (fields_autoplaced)
@@ -4320,31 +4315,6 @@
     )
   )
 
-  (symbol (lib_id "power:+12V") (at 210.82 33.02 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 7ada68f5-fde3-490e-adae-e58208e73c0d)
-    (property "Reference" "#PWR042" (at 210.82 36.83 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "+12V" (at 210.82 29.21 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "" (at 210.82 33.02 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 210.82 33.02 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid d1e2de1f-a827-4645-998f-a122eaa7fe41))
-    (instances
-      (project "THRControlModuleBoard"
-        (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006/c651c84e-0d0e-46aa-94b6-456d48525723"
-          (reference "#PWR042") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "Diode:MM3Zxx") (at 31.75 59.69 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 7f9d69df-0155-41e6-8916-6bf093031d2f)
@@ -4495,6 +4465,31 @@
       (project "THRControlModuleBoard"
         (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006/c651c84e-0d0e-46aa-94b6-456d48525723"
           (reference "R14") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:+5V") (at 210.82 39.37 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 8f33e8af-997a-445e-9211-c461a3b1db36)
+    (property "Reference" "#PWR042" (at 210.82 43.18 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "+5V" (at 210.82 35.56 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 210.82 39.37 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 210.82 39.37 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 86c6ef9a-aa19-4cc5-8ece-cf80b3acbbcf))
+    (instances
+      (project "THRControlModuleBoard"
+        (path "/79fd2516-dad6-414c-bb46-91ee9bfb5006/c651c84e-0d0e-46aa-94b6-456d48525723"
+          (reference "#PWR042") (unit 1)
         )
       )
     )

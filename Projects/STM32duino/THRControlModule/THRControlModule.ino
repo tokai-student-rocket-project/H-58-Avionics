@@ -56,7 +56,8 @@ MAX31855 myMAX31855(5); // Chip Select PIN (CS)
 void setup()
 {
     pinMode(13, OUTPUT);
-    // pinMode(A0, INPUT_PULLUP);
+    pinMode(A6, OUTPUT);
+
     Serial1.begin(115200, SERIAL_8N1); // 通信速度、パリティなしに設定
     Serial1.begin(115200);
     Serial.begin(115200);
@@ -65,19 +66,20 @@ void setup()
 
     // RS405CB
     pinMode(REDE, OUTPUT);
-    Toque(0x01, 0x01);
+    Torque(0x01, 0x01);
     delay(100);
-    Move(1, 0, 50);
-    
+    Move(1, 0, 100);
 
-
-    // SIGNAL_initialize();
+    SIGNAL_initialize();
     MAX31855_initialize();
 
     // B3M
     B3M.begin(); // B3Mと通信開始
     B3M_initialize();
-    B3M_setPosition(0x01, 4500, 1000);
+    B3M_setPosition(0x01, 0, 1000);
+    delay(1000);
+    B3M_setPosition(0x01, 9000, 1000);
+
     /* --- CAN --- */
 
     while (!Serial)
@@ -101,8 +103,11 @@ void setup()
                     Serial.print(", ");
                     Serial.print(Launch_Count);
                     Serial.print(", ");
-                    Serial.println(Waiting_Count); })
-        ->startIntervalMsec(5);
+                    Serial.print(Waiting_Count);
+                    Serial.print(", "); 
+                    Serial.print(rawData); })
+
+        ->startIntervalMsec(2);
 }
 
 void loop()
@@ -122,9 +127,12 @@ void loop()
 
     if (Launch_Count >= POSITION_CHANGING_THRESHOLD)
     {
-
-        B3M_setPosition(0x01, 4500, 10);
         Launch_Count = 0;
+
+        Move(1, 900, 100); //RS405CBを90度動作させる
+        delay(10); //10ms 待機
+        B3M_setPosition(0x01, 4500, 10); //B3Mを45度(45000)動作させる
+        
         Position = 2;
         delay(50);
     }
@@ -143,13 +151,13 @@ void loop()
     if (Waiting_Count >= POSITION_CHANGING_THRESHOLD)
     {
         Waiting_Count = 0;
-        B3M_setPosition(0x01, -4500, 10);
+        
+        Move(1, 900, 100); //RS405CBを90度動作させる
+        delay(10); //10ms 待機
+        B3M_setPosition(0x01, -4500, 10); //B3Mを-45度(-4500)動作させる
         Position = 1;
         delay(50);
     }
-
-    // Serial.print(rawData);
-    // Serial.print(", ");
 
     MAX31855_errornotification(); // MAX31855 のエラーをお知らせ
     // FILLING_confirmation();
@@ -170,8 +178,15 @@ void loop()
 
     // send data:  id = 0x00, standrad frame, data len = 8, stmp: data buf
     CAN.sendMsgBuf(0x00, 0, 8, sample);
-    // delay(100);
+    delay(100);
+    Serial.println("");
     Serial.println("CAN BUS sendMsgBuf OK!!");
+
+    // digitalWrite(A6, HIGH);
+    // delay(1000);
+    // Serial.println("Busser ON");
+    // digitalWrite(A6, LOW);
+    // delay(5000);
 
     // rawData = myMAX31855.readRawData();
 
@@ -179,12 +194,19 @@ void loop()
     // Serial.print(",");
     // Serial.println(Waiting_Count);
 
+    /*B3M テスト用*/
+    B3M_setPosition(0x01, -9000, 100); //B3Mを-90度(-9000)動作させる
+    delay(1100);
+    B3M_setPosition(0x01, 9000, 100);
+    delay(1100);
+    /*B3M テスト用*/
+
     /*RS405CB テスト用*/
-    // delay(100);
-    // Move(1, 900, 50); // ID =1, GoalPosition = 90.0deg(900), Time = 0.5sec(50)
-    // delay(700);
-    // Move(1, -900, 100); // ID =1, GoalPosition = -90.0deg(-900), Time = 1.0sec(100)
-    // delay(1100);
+    delay(100);
+    Move(1, 900, 50); // ID =1, GoalPosition = 90.0deg(900), Time = 0.5sec(50)
+    delay(510);
+    Move(1, -900, 100); // ID =1, GoalPosition = -90.0deg(-900), Time = 1.0sec(100)
+    delay(1100);
     /*RS405CB テスト用*/
 }
 
@@ -272,7 +294,7 @@ int B3M_setPosition(byte id, int Pos, int Time)
     return reData;
 }
 
-void Toque(unsigned char ID, unsigned char data)
+void Torque(unsigned char ID, unsigned char data)
 {
     unsigned char TxData[9];
     unsigned char CheckSum = 0;
@@ -350,7 +372,6 @@ void LED_blink()
     delay(100);
 }
 
-
 void B3M_initialize()
 {
     B3M_writeCommand(0x01, 0x02, 0x28); // 動作モード：Free
@@ -411,7 +432,6 @@ void FILLING_confirmation()
         Serial.println("COMPLETED");
     }
 }
-
 
 void SIGNAL_initialize()
 {
