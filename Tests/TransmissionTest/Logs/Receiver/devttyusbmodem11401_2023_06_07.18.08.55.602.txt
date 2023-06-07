@@ -1,0 +1,859 @@
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.1 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 1.8 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.8 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.1 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 9 Bytes    RSSI -124 dBm    Routine 8.7 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 1.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 0.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 1.8 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 1.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 90.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 0.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 0.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.8 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 0.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.8 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.8 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 1.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 1.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.8 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 2.1 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.8 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 3.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -118 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 0.7 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 3.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 0.8 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -123 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 1.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 3.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 2.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 2.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 2.6 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 2.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 1.6 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 3.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 1.6 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 169 Bytes    RSSI -122 dBm    Routine 0.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 1.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.8 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 90.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 1.1 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.8 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 3.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 2.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 0.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 2.6 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 3.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 0.1 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 2.7 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 1.1 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 0.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 100.0 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 2.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 1.9 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 4.3 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 3.2 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 0.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 0.5 Hz
+18:11:39:932 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.1 Hz
+18:11:40:087 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:40:241 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:40:395 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:40:550 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:40:705 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:40:937 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+18:11:41:092 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:11:41:247 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:41:257 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 90.9 Hz
+18:11:41:402 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+18:11:41:555 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:41:712 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+18:11:43:256 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.6 Hz
+18:11:43:266 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+18:11:43:487 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.5 Hz
+18:11:44:724 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.8 Hz
+18:11:44:878 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:45:032 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:45:187 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:45:341 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:45:727 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 2.6 Hz
+18:11:45:881 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:46:035 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:47:428 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 0.7 Hz
+18:11:47:737 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 3.2 Hz
+18:11:48:355 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 1.6 Hz
+18:11:48:510 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:48:520 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+18:11:48:665 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+18:11:49:206 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 1.8 Hz
+18:11:49:361 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+18:11:49:515 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:49:525 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+18:11:50:212 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 1.5 Hz
+18:11:51:914 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 0.6 Hz
+18:11:52:068 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:52:223 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:52:378 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:53:694 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 0.8 Hz
+18:11:53:848 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:54:003 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:54:158 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:54:312 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -118 dBm    Routine 6.5 Hz
+18:11:54:467 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:11:54:621 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -114 dBm    Routine 6.5 Hz
+18:11:54:775 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -118 dBm    Routine 6.5 Hz
+18:11:54:930 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.5 Hz
+18:11:55:085 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:55:239 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:55:395 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:11:55:550 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:55:704 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:11:55:859 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.5 Hz
+18:11:55:869 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 100.0 Hz
+18:11:56:012 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:11:56:167 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:56:322 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:56:476 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:56:631 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:11:56:786 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:56:796 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:11:56:940 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:11:57:093 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:57:249 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+18:11:57:403 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:57:557 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:11:57:713 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:11:57:867 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:58:021 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:58:176 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:58:331 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:58:341 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:11:58:485 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+18:11:58:640 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:58:795 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:11:58:950 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:11:58:960 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:11:59:104 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+18:11:59:337 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 4.3 Hz
+18:11:59:569 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+18:11:59:723 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:11:59:879 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.4 Hz
+18:12:00:034 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:00:044 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:00:188 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:00:342 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:00:352 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:00:496 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:00:506 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:00:651 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:00:805 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:00:959 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:01:114 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:01:269 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:01:424 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:01:580 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:01:733 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:01:889 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:02:043 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:02:198 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:02:352 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:02:506 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:02:662 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:02:816 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:02:970 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:03:125 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:03:279 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:03:433 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:03:588 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:03:742 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:03:897 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:04:052 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:04:207 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:04:361 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:04:371 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:04:516 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine  Hz
+6.918:12:04:670 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:04:680 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:04:823 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:04:833 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:04:978 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:05:133 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:05:288 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:05:443 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:05:597 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:05:752 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:05:907 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:06:061 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:06:215 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:06:370 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:06:525 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:06:535 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:06:680 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:06:834 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:06:844 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 90.9 Hz
+18:12:06:988 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:07:143 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:07:297 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:07:452 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:07:607 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:07:762 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:07:772 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+18:12:07:916 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+18:12:08:071 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:08:226 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:08:380 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:08:535 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:08:545 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:08:690 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:08:844 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:08:998 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:09:154 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:09:309 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:12:09:463 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:09:618 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:09:772 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:09:927 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:10:081 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:10:235 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:10:390 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:10:545 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:10:699 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:10:853 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:11:008 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:11:163 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:11:173 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:11:318 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:11:471 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:11:481 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 90.9 Hz
+18:12:11:626 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:11:780 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:11:935 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:12:090 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:12:245 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:12:399 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:12:553 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:12:709 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:12:863 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:13:017 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:13:172 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.4 Hz
+18:12:13:328 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:13:482 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:13:637 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:13:647 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:13:792 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:13:947 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:14:101 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:14:255 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:14:409 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:14:419 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:14:563 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:14:720 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.4 Hz
+18:12:14:875 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:15:029 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:15:183 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:15:193 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:15:340 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.8 Hz
+18:12:15:350 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:15:494 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:15:649 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:15:803 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:15:958 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:16:112 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:16:267 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:16:277 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:16:422 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:16:432 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:16:577 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:16:732 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:16:885 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:17:041 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:12:17:196 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:17:351 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:17:361 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:17:506 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:17:661 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:17:815 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:17:969 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -118 dBm    Routine 6.5 Hz
+18:12:18:124 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.5 Hz
+18:12:18:278 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.5 Hz
+18:12:18:433 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.5 Hz
+18:12:18:588 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:18:598 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:18:742 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:18:898 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+18:12:19:052 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:19:206 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:19:361 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.5 Hz
+18:12:19:516 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:19:671 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:19:681 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:19:824 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:19:979 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:19:989 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:20:134 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:20:289 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:12:20:443 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:20:598 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:20:754 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:12:20:909 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:21:063 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:21:218 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:21:228 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:21:373 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:21:527 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:21:682 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:21:837 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:21:846 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:21:991 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:22:146 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:22:301 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:22:455 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:22:465 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:22:610 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:22:766 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:22:775 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 90.9 Hz
+18:12:22:920 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:23:074 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:23:228 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:23:238 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:23:460 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 4.5 Hz
+18:12:23:470 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:23:614 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:23:769 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:23:923 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:24:078 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:24:232 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:24:387 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:24:397 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:24:541 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.9 Hz
+18:12:24:696 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:24:851 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.4 Hz
+18:12:24:861 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:25:005 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:25:016 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:25:160 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:25:314 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:25:468 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:25:623 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:25:777 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:25:932 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:26:086 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:26:242 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:26:395 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:26:550 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:26:704 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:26:859 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:27:014 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:27:024 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:27:168 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:27:322 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:27:476 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:27:630 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:27:641 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:27:785 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:27:939 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:28:092 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:28:247 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:28:401 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:28:411 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:28:555 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 7.0 Hz
+18:12:28:709 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:28:863 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:29:017 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.5 Hz
+18:12:29:172 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:29:326 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.5 Hz
+18:12:29:481 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:29:635 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:29:644 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:29:789 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:29:799 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:29:943 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:30:097 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:30:251 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:30:406 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:30:416 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:30:560 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:30:715 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:30:869 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:31:024 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:31:179 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:31:333 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:31:488 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:31:642 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:31:797 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.4 Hz
+18:12:31:952 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:32:107 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:32:262 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:32:417 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:32:572 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:32:726 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:32:881 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:12:32:891 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:33:036 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:33:190 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:33:345 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:33:500 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:33:654 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:33:809 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:33:964 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:34:119 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:34:351 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 4.3 Hz
+18:12:34:506 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:12:34:661 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.5 Hz
+18:12:34:816 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 6.4 Hz
+18:12:34:826 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -119 dBm    Routine 100.0 Hz
+18:12:34:971 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:35:125 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:35:279 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:35:434 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:35:589 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:35:599 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+18:12:35:743 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+18:12:35:898 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:36:052 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:36:206 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:36:360 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:36:370 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:36:514 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:36:524 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0
+ Hz18:12:36:669 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:36:823 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:36:977 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:36:987 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:37:132 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:37:286 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:37:441 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:37:451 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:37:595 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:37:750 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:37:904 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:38:059 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:38:214 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:38:369 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:38:524 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:12:38:534 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 90.9 Hz
+18:12:38:680 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:38:834 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:38:989 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:39:144 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:39:299 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:39:454 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:39:609 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:39:763 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:39:919 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -1215 Hz
+ dBm    Routine 6.18:12:40:073 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:40:228 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:40:238 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:40:382 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:40:536 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:40:546 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:40:692 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.8 Hz
+18:12:40:847 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:41:001 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:41:162 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:41:310 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:41:321 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:41:542 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 4.5 Hz
+18:12:41:697 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:41:852 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:41:862 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:42:007 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:42:162 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:42:317 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:42:472 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:42:626 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:42:782 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:42:936 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:43:091 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:43:245 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:43:400 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:43:555 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:43:710 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:43:720 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100 Hz
+.018:12:43:864 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:44:019 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:44:173 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:44:328 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:12:44:338 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:44:483 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+18:12:44:638 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:44:793 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:44:949 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:45:103 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:45:258 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:45:413 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:45:567 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:45:721 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:45:877 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:45:887 -> Received:    Frequency 921.8 MHz    Bandwidth -125 kHz    Length 32 Bytes    RSSI 121 dBm    Routine 90.9 Hz
+18:12:46:031 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:46:187 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+18:12:46:341 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:46:351 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+18:12:46:496 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:46:651 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:12:46:806 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:47:037 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+18:12:47:192 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:47:346 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:47:501 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:47:655 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:47:810 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:47:964 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:48:118 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:48:128 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:48:273 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:48:427 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:48:581 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:48:737 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:12:48:891 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:12:48:901 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 90.9 Hz
+18:12:49:046 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:49:200 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:49:210 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:49:354 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:49:510 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.4 Hz
+18:12:49:664 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:49:818 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:49:973 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:50:128 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:12:50:284 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:50:438 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:50:592 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:50:747 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:50:902 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:51:055 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:51:065 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:51:210 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:51:220 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:51:364 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:12:51:374 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:12:51:597 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.5 Hz
+18:12:51:752 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:51:762 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:51:906 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:52:061 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:52:216 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:52:371 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:52:524 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:52:534 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI 100.-121 dBm    Routine 0 Hz
+18:12:52:678 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:52:834 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:52:988 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:53:142 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:53:298 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.4 Hz
+18:12:53:452 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:53:607 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:53:761 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:53:771 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:53:916 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:53:926 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 90.9 Hz
+18:12:54:071 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:54:225 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:54:380 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:54:535 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:54:690 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:54:844 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:54:854 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:54:998 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+18:12:55:153 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:55:307 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:55:461 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:55:471 -> Received:    Frequency 921.8 MHz    Bandwidth 32 Bytes    RSSI -121125 kHz    Length  dBm    Routine 100.0 Hz
+18:12:55:615 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:55:770 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:55:924 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:56:078 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:56:232 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:56:387 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:56:397 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:56:542 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:56:696 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:56:851 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:57:006 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:57:160 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:57:315 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:57:325 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:57:547 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.5 Hz
+18:12:57:702 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:57:856 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:58:088 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 4.3 Hz
+18:12:58:243 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:58:397 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:58:551 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:58:706 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:58:861 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:59:015 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:59:025 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:12:59:170 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:59:325 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:59:481 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:12:59:635 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:12:59:645 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+18:12:59:789 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:12:59:799 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121.0 Hz
+ dBm    Routine 10018:12:59:944 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.9 Hz
+18:13:00:098 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:00:254 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:00:409 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:00:563 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:13:00:718 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:13:00:872 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:01:028 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:13:01:182 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:01:337 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:01:491 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:13:01:501 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:13:01:647 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.8 Hz
+18:13:01:801 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:01:956 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:02:110 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:02:266 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:02:421 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:02:576 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:13:02:730 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:02:885 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:03:040 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:03:194 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:03:348 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:13:03:503 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:03:658 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:03:812 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:03:966 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:13:04:121 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:04:276 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:04:286 -> Received:    Frequency 921.8 MHz    Bandwidth 125-121 dBm    Routine 100.0 Hz
+ kHz    Length 32 Bytes    RSSI 18:13:04:430 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:13:04:584 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:04:738 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:13:04:893 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:04:903 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 100.0 Hz
+18:13:05:048 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:13:05:202 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:05:356 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:05:511 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:13:05:668 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:05:820 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:13:05:830 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 100.0 Hz
+18:13:05:975 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:13:06:129 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:06:283 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:06:438 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:06:594 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:06:748 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:06:903 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.4 Hz
+18:13:06:913 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 100.0 Hz
+18:13:07:057 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.9 Hz
+18:13:07:212 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:07:222 -> Received:    Frequency 921.8-121 dBm    Routine 100.0 Hz
+ MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI 18:13:07:366 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.9 Hz
+18:13:07:521 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:13:07:676 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:13:07:831 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.5 Hz
+18:13:07:986 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -120 dBm    Routine 6.4 Hz
+18:13:08:140 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:08:296 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:13:08:451 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:08:606 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:08:760 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:08:914 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:09:069 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -122 dBm    Routine 6.5 Hz
+18:13:09:225 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.4 Hz
+18:13:09:379 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
+18:13:09:533 -> Received:    Frequency 921.8 MHz    Bandwidth 125 kHz    Length 32 Bytes    RSSI -121 dBm    Routine 6.5 Hz
