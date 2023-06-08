@@ -1709,6 +1709,9 @@
   (junction (at 200.66 146.05) (diameter 0) (color 0 0 0 0)
     (uuid 68cd7d5c-a1ff-4188-9b3d-8693b7b08b24)
   )
+  (junction (at 53.34 57.15) (diameter 0) (color 0 0 0 0)
+    (uuid 6ddb9c37-8259-4bb9-98a7-7d04aa33784d)
+  )
   (junction (at 261.62 132.08) (diameter 0) (color 0 0 0 0)
     (uuid 72a9377f-3598-40d2-8af5-bacf3ccbaf8e)
   )
@@ -3875,6 +3878,31 @@
       (project "FlightModule"
         (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
           (reference "R17") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 53.34 57.15 270) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 4f375a85-a42c-4cc2-b3d2-e39f2f327deb)
+    (property "Reference" "TP6" (at 58.42 56.515 90)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "TestPoint" (at 58.42 59.055 90)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "Connector_Pin:Pin_D1.0mm_L10.0mm" (at 53.34 62.23 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 53.34 62.23 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid ca68091d-89b5-445f-b506-e84d908259e9))
+    (instances
+      (project "FlightModule"
+        (path "/ea1ed597-7cd3-4340-902e-bdce8f2d7a62"
+          (reference "TP6") (unit 1)
         )
       )
     )
