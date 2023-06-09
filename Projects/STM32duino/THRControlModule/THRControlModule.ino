@@ -124,7 +124,7 @@ void setup()
                     Serial.print(rawData); 
                     Serial.print(", "); })
 
-        ->startIntervalMsec(50);
+        ->startIntervalMsec(5);
 }
 
 void loop()
@@ -197,8 +197,26 @@ void loop()
 
     // send data:  id = 0x00, standrad frame, data len = 8, stmp: data buf
     CAN.sendMsgBuf(0x00, 0, 8, sample);
+    Serial.print("CANmsg: ");
+    Serial.print(sample[7]);   
+    Serial.print(",");
+    Serial.print(sample[6]);
+    Serial.print(",");
+    Serial.print(sample[5]);
+    Serial.print(",");
+    Serial.print(sample[4]);   
+    Serial.print(",");
+    Serial.print(sample[3]);
+    Serial.print(",");
+    Serial.print(sample[2]);
+    Serial.print(",");
+    Serial.print(sample[1]);
+    Serial.print(",");
+    Serial.println(sample[0]);
+
+
     delay(100);
-    Serial.println("CanBus: sendMsgBuf OK!!");
+    //Serial.println("CanBus: sendMsgBuf OK!!");
 
     // digitalWrite(A6, HIGH);
     // delay(1000);
