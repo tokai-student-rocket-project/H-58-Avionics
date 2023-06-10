@@ -12,10 +12,11 @@ public:
   void getTemperature(float* temperature);
 
 private:
-  const float B = 3380.0;
-  const float K = 273.15;
   const float RESISTANCE_0 = 10000.0;
-  const float TEMPERATURE_0 = 25.0;
+
+  const float THERM_A = 2.7743616E-4;
+  const float THERM_B = 3.67106347E-4;
+  const float THERM_C = -3.5569334E-7;
 
   uint8_t _pinNumber;
 };

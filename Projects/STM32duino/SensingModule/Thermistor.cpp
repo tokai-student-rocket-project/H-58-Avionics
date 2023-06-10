@@ -15,6 +15,7 @@ void Thermistor::initialize() {
 void Thermistor::getTemperature(float* temperature) {
   float out = analogRead(_pinNumber);
   float resistance = RESISTANCE_0 * out / (4096.0 - out);
-  float temperatureK = (B * (TEMPERATURE_0 + K)) / (((TEMPERATURE_0 + K) * log(resistance / RESISTANCE_0)) + B);
-  *temperature = temperatureK - K;
+
+  float temperature_bar = THERM_A + THERM_B * log(resistance) + THERM_C * pow(log(resistance), 3);
+  *temperature = 1.0 / temperature_bar - 273.15;
 }
