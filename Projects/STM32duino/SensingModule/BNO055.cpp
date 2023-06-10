@@ -55,7 +55,7 @@ void BNO055::getLinearAcceleration(float* x, float* y, float* z) {
 void BNO055::getOrientation(float* x, float* y, float* z) {
   sensors_event_t event;
   _bno.getEvent(&event, Adafruit_BNO055::VECTOR_EULER);
-  *x = event.orientation.z;
-  *y = event.orientation.x;
-  *z = event.orientation.y;
+  *x = -event.orientation.z;
+  *y = -event.orientation.x;
+  *z = -event.orientation.y;
 }
