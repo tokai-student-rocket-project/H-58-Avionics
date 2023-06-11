@@ -7,11 +7,11 @@
 /* CAN Config START */
 const int SPI_CS_PIN = 6;
 mcp2515_can CAN(SPI_CS_PIN);
-unsigned char sample[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+// unsigned char sample[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 union Converter
 {
-    float value;
-    uint8_t data[4];
+    float value, value1;
+    uint8_t data[4], data1[4];
 } converter;
 /* CAN Config END */
 
@@ -64,7 +64,6 @@ void setup()
     Serial1.begin(115200, SERIAL_8N1); // 通信速度、パリティなしに設定
     Serial1.begin(115200);
     Serial.begin(115200);
-
     Serial.println("Serial OK");
 
     /* --- RS405CB Config --- */
@@ -93,11 +92,7 @@ void setup()
 
     /* --- CAN --- */
 
-    while (!Serial)
-    {
-    };
-
-    while (CAN_OK != CAN.begin(CAN_500KBPS))
+    while (CAN_OK != CAN.begin(CAN_1000KBPS))
     {
         Serial.println("CAN init fail, retry...");
         delay(100);
@@ -108,23 +103,19 @@ void setup()
 
     Tasks.add("task", []()
               {
-                    Serial.print("Temperature: ");
-                    Serial.print(myMAX31855.getTemperature(rawData));
-                    Serial.print(", ");
-                    Serial.print("ColdJunctionTemperature: ");
-                    Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
-                    Serial.print(", ");
-                    Serial.print("LaunchCount: ");
-                    Serial.print(LaunchCount);
-                    Serial.print(", ");
-                    Serial.print("WaitingCount: ");
-                    Serial.print(WaitingCount);
-                    Serial.print(", "); 
-                    Serial.print("RawData: ");
-                    Serial.print(rawData); 
-                    Serial.print(", "); })
-
-        ->startIntervalMsec(5);
+                  Serial.print("Temperature: ");
+                  Serial.print(myMAX31855.getTemperature(rawData));
+                  Serial.print(" | ");
+                  Serial.print("ColdJunctionTemperature: ");
+                  Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
+                  Serial.print(" | ");
+                  Serial.print("LaunchCount: ");
+                  Serial.print(LaunchCount);
+                  Serial.print(" | ");
+                  Serial.print("WaitingCount: ");
+                  Serial.println(WaitingCount); })
+        //->startIntervalMsec(2); // 1/2*10^6 = 500Hz
+        ->startIntervalMsec(1000); // 1/1000*10^6 = 1Hz
 }
 
 void loop()
@@ -181,42 +172,45 @@ void loop()
     MAX31855_errornotification(); // MAX31855 のエラーをお知らせ
     // FILLING_confirmation();
 
-    sample[7] = sample[7] + 1;
+    // sample[7] = sample[7] + 1;
 
-    if (sample[7] == 100)
-    {
-        sample[7] = 0;
-        sample[6] = sample[6] + 1;
+    // if (sample[7] == 100)
+    // {
+    //     sample[7] = 0;
+    //     sample[6] = sample[6] + 1;
 
-        if (sample[6] == 100)
-        {
-            sample[6] = 0;
-            sample[5] = sample[5] + 1;
-        }
-    }
+    //     if (sample[6] == 100)
+    //     {
+    //         sample[6] = 0;
+    //         sample[5] = sample[5] + 1;
+    //     }
+    // }
 
-    // send data:  id = 0x00, standrad frame, data len = 8, stmp: data buf
-    CAN.sendMsgBuf(0x00, 0, 8, sample);
+    // send data:  id = 0x100, standrad frame, data len = 8, stmp: data buf
+
+    converter.value = myMAX31855.getTemperature(rawData);
+    CAN.sendMsgBuf(0x100, 0, 4, converter.data);
     Serial.print("CANmsg: ");
-    Serial.print(sample[7]);   
-    Serial.print(",");
-    Serial.print(sample[6]);
-    Serial.print(",");
-    Serial.print(sample[5]);
-    Serial.print(",");
-    Serial.print(sample[4]);   
-    Serial.print(",");
-    Serial.print(sample[3]);
-    Serial.print(",");
-    Serial.print(sample[2]);
-    Serial.print(",");
-    Serial.print(sample[1]);
-    Serial.print(",");
-    Serial.println(sample[0]);
+    Serial.print(converter.data[0]);
+    Serial.print(" | ");
+    Serial.print(converter.data[1]);
+    Serial.print(" | ");
+    Serial.print(converter.data[2]);
+    Serial.print(" | ");
+    Serial.print(converter.data[3]);
+    Serial.print(" || ");
 
-
+    converter.value1 = myMAX31855.getColdJunctionTemperature(rawData);
+    CAN.sendMsgBuf(0x101, 0, 4, converter.data1);
+    Serial.print(converter.data1[0]);
+    Serial.print(" | ");
+    Serial.print(converter.data1[1]);
+    Serial.print(" | ");
+    Serial.print(converter.data1[2]);
+    Serial.print(" | ");
+    Serial.print(converter.data1[3]);
+    Serial.println(" | ");
     delay(100);
-    //Serial.println("CanBus: sendMsgBuf OK!!");
 
     // digitalWrite(A6, HIGH);
     // delay(1000);
