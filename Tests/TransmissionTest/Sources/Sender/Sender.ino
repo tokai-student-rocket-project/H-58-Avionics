@@ -63,7 +63,7 @@ void routine() {
     internal::data11
   );
 
-  LoRa.beginPacket(true);
+  LoRa.beginPacket();
   LoRa.write(packet.data.data(), packet.data.size());
   LoRa.endPacket();
 
@@ -71,7 +71,7 @@ void routine() {
 
   Serial.print(packet.data.size());
 
-  Serial.print(" B    Routine");
+  Serial.print(" B    Routine ");
 
   uint32_t time = millis();
   Serial.print(1000.0 / (float)(time - internal::referenceTime), 1);
