@@ -93,10 +93,6 @@ void setup()
 
     /* --- CAN --- */
 
-    while (!Serial)
-    {
-    };
-
     while (CAN_OK != CAN.begin(CAN_500KBPS))
     {
         Serial.println("CAN init fail, retry...");
@@ -108,23 +104,23 @@ void setup()
 
     Tasks.add("task", []()
               {
-                    Serial.print("Temperature: ");
-                    Serial.print(myMAX31855.getTemperature(rawData));
-                    Serial.print(", ");
-                    Serial.print("ColdJunctionTemperature: ");
-                    Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
-                    Serial.print(", ");
-                    Serial.print("LaunchCount: ");
-                    Serial.print(LaunchCount);
-                    Serial.print(", ");
-                    Serial.print("WaitingCount: ");
-                    Serial.print(WaitingCount);
-                    Serial.print(", "); 
-                    Serial.print("RawData: ");
-                    Serial.print(rawData); 
-                    Serial.print(", "); })
-
-        ->startIntervalMsec(5);
+                  Serial.print("Temperature: ");
+                  Serial.print(myMAX31855.getTemperature(rawData));
+                  Serial.print(", ");
+                  Serial.print("ColdJunctionTemperature: ");
+                  Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
+                  Serial.print(", ");
+                  Serial.print("LaunchCount: ");
+                  Serial.print(LaunchCount);
+                  Serial.print(", ");
+                  Serial.print("WaitingCount: ");
+                  Serial.print(WaitingCount);
+                  Serial.print(", ");
+                  Serial.print("RawData: ");
+                  Serial.println(rawData);
+                  // Serial.print(", ");
+              })
+        ->startIntervalMsec(2); // 1/2*10^6 = 500Hz
 }
 
 void loop()
@@ -196,27 +192,26 @@ void loop()
     }
 
     // send data:  id = 0x00, standrad frame, data len = 8, stmp: data buf
-    CAN.sendMsgBuf(0x00, 0, 8, sample);
-    Serial.print("CANmsg: ");
-    Serial.print(sample[7]);   
-    Serial.print(",");
-    Serial.print(sample[6]);
-    Serial.print(",");
-    Serial.print(sample[5]);
-    Serial.print(",");
-    Serial.print(sample[4]);   
-    Serial.print(",");
-    Serial.print(sample[3]);
-    Serial.print(",");
-    Serial.print(sample[2]);
-    Serial.print(",");
-    Serial.print(sample[1]);
-    Serial.print(",");
-    Serial.println(sample[0]);
-
+    // CAN.sendMsgBuf(0x00, 0, 8, sample);
+    // Serial.print("CANmsg: ");
+    // Serial.print(sample[7]);
+    // Serial.print(",");
+    // Serial.print(sample[6]);
+    // Serial.print(",");
+    // Serial.print(sample[5]);
+    // Serial.print(",");
+    // Serial.print(sample[4]);
+    // Serial.print(",");
+    // Serial.print(sample[3]);
+    // Serial.print(",");
+    // Serial.print(sample[2]);
+    // Serial.print(",");
+    // Serial.print(sample[1]);
+    // Serial.print(",");
+    // Serial.println(sample[0]);
 
     delay(100);
-    //Serial.println("CanBus: sendMsgBuf OK!!");
+    // Serial.println("CanBus: sendMsgBuf OK!!");
 
     // digitalWrite(A6, HIGH);
     // delay(1000);
