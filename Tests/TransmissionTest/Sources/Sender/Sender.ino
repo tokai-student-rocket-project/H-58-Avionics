@@ -12,7 +12,7 @@ namespace settings {
 
   // 帯域幅
   // 初期値: 125E3 (125 kHz)
-  int32_t bandwidth = 125E3;
+  int32_t bandwidth = 500E3;
 
   // 送信回数
   // 初期値: 100 (100 Hz)
@@ -20,12 +20,18 @@ namespace settings {
 
   // 送信データ長
   // 初期値: 32 (32 Bytes)
-  size_t length = 32;
+  size_t length = 64;
 }
 
 
 namespace internal {
   uint32_t referenceTime;
+
+  uint16_t count = 0;
+  union Converter {
+    uint16_t value;
+    uint8_t data[4];
+  }converter;
 }
 
 
@@ -33,7 +39,9 @@ void setup() {
   Serial.begin(115200);
 
   LoRa.begin(settings::frequency);
+  LoRa.setSpreadingFactor(6);
   LoRa.setSignalBandwidth(settings::bandwidth);
+  LoRa.setPreambleLength(6);
 
   Tasks.add(routine)->startIntervalMsec(1000 / settings::taskFrequency);
 
@@ -49,22 +57,26 @@ void loop() {
 void routine() {
   uint8_t data[settings::length];
 
-  LoRa.beginPacket();
+  internal::count++;
+  internal::converter.value = internal::count;
+
+  data[0] = internal::converter.data[0];
+  data[1] = internal::converter.data[1];
+  data[2] = internal::converter.data[2];
+  data[3] = internal::converter.data[3];
+
+  LoRa.beginPacket(true);
   LoRa.write(data, settings::length);
   LoRa.endPacket();
 
-  Serial.print("Sended:    Frequency ");
-  Serial.print((float)settings::frequency / 1000000.0, 1);
-  Serial.print(" MHz    Bandwidth ");
-  Serial.print((float)settings::bandwidth / 1000.0, 0);
-  Serial.print(" kHz    Length ");
-  Serial.print(settings::length);
-  Serial.print(" Bytes    Routine ");
+  Serial.print("Sended:    Routine ");
 
   uint32_t time = millis();
   Serial.print(1000.0 / (float)(time - internal::referenceTime), 1);
-  Serial.println(" Hz");
+  Serial.print(" Hz    count ");
   internal::referenceTime = time;
+
+  Serial.println(internal::count);
 
   digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
 }

@@ -11,11 +11,16 @@ namespace settings {
 
   // 帯域幅
   // 初期値: 125E3 (125 kHz)
-  int32_t bandwidth = 125E3;
+  int32_t bandwidth = 500E3;
 }
 
 namespace internal {
   uint32_t referenceTime;
+
+  union Converter {
+    uint16_t value;
+    uint8_t data[4];
+  }converter;
 }
 
 
@@ -23,35 +28,39 @@ void setup() {
   Serial.begin(115200);
 
   LoRa.begin(settings::frequency);
+  LoRa.setSpreadingFactor(6);
   LoRa.setSignalBandwidth(settings::bandwidth);
+  LoRa.setPreambleLength(6);
 
   pinMode(LED_BUILTIN, OUTPUT);
 }
 
 
 void loop() {
-  int16_t packetSize = LoRa.parsePacket();
+  int16_t packetSize = LoRa.parsePacket(64);
 
   if (packetSize) {
-    while (LoRa.available()) {
-      LoRa.read();
+    for (size_t i = 0; i < 64; i++) {
+
+      if (i < 4) {
+        internal::converter.data[i] = LoRa.read();
+      }
+      else {
+        LoRa.read();
+      }
     }
 
-    Serial.print("Received:    Frequency ");
-    Serial.print((float)settings::frequency / 1000000.0, 1);
-    Serial.print(" MHz    Bandwidth ");
-    Serial.print((float)settings::bandwidth / 1000.0, 0);
-    Serial.print(" kHz    Length ");
-    Serial.print(packetSize);
-    Serial.print(" Bytes    RSSI ");
+    Serial.print("Received:    RSSI ");
 
     Serial.print(LoRa.packetRssi());
     Serial.print(" dBm    Routine ");
 
     uint32_t time = millis();
     Serial.print(1000.0 / (float)(time - internal::referenceTime), 1);
-    Serial.println(" Hz");
+    Serial.print(" Hz    Count ");
     internal::referenceTime = time;
+
+    Serial.println(internal::converter.value);
 
     digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
   }
