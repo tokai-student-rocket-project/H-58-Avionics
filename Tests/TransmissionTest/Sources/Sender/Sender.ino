@@ -32,7 +32,7 @@ void setup() {
   LoRa.begin(921.8E6);
   LoRa.setSignalBandwidth(500E3);
 
-  Tasks.add(routine)->startIntervalMsec(10);
+  Tasks.add(routine)->startIntervalMsec(50);
 
   pinMode(LED_BUILTIN, OUTPUT);
 }
