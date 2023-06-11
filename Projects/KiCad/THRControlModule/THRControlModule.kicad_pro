@@ -326,6 +326,10 @@
     [
       "93cdfa36-4bed-45c7-a4a4-3a03363a12aa",
       ""
+    ],
+    [
+      "00f4825f-a5d9-483f-a8c7-f3ffa30863fc",
+      "MAX31856"
     ]
   ],
   "text_variables": {}
