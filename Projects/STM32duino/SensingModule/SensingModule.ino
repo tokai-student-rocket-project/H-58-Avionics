@@ -1,7 +1,7 @@
 #include <ACAN_STM32.h>
 #include <TaskManager.h>
 #include "BNO055.hpp"
-#include "LPS33HW.hpp"
+#include "BME280.hpp"
 #include "Thermistor.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
@@ -55,9 +55,8 @@ namespace flightMode {
 }
 
 namespace timer {
-  void task2Hz();
+  void task10Hz();
   void task20Hz();
-  void task50Hz();
   void task100Hz();
 
   void invalidSdBlink();
@@ -65,7 +64,7 @@ namespace timer {
 
 namespace sensor {
   BNO055 bno;
-  LPS33HW lps;
+  BME bme;
   Thermistor thermistor(A1);
 }
 
@@ -133,17 +132,14 @@ void setup() {
   Wire.setClock(400000);
 
   sensor::bno.begin();
-
-  // 開発中: EMではBMEに変更した
-  // sensor::lps.begin();
+  sensor::bme.begin();
 
   sensor::thermistor.initialize();
 
   canbus::initialize();
 
-  Tasks.add(timer::task2Hz)->startIntervalMsec(500);
+  Tasks.add(timer::task10Hz)->startIntervalMsec(100);
   Tasks.add(timer::task20Hz)->startIntervalMsec(50);
-  Tasks.add(timer::task50Hz)->startIntervalMsec(20);
   Tasks.add(timer::task100Hz)->startIntervalMsec(10);
 
   // メモリ切断処理
@@ -247,7 +243,7 @@ void canbus::receiveStatus(CANMessage message) {
 }
 
 
-void timer::task2Hz() {
+void timer::task10Hz() {
   sensor::thermistor.getTemperature(&data::temperature);
   canbus::sendScalar(canbus::Id::TEMPERATURE, data::temperature);
 }
@@ -258,15 +254,6 @@ void timer::task20Hz() {
   canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::X, data::magnetometer_x);
   canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::Y, data::magnetometer_y);
   canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::Z, data::magnetometer_z);
-}
-
-
-void timer::task50Hz() {
-  sensor::lps.getPressure(&data::pressure);
-  canbus::sendScalar(canbus::Id::PRESSURE, data::pressure);
-
-  data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::temperature + 273.15)) / 0.0065;
-  canbus::sendScalar(canbus::Id::ALTITUDE, data::altitude);
 }
 
 
@@ -295,6 +282,12 @@ void timer::task100Hz() {
   canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::X, data::gravity_x);
   canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Y, data::gravity_y);
   canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Z, data::gravity_z);
+
+  sensor::bme.getPressure(&data::pressure);
+  canbus::sendScalar(canbus::Id::PRESSURE, data::pressure);
+
+  data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::temperature + 273.15)) / 0.0065;
+  canbus::sendScalar(canbus::Id::ALTITUDE, data::altitude);
 }
 
 

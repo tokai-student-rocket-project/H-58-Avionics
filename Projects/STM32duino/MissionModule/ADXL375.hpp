@@ -11,9 +11,8 @@ class ADXL375 {
 public:
   void begin();
 
-  void setOffsets();
-  void getAcceleration(float* x, float* y, float* z);
+  float get();
 
 private:
-  Adafruit_ADXL375 _adxl = Adafruit_ADXL375(-1, &Wire);
+  Adafruit_ADXL375 accel = Adafruit_ADXL375(-1, &Wire);
 };

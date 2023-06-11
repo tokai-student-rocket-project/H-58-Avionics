@@ -3,16 +3,15 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_LPS2X.h>
+#include <SparkFunBME280.h>
 
 
-class LPS33HW {
+class BME {
 public:
   void begin();
 
   void getPressure(float* pressure);
 
 private:
-  Adafruit_LPS22 _lps;
+  BME280 _bme280;
 };
