@@ -1,49 +1,38 @@
 #include <SPI.h>
 #include <LoRa.h>
 #include <TaskManager.h>
-
-
-namespace settings {
-  // 設定する値たち
-
-  // 周波数
-  // 初期値: 921.8E6 (921.8 MHz)
-  int32_t frequency = 921.8E6;
-
-  // 帯域幅
-  // 初期値: 125E3 (125 kHz)
-  int32_t bandwidth = 500E3;
-
-  // 送信回数
-  // 初期値: 100 (100 Hz)
-  int16_t taskFrequency = 100;
-
-  // 送信データ長
-  // 初期値: 32 (32 Bytes)
-  size_t length = 64;
-}
+#include <MsgPacketizer.h>
 
 
 namespace internal {
   uint32_t referenceTime;
+  uint32_t count = 0;
 
-  uint16_t count = 0;
-  union Converter {
-    uint16_t value;
-    uint8_t data[4];
-  }converter;
+  float data0 = 1.0;
+  float data1 = 2.0;
+  float data2 = 4.0;
+
+  float data3 = 8.0;
+  float data4 = 16.0;
+  float data5 = 32.0;
+
+  float data6 = 64.0;
+  float data7 = 128.0;
+  float data8 = 256.0;
+
+  float data9 = 512.0;
+  float data10 = 1024.0;
+  float data11 = 2048.0;
 }
 
 
 void setup() {
   Serial.begin(115200);
 
-  LoRa.begin(settings::frequency);
-  LoRa.setSpreadingFactor(6);
-  LoRa.setSignalBandwidth(settings::bandwidth);
-  LoRa.setPreambleLength(6);
+  LoRa.begin(921.8E6);
+  LoRa.setSignalBandwidth(500E3);
 
-  Tasks.add(routine)->startIntervalMsec(1000 / settings::taskFrequency);
+  Tasks.add(routine)->startIntervalMsec(10);
 
   pinMode(LED_BUILTIN, OUTPUT);
 }
@@ -55,25 +44,38 @@ void loop() {
 
 
 void routine() {
-  uint8_t data[settings::length];
-
   internal::count++;
-  internal::converter.value = internal::count;
 
-  data[0] = internal::converter.data[0];
-  data[1] = internal::converter.data[1];
-  data[2] = internal::converter.data[2];
-  data[3] = internal::converter.data[3];
+  const auto& packet = MsgPacketizer::encode(
+    0x00,
+    internal::count,
+    internal::data0,
+    internal::data1,
+    internal::data2,
+    internal::data3,
+    internal::data4,
+    internal::data5,
+    internal::data6,
+    internal::data7,
+    internal::data8,
+    internal::data9,
+    internal::data10,
+    internal::data11
+  );
 
   LoRa.beginPacket(true);
-  LoRa.write(data, settings::length);
+  LoRa.write(packet.data.data(), packet.data.size());
   LoRa.endPacket();
 
-  Serial.print("Sended:    Routine ");
+  Serial.print("Sended:    Size ");
+
+  Serial.print(packet.data.size());
+
+  Serial.print(" B    Routine");
 
   uint32_t time = millis();
   Serial.print(1000.0 / (float)(time - internal::referenceTime), 1);
-  Serial.print(" Hz    count ");
+  Serial.print(" Hz    Count ");
   internal::referenceTime = time;
 
   Serial.println(internal::count);
