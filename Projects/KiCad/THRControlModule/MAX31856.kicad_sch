@@ -703,7 +703,7 @@
     (stroke (width 0) (type default))
     (uuid 3cc73a46-c35f-4f08-8963-e1eed692350f)
   )
-  (wire (pts (xy 88.9 69.85) (xy 90.17 69.85))
+  (wire (pts (xy 88.9 73.66) (xy 88.9 69.85))
     (stroke (width 0) (type default))
     (uuid 436034f2-2158-4f95-af0f-620cc2965272)
   )
@@ -863,6 +863,10 @@
     (stroke (width 0) (type default))
     (uuid eb8132fd-eb02-430d-ba63-1bc122eee97c)
   )
+  (wire (pts (xy 88.9 69.85) (xy 90.17 69.85))
+    (stroke (width 0) (type default))
+    (uuid efe9fcaa-57b0-4b3c-9ece-313b934d0e80)
+  )
   (wire (pts (xy 153.67 40.64) (xy 154.94 40.64))
     (stroke (width 0) (type default))
     (uuid f3b703ae-3c76-42d5-8119-ab42fb7cc7ba)
@@ -895,10 +899,10 @@
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
-  (global_label "BIAS" (shape input) (at 88.9 69.85 180) (fields_autoplaced)
+  (global_label "BIAS" (shape input) (at 88.9 73.66 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid dd8690e6-e59a-4f19-933d-3171bcd0d24c)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 81.8213 69.85 0)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 81.8213 73.66 0)
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
@@ -931,13 +935,13 @@
   (symbol (lib_id "Device:R") (at 64.77 62.23 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 001a059f-8b29-49ef-ae83-564a1ffaae42)
-    (property "Reference" "R6" (at 64.77 57.15 90)
+    (property "Reference" "R12" (at 64.77 57.15 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "R" (at 64.77 59.69 90)
+    (property "Value" "100" (at 64.77 59.69 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 64.77 64.008 90)
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" (at 64.77 64.008 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 64.77 62.23 0)
@@ -948,7 +952,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "R6") (unit 1)
+          (reference "R12") (unit 1)
         )
       )
     )
@@ -957,7 +961,7 @@
   (symbol (lib_id "power:GND") (at 130.81 76.2 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 20bbf4a1-2f32-4102-96a8-0a61a4d02029)
-    (property "Reference" "#PWR035" (at 130.81 82.55 0)
+    (property "Reference" "#PWR038" (at 130.81 82.55 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 130.81 81.28 0)
@@ -973,7 +977,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR035") (unit 1)
+          (reference "#PWR038") (unit 1)
         )
       )
     )
@@ -982,7 +986,7 @@
   (symbol (lib_id "MAX31856MUD_T:MAX31856MUD+T") (at 107.95 62.23 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 243b2c0b-88b5-4f4e-ba25-c5f9f6c21cd6)
-    (property "Reference" "U4" (at 107.95 40.64 0)
+    (property "Reference" "U3" (at 107.95 40.64 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "MAX31856MUD+T" (at 107.95 43.18 0)
@@ -1151,7 +1155,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "U4") (unit 1)
+          (reference "U3") (unit 1)
         )
       )
     )
@@ -1166,7 +1170,7 @@
     (property "Value" "D" (at 201.93 66.04 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 199.39 67.31 0)
+    (property "Footprint" "Diode_SMD:D_SOD-123" (at 199.39 67.31 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 199.39 67.31 0)
@@ -1192,13 +1196,13 @@
   (symbol (lib_id "Device:C") (at 74.93 43.18 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 3528493d-649d-4ac3-bdbe-b779c6dd97e1)
-    (property "Reference" "C8" (at 78.74 42.545 0)
+    (property "Reference" "C10" (at 78.74 42.545 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "C" (at 78.74 45.085 0)
+    (property "Value" "0.01u" (at 78.74 45.085 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 75.8952 46.99 0)
+    (property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" (at 75.8952 46.99 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 74.93 43.18 0)
@@ -1209,7 +1213,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "C8") (unit 1)
+          (reference "C10") (unit 1)
         )
       )
     )
@@ -1218,7 +1222,7 @@
   (symbol (lib_id "power:GND") (at 69.85 33.02 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 35b53788-c28e-45a8-be2b-d3ae45f118bf)
-    (property "Reference" "#PWR028" (at 69.85 39.37 0)
+    (property "Reference" "#PWR034" (at 69.85 39.37 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 69.85 38.1 0)
@@ -1234,7 +1238,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR028") (unit 1)
+          (reference "#PWR034") (unit 1)
         )
       )
     )
@@ -1243,13 +1247,13 @@
   (symbol (lib_id "Device:C") (at 132.08 40.64 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 3f3f8adc-38c3-4b2f-9b48-7462864055e5)
-    (property "Reference" "C10" (at 132.08 34.29 90)
+    (property "Reference" "C13" (at 132.08 34.29 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "C" (at 132.08 36.83 90)
+    (property "Value" "0.1u" (at 132.08 36.83 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 135.89 39.6748 0)
+    (property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" (at 135.89 39.6748 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 132.08 40.64 0)
@@ -1260,7 +1264,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "C10") (unit 1)
+          (reference "C13") (unit 1)
         )
       )
     )
@@ -1269,7 +1273,7 @@
   (symbol (lib_id "power:GND") (at 127 78.74 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 42177500-400b-4aa0-a951-9b76c2eb0ca3)
-    (property "Reference" "#PWR034" (at 127 85.09 0)
+    (property "Reference" "#PWR036" (at 127 85.09 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 127 83.82 0)
@@ -1285,7 +1289,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR034") (unit 1)
+          (reference "#PWR036") (unit 1)
         )
       )
     )
@@ -1294,7 +1298,7 @@
   (symbol (lib_id "power:GND") (at 137.16 41.91 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 5e0bd165-47a9-409c-bd4c-52d37debc82e)
-    (property "Reference" "#PWR031" (at 137.16 48.26 0)
+    (property "Reference" "#PWR039" (at 137.16 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 137.16 46.99 0)
@@ -1310,7 +1314,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR031") (unit 1)
+          (reference "#PWR039") (unit 1)
         )
       )
     )
@@ -1319,13 +1323,13 @@
   (symbol (lib_id "Device:C") (at 74.93 55.88 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 627b0da5-93a4-43d5-9136-31bd75d4b2b4)
-    (property "Reference" "C7" (at 78.74 55.245 0)
+    (property "Reference" "C11" (at 78.74 55.245 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "C" (at 78.74 57.785 0)
+    (property "Value" "0.1u" (at 78.74 57.785 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 75.8952 59.69 0)
+    (property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" (at 75.8952 59.69 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 74.93 55.88 0)
@@ -1336,7 +1340,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "C7") (unit 1)
+          (reference "C11") (unit 1)
         )
       )
     )
@@ -1351,7 +1355,7 @@
     (property "Value" "D" (at 186.69 60.96 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 184.15 62.23 0)
+    (property "Footprint" "Diode_SMD:D_SOD-123" (at 184.15 62.23 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 184.15 62.23 0)
@@ -1377,7 +1381,7 @@
   (symbol (lib_id "power:+3.3V") (at 170.18 38.1 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 8fd91d53-1bb8-4d70-92cc-21d85d22d9af)
-    (property "Reference" "#PWR033" (at 170.18 41.91 0)
+    (property "Reference" "#PWR042" (at 170.18 41.91 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 170.18 34.29 0)
@@ -1393,7 +1397,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR033") (unit 1)
+          (reference "#PWR042") (unit 1)
         )
       )
     )
@@ -1402,7 +1406,7 @@
   (symbol (lib_id "power:GND") (at 74.93 74.93 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 98ddb319-cf19-46ff-83bd-56e6ce7be4a0)
-    (property "Reference" "#PWR027" (at 74.93 81.28 0)
+    (property "Reference" "#PWR035" (at 74.93 81.28 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 74.93 80.01 0)
@@ -1418,7 +1422,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR027") (unit 1)
+          (reference "#PWR035") (unit 1)
         )
       )
     )
@@ -1427,7 +1431,7 @@
   (symbol (lib_id "power:+3.3V") (at 146.05 27.94 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 99f6276c-11d4-454b-a55b-20b2cd6eef7d)
-    (property "Reference" "#PWR030" (at 146.05 31.75 0)
+    (property "Reference" "#PWR040" (at 146.05 31.75 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 146.05 24.13 0)
@@ -1443,7 +1447,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR030") (unit 1)
+          (reference "#PWR040") (unit 1)
         )
       )
     )
@@ -1478,13 +1482,13 @@
   (symbol (lib_id "Device:R") (at 170.18 52.07 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 9fa684e8-fa3a-43fc-aa71-a216220d11fe)
-    (property "Reference" "R8" (at 172.72 51.435 0)
+    (property "Reference" "R14" (at 172.72 51.435 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "R" (at 172.72 53.975 0)
+    (property "Value" "10k" (at 172.72 53.975 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 168.402 52.07 90)
+    (property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" (at 168.402 52.07 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 170.18 52.07 0)
@@ -1495,7 +1499,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "R8") (unit 1)
+          (reference "R14") (unit 1)
         )
       )
     )
@@ -1504,13 +1508,13 @@
   (symbol (lib_id "Connector:Screw_Terminal_01x02") (at 44.45 57.15 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a67b1775-6ab6-41b9-b2bd-c39febc0dfe6)
-    (property "Reference" "J3" (at 44.45 49.53 0)
+    (property "Reference" "J6" (at 44.45 49.53 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Screw_Terminal_01x02" (at 44.45 52.07 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 44.45 57.15 0)
+    (property "Footprint" "MAX31856MUD_T:RS_PRO_611-8157" (at 44.45 57.15 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 44.45 57.15 0)
@@ -1521,7 +1525,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "J3") (unit 1)
+          (reference "J6") (unit 1)
         )
       )
     )
@@ -1556,13 +1560,13 @@
   (symbol (lib_id "Device:R") (at 64.77 49.53 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid af0eb41b-d3c4-4f0c-bf35-c1be0c981a42)
-    (property "Reference" "R5" (at 64.77 44.45 90)
+    (property "Reference" "R11" (at 64.77 44.45 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "R" (at 64.77 46.99 90)
+    (property "Value" "100" (at 64.77 46.99 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 64.77 51.308 90)
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder" (at 64.77 51.308 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 64.77 49.53 0)
@@ -1573,7 +1577,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "R5") (unit 1)
+          (reference "R11") (unit 1)
         )
       )
     )
@@ -1582,7 +1586,7 @@
   (symbol (lib_id "power:GND") (at 154.94 41.91 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b08230bf-7846-4acf-af92-5c5fb2a4967f)
-    (property "Reference" "#PWR032" (at 154.94 48.26 0)
+    (property "Reference" "#PWR041" (at 154.94 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 154.94 46.99 0)
@@ -1598,7 +1602,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR032") (unit 1)
+          (reference "#PWR041") (unit 1)
         )
       )
     )
@@ -1607,13 +1611,13 @@
   (symbol (lib_id "Device:C") (at 149.86 40.64 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b0859e92-0bd3-44f9-a3cf-935f2022128b)
-    (property "Reference" "C11" (at 149.86 34.29 90)
+    (property "Reference" "C14" (at 149.86 34.29 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "C" (at 149.86 36.83 90)
+    (property "Value" "0.1u" (at 149.86 36.83 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 153.67 39.6748 0)
+    (property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" (at 153.67 39.6748 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 149.86 40.64 0)
@@ -1624,7 +1628,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "C11") (unit 1)
+          (reference "C14") (unit 1)
         )
       )
     )
@@ -1633,7 +1637,7 @@
   (symbol (lib_id "power:+3.3V") (at 128.27 33.02 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b4d7f009-7340-408e-9ec4-03ad45b06a40)
-    (property "Reference" "#PWR029" (at 128.27 36.83 0)
+    (property "Reference" "#PWR037" (at 128.27 36.83 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 128.27 29.21 0)
@@ -1649,7 +1653,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR029") (unit 1)
+          (reference "#PWR037") (unit 1)
         )
       )
     )
@@ -1658,13 +1662,13 @@
   (symbol (lib_id "Device:R") (at 163.83 58.42 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c104e09b-7634-46ea-81b4-31917bb2ea6f)
-    (property "Reference" "R7" (at 166.37 57.785 0)
+    (property "Reference" "R13" (at 166.37 57.785 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "R" (at 166.37 60.325 0)
+    (property "Value" "10k" (at 166.37 60.325 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 162.052 58.42 90)
+    (property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" (at 162.052 58.42 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 163.83 58.42 0)
@@ -1675,7 +1679,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "R7") (unit 1)
+          (reference "R13") (unit 1)
         )
       )
     )
@@ -1684,13 +1688,13 @@
   (symbol (lib_id "Device:R") (at 177.8 46.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid cb863746-16d3-4ad5-b028-8b6d4f6be94f)
-    (property "Reference" "R9" (at 180.34 46.355 0)
+    (property "Reference" "R15" (at 180.34 46.355 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "R" (at 180.34 48.895 0)
+    (property "Value" "10k" (at 180.34 48.895 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 176.022 46.99 90)
+    (property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" (at 176.022 46.99 90)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 177.8 46.99 0)
@@ -1701,7 +1705,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "R9") (unit 1)
+          (reference "R15") (unit 1)
         )
       )
     )
@@ -1710,13 +1714,13 @@
   (symbol (lib_id "Device:C") (at 74.93 68.58 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid db1e5809-1a2f-4c14-8a97-12f85a4209ec)
-    (property "Reference" "C9" (at 78.74 67.945 0)
+    (property "Reference" "C12" (at 78.74 67.945 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "C" (at 78.74 70.485 0)
+    (property "Value" "0.01u" (at 78.74 70.485 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "" (at 75.8952 72.39 0)
+    (property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" (at 75.8952 72.39 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 74.93 68.58 0)
@@ -1727,7 +1731,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "C9") (unit 1)
+          (reference "C12") (unit 1)
         )
       )
     )
@@ -1742,7 +1746,7 @@
     (property "Value" "D" (at 194.31 63.5 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 191.77 64.77 0)
+    (property "Footprint" "Diode_SMD:D_SOD-123" (at 191.77 64.77 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 191.77 64.77 0)

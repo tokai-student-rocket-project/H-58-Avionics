@@ -13,6 +13,7 @@ union Converter
     float value, value1;
     uint8_t data[4], data1[4];
 } converter;
+
 /* CAN Config END */
 
 /*B3M Servo Config START*/
@@ -210,6 +211,7 @@ void loop()
     Serial.print(" | ");
     Serial.print(converter.data1[3]);
     Serial.println(" | ");
+
     delay(100);
 
     // digitalWrite(A6, HIGH);
@@ -265,7 +267,7 @@ int B3M_writeCommand(byte id, byte TxData, byte Address)
     for (int i = 0; i < 7; i++)
     {
         txCmd[7] += txCmd[i];
-        Serial.print(txCmd[i], HEX);
+        Serial.print(txCmd[i]);
         Serial.print("");
     }
     Serial.println("");
@@ -277,6 +279,7 @@ int B3M_writeCommand(byte id, byte TxData, byte Address)
     if (flag == false)
     {
         return -1;
+        Serial.println(F("synchronize ERROR"));
     }
     reData = rxCmd[2];
 
@@ -315,11 +318,12 @@ int B3M_setPosition(byte id, int Pos, int Time)
     if (flag == false)
     {
         return -1;
+        Serial.println(F("synchronize ERROR"));
     }
     reData = rxCmd[7];
     for (int i = 0; i < 7; i++)
     {
-        Serial.print(reData, HEX);
+        Serial.print(reData);
         Serial.print(" ");
     }
     Serial.println("");
@@ -407,15 +411,20 @@ void LED_blink()
 
 void B3M_initialize()
 {
-    B3M_writeCommand(0x01, 0x02, 0x28); // 動作モード：Free
+    // B3M_writeCommand(0x01, 0x02, 0x28); // 動作モード：Free
+    Serial.println(B3M_writeCommand(0x01, 0x02, 0x28));
 
-    B3M_writeCommand(0x01, 0x02, 0x28); // 位置制御モードに設定
+    // B3M_writeCommand(0x01, 0x02, 0x28); // 位置制御モードに設定
+    Serial.println(B3M_writeCommand(0x01, 0x02, 0x28));
 
-    B3M_writeCommand(0x01, 0x01, 0x29); // 起動生成タイプ：Even
+    // B3M_writeCommand(0x01, 0x01, 0x29); // 起動生成タイプ：Even
+    Serial.println(B3M_writeCommand(0x01, 0x01, 0x29));
 
-    B3M_writeCommand(0x01, 0x00, 0x5c); // ゲインプリセット：No.0
+    // B3M_writeCommand(0x01, 0x00, 0x5c); // ゲインプリセット：No.0
+    Serial.println(B3M_writeCommand(0x01, 0x00, 0x5c));
 
-    B3M_writeCommand(0x01, 0x00, 0x28); // 動作モード：Normal
+    // B3M_writeCommand(0x01, 0x00, 0x28); // 動作モード：Normal
+    Serial.println(B3M_writeCommand(0x01, 0x00, 0x28));
 }
 
 void MAX31855_initialize()
@@ -471,8 +480,3 @@ void SIGNAL_initialize()
     pinMode(WaitingPin, INPUT_PULLUP);
     pinMode(LaunchPin, INPUT_PULLUP);
 }
-
-// void CAN_sendtemperature(uint32_t id, float value)
-// {
-//     converter.value = value;
-// }
