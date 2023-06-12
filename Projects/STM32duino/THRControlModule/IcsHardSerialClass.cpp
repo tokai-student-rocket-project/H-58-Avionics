@@ -141,7 +141,7 @@ bool IcsHardSerialClass::synchronize(byte *txBuf, byte txLen, byte *rxBuf, byte 
   icsHardSerial->write(txBuf, txLen);
   icsHardSerial->flush(); // 待つ
 
-  // enLow(); // 受信切替
+
 
   while (icsHardSerial->available() > 0) // 受信バッファを消す
   {
@@ -149,7 +149,7 @@ bool IcsHardSerialClass::synchronize(byte *txBuf, byte txLen, byte *rxBuf, byte 
     icsHardSerial->read(); // 空読み
   }
 
-
+  enLow(); // 受信切替
 
   rxSize = icsHardSerial->readBytes(rxBuf, rxLen);
 
