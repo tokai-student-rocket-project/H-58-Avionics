@@ -592,6 +592,14 @@
     [
       "ea1ed597-7cd3-4340-902e-bdce8f2d7a62",
       ""
+    ],
+    [
+      "83ea0818-f4e9-4cef-a290-a35321174da7",
+      "Recorder"
+    ],
+    [
+      "bfb54da1-8301-4c63-8e66-a310db67167f",
+      "Sensor"
     ]
   ],
   "text_variables": {}
