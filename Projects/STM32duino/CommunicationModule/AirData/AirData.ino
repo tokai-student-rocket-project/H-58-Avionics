@@ -105,7 +105,7 @@ void loop() {
 
 
 void canbus::initialize() {
-  canbus::can.begin(CAN_1000KBPS, MCP_16MHz);
+  canbus::can.begin(CAN_1000KBPS, MCP_8MHz);
 }
 
 
