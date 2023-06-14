@@ -110,10 +110,10 @@ void canbus::initialize() {
 
 
 void canbus::receiveScalar(uint8_t* data, float* value) {
-  canbus::converter.data[0] = data[1];
-  canbus::converter.data[1] = data[2];
-  canbus::converter.data[2] = data[3];
-  canbus::converter.data[3] = data[4];
+  canbus::converter.data[0] = data[0];
+  canbus::converter.data[1] = data[1];
+  canbus::converter.data[2] = data[2];
+  canbus::converter.data[3] = data[3];
   *value = canbus::converter.value;
 
   indicator::canReceive.toggle();
