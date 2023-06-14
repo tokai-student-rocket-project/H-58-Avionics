@@ -271,7 +271,7 @@ void timer::task100Hz() {
     flightMode::changeMode(flightMode::Mode::THRUST);
   }
 
-  if (!connection::flightPin.isOpen() && flightMode::activeMode == flightMode::Mode::SHUTDOWN) {
+  if (!connection::flightPin.isOpen()) {
     flightMode::changeMode(flightMode::Mode::SLEEP);
   }
 

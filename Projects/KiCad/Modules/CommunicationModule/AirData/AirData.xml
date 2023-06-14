@@ -2,7 +2,7 @@
 <export version="E">
   <design>
     <source>/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/Modules/CommunicationModule/AirData/AirData.kicad_sch</source>
-    <date>2023 May 22, Monday 14:28:03</date>
+    <date>2023 June 13, Tuesday 16:18:26</date>
     <tool>Eeschema 7.0.1-0</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -36,8 +36,8 @@
       <tstamps>d4e0d3f0-6c7c-49b3-9cb2-10fc189cb73a</tstamps>
     </comp>
     <comp ref="C2">
-      <value>0.33μF</value>
-      <footprint>Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder</footprint>
+      <value>10uF</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -47,8 +47,8 @@
       <tstamps>bb93875c-4690-475a-9b6d-3e38f6693fe8</tstamps>
     </comp>
     <comp ref="C3">
-      <value>0.1μF</value>
-      <footprint>Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder</footprint>
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -58,8 +58,8 @@
       <tstamps>3fb744aa-9c32-49ec-9cc2-7c729fc0887f</tstamps>
     </comp>
     <comp ref="C4">
-      <value>0.1μF</value>
-      <footprint>Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder</footprint>
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -69,8 +69,8 @@
       <tstamps>6fdfc056-e204-43f9-92a7-bfe10e0c74b3</tstamps>
     </comp>
     <comp ref="C5">
-      <value>0.1μF</value>
-      <footprint>Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder</footprint>
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -80,8 +80,8 @@
       <tstamps>57358458-7ede-4be1-a4c2-02d7e064abdc</tstamps>
     </comp>
     <comp ref="C6">
-      <value>0.1μF</value>
-      <footprint>Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder</footprint>
+      <value>0.1uF</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -102,8 +102,8 @@
       <tstamps>28f5fb1a-e0b7-45de-b2cb-6e59282a4c41</tstamps>
     </comp>
     <comp ref="C8">
-      <value>100μF</value>
-      <footprint>Capacitor_SMD:CP_Elec_6.3x7.7</footprint>
+      <value>47uF</value>
+      <footprint>Capacitor_SMD:CP_Elec_6.3x5.9</footprint>
       <libsource lib="Device" part="C_Polarized" description="Polarized capacitor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -124,7 +124,7 @@
       <tstamps>0a679a2b-fb35-436b-9c48-b60b3b96a092</tstamps>
     </comp>
     <comp ref="D2">
-      <value>ORANGE</value>
+      <value>BLUE</value>
       <footprint>LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="LED" description="Light emitting diode"/>
       <property name="Sheetname" value=""/>
@@ -135,7 +135,7 @@
       <tstamps>d6bbf79c-0d6a-40fe-94f9-b6aef38f0fd4</tstamps>
     </comp>
     <comp ref="D3">
-      <value>ORANGE</value>
+      <value>BLUE</value>
       <footprint>LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="LED" description="Light emitting diode"/>
       <property name="Sheetname" value=""/>
@@ -164,7 +164,7 @@
       <tstamps>f70c3a74-751c-47a5-90fd-292948a1600a</tstamps>
     </comp>
     <comp ref="D5">
-      <value>ORANGE</value>
+      <value>BLUE</value>
       <footprint>LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="LED" description="Light emitting diode"/>
       <property name="Sheetname" value=""/>
@@ -175,7 +175,7 @@
       <tstamps>469565b5-7472-4168-b20c-cb68b97334a4</tstamps>
     </comp>
     <comp ref="D6">
-      <value>ORANGE</value>
+      <value>BLUE</value>
       <footprint>LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="LED" description="Light emitting diode"/>
       <property name="Sheetname" value=""/>
@@ -187,7 +187,7 @@
     </comp>
     <comp ref="J1">
       <value>Conn_01x08</value>
-      <footprint>Connector_Hirose:Hirose_DF11-8DP-2DSA_2x04_P2.00mm_Vertical</footprint>
+      <footprint>Hirose_Connector:Hirose_DF11B-8DP-2DS</footprint>
       <libsource lib="Connector_Generic" part="Conn_01x08" description="Generic connector, single row, 01x08, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -197,7 +197,7 @@
       <tstamps>fe35b9d3-1bc8-4b25-9122-51653ddb6e7d</tstamps>
     </comp>
     <comp ref="R1">
-      <value>120Ω</value>
+      <value>120R</value>
       <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
@@ -208,7 +208,7 @@
       <tstamps>e2626050-05cc-419f-9de1-e32c5cd3f1ed</tstamps>
     </comp>
     <comp ref="R2">
-      <value>620Ω</value>
+      <value>620R</value>
       <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
@@ -219,8 +219,8 @@
       <tstamps>bcc0217f-19b7-4fd4-ad6b-f0dcc349fbd0</tstamps>
     </comp>
     <comp ref="R3">
-      <value>10kΩ</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
+      <value>10kR</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -230,8 +230,8 @@
       <tstamps>28186237-e8c8-4f5d-9687-f37acd7a08c7</tstamps>
     </comp>
     <comp ref="R4">
-      <value>100Ω</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
+      <value>100R</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -241,8 +241,8 @@
       <tstamps>4a97408f-f19d-450b-96cc-c8cbadec8823</tstamps>
     </comp>
     <comp ref="R5">
-      <value>100Ω</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
+      <value>100R</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -252,8 +252,8 @@
       <tstamps>c6f20f3b-643f-4498-81b0-af215cd26d7b</tstamps>
     </comp>
     <comp ref="R6">
-      <value>100Ω</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
+      <value>100R</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -263,8 +263,8 @@
       <tstamps>6d213796-f869-4e1b-bf97-ef1710eab447</tstamps>
     </comp>
     <comp ref="R7">
-      <value>100Ω</value>
-      <footprint>Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder</footprint>
+      <value>100R</value>
+      <footprint>Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder</footprint>
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -373,7 +373,7 @@
     </comp>
     <comp ref="Y1">
       <value>8MHz</value>
-      <footprint>Crystal:Crystal_HC49-U_Vertical</footprint>
+      <footprint>Crystal:Crystal_SMD_HC49-SD</footprint>
       <libsource lib="Device" part="Crystal" description="Two pin crystal"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="AirData.kicad_sch"/>
@@ -659,7 +659,7 @@
   </libparts>
   <libraries>
     <library logical="ABX00012">
-      <uri>/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/Modules/CommunicationModule/AirData/../Libraries/ABX00012/ABX00012.kicad_sym</uri>
+      <uri>/Users/waiwai/Projects/H-58-Avionics/Projects/KiCad/Modules/CommunicationModule/AirData/../../../Libraries/ABX00012/ABX00012.kicad_sym</uri>
     </library>
     <library logical="Connector">
       <uri>/Applications/KiCad/KiCad.app/Contents/SharedSupport/symbols//Connector.kicad_sym</uri>
@@ -717,8 +717,8 @@
       <node ref="U1" pin="7" pinfunction="CANH" pintype="bidirectional"/>
     </net>
     <net code="5" name="CAN_L">
-      <node ref="J1" pin="3" pinfunction="Pin_3" pintype="passive"/>
-      <node ref="J1" pin="4" pinfunction="Pin_4" pintype="passive"/>
+      <node ref="J1" pin="5" pinfunction="Pin_5" pintype="passive"/>
+      <node ref="J1" pin="6" pinfunction="Pin_6" pintype="passive"/>
       <node ref="R1" pin="2" pintype="passive"/>
       <node ref="TP2" pin="1" pinfunction="1" pintype="passive"/>
       <node ref="U1" pin="6" pinfunction="CANL" pintype="bidirectional"/>
@@ -757,13 +757,14 @@
       <node ref="D3" pin="1" pinfunction="K" pintype="passive"/>
       <node ref="D5" pin="1" pinfunction="K" pintype="passive"/>
       <node ref="D6" pin="1" pinfunction="K" pintype="passive"/>
-      <node ref="J1" pin="5" pinfunction="Pin_5" pintype="passive"/>
-      <node ref="J1" pin="6" pinfunction="Pin_6" pintype="passive"/>
+      <node ref="J1" pin="3" pinfunction="Pin_3" pintype="passive"/>
+      <node ref="J1" pin="4" pinfunction="Pin_4" pintype="passive"/>
       <node ref="SW1" pin="4" pintype="passive"/>
       <node ref="U1" pin="2" pinfunction="VSS" pintype="power_in"/>
       <node ref="U1" pin="8" pinfunction="STBY" pintype="input"/>
       <node ref="U2" pin="9" pinfunction="VSS" pintype="power_in"/>
       <node ref="U3" pin="2" pinfunction="GND" pintype="power_in"/>
+      <node ref="U4" pin="25" pinfunction="GND" pintype="power_in"/>
     </net>
     <net code="12" name="LORA_RECEIVE_STATUS">
       <node ref="R6" pin="1" pintype="passive"/>
@@ -853,52 +854,49 @@
     <net code="35" name="unconnected-(U4-+5V-Pad28)">
       <node ref="U4" pin="28" pinfunction="+5V" pintype="power_in+no_connect"/>
     </net>
-    <net code="36" name="unconnected-(U4-GND-Pad25)">
-      <node ref="U4" pin="25" pinfunction="GND" pintype="power_in+no_connect"/>
-    </net>
-    <net code="37" name="unconnected-(U4-PA02_AIN0{slash}DAC0{slash}A0-Pad2)">
+    <net code="36" name="unconnected-(U4-PA02_AIN0{slash}DAC0{slash}A0-Pad2)">
       <node ref="U4" pin="2" pinfunction="PA02_AIN0/DAC0/A0" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="38" name="unconnected-(U4-PA03_VREFA{slash}AREF-Pad1)">
+    <net code="37" name="unconnected-(U4-PA03_VREFA{slash}AREF-Pad1)">
       <node ref="U4" pin="1" pinfunction="PA03_VREFA/AREF" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="39" name="unconnected-(U4-PA04_AIN4{slash}A3-Pad5)">
+    <net code="38" name="unconnected-(U4-PA04_AIN4{slash}A3-Pad5)">
       <node ref="U4" pin="5" pinfunction="PA04_AIN4/A3" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="40" name="unconnected-(U4-PA05_AIN5{slash}A4-Pad6)">
+    <net code="39" name="unconnected-(U4-PA05_AIN5{slash}A4-Pad6)">
       <node ref="U4" pin="6" pinfunction="PA05_AIN5/A4" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="41" name="unconnected-(U4-PA06_AIN6{slash}A5-Pad7)">
+    <net code="40" name="unconnected-(U4-PA06_AIN6{slash}A5-Pad7)">
       <node ref="U4" pin="7" pinfunction="PA06_AIN6/A5" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="42" name="unconnected-(U4-PA07_AIN7{slash}A6-Pad8)">
+    <net code="41" name="unconnected-(U4-PA07_AIN7{slash}A6-Pad8)">
       <node ref="U4" pin="8" pinfunction="PA07_AIN7/A6" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="43" name="unconnected-(U4-PA08_S0_I2C_SDA-Pad20)">
+    <net code="42" name="unconnected-(U4-PA08_S0_I2C_SDA-Pad20)">
       <node ref="U4" pin="20" pinfunction="PA08_S0_I2C_SDA" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="44" name="unconnected-(U4-PA09_S0_I2C_SCL-Pad21)">
+    <net code="43" name="unconnected-(U4-PA09_S0_I2C_SCL-Pad21)">
       <node ref="U4" pin="21" pinfunction="PA09_S0_I2C_SCL" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="45" name="unconnected-(U4-PA20_TCC0-W6-Pad15)">
+    <net code="44" name="unconnected-(U4-PA20_TCC0-W6-Pad15)">
       <node ref="U4" pin="15" pinfunction="PA20_TCC0-W6" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="46" name="unconnected-(U4-PB02_AIN10{slash}A1-Pad3)">
+    <net code="45" name="unconnected-(U4-PB02_AIN10{slash}A1-Pad3)">
       <node ref="U4" pin="3" pinfunction="PB02_AIN10/A1" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="47" name="unconnected-(U4-PB03_AIN11{slash}A2-Pad4)">
+    <net code="46" name="unconnected-(U4-PB03_AIN11{slash}A2-Pad4)">
       <node ref="U4" pin="4" pinfunction="PB03_AIN11/A2" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="48" name="unconnected-(U4-PB11_TCC0-W5{slash}~5-Pad14)">
+    <net code="47" name="unconnected-(U4-PB11_TCC0-W5{slash}~5-Pad14)">
       <node ref="U4" pin="14" pinfunction="PB11_TCC0-W5/~5" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="49" name="unconnected-(U4-PB22_S5_TX-Pad23)">
+    <net code="48" name="unconnected-(U4-PB22_S5_TX-Pad23)">
       <node ref="U4" pin="23" pinfunction="PB22_S5_TX" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="50" name="unconnected-(U4-PB23_S5_RX-Pad22)">
+    <net code="49" name="unconnected-(U4-PB23_S5_RX-Pad22)">
       <node ref="U4" pin="22" pinfunction="PB23_S5_RX" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="51" name="unconnected-(U4-RESET-Pad24)">
+    <net code="50" name="unconnected-(U4-RESET-Pad24)">
       <node ref="U4" pin="24" pinfunction="RESET" pintype="input+no_connect"/>
     </net>
   </nets>
