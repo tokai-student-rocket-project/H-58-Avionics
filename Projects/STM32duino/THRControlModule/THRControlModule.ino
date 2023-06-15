@@ -10,8 +10,8 @@ mcp2515_can CAN(SPI_CS_PIN);
 // unsigned char sample[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 union Converter
 {
-    float value, value1;
-    uint8_t data[4], data1[4];
+    float value;//, value1;
+    uint8_t data[4];//, data1[4];
 } converter;
 
 /* CAN Config END */
@@ -93,11 +93,7 @@ void setup()
 
     /* --- CAN --- */
 
-    while (CAN_OK != CAN.begin(CAN_1000KBPS))
-    {
-        Serial.println("CAN init fail, retry...");
-        delay(100);
-    }
+    CAN.begin(CAN_1000KBPS, MCP_8MHz);
     Serial.println("CAN init OK!");
 
     /* --- CAN Config END --- */
@@ -115,8 +111,8 @@ void setup()
                   Serial.print(" | ");
                   Serial.print("WaitingCount: ");
                   Serial.println(WaitingCount); })
-        //->startIntervalMsec(2); // 1/2*10^6 = 500Hz
-        ->startIntervalMsec(1000); // 1/1000*10^6 = 1Hz
+        ->startIntervalMsec(2); // 1/2*10^6 = 500Hz
+        //->startIntervalMsec(1000); // 1/1000*10^6 = 1Hz
 }
 
 void loop()
@@ -191,26 +187,26 @@ void loop()
 
     converter.value = myMAX31855.getTemperature(rawData);
     CAN.sendMsgBuf(0x100, 0, 4, converter.data);
-    Serial.print("CANmsg: ");
-    Serial.print(converter.data[0]);
-    Serial.print(" | ");
-    Serial.print(converter.data[1]);
-    Serial.print(" | ");
-    Serial.print(converter.data[2]);
-    Serial.print(" | ");
-    Serial.print(converter.data[3]);
-    Serial.print(" || ");
+    // Serial.print("CANmsg: ");
+    // Serial.print(converter.data[0]);
+    // Serial.print(" | ");
+    // Serial.print(converter.data[1]);
+    // Serial.print(" | ");
+    // Serial.print(converter.data[2]);
+    // Serial.print(" | ");
+    // Serial.print(converter.data[3]);
+    // Serial.print(" || ");
 
-    converter.value1 = myMAX31855.getColdJunctionTemperature(rawData);
-    CAN.sendMsgBuf(0x101, 0, 4, converter.data1);
-    Serial.print(converter.data1[0]);
-    Serial.print(" | ");
-    Serial.print(converter.data1[1]);
-    Serial.print(" | ");
-    Serial.print(converter.data1[2]);
-    Serial.print(" | ");
-    Serial.print(converter.data1[3]);
-    Serial.println(" | ");
+    // converter.value1 = myMAX31855.getColdJunctionTemperature(rawData);
+    // CAN.sendMsgBuf(0x101, 0, 4, converter.data1);
+    // Serial.print(converter.data1[0]);
+    // Serial.print(" | ");
+    // Serial.print(converter.data1[1]);
+    // Serial.print(" | ");
+    // Serial.print(converter.data1[2]);
+    // Serial.print(" | ");
+    // Serial.print(converter.data1[3]);
+    // Serial.println(" | ");
 
     delay(100);
 
