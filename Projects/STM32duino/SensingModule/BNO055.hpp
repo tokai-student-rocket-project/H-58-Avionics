@@ -9,7 +9,13 @@
 
 class BNO055 {
 public:
-  void begin();
+  bool begin();
+
+  String getMode();
+  String getSystemStatus();
+  String getSelfTestResult();
+  String getSystemError();
+  bool isFullyCalibrated();
 
   void getAcceleration(float* x, float* y, float* z);
   void getMagnetometer(float* x, float* y, float* z);

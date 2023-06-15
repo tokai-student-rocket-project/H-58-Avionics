@@ -8,7 +8,8 @@
 
 class BME {
 public:
-  void begin();
+  bool begin();
+  String getMode();
 
   void getPressure(float* pressure);
 

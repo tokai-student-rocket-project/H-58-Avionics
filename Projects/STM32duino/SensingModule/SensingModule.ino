@@ -105,25 +105,84 @@ namespace data {
   float gravity_x, gravity_y, gravity_z;
 }
 
+namespace develop {
+  PullupPin debugMode(D3);
+
+  bool isDebugMode;
+}
+
 
 void setup() {
-  Serial.begin(115200);
+  // 起動モードの判定
+  develop::isDebugMode = !develop::debugMode.isOpen();
+
+
+  // デバッグ用シリアルポートの準備
+  if (develop::isDebugMode) {
+    Serial.begin(115200);
+    delay(800);
+    Serial.println("------ Sensing Module ------");
+    Serial.println("Boot Mode: DEBUG");
+
+    Serial.println("");
+    Serial.println("            X-- | D1       VIN | <== +12V ");
+    Serial.println("            X-- | D0       GND | <== GND");
+    Serial.println("            X-- | NRST    NRST | --X");
+    Serial.println("        GND ==> | GND      +5V | ==> +5V");
+    Serial.println("     CAN_TX <-- | D2        A7 | <-- DUMP_MODE");
+    Serial.println(" DEBUG_MODE --> | D3        A6 | --> SPI_MOSI");
+    Serial.println("    I2C_SDA <-> | D4        A5 | <-- SPI_MISO");
+    Serial.println("    I2C_SCL <-- | D5        A4 | --> SPI_SCLK");
+    Serial.println("RECORDER_ST <-- | D6        A3 | --> SPI_CS_FRAM1");
+    Serial.println("RECORDER_CT <-- | D7        A2 | --> SPI_CS_FRAM0");
+    Serial.println("   SD_CHECK --> | D8        A1 | <-- THERMISTOR");
+    Serial.println("      SD_ST --> | D9        A0 | --> SPI_CS_SD");
+    Serial.println("     CAN_RX <-- | D10     AREF | --X");
+    Serial.println("  CAN_RX_ST <-- | D11     +3V3 | ==> +3.3V");
+    Serial.println("  CAN_TX_ST <-- | D12      D13 | --X");
+    Serial.println("");
+  }
+
 
   // 開発中: 保存は常に行う表示
   control::recorderPower.on();
   indicator::recorderStatus.on();
+
+
+  // SPIの初期化
+  if (develop::isDebugMode) {
+    Serial.println("--------------------------------------------------------------------------------");
+    Serial.println("Initializing SPI...");
+  }
 
   SPI.setMOSI(A6);
   SPI.setMISO(A5);
   SPI.setSCLK(A4);
   SPI.begin();
 
-  // SDの初期検知
-  if (recorder::sd.begin()) {
+  if (develop::isDebugMode) {
+    Serial.println("SPI: OK");
+    Serial.println("Initializing SPI Devices...");
+  }
+
+
+  // SDの初期化
+  bool isSucceededBeginSD = recorder::sd.begin();
+
+  if (isSucceededBeginSD) {
     indicator::sdStatus.on();
+    if (develop::isDebugMode) Serial.println("    SD: Succeed");
   }
   else {
     Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startIntervalMsec(500);
+    if (develop::isDebugMode) Serial.println("    SD: Failed (Not inserted)");
+  }
+
+
+  // I2Cの初期化
+  if (develop::isDebugMode) {
+    Serial.println("--------------------------------------------------------------------------------");
+    Serial.println("Initializing I2C...");
   }
 
   Wire.setSDA(D4);
@@ -131,16 +190,81 @@ void setup() {
   Wire.begin();
   Wire.setClock(400000);
 
-  sensor::bno.begin();
-  sensor::bme.begin();
+  if (develop::isDebugMode) {
+    Serial.println("I2C: OK");
+    Serial.println("Initializing I2C Devices...");
+  }
+
+
+  // BNOの初期化
+  bool isSucceededBeginBNO = sensor::bno.begin();
+
+  if (isSucceededBeginBNO) {
+    if (develop::isDebugMode) {
+      Serial.println("  BNO: Succeed");
+      Serial.print("    Mode: ");
+      Serial.println(sensor::bno.getMode());
+      Serial.print("    System Status: ");
+      Serial.println(sensor::bno.getSystemStatus());
+      Serial.print("    Self Test: ");
+      Serial.println(sensor::bno.getSelfTestResult());
+      Serial.print("    System Error: ");
+      Serial.println(sensor::bno.getSystemError());
+      Serial.print("    Calibration: ");
+      Serial.println(sensor::bno.isFullyCalibrated() ? "Done" : "Not yet");
+    }
+  }
+  else {
+    if (develop::isDebugMode) Serial.println("BNO: Failed");
+  }
+
+
+  // BMEの初期化
+  bool isSucceededBeginBME = sensor::bme.begin();
+
+  if (isSucceededBeginBME) {
+    if (develop::isDebugMode) {
+      Serial.println("  BME: Succeed");
+      Serial.print("    Mode: ");
+      Serial.println(sensor::bme.getMode());
+    }
+  }
+  else {
+    if (develop::isDebugMode) Serial.println("BME: Failed");
+  }
+
+  // サーミスタの初期化
+  if (develop::isDebugMode) {
+    Serial.println("--------------------------------------------------------------------------------");
+    Serial.println("Initializing Thermistor...");
+  }
 
   sensor::thermistor.initialize();
 
+
+  // CANの初期化
+  if (develop::isDebugMode) {
+    Serial.println("--------------------------------------------------------------------------------");
+    Serial.println("Initializing CAN-BUS...");
+  }
+
   canbus::initialize();
+
+  // タスクの初期化
+  if (develop::isDebugMode) {
+    Serial.println("--------------------------------------------------------------------------------");
+    Serial.println("Registering Routines...");
+  }
 
   Tasks.add(timer::task10Hz)->startIntervalMsec(100);
   Tasks.add(timer::task20Hz)->startIntervalMsec(50);
   Tasks.add(timer::task100Hz)->startIntervalMsec(10);
+
+  if (develop::isDebugMode) {
+    Serial.println("--------------------------------------------------------------------------------");
+    Serial.println("Initialization is Done");
+    Serial.println("Starting Routine");
+  }
 
   // メモリ切断処理
   // control::recorderPower.off();
