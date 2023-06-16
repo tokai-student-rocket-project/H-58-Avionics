@@ -198,7 +198,7 @@ void loop() {
 
 
 void canbus::initialize() {
-  ACAN_STM32_Settings settings(1000000);
+  ACAN_STM32_Settings settings(500000);
   settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
   can.begin(settings);
 }
@@ -257,48 +257,32 @@ void canbus::receiveStatus(CANMessage message) {
 
 void timer::task10Hz() {
   sensor::thermistor.getTemperature(&data::temperature);
-  canbus::sendScalar(canbus::Id::TEMPERATURE, data::temperature);
 }
 
 
 void timer::task20Hz() {
   sensor::bno.getMagnetometer(&data::magnetometer_x, &data::magnetometer_y, &data::magnetometer_z);
-  canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::X, data::magnetometer_x);
-  canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::Y, data::magnetometer_y);
-  canbus::sendVector(canbus::Id::MAGNETOMETER, canbus::Axis::Z, data::magnetometer_z);
+
+  canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::X, data::orientation_x);
+  canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::Y, data::orientation_y);
+  canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::Z, data::orientation_z);
+
+  canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::X, data::linear_acceleration_x);
+  canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::Y, data::linear_acceleration_y);
+  canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::Z, data::linear_acceleration_z);
 }
 
 
 void timer::task100Hz() {
   sensor::bno.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
-  canbus::sendVector(canbus::Id::ACCELERATION, canbus::Axis::X, data::acceleration_x);
-  canbus::sendVector(canbus::Id::ACCELERATION, canbus::Axis::Y, data::acceleration_y);
-  canbus::sendVector(canbus::Id::ACCELERATION, canbus::Axis::Z, data::acceleration_z);
-
   sensor::bno.getGyroscope(&data::gyroscope_x, &data::gyroscope_y, &data::gyroscope_z);
-  canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::X, data::gyroscope_x);
-  canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::Y, data::gyroscope_y);
-  canbus::sendVector(canbus::Id::GYROSCOPE, canbus::Axis::Z, data::gyroscope_z);
-
   sensor::bno.getOrientation(&data::orientation_x, &data::orientation_y, &data::orientation_z);
-  canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::X, data::orientation_x);
-  canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::Y, data::orientation_y);
-  canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::Z, data::orientation_z);
-
   sensor::bno.getLinearAcceleration(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
-  canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::X, data::linear_acceleration_x);
-  canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::Y, data::linear_acceleration_y);
-  canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::Z, data::linear_acceleration_z);
-
   sensor::bno.getGravityVector(&data::gravity_x, &data::gravity_y, &data::gravity_z);
-  canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::X, data::gravity_x);
-  canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Y, data::gravity_y);
-  canbus::sendVector(canbus::Id::GRAVITY, canbus::Axis::Z, data::gravity_z);
-
   sensor::bme.getPressure(&data::pressure);
-  canbus::sendScalar(canbus::Id::PRESSURE, data::pressure);
 
   data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::temperature + 273.15)) / 0.0065;
+
   canbus::sendScalar(canbus::Id::ALTITUDE, data::altitude);
 }
 

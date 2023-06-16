@@ -62,6 +62,7 @@ namespace data {
   uint8_t separatorDrogue;
   uint8_t separatorMain;
 
+  float altitude;
   float temperature;
   float temperatureCold;
 
@@ -119,7 +120,7 @@ void loop() {
 
 
 void canbus::initialize() {
-  canbus::can.begin(CAN_1000KBPS, MCP_8MHz);
+  canbus::can.begin(CAN_500KBPS, MCP_8MHz);
 }
 
 

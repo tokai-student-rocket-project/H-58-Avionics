@@ -141,7 +141,7 @@ void loop() {
 
 
 void canbus::initialize() {
-  ACAN_STM32_Settings settings(1000000);
+  ACAN_STM32_Settings settings(500000);
   settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
   can.begin(settings);
 }
