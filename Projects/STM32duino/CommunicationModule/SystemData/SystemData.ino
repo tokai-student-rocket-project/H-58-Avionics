@@ -81,7 +81,7 @@ void setup() {
 
   canbus::initialize();
 
-  Tasks.add(timer::task10Hz)->startIntervalMsec(100);
+  Tasks.add(timer::task10Hz)->startFps(10);
 }
 
 

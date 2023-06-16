@@ -150,9 +150,9 @@ void setup() {
 
   canbus::initialize();
 
-  Tasks.add(timer::task10Hz)->startIntervalMsec(100);
-  Tasks.add(timer::task20Hz)->startIntervalMsec(50);
-  Tasks.add(timer::task100Hz)->startIntervalMsec(10);
+  Tasks.add(timer::task10Hz)->startFps(10);
+  Tasks.add(timer::task20Hz)->startFps(20);
+  Tasks.add(timer::task100Hz)->startFps(100);
 
   // メモリ切断処理
   // control::recorderPower.off();
@@ -181,7 +181,7 @@ void loop() {
   // SDが検知できなくなった時
   if (!recorder::doRecording && recorder::sd.isRunning() && recorder::cardDetection.isOpen()) {
     recorder::sd.end();
-    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startIntervalMsec(500);
+    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startFps(2);
   }
 
   if (can.available0()) {

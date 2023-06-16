@@ -39,7 +39,7 @@ namespace canbus {
 }
 
 namespace timer {
-  void task10Hz();
+  void task20Hz();
 }
 
 namespace indicator {
@@ -63,7 +63,7 @@ void setup() {
 
   canbus::initialize();
 
-  Tasks.add(timer::task10Hz)->startFps(20);
+  Tasks.add(timer::task20Hz)->startFps(20);
 }
 
 
@@ -130,7 +130,7 @@ void canbus::receiveVector(uint8_t* data, float* x, float* y, float* z) {
 }
 
 
-void timer::task10Hz() {
+void timer::task20Hz() {
   const auto& packet = MsgPacketizer::encode(
     0x00,
     data::altitude,
