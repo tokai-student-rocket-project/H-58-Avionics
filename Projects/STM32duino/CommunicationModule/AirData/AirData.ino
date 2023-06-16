@@ -39,7 +39,7 @@ namespace canbus {
 }
 
 namespace timer {
-  void task10Hz();
+  void task20Hz();
 }
 
 namespace indicator {
@@ -50,9 +50,6 @@ namespace indicator {
 
 namespace data {
   float altitude;
-  float acceleration_x, acceleration_y, acceleration_z;
-  float magnetometer_x, magnetometer_y, magnetometer_z;
-  float gyroscope_x, gyroscope_y, gyroscope_z;
   float orientation_x, orientation_y, orientation_z;
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 }
@@ -66,7 +63,7 @@ void setup() {
 
   canbus::initialize();
 
-  Tasks.add(timer::task10Hz)->startIntervalMsec(100);
+  Tasks.add(timer::task20Hz)->startFps(20);
 }
 
 
@@ -84,15 +81,6 @@ void loop() {
     case static_cast<uint32_t>(canbus::Id::ALTITUDE):
       canbus::receiveScalar(data, &data::altitude);
       break;
-    case static_cast<uint32_t>(canbus::Id::ACCELERATION):
-      canbus::receiveVector(data, &data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
-      break;
-    case static_cast<uint32_t>(canbus::Id::MAGNETOMETER):
-      canbus::receiveVector(data, &data::magnetometer_x, &data::magnetometer_y, &data::magnetometer_z);
-      break;
-    case static_cast<uint32_t>(canbus::Id::GYROSCOPE):
-      canbus::receiveVector(data, &data::gyroscope_x, &data::gyroscope_y, &data::gyroscope_z);
-      break;
     case static_cast<uint32_t>(canbus::Id::ORIENTATION):
       canbus::receiveVector(data, &data::orientation_x, &data::orientation_y, &data::orientation_z);
       break;
@@ -105,7 +93,7 @@ void loop() {
 
 
 void canbus::initialize() {
-  canbus::can.begin(CAN_1000KBPS, MCP_8MHz);
+  canbus::can.begin(CAN_500KBPS, MCP_8MHz);
 }
 
 
@@ -142,19 +130,10 @@ void canbus::receiveVector(uint8_t* data, float* x, float* y, float* z) {
 }
 
 
-void timer::task10Hz() {
+void timer::task20Hz() {
   const auto& packet = MsgPacketizer::encode(
     0x00,
     data::altitude,
-    data::acceleration_x,
-    data::acceleration_y,
-    data::acceleration_z,
-    data::magnetometer_x,
-    data::magnetometer_y,
-    data::magnetometer_z,
-    data::gyroscope_x,
-    data::gyroscope_y,
-    data::gyroscope_z,
     data::orientation_x,
     data::orientation_y,
     data::orientation_z,

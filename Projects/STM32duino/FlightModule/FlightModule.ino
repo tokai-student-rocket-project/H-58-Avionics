@@ -2,7 +2,6 @@
 #include <TaskManager.h>
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
-#include "Debugger.hpp"
 
 
 namespace canbus {
@@ -98,23 +97,14 @@ namespace data {
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 }
 
-namespace develop {
-  Debugger debugger;
-  // 開発中: ブートセレクトボタンに割り当ててある
-  PullupPin wakeUpButton(D12);
-  PullupPin ignitionButton(D5);
-}
-
 
 void setup() {
-  develop::debugger.initialize();
   canbus::initialize();
 
   flightMode::changeMode(flightMode::Mode::SLEEP);
-  develop::debugger.printMessage("BEGIN");
 
-  Tasks.add(timer::task10Hz)->startIntervalMsec(100);
-  Tasks.add(timer::task100Hz)->startIntervalMsec(10);
+  Tasks.add(timer::task10Hz)->startFps(10);
+  Tasks.add(timer::task100Hz)->startFps(100);
 
   Tasks.add("SeparatorDrogueAutoOff", timer::taskSeparatorDrogueAutoOff);
   Tasks.add("SeparatorMainAutoOff", timer::taskSeparatorMainAutoOff);
@@ -141,7 +131,7 @@ void loop() {
 
 
 void canbus::initialize() {
-  ACAN_STM32_Settings settings(1000000);
+  ACAN_STM32_Settings settings(500000);
   settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
   can.begin(settings);
 }
@@ -201,46 +191,37 @@ void flightMode::changeMode(flightMode::Mode nextMode) {
 
   switch (nextMode) {
   case (flightMode::Mode::SLEEP):
-    develop::debugger.printMessage("RESET");
     break;
 
   case (flightMode::Mode::STANDBY):
-    develop::debugger.printMessage("WAKE_UP");
     connection::camera.on();
     break;
 
   case (flightMode::Mode::THRUST):
-    develop::debugger.printMessage("IGNITION");
+    connection::camera.on();
     timer::setReferenceTime();
     break;
 
   case (flightMode::Mode::CLIMB):
-    develop::debugger.printMessage("BURNOUT");
     break;
 
   case (flightMode::Mode::DESCENT):
-    develop::debugger.printMessage("APOGEE");
     break;
 
   case (flightMode::Mode::DECEL):
-    develop::debugger.printMessage("1ST_SEPARATION");
     connection::sn3.on();
-    Tasks["SeparatorDrogueAutoOff"]->startOnceAfterMsec(1000);
+    Tasks["SeparatorDrogueAutoOff"]->startOnceAfterSec(3);
     break;
 
   case (flightMode::Mode::PARACHUTE):
-    develop::debugger.printMessage("2ND_SEPARATION");
-
     connection::sn4.on();
-    Tasks["SeparatorMainAutoOff"]->startOnceAfterMsec(1000);
+    Tasks["SeparatorMainAutoOff"]->startOnceAfterSec(3);
     break;
 
   case (flightMode::Mode::LAND):
-    develop::debugger.printMessage("LAND");
     break;
 
   case (flightMode::Mode::SHUTDOWN):
-    develop::debugger.printMessage("SHUTDOWN");
     connection::camera.off();
     break;
   }
@@ -277,13 +258,13 @@ void timer::task100Hz() {
 
   switch (flightMode::activeMode) {
   case (flightMode::Mode::SLEEP):
-    if (!develop::wakeUpButton.isOpen()) {
+    if (false) {
       flightMode::changeMode(flightMode::Mode::STANDBY);
     }
     break;
 
   case (flightMode::Mode::STANDBY):
-    if (!develop::ignitionButton.isOpen()) {
+    if (false) {
       flightMode::changeMode(flightMode::Mode::THRUST);
     }
     break;
@@ -325,7 +306,7 @@ void timer::task100Hz() {
     break;
 
   case (flightMode::Mode::SHUTDOWN):
-    if (!develop::ignitionButton.isOpen()) {
+    if (false) {
       flightMode::changeMode(flightMode::Mode::SLEEP);
     }
     break;

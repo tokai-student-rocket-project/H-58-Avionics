@@ -37,6 +37,7 @@ namespace canbus {
 
   void initialize();
   void receiveStatus(uint8_t* data, uint8_t* mode, uint8_t* camera, uint8_t* separatorDrogue, uint8_t* separatorMain);
+  void receiveScalar(uint8_t* data, float* value);
 }
 
 namespace timer {
@@ -61,6 +62,10 @@ namespace data {
   uint8_t separatorDrogue;
   uint8_t separatorMain;
 
+  float altitude;
+  float temperature;
+  float temperatureCold;
+
   float latitude;
   float longitude;
 }
@@ -76,7 +81,7 @@ void setup() {
 
   canbus::initialize();
 
-  Tasks.add(timer::task10Hz)->startIntervalMsec(100);
+  Tasks.add(timer::task10Hz)->startFps(10);
 }
 
 
@@ -97,6 +102,17 @@ void loop() {
         &data::camera,
         &data::separatorDrogue,
         &data::separatorMain);
+      Serial.println(data::mode);
+      break;
+    case 0x100:
+      canbus::receiveScalar(data, &data::temperature);
+      // Serial.print("temp: ");
+      // Serial.println(data::temperature);
+      break;
+    case 0x101:
+      canbus::receiveScalar(data, &data::temperatureCold);
+      // Serial.print("cold: ");
+      // Serial.println(data::temperatureCold);
       break;
     }
   }
@@ -104,7 +120,7 @@ void loop() {
 
 
 void canbus::initialize() {
-  canbus::can.begin(CAN_1000KBPS, MCP_8MHz);
+  canbus::can.begin(CAN_500KBPS, MCP_8MHz);
 }
 
 
@@ -113,6 +129,17 @@ void canbus::receiveStatus(uint8_t* data, uint8_t* mode, uint8_t* camera, uint8_
   *camera = data[1];
   *separatorDrogue = data[2];
   *separatorMain = data[3];
+
+  indicator::canReceive.toggle();
+}
+
+
+void canbus::receiveScalar(uint8_t* data, float* value) {
+  canbus::converter.data[0] = data[0];
+  canbus::converter.data[1] = data[1];
+  canbus::converter.data[2] = data[2];
+  canbus::converter.data[3] = data[3];
+  *value = canbus::converter.value;
 
   indicator::canReceive.toggle();
 }
