@@ -10,8 +10,8 @@ mcp2515_can CAN(SPI_CS_PIN);
 // unsigned char sample[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 union Converter
 {
-    float value;//, value1;
-    uint8_t data[4];//, data1[4];
+    float value, value1;
+    uint8_t data[4], data1[4];
 } converter;
 
 /* CAN Config END */
@@ -72,28 +72,30 @@ void setup()
     pinMode(REDE, OUTPUT);
     Torque(0x01, 0x01);
     delay(100);
-    Move(1, 900, 100);
+    // Move(1, 900, 100);
     delay(1100);
     Move(1, 0, 100);
 
     /* --- RS405CB END Config --- */
 
     SIGNAL_initialize();
+    pinMode(WaitingPin, INPUT_PULLUP);
+    pinMode(LaunchPin, INPUT_PULLUP);
     MAX31855_initialize();
 
     /* ---B3M Config--- */
 
     B3M.begin(); // B3Mと通信開始
     B3M_initialize();
-    B3M_setPosition(0x01, 9000, 1000);
-    delay(1000);
+    // B3M_setPosition(0x01, -7500, 1000);
+    delay(2000);
     B3M_setPosition(0x01, 0, 1000);
 
     /* ---B3M Config END--- */
 
     /* --- CAN --- */
 
-    CAN.begin(CAN_1000KBPS, MCP_8MHz);
+    CAN.begin(CAN_500KBPS, MCP_8MHz); //500KBPSに固定
     Serial.println("CAN init OK!");
 
     /* --- CAN Config END --- */
@@ -112,7 +114,7 @@ void setup()
                   Serial.print("WaitingCount: ");
                   Serial.println(WaitingCount); })
         ->startIntervalMsec(2); // 1/2*10^6 = 500Hz
-        //->startIntervalMsec(1000); // 1/1000*10^6 = 1Hz
+                                //->startIntervalMsec(1000); // 1/1000*10^6 = 1Hz
 }
 
 void loop()
@@ -135,9 +137,9 @@ void loop()
         LaunchCount = 0;
 
         Torque(0x01, 0x01);
-        Move(1, 900, 10);                // RS405CBを90度動作させる
-        delay(200);                      // 200ms 待機
-        B3M_setPosition(0x01, 9000, 10); // B3Mを90度(9000)動作させる
+        Move(1, -800, 10);                // RS405CBを-80度動作させる //供給と一緒に位置合わせを行った
+        delay(500);                       // 200ms 待機
+        B3M_setPosition(0x01, -6500, 10); // B3Mを-65度(-6500)動作させる
 
         Position = 2;
         delay(50);
@@ -158,8 +160,8 @@ void loop()
     {
         WaitingCount = 0;
 
-        Move(1, 0, 100);                // RS405CBを90度動作させる
-        delay(100);                     // 10ms 待機
+        Move(1, 0, 100);                // RS405CBを0度動作させる //供給と一緒に位置合わせを行った。
+        delay(500);                     // 10ms 待機
         B3M_setPosition(0x01, 0, 1000); // B3Mを0度(0000)動作させる
 
         Position = 1;
@@ -197,8 +199,8 @@ void loop()
     // Serial.print(converter.data[3]);
     // Serial.print(" || ");
 
-    // converter.value1 = myMAX31855.getColdJunctionTemperature(rawData);
-    // CAN.sendMsgBuf(0x101, 0, 4, converter.data1);
+    converter.value1 = myMAX31855.getColdJunctionTemperature(rawData);
+    CAN.sendMsgBuf(0x101, 0, 4, converter.data1);
     // Serial.print(converter.data1[0]);
     // Serial.print(" | ");
     // Serial.print(converter.data1[1]);
@@ -218,16 +220,16 @@ void loop()
 
     // rawData = myMAX31855.readRawData();
 
-    // Serial.print(LaunchCount);
-    // Serial.print(",");
-    // Serial.println(WaitingCount);
+    Serial.print(LaunchCount);
+    Serial.print(",");
+    Serial.println(WaitingCount);
 
     /*B3M テスト用*/
 
     // B3M_setPosition(0x01, -9000, 100); //B3Mを-90度(-9000)動作させる
-    // delay(1100);
+    // delay(2100);
     // B3M_setPosition(0x01, 9000, 100);
-    // delay(1100);
+    // delay(2100);
 
     /*B3M テスト用*/
 
@@ -235,9 +237,9 @@ void loop()
 
     // delay(100);
     // Move(1, 900, 50); // ID =1, GoalPosition = 90.0deg(900), Time = 0.5sec(50)
-    // delay(510);
+    // delay(2510);
     // Move(1, -900, 100); // ID =1, GoalPosition = -90.0deg(-900), Time = 1.0sec(100)
-    // delay(1100);
+    // delay(2100);
 
     /*RS405CB テスト用*/
 }
