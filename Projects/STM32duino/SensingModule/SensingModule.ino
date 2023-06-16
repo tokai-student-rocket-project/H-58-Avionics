@@ -136,7 +136,7 @@ void setup() {
     indicator::sdStatus.on();
   }
   else {
-    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startIntervalMsec(500);
+    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startFps(2);
   }
 
   Wire.setSDA(D4);
