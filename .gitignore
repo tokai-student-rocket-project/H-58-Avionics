@@ -13,3 +13,7 @@
 
 # パワポのいらないファイル
 ~$*.pptx
+
+# drawioの一時ファイル
+*.drawio.bkp
+*.drawio.dtmp

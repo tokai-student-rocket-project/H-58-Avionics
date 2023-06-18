@@ -1,0 +1,59 @@
+<mxfile host="Electron" modified="2023-06-18T15:35:32.331Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.4.0 Chrome/112.0.5615.204 Electron/24.5.1 Safari/537.36" etag="MWuTrRmXdJ1QnBqiFnro" version="21.4.0" type="device">
+  <diagram name="ページ1" id="iIt7GonljWwSr-FSgN26">
+    <mxGraphModel dx="989" dy="577" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="azLUQ-ruj2beEqADw0ZW-16">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="159.9999999999999" y="340" as="sourcePoint" />
+            <mxPoint x="200" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="azLUQ-ruj2beEqADw0ZW-17">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="159.47999999999988" y="400" as="sourcePoint" />
+            <mxPoint x="199.48" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="azLUQ-ruj2beEqADw0ZW-9">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="410" y="369.9655172413793" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-9" value="指数移動平均" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.logic_gates.lowpass_filter;" vertex="1" parent="1">
+          <mxGeometry x="320" y="347" width="52" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="azLUQ-ruj2beEqADw0ZW-13" target="azLUQ-ruj2beEqADw0ZW-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-13" value="規定回数以上&lt;br&gt;連続降下" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="530" y="350" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-16" value="気圧計測" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="320" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-17" value="気温計測" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="380" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-18" value="頂点検知" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="650" y="350" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" target="azLUQ-ruj2beEqADw0ZW-13">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="460.0000000000002" y="369.9999999999999" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="azLUQ-ruj2beEqADw0ZW-27" target="azLUQ-ruj2beEqADw0ZW-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-27" value="高度算出" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="350" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="azLUQ-ruj2beEqADw0ZW-35" value="変化量算出" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="410" y="350" width="80" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
