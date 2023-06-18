@@ -22,6 +22,7 @@ const long BAUNDRATE = 115200;
 const int TIMEOUT = 500;
 IcsHardSerialClass B3M(&Serial1, EN_PIN, BAUNDRATE, TIMEOUT);
 
+
 /* Memo */
 // HardwareSerial SerialX(RX, TX); X = 1, 2, 3...
 // HardwareSerial Serial1(PA_10, PA_9); // STM32F303K8
@@ -31,16 +32,20 @@ IcsHardSerialClass B3M(&Serial1, EN_PIN, BAUNDRATE, TIMEOUT);
 /*B3M Servo Config END*/
 
 /*RS405CB Servo Config START*/
-int REDE = 3;
+uint8_t REDE = 3;
+int Rs405cbCloseAngle = -800;
+int Rs405cbOpenAngle = 0;
 /*RS405CB Servo Config END*/
 
 /*Position Change Config START*/
 constexpr int POSITION_CHANGING_THRESHOLD = 1;
-int LaunchCount = 0;
-int WaitingCount = 0;
-int Position = 1;
-int WaitingPin = 8;
-int LaunchPin = 7;
+uint8_t LaunchCount = 0;
+uint8_t WaitingCount = 0;
+uint8_t Position = 1;
+uint8_t WaitingPin = 8;
+uint8_t LaunchPin = 7;
+
+
 /*Position Change Config END*/
 
 /*MAX31855 Config START*/
@@ -58,6 +63,7 @@ MAX31855 myMAX31855(5); // Chip Select PIN (CS)
 // 3Vo  -------- N/C
 // Vin  -------- 3~5V
 
+
 void setup()
 {
     // pinMode(A6, OUTPUT); // Busser I/O
@@ -74,7 +80,7 @@ void setup()
     delay(100);
     // Move(1, 900, 100);
     delay(1100);
-    Move(1, 0, 100);
+    Move(1, Rs405cbOpenAngle, 100);
 
     /* --- RS405CB END Config --- */
 
@@ -138,7 +144,7 @@ void loop()
 
         Torque(0x01, 0x01);
         Move(1, -800, 10);                // RS405CBを-80度動作させる //供給と一緒に位置合わせを行った
-        delay(500);                       // 200ms 待機
+        delay(200);                       // 200ms 待機
         B3M_setPosition(0x01, -6500, 10); // B3Mを-65度(-6500)動作させる
 
         Position = 2;
@@ -161,7 +167,7 @@ void loop()
         WaitingCount = 0;
 
         Move(1, 0, 100);                // RS405CBを0度動作させる //供給と一緒に位置合わせを行った。
-        delay(500);                     // 10ms 待機
+        delay(500);                     // 500ms 待機
         B3M_setPosition(0x01, 0, 1000); // B3Mを0度(0000)動作させる
 
         Position = 1;
@@ -169,7 +175,6 @@ void loop()
     }
 
     MAX31855_errornotification(); // MAX31855 のエラーをお知らせ
-    // FILLING_confirmation();
 
     // sample[7] = sample[7] + 1;
 
@@ -220,9 +225,9 @@ void loop()
 
     // rawData = myMAX31855.readRawData();
 
-    Serial.print(LaunchCount);
-    Serial.print(",");
-    Serial.println(WaitingCount);
+    //Serial.print(LaunchCount);
+    //Serial.print(",");
+    //Serial.println(WaitingCount);
 
     /*B3M テスト用*/
 
@@ -243,6 +248,7 @@ void loop()
 
     /*RS405CB テスト用*/
 }
+
 
 int B3M_writeCommand(byte id, byte TxData, byte Address)
 {
@@ -398,13 +404,8 @@ void Move(unsigned char ID, int Angle, int Speed)
     digitalWrite(REDE, LOW);
 }
 
-void LED_blink()
-{
-    delay(100);
-    digitalWrite(13, HIGH);
-    delay(100);
-    digitalWrite(13, LOW);
-    delay(100);
+bool CheckStatus(){
+    if()
 }
 
 void B3M_initialize()
