@@ -19,7 +19,10 @@ namespace canbus {
     ORIENTATION,
     LINEAR_ACCELERATION,
     GRAVITY,
-    STATUS
+    STATUS,
+    VOLTAGE_SUPPLY,
+    VOLTAGE_BATTERY,
+    VOLTAGE_POOL
   };
 
   enum class Axis : uint8_t {
@@ -62,7 +65,8 @@ namespace data {
   uint8_t separatorDrogue;
   uint8_t separatorMain;
 
-  float altitude;
+  float voltage_supply, voltage_battery, voltage_pool;
+
   float temperature;
   float temperatureCold;
 
@@ -102,18 +106,26 @@ void loop() {
         &data::camera,
         &data::separatorDrogue,
         &data::separatorMain);
-      Serial.println(data::mode);
       break;
-    case 0x100:
-      canbus::receiveScalar(data, &data::temperature);
-      // Serial.print("temp: ");
-      // Serial.println(data::temperature);
+    case static_cast<uint32_t>(canbus::Id::VOLTAGE_SUPPLY):
+      canbus::receiveScalar(data, &data::voltage_supply);
       break;
-    case 0x101:
-      canbus::receiveScalar(data, &data::temperatureCold);
-      // Serial.print("cold: ");
-      // Serial.println(data::temperatureCold);
+    case static_cast<uint32_t>(canbus::Id::VOLTAGE_BATTERY):
+      canbus::receiveScalar(data, &data::voltage_battery);
       break;
+    case static_cast<uint32_t>(canbus::Id::VOLTAGE_POOL):
+      canbus::receiveScalar(data, &data::voltage_pool);
+      break;
+      // case 0x100:
+      //   canbus::receiveScalar(data, &data::temperature);
+        // Serial.print("temp: ");
+        // Serial.println(data::temperature);
+        // break;
+      // case 0x101:
+      //   canbus::receiveScalar(data, &data::temperatureCold);
+        // Serial.print("cold: ");
+        // Serial.println(data::temperatureCold);
+        // break;
     }
   }
 }
@@ -159,6 +171,9 @@ void timer::task10Hz() {
     data::camera,
     data::separatorDrogue,
     data::separatorMain,
+    data::voltage_supply,
+    data::voltage_battery,
+    data::voltage_pool,
     data::latitude,
     data::longitude
   );

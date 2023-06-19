@@ -2,6 +2,7 @@
 #include <TaskManager.h>
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
+#include "AnalogVoltage.hpp"
 
 
 namespace canbus {
@@ -15,7 +16,10 @@ namespace canbus {
     ORIENTATION,
     LINEAR_ACCELERATION,
     GRAVITY,
-    STATUS
+    STATUS,
+    VOLTAGE_SUPPLY,
+    VOLTAGE_BATTERY,
+    VOLTAGE_POOL
   };
 
   enum class Axis : uint8_t {
@@ -31,6 +35,7 @@ namespace canbus {
 
   void initialize();
   void sendStatus(canbus::Id id, uint8_t mode);
+  void sendScalar(canbus::Id id, float value);
   void receiveScalar(CANMessage message, float* value);
   void receiveVector(CANMessage message, float* x, float* y, float* z);
 }
@@ -72,6 +77,12 @@ namespace timer {
   void taskSeparatorMainAutoOff();
 }
 
+namespace sensor {
+  AnalogVoltage supply(A7);
+  AnalogVoltage battery(A2);
+  AnalogVoltage pool(A3);
+}
+
 namespace indicator {
   OutputPin canSend(D0);
   OutputPin canReceive(D1);
@@ -95,10 +106,19 @@ namespace connection {
 namespace data {
   float altitude;
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
+
+  float voltage_supply, voltage_battery, voltage_pool;
 }
 
 
 void setup() {
+  analogReadResolution(12);
+  sensor::supply.setResistance(3300, 750);
+  sensor::battery.setResistance(4700, 820);
+  sensor::pool.setResistance(5600, 820);
+
+  Serial.println(sensor::pool.voltage());
+
   canbus::initialize();
 
   flightMode::changeMode(flightMode::Mode::SLEEP);
@@ -146,6 +166,23 @@ void canbus::sendStatus(canbus::Id id, uint8_t mode) {
   message.data[1] = connection::camera.get();
   message.data[2] = connection::sn3.get();
   message.data[3] = connection::sn4.get();;
+
+  can.tryToSendReturnStatus(message);
+
+  indicator::canSend.toggle();
+}
+
+
+void canbus::sendScalar(canbus::Id id, float value) {
+  CANMessage message;
+  message.id = static_cast<uint32_t>(id);
+  message.len = 4;
+
+  canbus::converter.value = value;
+  message.data[0] = canbus::converter.data[0];
+  message.data[1] = canbus::converter.data[1];
+  message.data[2] = canbus::converter.data[2];
+  message.data[3] = canbus::converter.data[3];
 
   can.tryToSendReturnStatus(message);
 
@@ -244,6 +281,14 @@ bool timer::isElapsedTime(uint32_t time) {
 
 void timer::task10Hz() {
   canbus::sendStatus(canbus::Id::STATUS, static_cast<uint8_t>(flightMode::activeMode));
+
+  data::voltage_supply = sensor::supply.voltage();
+  data::voltage_battery = sensor::battery.voltage();
+  data::voltage_pool = sensor::pool.voltage();
+
+  canbus::sendScalar(canbus::Id::VOLTAGE_SUPPLY, data::voltage_supply);
+  canbus::sendScalar(canbus::Id::VOLTAGE_BATTERY, data::voltage_battery);
+  canbus::sendScalar(canbus::Id::VOLTAGE_POOL, data::voltage_pool);
 }
 
 
