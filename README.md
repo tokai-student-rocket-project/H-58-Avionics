@@ -5,6 +5,7 @@
 - [工程計画書](./Documents/Materials/Schedule.md)
 - [要件定義書](./Documents/Materials/RequirementsDocument.md)
 - [基本設計書](./Documents/Materials/BasicDesignDocument.md)
+- [詳細設計書](./Documents/Materials/DetailedDesignDocument.md)
 
 ### 開発資料
 
