@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP UDB-05LFPN
+D MT BUZZER SINGLE 5VDC PIN NORYL
+K
+F https://www.db.com.hk/magnetic-buzzer
+$ENDCMP
+#
+#End Doc Library
