@@ -21,8 +21,8 @@
                         <mxPoint x="24" y="7" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="17" value="CAN通信実証モジュール" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" parent="1" vertex="1">
-                    <mxGeometry x="-800" y="40" width="230" height="60" as="geometry"/>
+                <mxCell id="17" value="機体間通信実証モジュール" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" parent="1" vertex="1">
+                    <mxGeometry x="-800" y="40" width="250" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="36" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=3;endFill=0;" parent="1" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">

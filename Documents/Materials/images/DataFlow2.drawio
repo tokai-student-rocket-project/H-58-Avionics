@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="ページ1" id="ODrPmbd-owSrHWYyJO7F">
-        <mxGraphModel dx="2990" dy="820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2157" dy="424" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -117,6 +117,16 @@
                 <mxCell id="4ESrfmdc0MQb4VluyIVh-77" value="熱電対制御" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="-540" y="660" width="95" height="40" as="geometry"/>
                 </mxCell>
+                <mxCell id="3" style="edgeStyle=none;html=1;strokeWidth=3;fillColor=#f8cecc;strokeColor=#b85450;" edge="1" parent="1" source="4ESrfmdc0MQb4VluyIVh-62">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-170" y="600" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="5" value="&lt;ul&gt;&lt;li style=&quot;&quot;&gt;角度&lt;/li&gt;&lt;li style=&quot;&quot;&gt;速度&lt;/li&gt;&lt;/ul&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="3">
+                    <mxGeometry x="0.6596" relative="1" as="geometry">
+                        <mxPoint x="-17" y="40" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
                 <mxCell id="4ESrfmdc0MQb4VluyIVh-78" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=3;endFill=0;startArrow=none;startFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="4ESrfmdc0MQb4VluyIVh-70" target="4ESrfmdc0MQb4VluyIVh-77" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="-510" y="500" as="sourcePoint"/>
@@ -221,6 +231,14 @@
                 </mxCell>
                 <mxCell id="dZTlF90LN_YW0uTTz98g-18" value="ミッションモジュール" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;" parent="1" vertex="1">
                     <mxGeometry x="-800" y="40" width="210" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" style="edgeStyle=none;html=1;strokeWidth=3;fillColor=none;" edge="1" parent="1" source="4ESrfmdc0MQb4VluyIVh-62">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-249.99999999999977" y="600" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="6" value="サーボモーター" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="-160" y="580" width="100" height="40" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
