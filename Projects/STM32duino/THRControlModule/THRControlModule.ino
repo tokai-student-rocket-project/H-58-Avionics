@@ -123,7 +123,7 @@ void loop()
     Tasks.update();
 
     rawData = myMAX31855.readRawData();
-
+/*↓ここを100Hzで回す*/
     if (Position == 1 && digitalRead(LaunchPin) == LOW)
     {
         LaunchCount++;
@@ -493,5 +493,5 @@ void SIGNAL_initialize()
 
 void LaunchCount()
 {
-    
+
 }
