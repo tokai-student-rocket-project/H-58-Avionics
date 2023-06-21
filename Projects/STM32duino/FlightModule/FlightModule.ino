@@ -2,6 +2,7 @@
 #include "CANSTM.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
+#include "Shiranui.hpp"
 #include "AnalogVoltage.hpp"
 
 
@@ -38,8 +39,6 @@ namespace timer {
 
   void task10Hz();
   void task100Hz();
-  void taskSeparatorDrogueAutoOff();
-  void taskSeparatorMainAutoOff();
 }
 
 namespace sensor {
@@ -64,8 +63,8 @@ namespace indicator {
 
 namespace control {
   OutputPin camera(D9);
-  OutputPin sn3(A0);
-  OutputPin sn4(D13);
+  Shiranui sn3(A0, "drogue");
+  Shiranui sn4(D13, "main");
 }
 
 namespace connection {
@@ -110,9 +109,6 @@ void setup() {
 
   Tasks.add(timer::task10Hz)->startFps(10);
   Tasks.add(timer::task100Hz)->startFps(100);
-
-  Tasks.add("SeparatorDrogueAutoOff", timer::taskSeparatorDrogueAutoOff);
-  Tasks.add("SeparatorMainAutoOff", timer::taskSeparatorMainAutoOff);
 }
 
 
@@ -139,6 +135,7 @@ void flightMode::changeMode(flightMode::Mode nextMode) {
 
   switch (nextMode) {
   case (flightMode::Mode::SLEEP):
+    control::camera.off();
     break;
 
   case (flightMode::Mode::STANDBY):
@@ -157,13 +154,11 @@ void flightMode::changeMode(flightMode::Mode nextMode) {
     break;
 
   case (flightMode::Mode::DECEL):
-    control::sn3.on();
-    Tasks["SeparatorDrogueAutoOff"]->startOnceAfterSec(3);
+    control::sn3.separate();
     break;
 
   case (flightMode::Mode::PARACHUTE):
-    control::sn4.on();
-    Tasks["SeparatorMainAutoOff"]->startOnceAfterSec(3);
+    control::sn4.separate();
     break;
 
   case (flightMode::Mode::LAND):
@@ -197,7 +192,6 @@ void timer::task10Hz() {
     control::sn3.get(),
     control::sn4.get()
   );
-  indicator::canSend.toggle();
 
   // デバッグ中はピンが干渉するので電圧監視を行わない
   if (!develop::isDebugMode) {
@@ -277,16 +271,6 @@ void timer::task100Hz() {
     }
     break;
   }
-}
-
-
-void timer::taskSeparatorDrogueAutoOff() {
-  control::sn3.off();
-}
-
-
-void timer::taskSeparatorMainAutoOff() {
-  control::sn4.off();
 }
 
 
