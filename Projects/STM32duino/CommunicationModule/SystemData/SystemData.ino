@@ -24,7 +24,7 @@ namespace indicator {
   OutputPin gpsStatus(5);
 }
 
-namespace interface {
+namespace connection {
   CANMCP can(7);
 }
 
@@ -46,7 +46,7 @@ void setup() {
 
   sensor::gnss.begin();
 
-  interface::can.begin();
+  connection::can.begin();
 
   Tasks.add(timer::task10Hz)->startFps(10);
 }
@@ -55,19 +55,19 @@ void setup() {
 void loop() {
   Tasks.update();
 
-  if (interface::can.available()) {
-    switch (interface::can.getLatestLabel()) {
+  if (connection::can.available()) {
+    switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::STATUS:
-      interface::can.receiveStatus(&data::mode, &data::camera, &data::sn3, &data::sn4);
+      connection::can.receiveStatus(&data::mode, &data::camera, &data::sn3, &data::sn4);
       break;
     case CANMCP::Label::VOLTAGE_SUPPLY:
-      interface::can.receiveScalar(&data::voltage_supply);
+      connection::can.receiveScalar(&data::voltage_supply);
       break;
     case CANMCP::Label::VOLTAGE_BATTERY:
-      interface::can.receiveScalar(&data::voltage_battery);
+      connection::can.receiveScalar(&data::voltage_battery);
       break;
     case CANMCP::Label::VOLTAGE_POOL:
-      interface::can.receiveScalar(&data::voltage_pool);
+      connection::can.receiveScalar(&data::voltage_pool);
       break;
     }
 

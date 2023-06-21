@@ -16,7 +16,7 @@ namespace indicator {
   OutputPin loRaSend(4);
 }
 
-namespace interface {
+namespace connection {
   CANMCP can(7);
 }
 
@@ -33,7 +33,7 @@ void setup() {
   LoRa.begin(923.8E6);
   LoRa.setSignalBandwidth(500E3);
 
-  interface::can.begin();
+  connection::can.begin();
 
   Tasks.add(timer::task20Hz)->startFps(20);
 }
@@ -42,16 +42,16 @@ void setup() {
 void loop() {
   Tasks.update();
 
-  if (interface::can.available()) {
-    switch (interface::can.getLatestLabel()) {
+  if (connection::can.available()) {
+    switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::ALTITUDE:
-      interface::can.receiveScalar(&data::altitude);
+      connection::can.receiveScalar(&data::altitude);
       break;
     case CANMCP::Label::ORIENTATION:
-      interface::can.receiveVector(&data::orientation_x, &data::orientation_y, &data::orientation_z);
+      connection::can.receiveVector(&data::orientation_x, &data::orientation_y, &data::orientation_z);
       break;
     case CANMCP::Label::LINEAR_ACCELERATION:
-      interface::can.receiveVector(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
+      connection::can.receiveVector(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
       break;
     }
 

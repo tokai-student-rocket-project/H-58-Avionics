@@ -46,6 +46,8 @@ namespace sensor {
   // AnalogVoltage supply(A7);
   AnalogVoltage battery(A2);
   AnalogVoltage pool(A3);
+
+  PullupPin flightPin(D11);
 }
 
 namespace indicator {
@@ -60,13 +62,13 @@ namespace indicator {
   void indicateFlightMode(flightMode::Mode mode);
 }
 
-namespace connection {
+namespace control {
   OutputPin camera(D9);
   OutputPin sn3(A0);
   OutputPin sn4(D13);
+}
 
-  PullupPin flightPin(D11);
-
+namespace connection {
   CANSTM can;
 }
 
@@ -124,11 +126,11 @@ void flightMode::changeMode(flightMode::Mode nextMode) {
     break;
 
   case (flightMode::Mode::STANDBY):
-    connection::camera.on();
+    control::camera.on();
     break;
 
   case (flightMode::Mode::THRUST):
-    connection::camera.on();
+    control::camera.on();
     timer::setReferenceTime();
     break;
 
@@ -139,12 +141,12 @@ void flightMode::changeMode(flightMode::Mode nextMode) {
     break;
 
   case (flightMode::Mode::DECEL):
-    connection::sn3.on();
+    control::sn3.on();
     Tasks["SeparatorDrogueAutoOff"]->startOnceAfterSec(3);
     break;
 
   case (flightMode::Mode::PARACHUTE):
-    connection::sn4.on();
+    control::sn4.on();
     Tasks["SeparatorMainAutoOff"]->startOnceAfterSec(3);
     break;
 
@@ -152,7 +154,7 @@ void flightMode::changeMode(flightMode::Mode nextMode) {
     break;
 
   case (flightMode::Mode::SHUTDOWN):
-    connection::camera.off();
+    control::camera.off();
     break;
   }
 
@@ -175,9 +177,9 @@ bool timer::isElapsedTime(uint32_t time) {
 void timer::task10Hz() {
   connection::can.sendStatus(CANSTM::Label::STATUS,
     static_cast<uint8_t>(flightMode::activeMode),
-    connection::camera.get(),
-    connection::sn3.get(),
-    connection::sn4.get()
+    control::camera.get(),
+    control::sn3.get(),
+    control::sn4.get()
   );
   indicator::canSend.toggle();
 
@@ -193,11 +195,11 @@ void timer::task10Hz() {
 
 
 void timer::task100Hz() {
-  if (connection::flightPin.isOpen() && (flightMode::activeMode == flightMode::Mode::SLEEP || flightMode::activeMode == flightMode::Mode::STANDBY)) {
+  if (sensor::flightPin.isOpen() && (flightMode::activeMode == flightMode::Mode::SLEEP || flightMode::activeMode == flightMode::Mode::STANDBY)) {
     flightMode::changeMode(flightMode::Mode::THRUST);
   }
 
-  if (!connection::flightPin.isOpen()) {
+  if (!sensor::flightPin.isOpen()) {
     flightMode::changeMode(flightMode::Mode::SLEEP);
   }
 
@@ -262,12 +264,12 @@ void timer::task100Hz() {
 
 
 void timer::taskSeparatorDrogueAutoOff() {
-  connection::sn3.off();
+  control::sn3.off();
 }
 
 
 void timer::taskSeparatorMainAutoOff() {
-  connection::sn4.off();
+  control::sn4.off();
 }
 
 

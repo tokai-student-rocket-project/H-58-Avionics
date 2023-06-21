@@ -44,10 +44,9 @@ namespace control {
   OutputPin recorderPower(5);
 }
 
-namespace interface {
+namespace connection {
   CANMCP can(7);
 }
-
 
 namespace data {
   uint8_t mode;
@@ -81,7 +80,7 @@ void setup() {
 
   sensor::adxl.begin();
 
-  interface::can.begin();
+  connection::can.begin();
 
   Tasks.add(timer::task50Hz)->startFps(50);
   Tasks.add(timer::task1k2Hz)->startFps(1200);
@@ -105,10 +104,10 @@ void loop() {
     Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startFps(2);
   }
 
-  if (interface::can.available()) {
-    switch (interface::can.getLatestLabel()) {
+  if (connection::can.available()) {
+    switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::STATUS:
-      interface::can.receiveStatus(&data::mode, &data::camera, &data::sn3, &data::sn4);
+      connection::can.receiveStatus(&data::mode, &data::camera, &data::sn3, &data::sn4);
       break;
     }
 
