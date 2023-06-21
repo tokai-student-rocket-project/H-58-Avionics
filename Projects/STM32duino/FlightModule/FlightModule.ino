@@ -43,7 +43,7 @@ namespace timer {
 }
 
 namespace sensor {
-  // AnalogVoltage supply(A7);
+  AnalogVoltage supply(A7);
   AnalogVoltage battery(A2);
   AnalogVoltage pool(A3);
 
@@ -79,14 +79,30 @@ namespace data {
   float voltage_supply, voltage_battery, voltage_pool;
 }
 
+namespace develop {
+  PullupPin debugMode(D12);
+
+  bool isDebugMode;
+}
+
 
 void setup() {
-  Serial.begin(115200);
+  // 起動モードの判定
+  develop::isDebugMode = !develop::debugMode.isOpen();
 
-  analogReadResolution(12);
-  // sensor::supply.setResistance(3300, 750);
-  sensor::battery.setResistance(4700, 820);
-  sensor::pool.setResistance(5600, 820);
+  // デバッグ用シリアルポートの準備
+  if (develop::isDebugMode) {
+    Serial.begin(115200);
+    delay(800);
+  }
+
+  // デバッグ中はピンが干渉するので電圧監視を行わない
+  if (!develop::isDebugMode) {
+    analogReadResolution(12);
+    sensor::supply.begin(3300, 750);
+    sensor::battery.begin(4700, 820);
+    sensor::pool.begin(5600, 820);
+  }
 
   connection::can.begin();
 
@@ -183,9 +199,12 @@ void timer::task10Hz() {
   );
   indicator::canSend.toggle();
 
-  // data::voltage_supply = sensor::supply.voltage();
-  data::voltage_battery = sensor::battery.voltage();
-  data::voltage_pool = sensor::pool.voltage();
+  // デバッグ中はピンが干渉するので電圧監視を行わない
+  if (!develop::isDebugMode) {
+    data::voltage_supply = sensor::supply.voltage();
+    data::voltage_battery = sensor::battery.voltage();
+    data::voltage_pool = sensor::pool.voltage();
+  }
 
   connection::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltage_supply);
   connection::can.sendScalar(CANSTM::Label::VOLTAGE_BATTERY, data::voltage_battery);
@@ -258,8 +277,6 @@ void timer::task100Hz() {
     }
     break;
   }
-
-  Serial.println(data::linear_acceleration_x);
 }
 
 

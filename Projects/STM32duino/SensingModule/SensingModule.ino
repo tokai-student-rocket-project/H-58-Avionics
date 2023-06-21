@@ -91,12 +91,11 @@ void setup() {
   // 起動モードの判定
   develop::isDebugMode = !develop::debugMode.isOpen();
 
-
   // デバッグ用シリアルポートの準備
   if (develop::isDebugMode) {
     Serial.begin(115200);
+    delay(800);
   }
-
 
   // 開発中: 保存は常に行う表示
   control::recorderPower.on();
