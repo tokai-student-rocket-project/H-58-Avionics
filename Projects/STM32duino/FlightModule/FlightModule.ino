@@ -86,7 +86,7 @@ void setup() {
   sensor::battery.setResistance(4700, 820);
   sensor::pool.setResistance(5600, 820);
 
-  connection::can.begin(500000);
+  connection::can.begin();
 
   flightMode::changeMode(flightMode::Mode::SLEEP);
 
