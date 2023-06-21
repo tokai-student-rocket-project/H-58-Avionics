@@ -5,6 +5,7 @@
 #include "Thermistor.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
+#include "Blinker.hpp"
 #include "FRAM.hpp"
 #include "Sd.hpp"
 
@@ -27,8 +28,6 @@ namespace timer {
   void task10Hz();
   void task20Hz();
   void task100Hz();
-
-  void invalidSdBlink();
 }
 
 namespace sensor {
@@ -50,7 +49,7 @@ namespace recorder {
 namespace indicator {
   OutputPin canSend(D12);
   OutputPin canReceive(D11);
-  OutputPin sdStatus(D9);
+  Blinker sdStatus(D9, "invalidSd");
   OutputPin recorderStatus(D6);
 }
 
@@ -110,7 +109,7 @@ void setup() {
     indicator::sdStatus.on();
   }
   else {
-    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startFps(2);
+    indicator::sdStatus.startBlink(2);
   }
 
   Wire.setSDA(D4);
@@ -148,14 +147,14 @@ void loop() {
   // SDを新しく検知した時
   if (!recorder::doRecording && !recorder::sd.isRunning() && !recorder::cardDetection.isOpen()) {
     recorder::sd.begin();
-    Tasks.erase("invalidSdBlink");
+    indicator::sdStatus.stopBlink();
     indicator::sdStatus.on();
   }
 
   // SDが検知できなくなった時
   if (!recorder::doRecording && recorder::sd.isRunning() && recorder::cardDetection.isOpen()) {
     recorder::sd.end();
-    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startFps(2);
+    indicator::sdStatus.startBlink(2);
   }
 
   if (connection::can.available()) {
@@ -196,9 +195,4 @@ void timer::task100Hz() {
 
   connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
   indicator::canSend.toggle();
-}
-
-
-void timer::invalidSdBlink() {
-  indicator::sdStatus.toggle();
 }

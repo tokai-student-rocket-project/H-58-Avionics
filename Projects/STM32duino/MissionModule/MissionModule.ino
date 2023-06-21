@@ -6,6 +6,7 @@
 #include "CANMCP.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
+#include "Blinker.hpp"
 #include "ADXL375.hpp"
 #include "Sd.hpp"
 
@@ -15,8 +16,6 @@ namespace timer {
 
   void task50Hz();
   void task1k2Hz();
-
-  void invalidSdBlink();
 }
 
 namespace sensor {
@@ -36,7 +35,7 @@ namespace indicator {
 
   OutputPin loRaSend(A1);
 
-  OutputPin sdStatus(4);
+  Blinker sdStatus(4, "invalidSd");
   OutputPin recorderStatus(2);
 }
 
@@ -72,7 +71,7 @@ void setup() {
     indicator::sdStatus.on();
   }
   else {
-    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startFps(2);
+    indicator::sdStatus.startBlink(2);
   }
 
   Wire.begin();
@@ -94,14 +93,14 @@ void loop() {
   // SDを新しく検知した時
   if (!recorder::sd.isRunning() && !recorder::cardDetection.isOpen()) {
     recorder::sd.begin();
-    Tasks.erase("invalidSdBlink");
+    indicator::sdStatus.stopBlink();
     indicator::sdStatus.on();
   }
 
   // SDが検知できなくなった時
   if (recorder::sd.isRunning() && recorder::cardDetection.isOpen()) {
     recorder::sd.end();
-    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startFps(2);
+    indicator::sdStatus.startBlink(2);
   }
 
   if (connection::can.available()) {
@@ -133,9 +132,4 @@ void timer::task50Hz() {
 
 void timer::task1k2Hz() {
   sensor::adxl.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
-}
-
-
-void timer::invalidSdBlink() {
-  indicator::sdStatus.toggle();
 }
