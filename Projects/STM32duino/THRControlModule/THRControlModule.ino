@@ -22,7 +22,6 @@ const long BAUNDRATE = 115200;
 const int TIMEOUT = 500;
 IcsHardSerialClass B3M(&Serial1, EN_PIN, BAUNDRATE, TIMEOUT);
 
-
 /* Memo */
 // HardwareSerial SerialX(RX, TX); X = 1, 2, 3...
 // HardwareSerial Serial1(PA_10, PA_9); // STM32F303K8
@@ -83,8 +82,6 @@ void setup()
     /* --- RS405CB END Config --- */
 
     SIGNAL_initialize();
-    pinMode(WaitingPin, INPUT_PULLUP);
-    pinMode(LaunchPin, INPUT_PULLUP);
     MAX31855_initialize();
 
     /* ---B3M Config--- */
@@ -106,19 +103,19 @@ void setup()
 
     Tasks.add("task", []()
               {
-                  Serial.print("Temperature: ");
-                  Serial.print(myMAX31855.getTemperature(rawData));
-                  Serial.print(" | ");
-                  Serial.print("ColdJunctionTemperature: ");
-                  Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
-                  Serial.print(" | ");
-                  Serial.print("LaunchCount: ");
-                  Serial.print(LaunchCount);
-                  Serial.print(" | ");
-                  Serial.print("WaitingCount: ");
-                  Serial.println(WaitingCount); })
-        ->startIntervalMsec(10); // 1/10*10^-3 = 100Hz
-                                 //->startIntervalMsec(1000); // 1/1000*10^-3 = 1Hz
+                // Serial.print("Temperature: ");
+                // Serial.print(myMAX31855.getTemperature(rawData));
+                // Serial.print(" | ");
+                // Serial.print("ColdJunctionTemperature: ");
+                // Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
+                // Serial.print(" | ");
+                Serial.print("LaunchCount: ");
+                Serial.print(LaunchCount);
+                Serial.print(" | ");
+                Serial.print("WaitingCount: ");
+                Serial.println(WaitingCount); })
+        ->startFps(100); // 1/10*10^-3 = 100Hz
+                         //->startIntervalMsec(1000); // 1/1000*10^-3 = 1Hz
 }
 
 void loop()
@@ -139,7 +136,7 @@ void loop()
     if (LaunchCount >= POSITION_CHANGING_THRESHOLD)
     {
         LaunchCount = 0;
-
+        Serial.println("Launch!!");
         Torque(0x01, 0x01);
         Move(1, -800, 10);                // RS405CBを-80度動作させる //供給と一緒に位置合わせを行った
         delay(200);                       // 200ms 待機
@@ -174,7 +171,7 @@ void loop()
     if (WaitingCount >= POSITION_CHANGING_THRESHOLD)
     {
         WaitingCount = 0;
-
+        Serial.println("Waiting!!");
         Move(1, 0, 100);                // RS405CBを0度動作させる //供給と一緒に位置合わせを行った。
         delay(500);                     // 500ms 待機
         B3M_setPosition(0x01, 0, 1000); // B3Mを0度(0000)動作させる
@@ -210,7 +207,6 @@ void loop()
     // }
 
     // send data:  id = 0x100, standrad frame, data len = 8, stmp: data buf
-
     converter.value = myMAX31855.getTemperature(rawData);
     CAN.sendMsgBuf(0x100, 0, 4, converter.data);
     // Serial.print("CANmsg: ");
@@ -233,8 +229,6 @@ void loop()
     // Serial.print(" | ");
     // Serial.print(converter.data1[3]);
     // Serial.println(" | ");
-
-    delay(100);
 
     // digitalWrite(A6, HIGH);
     // delay(1000);
@@ -490,6 +484,14 @@ void FILLING_confirmation()
 
 void SIGNAL_initialize()
 {
-    pinMode(WaitingPin, INPUT_PULLUP);
+    uint8_t LaunchPin = 7;
+    uint8_t WaitingPin = 8;
+
     pinMode(LaunchPin, INPUT_PULLUP);
+    pinMode(WaitingPin, INPUT_PULLUP);
+}
+
+void LaunchCount()
+{
+    
 }
