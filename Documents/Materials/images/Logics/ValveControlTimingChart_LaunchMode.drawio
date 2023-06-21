@@ -71,14 +71,14 @@
                 <mxCell id="31" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fontSize=12;" parent="1" vertex="1">
                     <mxGeometry x="295" y="160" width="10" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="37" value="OPEN" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=12;entryX=-0.044;entryY=0.013;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="31" edge="1">
+                <mxCell id="37" value="開" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=12;entryX=-0.044;entryY=0.013;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="31" edge="1">
                     <mxGeometry width="80" relative="1" as="geometry">
                         <mxPoint x="95" y="160" as="sourcePoint"/>
                         <mxPoint x="175" y="160" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="38" value="OPEN検知" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;" parent="1" vertex="1">
-                    <mxGeometry x="305" y="160" width="80" height="30" as="geometry"/>
+                <mxCell id="38" value="開検知" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="315" y="160" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="45" style="edgeStyle=none;rounded=0;html=1;dashed=1;fontSize=12;endArrow=none;endFill=0;" parent="1" source="39" target="44" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
@@ -86,16 +86,16 @@
                 <mxCell id="39" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fontSize=12;" parent="1" vertex="1">
                     <mxGeometry x="295" y="280" width="10" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="41" value="OPEN" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=12;entryX=-0.044;entryY=0.013;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1">
+                <mxCell id="41" value="開" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=12;entryX=-0.044;entryY=0.013;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1">
                     <mxGeometry width="80" relative="1" as="geometry">
                         <mxPoint x="95.44" y="280" as="sourcePoint"/>
                         <mxPoint x="294.99999999999994" y="280.52" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="42" value="OPEN検知&lt;br&gt;1回目" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;" parent="1" vertex="1">
-                    <mxGeometry x="305" y="275" width="80" height="40" as="geometry"/>
+                <mxCell id="42" value="開検知&lt;br&gt;1回目" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="315" y="275" width="60" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="43" value="OPEN" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=12;entryX=-0.044;entryY=0.013;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1">
+                <mxCell id="43" value="開" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;fontSize=12;entryX=-0.044;entryY=0.013;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1">
                     <mxGeometry width="80" relative="1" as="geometry">
                         <mxPoint x="95.00000000000006" y="400" as="sourcePoint"/>
                         <mxPoint x="294.56" y="400.52" as="targetPoint"/>
@@ -107,8 +107,8 @@
                 <mxCell id="44" value="" style="html=1;points=[];perimeter=orthogonalPerimeter;fontSize=12;" parent="1" vertex="1">
                     <mxGeometry x="295" y="400" width="10" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="46" value="OPEN検知&lt;br&gt;3回目" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;" parent="1" vertex="1">
-                    <mxGeometry x="305" y="400" width="80" height="40" as="geometry"/>
+                <mxCell id="46" value="開検知&lt;br&gt;3回目" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="315" y="400" width="60" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="47" value="" style="endArrow=block;startArrow=block;endFill=1;startFill=1;html=1;fontSize=12;" parent="1" edge="1">
                     <mxGeometry width="160" relative="1" as="geometry">
