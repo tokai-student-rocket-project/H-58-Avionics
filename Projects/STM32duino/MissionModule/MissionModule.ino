@@ -3,32 +3,12 @@
 #include <LoRa.h>
 #include <MsgPacketizer.h>
 #include <TaskManager.h>
-#include <mcp2515_can.h>
+#include "CANMCP.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
 #include "ADXL375.hpp"
 #include "Sd.hpp"
 
-
-namespace canbus {
-  enum class Id : uint32_t {
-    TEMPERATURE,
-    PRESSURE,
-    ALTITUDE,
-    ACCELERATION,
-    GYROSCOPE,
-    MAGNETOMETER,
-    ORIENTATION,
-    LINEAR_ACCELERATION,
-    GRAVITY,
-    STATUS
-  };
-
-  mcp2515_can can(7);
-
-  void initialize();
-  void receiveStatus(uint8_t* data, uint8_t* mode, uint8_t* camera, uint8_t* separatorDrogue, uint8_t* separatorMain);
-}
 
 namespace timer {
   uint32_t referenceTime;
@@ -64,11 +44,14 @@ namespace control {
   OutputPin recorderPower(5);
 }
 
+namespace interface {
+  CANMCP can(7);
+}
+
+
 namespace data {
   uint8_t mode;
-  uint8_t camera;
-  uint8_t separatorDrogue;
-  uint8_t separatorMain;
+  bool camera, sn3, sn4;
 
   float acceleration_x, acceleration_y, acceleration_z;
 }
@@ -98,7 +81,7 @@ void setup() {
 
   sensor::adxl.begin();
 
-  canbus::initialize();
+  interface::can.begin();
 
   Tasks.add(timer::task50Hz)->startFps(50);
   Tasks.add(timer::task1k2Hz)->startFps(1200);
@@ -122,38 +105,15 @@ void loop() {
     Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startFps(2);
   }
 
-  if (CAN_MSGAVAIL == canbus::can.checkReceive()) {
-    uint8_t len = 0;
-    uint8_t data[8];
-
-    canbus::can.readMsgBuf(&len, data);
-    uint32_t id = canbus::can.getCanId();
-
-    switch (id) {
-    case static_cast<uint32_t>(canbus::Id::STATUS):
-      canbus::receiveStatus(data,
-        &data::mode,
-        &data::camera,
-        &data::separatorDrogue,
-        &data::separatorMain);
+  if (interface::can.available()) {
+    switch (interface::can.getLatestLabel()) {
+    case CANMCP::Label::STATUS:
+      interface::can.receiveStatus(&data::mode, &data::camera, &data::sn3, &data::sn4);
       break;
     }
+
+    indicator::canReceive.toggle();
   }
-}
-
-
-void canbus::initialize() {
-  canbus::can.begin(CAN_500KBPS, MCP_8MHz);
-}
-
-
-void canbus::receiveStatus(uint8_t* data, uint8_t* mode, uint8_t* camera, uint8_t* separatorDrogue, uint8_t* separatorMain) {
-  *mode = data[0];
-  *camera = data[1];
-  *separatorDrogue = data[2];
-  *separatorMain = data[3];
-
-  indicator::canReceive.toggle();
 }
 
 
@@ -174,10 +134,6 @@ void timer::task50Hz() {
 
 void timer::task1k2Hz() {
   sensor::adxl.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
-
-  Serial.print("x:"); Serial.print(data::acceleration_x / 9.8);
-  Serial.print(",y:"); Serial.print(data::acceleration_y / 9.8);
-  Serial.print(",z:"); Serial.println(data::acceleration_z / 9.8);
 }
 
 

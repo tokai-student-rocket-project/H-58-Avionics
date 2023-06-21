@@ -1,44 +1,9 @@
-#include <ACAN_STM32.h>
 #include <TaskManager.h>
+#include "CANSTM.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
 #include "AnalogVoltage.hpp"
 
-
-namespace canbus {
-  enum class Id : uint32_t {
-    TEMPERATURE,
-    PRESSURE,
-    ALTITUDE,
-    ACCELERATION,
-    GYROSCOPE,
-    MAGNETOMETER,
-    ORIENTATION,
-    LINEAR_ACCELERATION,
-    GRAVITY,
-    STATUS,
-    VOLTAGE_SUPPLY,
-    VOLTAGE_BATTERY,
-    VOLTAGE_POOL
-  };
-
-  enum class Axis : uint8_t {
-    X,
-    Y,
-    Z
-  };
-
-  union Converter {
-    float value;
-    uint8_t data[4];
-  }converter;
-
-  void initialize();
-  void sendStatus(canbus::Id id, uint8_t mode);
-  void sendScalar(canbus::Id id, float value);
-  void receiveScalar(CANMessage message, float* value);
-  void receiveVector(CANMessage message, float* x, float* y, float* z);
-}
 
 namespace flightMode {
   enum class Mode : uint8_t {
@@ -78,7 +43,7 @@ namespace timer {
 }
 
 namespace sensor {
-  AnalogVoltage supply(A7);
+  // AnalogVoltage supply(A7);
   AnalogVoltage battery(A2);
   AnalogVoltage pool(A3);
 }
@@ -101,6 +66,8 @@ namespace connection {
   OutputPin sn4(D13);
 
   PullupPin flightPin(D11);
+
+  CANSTM can;
 }
 
 namespace data {
@@ -112,14 +79,14 @@ namespace data {
 
 
 void setup() {
+  Serial.begin(115200);
+
   analogReadResolution(12);
-  sensor::supply.setResistance(3300, 750);
+  // sensor::supply.setResistance(3300, 750);
   sensor::battery.setResistance(4700, 820);
   sensor::pool.setResistance(5600, 820);
 
-  Serial.println(sensor::pool.voltage());
-
-  canbus::initialize();
+  connection::can.begin(500000);
 
   flightMode::changeMode(flightMode::Mode::SLEEP);
 
@@ -134,92 +101,18 @@ void setup() {
 void loop() {
   Tasks.update();
 
-  if (can.available0()) {
-    CANMessage message;
-    can.receive0(message);
-
-    switch (message.id) {
-    case static_cast<uint32_t>(canbus::Id::ALTITUDE):
-      canbus::receiveScalar(message, &data::altitude);
+  if (connection::can.available()) {
+    switch (connection::can.getLatestMessageLabel()) {
+    case CANSTM::Label::ALTITUDE:
+      connection::can.receiveScalar(&data::altitude);
       break;
-    case static_cast<uint32_t>(canbus::Id::LINEAR_ACCELERATION):
-      canbus::receiveVector(message, &data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
+    case CANSTM::Label::LINEAR_ACCELERATION:
+      connection::can.receiveVector(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
       break;
     }
+
+    indicator::canReceive.toggle();
   }
-}
-
-
-void canbus::initialize() {
-  ACAN_STM32_Settings settings(500000);
-  settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
-  can.begin(settings);
-}
-
-
-void canbus::sendStatus(canbus::Id id, uint8_t mode) {
-  CANMessage message;
-  message.id = static_cast<uint32_t>(id);
-  message.len = 4;
-
-  message.data[0] = mode;
-  message.data[1] = connection::camera.get();
-  message.data[2] = connection::sn3.get();
-  message.data[3] = connection::sn4.get();;
-
-  can.tryToSendReturnStatus(message);
-
-  indicator::canSend.toggle();
-}
-
-
-void canbus::sendScalar(canbus::Id id, float value) {
-  CANMessage message;
-  message.id = static_cast<uint32_t>(id);
-  message.len = 4;
-
-  canbus::converter.value = value;
-  message.data[0] = canbus::converter.data[0];
-  message.data[1] = canbus::converter.data[1];
-  message.data[2] = canbus::converter.data[2];
-  message.data[3] = canbus::converter.data[3];
-
-  can.tryToSendReturnStatus(message);
-
-  indicator::canSend.toggle();
-}
-
-
-void canbus::receiveScalar(CANMessage message, float* value) {
-  canbus::converter.data[0] = message.data[0];
-  canbus::converter.data[1] = message.data[1];
-  canbus::converter.data[2] = message.data[2];
-  canbus::converter.data[3] = message.data[3];
-  *value = canbus::converter.value;
-
-  indicator::canReceive.toggle();
-}
-
-
-void canbus::receiveVector(CANMessage message, float* x, float* y, float* z) {
-  canbus::converter.data[0] = message.data[1];
-  canbus::converter.data[1] = message.data[2];
-  canbus::converter.data[2] = message.data[3];
-  canbus::converter.data[3] = message.data[4];
-
-  switch (message.data[0]) {
-  case static_cast<uint8_t>(canbus::Axis::X):
-    *x = canbus::converter.value;
-    break;
-  case static_cast<uint8_t>(canbus::Axis::Y):
-    *y = canbus::converter.value;
-    break;
-  case static_cast<uint8_t>(canbus::Axis::Z):
-    *z = canbus::converter.value;
-    break;
-  }
-
-  indicator::canReceive.toggle();
 }
 
 
@@ -280,15 +173,22 @@ bool timer::isElapsedTime(uint32_t time) {
 
 
 void timer::task10Hz() {
-  canbus::sendStatus(canbus::Id::STATUS, static_cast<uint8_t>(flightMode::activeMode));
+  connection::can.sendStatus(CANSTM::Label::STATUS,
+    static_cast<uint8_t>(flightMode::activeMode),
+    connection::camera.get(),
+    connection::sn3.get(),
+    connection::sn4.get()
+  );
+  indicator::canSend.toggle();
 
-  data::voltage_supply = sensor::supply.voltage();
+  // data::voltage_supply = sensor::supply.voltage();
   data::voltage_battery = sensor::battery.voltage();
   data::voltage_pool = sensor::pool.voltage();
 
-  canbus::sendScalar(canbus::Id::VOLTAGE_SUPPLY, data::voltage_supply);
-  canbus::sendScalar(canbus::Id::VOLTAGE_BATTERY, data::voltage_battery);
-  canbus::sendScalar(canbus::Id::VOLTAGE_POOL, data::voltage_pool);
+  connection::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltage_supply);
+  connection::can.sendScalar(CANSTM::Label::VOLTAGE_BATTERY, data::voltage_battery);
+  connection::can.sendScalar(CANSTM::Label::VOLTAGE_POOL, data::voltage_pool);
+  indicator::canSend.toggle();
 }
 
 
@@ -356,6 +256,8 @@ void timer::task100Hz() {
     }
     break;
   }
+
+  Serial.println(data::linear_acceleration_x);
 }
 
 

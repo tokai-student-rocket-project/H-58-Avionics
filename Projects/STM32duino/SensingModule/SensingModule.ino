@@ -1,5 +1,5 @@
-#include <ACAN_STM32.h>
 #include <TaskManager.h>
+#include "CANSTM.hpp"
 #include "BNO055.hpp"
 #include "BME280.hpp"
 #include "Thermistor.hpp"
@@ -8,37 +8,6 @@
 #include "FRAM.hpp"
 #include "Sd.hpp"
 
-
-namespace canbus {
-  enum class Id : uint32_t {
-    TEMPERATURE,
-    PRESSURE,
-    ALTITUDE,
-    ACCELERATION,
-    GYROSCOPE,
-    MAGNETOMETER,
-    ORIENTATION,
-    LINEAR_ACCELERATION,
-    GRAVITY,
-    STATUS
-  };
-
-  enum class Axis : uint8_t {
-    X,
-    Y,
-    Z
-  };
-
-  union Converter {
-    float value;
-    uint8_t data[4];
-  }converter;
-
-  void initialize();
-  void sendScalar(canbus::Id id, float value);
-  void sendVector(canbus::Id id, canbus::Axis axis, float value);
-  void receiveStatus(CANMessage message);
-}
 
 namespace flightMode {
   enum class Mode : uint8_t {
@@ -78,16 +47,15 @@ namespace recorder {
   bool doRecording;
 }
 
-namespace indicator {
+namespace interface {
   OutputPin canSend(D12);
   OutputPin canReceive(D11);
-
   OutputPin sdStatus(D9);
   OutputPin recorderStatus(D6);
-}
 
-namespace control {
   OutputPin recorderPower(D7);
+
+  CANSTM can;
 }
 
 namespace data {
@@ -103,6 +71,9 @@ namespace data {
   float orientation_x, orientation_y, orientation_z;
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
   float gravity_x, gravity_y, gravity_z;
+
+  uint8_t mode;
+  bool camera, sn3, sn4;
 }
 
 namespace develop {
@@ -124,8 +95,8 @@ void setup() {
 
 
   // 開発中: 保存は常に行う表示
-  control::recorderPower.on();
-  indicator::recorderStatus.on();
+  interface::recorderPower.on();
+  interface::recorderStatus.on();
 
   SPI.setMOSI(A6);
   SPI.setMISO(A5);
@@ -133,7 +104,7 @@ void setup() {
   SPI.begin();
 
   if (recorder::sd.begin()) {
-    indicator::sdStatus.on();
+    interface::sdStatus.on();
   }
   else {
     Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startFps(2);
@@ -148,7 +119,7 @@ void setup() {
   sensor::bme.begin();
   sensor::thermistor.initialize();
 
-  canbus::initialize();
+  interface::can.begin(500000);
 
   Tasks.add(timer::task10Hz)->startFps(10);
   Tasks.add(timer::task20Hz)->startFps(20);
@@ -175,7 +146,7 @@ void loop() {
   if (!recorder::doRecording && !recorder::sd.isRunning() && !recorder::cardDetection.isOpen()) {
     recorder::sd.begin();
     Tasks.erase("invalidSdBlink");
-    indicator::sdStatus.on();
+    interface::sdStatus.on();
   }
 
   // SDが検知できなくなった時
@@ -184,74 +155,15 @@ void loop() {
     Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startFps(2);
   }
 
-  if (can.available0()) {
-    CANMessage message;
-    can.receive0(message);
-
-    switch (message.id) {
-    case static_cast<uint32_t>(canbus::Id::STATUS):
-      canbus::receiveStatus(message);
+  if (interface::can.available()) {
+    switch (interface::can.getLatestMessageLabel()) {
+    case CANSTM::Label::STATUS:
+      interface::can.receiveStatus(&data::mode, &data::camera, &data::sn3, &data::sn4);
       break;
     }
+
+    interface::canReceive.toggle();
   }
-}
-
-
-void canbus::initialize() {
-  ACAN_STM32_Settings settings(500000);
-  settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
-  can.begin(settings);
-}
-
-
-void canbus::sendScalar(canbus::Id id, float value) {
-  CANMessage message;
-  message.id = static_cast<uint32_t>(id);
-  message.len = 4;
-
-  canbus::converter.value = value;
-  message.data[0] = canbus::converter.data[0];
-  message.data[1] = canbus::converter.data[1];
-  message.data[2] = canbus::converter.data[2];
-  message.data[3] = canbus::converter.data[3];
-
-  can.tryToSendReturnStatus(message);
-
-  indicator::canSend.toggle();
-}
-
-
-void canbus::sendVector(canbus::Id id, canbus::Axis axis, float value) {
-  CANMessage message;
-  message.id = static_cast<uint32_t>(id);
-  message.len = 5;
-  message.data[0] = static_cast<uint8_t>(axis);
-
-  canbus::converter.value = value;
-  message.data[1] = canbus::converter.data[0];
-  message.data[2] = canbus::converter.data[1];
-  message.data[3] = canbus::converter.data[2];
-  message.data[4] = canbus::converter.data[3];
-
-  can.tryToSendReturnStatus(message);
-
-  indicator::canSend.toggle();
-}
-
-
-void canbus::receiveStatus(CANMessage message) {
-  flightMode::Mode mode = static_cast<flightMode::Mode>(message.data[0]);
-
-  recorder::doRecording =
-    mode == flightMode::Mode::STANDBY
-    || mode == flightMode::Mode::THRUST
-    || mode == flightMode::Mode::CLIMB
-    || mode == flightMode::Mode::DESCENT
-    || mode == flightMode::Mode::DECEL
-    || mode == flightMode::Mode::PARACHUTE
-    || mode == flightMode::Mode::LAND;
-
-  indicator::canReceive.toggle();
 }
 
 
@@ -263,13 +175,9 @@ void timer::task10Hz() {
 void timer::task20Hz() {
   sensor::bno.getMagnetometer(&data::magnetometer_x, &data::magnetometer_y, &data::magnetometer_z);
 
-  canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::X, data::orientation_x);
-  canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::Y, data::orientation_y);
-  canbus::sendVector(canbus::Id::ORIENTATION, canbus::Axis::Z, data::orientation_z);
-
-  canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::X, data::linear_acceleration_x);
-  canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::Y, data::linear_acceleration_y);
-  canbus::sendVector(canbus::Id::LINEAR_ACCELERATION, canbus::Axis::Z, data::linear_acceleration_z);
+  interface::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x, data::magnetometer_y, data::magnetometer_z);
+  interface::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z);
+  interface::canSend.toggle();
 }
 
 
@@ -279,14 +187,17 @@ void timer::task100Hz() {
   sensor::bno.getOrientation(&data::orientation_x, &data::orientation_y, &data::orientation_z);
   sensor::bno.getLinearAcceleration(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
   sensor::bno.getGravityVector(&data::gravity_x, &data::gravity_y, &data::gravity_z);
-  sensor::bme.getPressure(&data::pressure);
 
+  sensor::bme.getPressure(&data::pressure);
   data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::temperature + 273.15)) / 0.0065;
 
-  canbus::sendScalar(canbus::Id::ALTITUDE, data::altitude);
+  interface::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
+  interface::canSend.toggle();
+
+  Serial.println(data::mode);
 }
 
 
 void timer::invalidSdBlink() {
-  indicator::sdStatus.toggle();
+  interface::sdStatus.toggle();
 }
