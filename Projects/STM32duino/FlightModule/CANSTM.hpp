@@ -34,7 +34,7 @@ public:
     uint8_t data[4];
   }converter;
 
-  void begin(uint32_t bitrate);
+  void begin();
 
   bool available();
   Label getLatestMessageLabel();
@@ -49,5 +49,6 @@ public:
   void receiveVector(float* xValue, float* yValue, float* zValue);
 
 private:
-  CANMessage _latestMessage;
+  uint32_t _latestLabel;
+  uint8_t _latestData[8];
 };

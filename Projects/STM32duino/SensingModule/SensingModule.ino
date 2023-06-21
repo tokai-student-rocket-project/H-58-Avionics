@@ -119,7 +119,7 @@ void setup() {
   sensor::bme.begin();
   sensor::thermistor.initialize();
 
-  interface::can.begin(500000);
+  interface::can.begin();
 
   Tasks.add(timer::task10Hz)->startFps(10);
   Tasks.add(timer::task20Hz)->startFps(20);
@@ -193,8 +193,6 @@ void timer::task100Hz() {
 
   interface::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
   interface::canSend.toggle();
-
-  Serial.println(data::mode);
 }
 
 
