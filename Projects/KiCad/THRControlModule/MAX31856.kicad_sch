@@ -935,7 +935,7 @@
   (symbol (lib_id "Device:R") (at 64.77 62.23 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 001a059f-8b29-49ef-ae83-564a1ffaae42)
-    (property "Reference" "R12" (at 64.77 57.15 90)
+    (property "Reference" "R21" (at 64.77 57.15 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "100" (at 64.77 59.69 90)
@@ -952,7 +952,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "R12") (unit 1)
+          (reference "R21") (unit 1)
         )
       )
     )
@@ -961,7 +961,7 @@
   (symbol (lib_id "power:GND") (at 130.81 76.2 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 20bbf4a1-2f32-4102-96a8-0a61a4d02029)
-    (property "Reference" "#PWR038" (at 130.81 82.55 0)
+    (property "Reference" "#PWR044" (at 130.81 82.55 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 130.81 81.28 0)
@@ -977,7 +977,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR038") (unit 1)
+          (reference "#PWR044") (unit 1)
         )
       )
     )
@@ -1164,7 +1164,7 @@
   (symbol (lib_id "Device:D") (at 199.39 67.31 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 265d21f4-48cb-40a5-879b-2f8e8ae92049)
-    (property "Reference" "D3" (at 196.85 66.04 0)
+    (property "Reference" "D8" (at 196.85 66.04 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "D" (at 201.93 66.04 0)
@@ -1187,7 +1187,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "D3") (unit 1)
+          (reference "D8") (unit 1)
         )
       )
     )
@@ -1196,7 +1196,7 @@
   (symbol (lib_id "Device:C") (at 74.93 43.18 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 3528493d-649d-4ac3-bdbe-b779c6dd97e1)
-    (property "Reference" "C10" (at 78.74 42.545 0)
+    (property "Reference" "C13" (at 78.74 42.545 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.01u" (at 78.74 45.085 0)
@@ -1213,7 +1213,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "C10") (unit 1)
+          (reference "C13") (unit 1)
         )
       )
     )
@@ -1222,7 +1222,7 @@
   (symbol (lib_id "power:GND") (at 69.85 33.02 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 35b53788-c28e-45a8-be2b-d3ae45f118bf)
-    (property "Reference" "#PWR034" (at 69.85 39.37 0)
+    (property "Reference" "#PWR038" (at 69.85 39.37 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 69.85 38.1 0)
@@ -1238,7 +1238,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR034") (unit 1)
+          (reference "#PWR038") (unit 1)
         )
       )
     )
@@ -1247,7 +1247,7 @@
   (symbol (lib_id "Device:C") (at 132.08 40.64 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 3f3f8adc-38c3-4b2f-9b48-7462864055e5)
-    (property "Reference" "C13" (at 132.08 34.29 90)
+    (property "Reference" "C11" (at 132.08 34.29 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "0.1u" (at 132.08 36.83 90)
@@ -1264,7 +1264,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "C13") (unit 1)
+          (reference "C11") (unit 1)
         )
       )
     )
@@ -1273,7 +1273,7 @@
   (symbol (lib_id "power:GND") (at 127 78.74 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 42177500-400b-4aa0-a951-9b76c2eb0ca3)
-    (property "Reference" "#PWR036" (at 127 85.09 0)
+    (property "Reference" "#PWR045" (at 127 85.09 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 127 83.82 0)
@@ -1289,7 +1289,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR036") (unit 1)
+          (reference "#PWR045") (unit 1)
         )
       )
     )
@@ -1298,7 +1298,7 @@
   (symbol (lib_id "power:GND") (at 137.16 41.91 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 5e0bd165-47a9-409c-bd4c-52d37debc82e)
-    (property "Reference" "#PWR039" (at 137.16 48.26 0)
+    (property "Reference" "#PWR041" (at 137.16 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 137.16 46.99 0)
@@ -1314,7 +1314,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR039") (unit 1)
+          (reference "#PWR041") (unit 1)
         )
       )
     )
@@ -1323,7 +1323,7 @@
   (symbol (lib_id "Device:C") (at 74.93 55.88 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 627b0da5-93a4-43d5-9136-31bd75d4b2b4)
-    (property "Reference" "C11" (at 78.74 55.245 0)
+    (property "Reference" "C14" (at 78.74 55.245 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.1u" (at 78.74 57.785 0)
@@ -1340,7 +1340,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "C11") (unit 1)
+          (reference "C14") (unit 1)
         )
       )
     )
@@ -1349,7 +1349,7 @@
   (symbol (lib_id "Device:D") (at 184.15 62.23 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 88670eb8-b28c-409d-9c91-9072348e3dcb)
-    (property "Reference" "D1" (at 181.61 60.96 0)
+    (property "Reference" "D6" (at 181.61 60.96 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "D" (at 186.69 60.96 0)
@@ -1372,7 +1372,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "D1") (unit 1)
+          (reference "D6") (unit 1)
         )
       )
     )
@@ -1381,7 +1381,7 @@
   (symbol (lib_id "power:+3.3V") (at 170.18 38.1 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 8fd91d53-1bb8-4d70-92cc-21d85d22d9af)
-    (property "Reference" "#PWR042" (at 170.18 41.91 0)
+    (property "Reference" "#PWR040" (at 170.18 41.91 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 170.18 34.29 0)
@@ -1397,7 +1397,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR042") (unit 1)
+          (reference "#PWR040") (unit 1)
         )
       )
     )
@@ -1406,7 +1406,7 @@
   (symbol (lib_id "power:GND") (at 74.93 74.93 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 98ddb319-cf19-46ff-83bd-56e6ce7be4a0)
-    (property "Reference" "#PWR035" (at 74.93 81.28 0)
+    (property "Reference" "#PWR043" (at 74.93 81.28 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 74.93 80.01 0)
@@ -1422,7 +1422,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR035") (unit 1)
+          (reference "#PWR043") (unit 1)
         )
       )
     )
@@ -1431,7 +1431,7 @@
   (symbol (lib_id "power:+3.3V") (at 146.05 27.94 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 99f6276c-11d4-454b-a55b-20b2cd6eef7d)
-    (property "Reference" "#PWR040" (at 146.05 31.75 0)
+    (property "Reference" "#PWR037" (at 146.05 31.75 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 146.05 24.13 0)
@@ -1447,7 +1447,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR040") (unit 1)
+          (reference "#PWR037") (unit 1)
         )
       )
     )
@@ -1482,7 +1482,7 @@
   (symbol (lib_id "Device:R") (at 170.18 52.07 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 9fa684e8-fa3a-43fc-aa71-a216220d11fe)
-    (property "Reference" "R14" (at 172.72 51.435 0)
+    (property "Reference" "R19" (at 172.72 51.435 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 172.72 53.975 0)
@@ -1499,7 +1499,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "R14") (unit 1)
+          (reference "R19") (unit 1)
         )
       )
     )
@@ -1560,7 +1560,7 @@
   (symbol (lib_id "Device:R") (at 64.77 49.53 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid af0eb41b-d3c4-4f0c-bf35-c1be0c981a42)
-    (property "Reference" "R11" (at 64.77 44.45 90)
+    (property "Reference" "R18" (at 64.77 44.45 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "100" (at 64.77 46.99 90)
@@ -1577,7 +1577,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "R11") (unit 1)
+          (reference "R18") (unit 1)
         )
       )
     )
@@ -1586,7 +1586,7 @@
   (symbol (lib_id "power:GND") (at 154.94 41.91 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b08230bf-7846-4acf-af92-5c5fb2a4967f)
-    (property "Reference" "#PWR041" (at 154.94 48.26 0)
+    (property "Reference" "#PWR042" (at 154.94 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 154.94 46.99 0)
@@ -1602,7 +1602,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR041") (unit 1)
+          (reference "#PWR042") (unit 1)
         )
       )
     )
@@ -1611,7 +1611,7 @@
   (symbol (lib_id "Device:C") (at 149.86 40.64 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b0859e92-0bd3-44f9-a3cf-935f2022128b)
-    (property "Reference" "C14" (at 149.86 34.29 90)
+    (property "Reference" "C12" (at 149.86 34.29 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "0.1u" (at 149.86 36.83 90)
@@ -1628,7 +1628,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "C14") (unit 1)
+          (reference "C12") (unit 1)
         )
       )
     )
@@ -1637,7 +1637,7 @@
   (symbol (lib_id "power:+3.3V") (at 128.27 33.02 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b4d7f009-7340-408e-9ec4-03ad45b06a40)
-    (property "Reference" "#PWR037" (at 128.27 36.83 0)
+    (property "Reference" "#PWR039" (at 128.27 36.83 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3V" (at 128.27 29.21 0)
@@ -1653,7 +1653,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "#PWR037") (unit 1)
+          (reference "#PWR039") (unit 1)
         )
       )
     )
@@ -1662,7 +1662,7 @@
   (symbol (lib_id "Device:R") (at 163.83 58.42 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c104e09b-7634-46ea-81b4-31917bb2ea6f)
-    (property "Reference" "R13" (at 166.37 57.785 0)
+    (property "Reference" "R20" (at 166.37 57.785 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 166.37 60.325 0)
@@ -1679,7 +1679,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "R13") (unit 1)
+          (reference "R20") (unit 1)
         )
       )
     )
@@ -1688,7 +1688,7 @@
   (symbol (lib_id "Device:R") (at 177.8 46.99 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid cb863746-16d3-4ad5-b028-8b6d4f6be94f)
-    (property "Reference" "R15" (at 180.34 46.355 0)
+    (property "Reference" "R17" (at 180.34 46.355 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10k" (at 180.34 48.895 0)
@@ -1705,7 +1705,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "R15") (unit 1)
+          (reference "R17") (unit 1)
         )
       )
     )
@@ -1714,7 +1714,7 @@
   (symbol (lib_id "Device:C") (at 74.93 68.58 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid db1e5809-1a2f-4c14-8a97-12f85a4209ec)
-    (property "Reference" "C12" (at 78.74 67.945 0)
+    (property "Reference" "C15" (at 78.74 67.945 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "0.01u" (at 78.74 70.485 0)
@@ -1731,7 +1731,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "C12") (unit 1)
+          (reference "C15") (unit 1)
         )
       )
     )
@@ -1740,7 +1740,7 @@
   (symbol (lib_id "Device:D") (at 191.77 64.77 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid e3ac997f-4dfc-4a83-996a-41034d11373b)
-    (property "Reference" "D2" (at 189.23 63.5 0)
+    (property "Reference" "D7" (at 189.23 63.5 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "D" (at 194.31 63.5 0)
@@ -1763,7 +1763,7 @@
     (instances
       (project "THRControlModule"
         (path "/93cdfa36-4bed-45c7-a4a4-3a03363a12aa/00f4825f-a5d9-483f-a8c7-f3ffa30863fc"
-          (reference "D2") (unit 1)
+          (reference "D7") (unit 1)
         )
       )
     )
