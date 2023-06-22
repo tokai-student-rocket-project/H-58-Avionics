@@ -2,6 +2,7 @@
 #include "CANSTM.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
+#include "Shiranui.hpp"
 #include "AnalogVoltage.hpp"
 
 
@@ -38,14 +39,14 @@ namespace timer {
 
   void task10Hz();
   void task100Hz();
-  void taskSeparatorDrogueAutoOff();
-  void taskSeparatorMainAutoOff();
 }
 
 namespace sensor {
-  // AnalogVoltage supply(A7);
+  AnalogVoltage supply(A7);
   AnalogVoltage battery(A2);
   AnalogVoltage pool(A3);
+
+  PullupPin flightPin(D11);
 }
 
 namespace indicator {
@@ -60,13 +61,13 @@ namespace indicator {
   void indicateFlightMode(flightMode::Mode mode);
 }
 
-namespace connection {
+namespace control {
   OutputPin camera(D9);
-  OutputPin sn3(A0);
-  OutputPin sn4(D13);
+  Shiranui sn3(A0, "drogue");
+  Shiranui sn4(D13, "main");
+}
 
-  PullupPin flightPin(D11);
-
+namespace connection {
   CANSTM can;
 }
 
@@ -77,14 +78,30 @@ namespace data {
   float voltage_supply, voltage_battery, voltage_pool;
 }
 
+namespace develop {
+  PullupPin debugMode(D12);
+
+  bool isDebugMode;
+}
+
 
 void setup() {
-  Serial.begin(115200);
+  // 起動モードの判定
+  develop::isDebugMode = !develop::debugMode.isOpen();
 
-  analogReadResolution(12);
-  // sensor::supply.setResistance(3300, 750);
-  sensor::battery.setResistance(4700, 820);
-  sensor::pool.setResistance(5600, 820);
+  // デバッグ用シリアルポートの準備
+  if (develop::isDebugMode) {
+    Serial.begin(115200);
+    delay(800);
+  }
+
+  // デバッグ中はピンが干渉するので電圧監視を行わない
+  if (!develop::isDebugMode) {
+    analogReadResolution(12);
+    sensor::supply.begin(3300, 750);
+    sensor::battery.begin(4700, 820);
+    sensor::pool.begin(5600, 820);
+  }
 
   connection::can.begin();
 
@@ -92,9 +109,6 @@ void setup() {
 
   Tasks.add(timer::task10Hz)->startFps(10);
   Tasks.add(timer::task100Hz)->startFps(100);
-
-  Tasks.add("SeparatorDrogueAutoOff", timer::taskSeparatorDrogueAutoOff);
-  Tasks.add("SeparatorMainAutoOff", timer::taskSeparatorMainAutoOff);
 }
 
 
@@ -121,14 +135,15 @@ void flightMode::changeMode(flightMode::Mode nextMode) {
 
   switch (nextMode) {
   case (flightMode::Mode::SLEEP):
+    control::camera.off();
     break;
 
   case (flightMode::Mode::STANDBY):
-    connection::camera.on();
+    control::camera.on();
     break;
 
   case (flightMode::Mode::THRUST):
-    connection::camera.on();
+    control::camera.on();
     timer::setReferenceTime();
     break;
 
@@ -139,20 +154,18 @@ void flightMode::changeMode(flightMode::Mode nextMode) {
     break;
 
   case (flightMode::Mode::DECEL):
-    connection::sn3.on();
-    Tasks["SeparatorDrogueAutoOff"]->startOnceAfterSec(3);
+    control::sn3.separate();
     break;
 
   case (flightMode::Mode::PARACHUTE):
-    connection::sn4.on();
-    Tasks["SeparatorMainAutoOff"]->startOnceAfterSec(3);
+    control::sn4.separate();
     break;
 
   case (flightMode::Mode::LAND):
     break;
 
   case (flightMode::Mode::SHUTDOWN):
-    connection::camera.off();
+    control::camera.off();
     break;
   }
 
@@ -175,15 +188,17 @@ bool timer::isElapsedTime(uint32_t time) {
 void timer::task10Hz() {
   connection::can.sendStatus(CANSTM::Label::STATUS,
     static_cast<uint8_t>(flightMode::activeMode),
-    connection::camera.get(),
-    connection::sn3.get(),
-    connection::sn4.get()
+    control::camera.get(),
+    control::sn3.get(),
+    control::sn4.get()
   );
-  indicator::canSend.toggle();
 
-  // data::voltage_supply = sensor::supply.voltage();
-  data::voltage_battery = sensor::battery.voltage();
-  data::voltage_pool = sensor::pool.voltage();
+  // デバッグ中はピンが干渉するので電圧監視を行わない
+  if (!develop::isDebugMode) {
+    data::voltage_supply = sensor::supply.voltage();
+    data::voltage_battery = sensor::battery.voltage();
+    data::voltage_pool = sensor::pool.voltage();
+  }
 
   connection::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltage_supply);
   connection::can.sendScalar(CANSTM::Label::VOLTAGE_BATTERY, data::voltage_battery);
@@ -193,11 +208,11 @@ void timer::task10Hz() {
 
 
 void timer::task100Hz() {
-  if (connection::flightPin.isOpen() && (flightMode::activeMode == flightMode::Mode::SLEEP || flightMode::activeMode == flightMode::Mode::STANDBY)) {
+  if (sensor::flightPin.isOpen() && (flightMode::activeMode == flightMode::Mode::SLEEP || flightMode::activeMode == flightMode::Mode::STANDBY)) {
     flightMode::changeMode(flightMode::Mode::THRUST);
   }
 
-  if (!connection::flightPin.isOpen()) {
+  if (!sensor::flightPin.isOpen()) {
     flightMode::changeMode(flightMode::Mode::SLEEP);
   }
 
@@ -256,18 +271,6 @@ void timer::task100Hz() {
     }
     break;
   }
-
-  Serial.println(data::linear_acceleration_x);
-}
-
-
-void timer::taskSeparatorDrogueAutoOff() {
-  connection::sn3.off();
-}
-
-
-void timer::taskSeparatorMainAutoOff() {
-  connection::sn4.off();
 }
 
 

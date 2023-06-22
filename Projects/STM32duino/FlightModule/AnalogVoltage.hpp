@@ -8,7 +8,8 @@ class AnalogVoltage {
 public:
   AnalogVoltage(uint8_t pinNumber);
 
-  float setResistance(float resistanceUpper, float resistanceLower);
+  float begin(float resistanceUpper, float resistanceLower);
+
   float voltage();
 
 private:

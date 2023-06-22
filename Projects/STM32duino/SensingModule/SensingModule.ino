@@ -5,6 +5,7 @@
 #include "Thermistor.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
+#include "Blinker.hpp"
 #include "FRAM.hpp"
 #include "Sd.hpp"
 
@@ -27,8 +28,6 @@ namespace timer {
   void task10Hz();
   void task20Hz();
   void task100Hz();
-
-  void invalidSdBlink();
 }
 
 namespace sensor {
@@ -47,14 +46,18 @@ namespace recorder {
   bool doRecording;
 }
 
-namespace interface {
+namespace indicator {
   OutputPin canSend(D12);
   OutputPin canReceive(D11);
-  OutputPin sdStatus(D9);
+  Blinker sdStatus(D9, "invalidSd");
   OutputPin recorderStatus(D6);
+}
 
+namespace control {
   OutputPin recorderPower(D7);
+}
 
+namespace connection {
   CANSTM can;
 }
 
@@ -87,16 +90,15 @@ void setup() {
   // 起動モードの判定
   develop::isDebugMode = !develop::debugMode.isOpen();
 
-
   // デバッグ用シリアルポートの準備
   if (develop::isDebugMode) {
     Serial.begin(115200);
+    delay(800);
   }
 
-
   // 開発中: 保存は常に行う表示
-  interface::recorderPower.on();
-  interface::recorderStatus.on();
+  control::recorderPower.on();
+  indicator::recorderStatus.on();
 
   SPI.setMOSI(A6);
   SPI.setMISO(A5);
@@ -104,10 +106,10 @@ void setup() {
   SPI.begin();
 
   if (recorder::sd.begin()) {
-    interface::sdStatus.on();
+    indicator::sdStatus.on();
   }
   else {
-    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startFps(2);
+    indicator::sdStatus.startBlink(2);
   }
 
   Wire.setSDA(D4);
@@ -119,7 +121,7 @@ void setup() {
   sensor::bme.begin();
   sensor::thermistor.initialize();
 
-  interface::can.begin();
+  connection::can.begin();
 
   Tasks.add(timer::task10Hz)->startFps(10);
   Tasks.add(timer::task20Hz)->startFps(20);
@@ -145,24 +147,24 @@ void loop() {
   // SDを新しく検知した時
   if (!recorder::doRecording && !recorder::sd.isRunning() && !recorder::cardDetection.isOpen()) {
     recorder::sd.begin();
-    Tasks.erase("invalidSdBlink");
-    interface::sdStatus.on();
+    indicator::sdStatus.stopBlink();
+    indicator::sdStatus.on();
   }
 
   // SDが検知できなくなった時
   if (!recorder::doRecording && recorder::sd.isRunning() && recorder::cardDetection.isOpen()) {
     recorder::sd.end();
-    Tasks.add("invalidSdBlink", timer::invalidSdBlink)->startFps(2);
+    indicator::sdStatus.startBlink(2);
   }
 
-  if (interface::can.available()) {
-    switch (interface::can.getLatestMessageLabel()) {
+  if (connection::can.available()) {
+    switch (connection::can.getLatestMessageLabel()) {
     case CANSTM::Label::STATUS:
-      interface::can.receiveStatus(&data::mode, &data::camera, &data::sn3, &data::sn4);
+      connection::can.receiveStatus(&data::mode, &data::camera, &data::sn3, &data::sn4);
       break;
     }
 
-    interface::canReceive.toggle();
+    indicator::canReceive.toggle();
   }
 }
 
@@ -175,9 +177,9 @@ void timer::task10Hz() {
 void timer::task20Hz() {
   sensor::bno.getMagnetometer(&data::magnetometer_x, &data::magnetometer_y, &data::magnetometer_z);
 
-  interface::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x, data::magnetometer_y, data::magnetometer_z);
-  interface::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z);
-  interface::canSend.toggle();
+  connection::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x, data::magnetometer_y, data::magnetometer_z);
+  connection::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z);
+  indicator::canSend.toggle();
 }
 
 
@@ -191,11 +193,6 @@ void timer::task100Hz() {
   sensor::bme.getPressure(&data::pressure);
   data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::temperature + 273.15)) / 0.0065;
 
-  interface::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
-  interface::canSend.toggle();
-}
-
-
-void timer::invalidSdBlink() {
-  interface::sdStatus.toggle();
+  connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
+  indicator::canSend.toggle();
 }

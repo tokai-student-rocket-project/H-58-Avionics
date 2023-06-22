@@ -7,7 +7,9 @@ AnalogVoltage::AnalogVoltage(uint8_t pinNumber) {
 }
 
 
-float AnalogVoltage::setResistance(float resistanceUpper, float resistanceLower) {
+float AnalogVoltage::begin(float resistanceUpper, float resistanceLower) {
+  pinMode(_pinNumber, INPUT_ANALOG);
+
   _voltageFactor = (resistanceUpper + resistanceLower) / resistanceLower;
   return _voltageFactor;
 }
