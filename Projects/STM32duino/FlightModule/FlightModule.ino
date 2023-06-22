@@ -2,6 +2,7 @@
 #include "CANSTM.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
+#include "DetectionCounter.hpp"
 #include "Shiranui.hpp"
 #include "AnalogVoltage.hpp"
 
@@ -47,6 +48,8 @@ namespace sensor {
   AnalogVoltage pool(A3);
 
   PullupPin flightPin(D11);
+  DetectionCounter liftoffDetector(3);
+  DetectionCounter resetDetector(10);
 }
 
 namespace indicator {
@@ -208,11 +211,14 @@ void timer::task10Hz() {
 
 
 void timer::task100Hz() {
-  if (sensor::flightPin.isOpen() && (flightMode::activeMode == flightMode::Mode::SLEEP || flightMode::activeMode == flightMode::Mode::STANDBY)) {
+  sensor::liftoffDetector.update(sensor::flightPin.isOpen());
+  sensor::resetDetector.update(!sensor::flightPin.isOpen());
+
+  if (sensor::liftoffDetector.isDetected() && (flightMode::activeMode == flightMode::Mode::SLEEP || flightMode::activeMode == flightMode::Mode::STANDBY)) {
     flightMode::changeMode(flightMode::Mode::THRUST);
   }
 
-  if (!sensor::flightPin.isOpen()) {
+  if (sensor::resetDetector.isDetected()) {
     flightMode::changeMode(flightMode::Mode::SLEEP);
   }
 
