@@ -4,6 +4,8 @@
 #include <SPI.h>
 #include <mcp2515_can.h>
 
+/* VV namespaceをつかう*/
+
 /* CAN Config START */
 const int SPI_CS_PIN = 6;
 mcp2515_can CAN(SPI_CS_PIN);
@@ -48,7 +50,7 @@ uint8_t LaunchPin = 7;
 
 /*MAX31855 Config START*/
 int32_t rawData = 0;
-float temperature;
+//float temperature;
 MAX31855 myMAX31855(5); // Chip Select PIN (CS)
 /*MAX31855 Config END*/
 
@@ -103,12 +105,13 @@ void setup()
 
     Tasks.add("task", []()
               {
-                // Serial.print("Temperature: ");
-                // Serial.print(myMAX31855.getTemperature(rawData));
-                // Serial.print(" | ");
-                // Serial.print("ColdJunctionTemperature: ");
-                // Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
-                // Serial.print(" | ");
+                Serial.print("Temperature: ");
+                Serial.print();
+                Serial.print(" | ");
+                Serial.print("ColdJunctionTemperature: ");
+                Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
+                Serial.print(" | ");
+                Launch_Count();
                 Serial.print("LaunchCount: ");
                 Serial.print(LaunchCount);
                 Serial.print(" | ");
@@ -123,15 +126,18 @@ void loop()
     Tasks.update();
 
     rawData = myMAX31855.readRawData();
-/*↓ここを100Hzで回す*/
-    if (Position == 1 && digitalRead(LaunchPin) == LOW)
-    {
-        LaunchCount++;
-    }
-    else
-    {
-        LaunchCount = 0;
-    }
+    
+    myMAX31855.getColdJunctionTemperature(rawData)
+
+    /*↓ここを100Hzで回す*/
+    // if (Position == 1 && digitalRead(LaunchPin) == LOW)
+    // {
+    //     LaunchCount++;
+    // }
+    // else
+    // {
+    //     LaunchCount = 0;
+    // }
 
     if (LaunchCount >= POSITION_CHANGING_THRESHOLD)
     {
@@ -473,13 +479,13 @@ void MAX31855_errornotification()
     }
 }
 
-void FILLING_confirmation()
+float CorrectedTemperature()
 {
-    // Serial.print(myMAX31855.getTemperature(rawData));
-    if (myMAX31855.getTemperature(rawData) >= 30.00)
-    {
-        Serial.println("COMPLETED");
-    }
+    const float TAMB = 25.0;
+    const float VOLTAGE_PER_DEGREE = 41.276;
+
+    float temperature = myMAX31855.getTemperature(rawData);
+
 }
 
 void SIGNAL_initialize()
@@ -491,7 +497,18 @@ void SIGNAL_initialize()
     pinMode(WaitingPin, INPUT_PULLUP);
 }
 
-void LaunchCount()
+void Launch_Count()
 {
+    uint8_t Position;
+    uint8_t LaunchCount;
+    uint8_t LaunchPin;
 
+    if (Position == 1 && digitalRead(LaunchPin) == LOW)
+    {
+        LaunchCount++;
+    }
+    else
+    {
+        LaunchCount = 0;
+    }
 }
