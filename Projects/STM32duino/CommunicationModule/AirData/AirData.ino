@@ -21,9 +21,11 @@ namespace connection {
 }
 
 namespace data {
-  float altitude;
   float orientation_x, orientation_y, orientation_z;
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
+
+  float temperature;
+  float altitude;
 }
 
 
@@ -44,14 +46,17 @@ void loop() {
 
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
-    case CANMCP::Label::ALTITUDE:
-      connection::can.receiveScalar(&data::altitude);
-      break;
     case CANMCP::Label::ORIENTATION:
       connection::can.receiveVector(&data::orientation_x, &data::orientation_y, &data::orientation_z);
       break;
     case CANMCP::Label::LINEAR_ACCELERATION:
       connection::can.receiveVector(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
+      break;
+    case CANMCP::Label::ALTITUDE:
+      connection::can.receiveScalar(&data::altitude);
+      break;
+    case CANMCP::Label::TEMPERATURE:
+      connection::can.receiveScalar(&data::temperature);
       break;
     }
 
@@ -64,6 +69,7 @@ void timer::task20Hz() {
   const auto& packet = MsgPacketizer::encode(
     0x00,
     data::altitude,
+    data::temperature,
     data::orientation_x,
     data::orientation_y,
     data::orientation_z,

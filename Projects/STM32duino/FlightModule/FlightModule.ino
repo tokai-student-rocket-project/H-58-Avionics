@@ -76,7 +76,6 @@ namespace connection {
 
 namespace data {
   float altitude;
-  float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 
   float voltage_supply, voltage_battery, voltage_pool;
 }
@@ -122,9 +121,6 @@ void loop() {
     switch (connection::can.getLatestMessageLabel()) {
     case CANSTM::Label::ALTITUDE:
       connection::can.receiveScalar(&data::altitude);
-      break;
-    case CANSTM::Label::LINEAR_ACCELERATION:
-      connection::can.receiveVector(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
       break;
     }
 

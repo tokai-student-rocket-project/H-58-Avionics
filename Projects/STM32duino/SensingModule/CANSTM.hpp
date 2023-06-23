@@ -8,26 +8,17 @@
 class CANSTM {
 public:
   enum class Label : uint32_t {
-    TEMPERATURE,
-    PRESSURE,
-    ALTITUDE,
-    ACCELERATION,
-    GYROSCOPE,
-    MAGNETOMETER,
     ORIENTATION,
     LINEAR_ACCELERATION,
-    GRAVITY,
-    STATUS,
+    ALTITUDE,
+    TEMPERATURE,
     VOLTAGE_SUPPLY,
     VOLTAGE_BATTERY,
-    VOLTAGE_POOL
+    VOLTAGE_POOL,
+    SYSTEM_STATUS
   };
 
-  enum class Axis : uint8_t {
-    X,
-    Y,
-    Z
-  };
+  enum class Axis : uint8_t { X, Y, Z };
 
   union Converter {
     float value;
