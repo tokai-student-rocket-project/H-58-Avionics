@@ -30,12 +30,12 @@ public:
   bool available();
   Label getLatestMessageLabel();
 
-  void sendStatus(Label id, uint8_t mode, bool camera, bool sn3, bool sn4);
+  void sendStatus(Label id, uint8_t mode, bool camera, bool sn3);
   void sendScalar(Label label, float value);
   void sendVector(Label label, Axis axis, float value);
   void sendVector3D(Label label, float xValue, float yValue, float zValue);
 
-  void receiveStatus(uint8_t* mode, bool* camera, bool* sn3, bool* sn4);
+  void receiveStatus(uint8_t* mode, bool* camera, bool* sn3);
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);
 

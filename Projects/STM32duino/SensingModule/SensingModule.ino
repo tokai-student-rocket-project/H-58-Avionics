@@ -76,7 +76,7 @@ namespace data {
   float gravity_x, gravity_y, gravity_z;
 
   uint8_t mode;
-  bool camera, sn3, sn4;
+  bool camera, separator;
 }
 
 namespace develop {
@@ -160,7 +160,7 @@ void loop() {
   if (connection::can.available()) {
     switch (connection::can.getLatestMessageLabel()) {
     case CANSTM::Label::SYSTEM_STATUS:
-      connection::can.receiveStatus(&data::mode, &data::camera, &data::sn3, &data::sn4);
+      connection::can.receiveStatus(&data::mode, &data::camera, &data::separator);
       break;
     }
 

@@ -66,8 +66,7 @@ namespace indicator {
 
 namespace control {
   OutputPin camera(D9);
-  Shiranui sn3(A0, "drogue");
-  Shiranui sn4(D13, "main");
+  Shiranui sn3(A0, "sn3");
 }
 
 namespace connection {
@@ -152,12 +151,8 @@ void flightMode::changeMode(flightMode::Mode nextMode) {
   case (flightMode::Mode::DESCENT):
     break;
 
-  case (flightMode::Mode::DECEL):
-    control::sn3.separate();
-    break;
-
   case (flightMode::Mode::PARACHUTE):
-    control::sn4.separate();
+    control::sn3.separate();
     break;
 
   case (flightMode::Mode::LAND):
@@ -185,11 +180,10 @@ bool timer::isElapsedTime(uint32_t time) {
 
 
 void timer::task10Hz() {
-  connection::can.sendStatus(CANSTM::Label::STATUS,
+  connection::can.sendStatus(CANSTM::Label::SYSTEM_STATUS,
     static_cast<uint8_t>(flightMode::activeMode),
     control::camera.get(),
-    control::sn3.get(),
-    control::sn4.get()
+    control::sn3.get()
   );
 
   // デバッグ中はピンが干渉するので電圧監視を行わない
@@ -210,23 +204,23 @@ void timer::task100Hz() {
   sensor::liftoffDetector.update(sensor::flightPin.isOpen());
   sensor::resetDetector.update(!sensor::flightPin.isOpen());
 
-  if (sensor::liftoffDetector.isDetected() && (flightMode::activeMode == flightMode::Mode::SLEEP || flightMode::activeMode == flightMode::Mode::STANDBY)) {
-    flightMode::changeMode(flightMode::Mode::THRUST);
-  }
-
   if (sensor::resetDetector.isDetected()) {
     flightMode::changeMode(flightMode::Mode::SLEEP);
   }
 
   switch (flightMode::activeMode) {
   case (flightMode::Mode::SLEEP):
-    if (false) {
+    if (false) { // バルブ開 || FlightMode ON
       flightMode::changeMode(flightMode::Mode::STANDBY);
+    }
+
+    if (sensor::liftoffDetector.isDetected()) {
+      flightMode::changeMode(flightMode::Mode::THRUST);
     }
     break;
 
   case (flightMode::Mode::STANDBY):
-    if (false) {
+    if (sensor::liftoffDetector.isDetected()) {
       flightMode::changeMode(flightMode::Mode::THRUST);
     }
     break;
@@ -244,15 +238,7 @@ void timer::task100Hz() {
     break;
 
   case (flightMode::Mode::DESCENT):
-    if (timer::isElapsedTime(timer::first_separation_time)) {
-      flightMode::changeMode(flightMode::Mode::DECEL);
-    }
-    break;
-
-  case (flightMode::Mode::DECEL):
-    if (timer::isElapsedTime(timer::second_separation_time)) {
-      flightMode::changeMode(flightMode::Mode::PARACHUTE);
-    }
+    flightMode::changeMode(flightMode::Mode::PARACHUTE);
     break;
 
   case (flightMode::Mode::PARACHUTE):

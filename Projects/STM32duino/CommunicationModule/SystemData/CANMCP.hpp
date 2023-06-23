@@ -32,7 +32,7 @@ public:
   bool available();
   Label getLatestLabel();
 
-  void receiveStatus(uint8_t* mode, bool* camera, bool* sn3, bool* sn4);
+  void receiveStatus(uint8_t* mode, bool* camera, bool* sn3);
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);
 
