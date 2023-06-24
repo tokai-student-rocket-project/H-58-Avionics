@@ -67,7 +67,7 @@
 
 
 #define MAX31855_CONVERSION_POWER_UP_TIME   200    //in milliseconds
-#define MAX31855_CONVERSION_TIME            100    //in milliseconds, 9..10Hz sampling rate 
+// #define MAX31855_CONVERSION_TIME            100    //in milliseconds, 9..10Hz sampling rate //10Hz以上で取得したいため削除
 #define MAX31855_THERMOCOUPLE_RESOLUTION    0.25   //in °C per dac step
 #define MAX31855_COLD_JUNCTION_RESOLUTION   0.0625 //in °C per dac step
 

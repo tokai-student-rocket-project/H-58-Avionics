@@ -1,6 +1,7 @@
 #include <TaskManager.h>
 #include "IcsHardSerialClass.h"
-#include "EX_MAX31855.h" //test用のhファイル
+//#include "EX_MAX31855.h" //test用のhファイル
+#include "Adafruit_MAX31855.h"
 #include <SPI.h>
 #include <mcp2515_can.h>
 
@@ -12,7 +13,8 @@ mcp2515_can CAN(SPI_CS_PIN);
 // unsigned char sample[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 union Converter
 {
-    float value, value1;
+    // float value, value1;
+    double value, value1;
     uint8_t data[4], data1[4];
 } converter;
 
@@ -39,7 +41,7 @@ int Rs405cbOpenAngle = 0;
 /*RS405CB Servo Config END*/
 
 /*Position Change Config START*/
-constexpr int POSITION_CHANGING_THRESHOLD = 3;
+constexpr int POSITION_CHANGING_THRESHOLD = 5;
 uint8_t LaunchCount = 0;
 uint8_t WaitingCount = 0;
 uint8_t Position = 1;
@@ -48,11 +50,18 @@ uint8_t LaunchPin = 7;
 
 /*Position Change Config END*/
 
+/*EX_MAX31855 Config START*/
+// int32_t rawData = 0;
+// //float temperature;
+// MAX31855 myMAX31855(5); // Chip Select PIN (CS)
+/*EX_MAX31855 Config END*/
+
 /*MAX31855 Config START*/
-int32_t rawData = 0;
-//float temperature;
-MAX31855 myMAX31855(5); // Chip Select PIN (CS)
-/*MAX31855 Config END*/
+
+// #define MAXCS   10
+Adafruit_MAX31855 thermocouple(5);
+
+/*EX_MAX31855 Config END*/
 
 /*MAX31855 Pin Config*/
 // MAX31855      Every
@@ -84,7 +93,7 @@ void setup()
     /* --- RS405CB END Config --- */
 
     SIGNAL_initialize();
-    MAX31855_initialize();
+    // MAX31855_initialize();
 
     /* ---B3M Config--- */
 
@@ -103,15 +112,28 @@ void setup()
 
     /* --- CAN Config END --- */
 
+    /* --- MAX31855 ---*/
+    thermocouple.begin();
+    /* ---  MAX31855 Config END ---*/
+
     Tasks.add("task", []()
               {
-                Serial.print("Temperature: ");
-                Serial.print();
-                Serial.print(" | ");
+                // Serial.print("Temperature: ");
+                // Serial.print(CorrectedTemperature());
+                // Serial.print(" | ");
+                // Serial.print("ColdJunctionTemperature: ");
+                // Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
+                // Serial.print(" | ");
+
                 Serial.print("ColdJunctionTemperature: ");
-                Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
+                Serial.print(thermocouple.readInternal());
                 Serial.print(" | ");
-                Launch_Count();
+                Serial.print("Temperature: ");
+                Serial.print(thermocouple.readCelsius());
+                Serial.print(" | ");
+                Serial.print("CorrectedTemperature: ");
+                Serial.print(CorrectedTemperature());
+                Serial.print(" | ");
                 Serial.print("LaunchCount: ");
                 Serial.print(LaunchCount);
                 Serial.print(" | ");
@@ -125,19 +147,19 @@ void loop()
 {
     Tasks.update();
 
-    rawData = myMAX31855.readRawData();
+    //rawData = myMAX31855.readRawData();
     
-    myMAX31855.getColdJunctionTemperature(rawData)
+    //myMAX31855.getColdJunctionTemperature(rawData);
 
     /*↓ここを100Hzで回す*/
-    // if (Position == 1 && digitalRead(LaunchPin) == LOW)
-    // {
-    //     LaunchCount++;
-    // }
-    // else
-    // {
-    //     LaunchCount = 0;
-    // }
+    if (Position == 1 && digitalRead(LaunchPin) == LOW)
+    {
+        LaunchCount++;
+    }
+    else
+    {
+        LaunchCount = 0;
+    }
 
     if (LaunchCount >= POSITION_CHANGING_THRESHOLD)
     {
@@ -196,7 +218,7 @@ void loop()
     //     delay(10);
     // }
 
-    MAX31855_errornotification(); // MAX31855 のエラーをお知らせ
+    //MAX31855_errornotification(); // MAX31855 のエラーをお知らせ
 
     // sample[7] = sample[7] + 1;
 
@@ -213,7 +235,9 @@ void loop()
     // }
 
     // send data:  id = 0x100, standrad frame, data len = 8, stmp: data buf
-    converter.value = myMAX31855.getTemperature(rawData);
+    // converter.value = myMAX31855.getTemperature(rawData);
+    //converter.value = thermocouple.readCelsius();
+    converter.value = CorrectedTemperature();
     CAN.sendMsgBuf(0x100, 0, 4, converter.data);
     // Serial.print("CANmsg: ");
     // Serial.print(converter.data[0]);
@@ -225,7 +249,7 @@ void loop()
     // Serial.print(converter.data[3]);
     // Serial.print(" || ");
 
-    converter.value1 = myMAX31855.getColdJunctionTemperature(rawData);
+    converter.value1 = thermocouple.readInternal();
     CAN.sendMsgBuf(0x101, 0, 4, converter.data1);
     // Serial.print(converter.data1[0]);
     // Serial.print(" | ");
@@ -440,52 +464,55 @@ void B3M_initialize()
     Serial.println(B3M_writeCommand(0x01, 0x00, 0x28));
 }
 
-void MAX31855_initialize()
-{
-    myMAX31855.begin();
-    while (myMAX31855.getChipID() != MAX31855_ID)
-    {
-        Serial.println(F("MAX31855 error"));
-        delay(5000);
-    }
-}
+// void MAX31855_initialize()
+// {
+//     myMAX31855.begin();
+//     while (myMAX31855.getChipID() != MAX31855_ID)
+//     {
+//         Serial.println(F("MAX31855 error"));
+//         delay(5000);
+//     }
+// }
 
-void MAX31855_errornotification()
-{
-    while (myMAX31855.detectThermocouple() != MAX31855_THERMOCOUPLE_OK)
-    {
-        switch (myMAX31855.detectThermocouple())
-        {
-        case MAX31855_THERMOCOUPLE_SHORT_TO_VCC:
-            Serial.println(F("Thermocouple short to VCC"));
-            break;
+// void MAX31855_errornotification()
+// {
+//     while (myMAX31855.detectThermocouple() != MAX31855_THERMOCOUPLE_OK)
+//     {
+//         switch (myMAX31855.detectThermocouple())
+//         {
+//         case MAX31855_THERMOCOUPLE_SHORT_TO_VCC:
+//             Serial.println(F("Thermocouple short to VCC"));
+//             break;
 
-        case MAX31855_THERMOCOUPLE_SHORT_TO_GND:
-            Serial.println(F("Thermocouple short to GND"));
-            break;
+//         case MAX31855_THERMOCOUPLE_SHORT_TO_GND:
+//             Serial.println(F("Thermocouple short to GND"));
+//             break;
 
-        case MAX31855_THERMOCOUPLE_NOT_CONNECTED:
-            Serial.println(F("Thermocouple not connected"));
-            break;
+//         case MAX31855_THERMOCOUPLE_NOT_CONNECTED:
+//             Serial.println(F("Thermocouple not connected"));
+//             break;
 
-        case MAX31855_THERMOCOUPLE_UNKNOWN:
-            Serial.println(F("Thermocouple unknown error"));
-            break;
+//         case MAX31855_THERMOCOUPLE_UNKNOWN:
+//             Serial.println(F("Thermocouple unknown error"));
+//             break;
 
-        case MAX31855_THERMOCOUPLE_READ_FAIL:
-            Serial.println(F("Thermocouple read error, check chip & spi cable"));
-            break;
-        }
-    }
-}
+//         case MAX31855_THERMOCOUPLE_READ_FAIL:
+//             Serial.println(F("Thermocouple read error, check chip & spi cable"));
+//             break;
+//         }
+//     }
+// }
 
 float CorrectedTemperature()
 {
-    const float TAMB = 25.0;
     const float VOLTAGE_PER_DEGREE = 41.276;
+    float correcttemperature;
 
-    float temperature = myMAX31855.getTemperature(rawData);
+    float temperature = thermocouple.readCelsius();
+    float coldtemperature = thermocouple.readInternal();
+    float Voltage = VOLTAGE_PER_DEGREE*(temperature - coldtemperature);
 
+    return correcttemperature = Voltage/VOLTAGE_PER_DEGREE + coldtemperature;
 }
 
 void SIGNAL_initialize()
@@ -497,18 +524,18 @@ void SIGNAL_initialize()
     pinMode(WaitingPin, INPUT_PULLUP);
 }
 
-void Launch_Count()
-{
-    uint8_t Position;
-    uint8_t LaunchCount;
-    uint8_t LaunchPin;
+// void Launch_Count()
+// {
+//     uint8_t Position;
+//     uint8_t LaunchCount;
+//     uint8_t LaunchPin;
 
-    if (Position == 1 && digitalRead(LaunchPin) == LOW)
-    {
-        LaunchCount++;
-    }
-    else
-    {
-        LaunchCount = 0;
-    }
-}
+//     if (Position == 1 && digitalRead(LaunchPin) == LOW)
+//     {
+//         LaunchCount++;
+//     }
+//     else
+//     {
+//         LaunchCount = 0;
+//     }
+// }
