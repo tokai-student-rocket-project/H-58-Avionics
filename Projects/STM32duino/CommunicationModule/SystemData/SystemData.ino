@@ -30,7 +30,7 @@ namespace connection {
 
 namespace data {
   uint8_t mode;
-  bool camera, sn3, sn4;
+  bool camera, sn3;
 
   float voltage_supply, voltage_battery, voltage_pool;
 
@@ -57,8 +57,8 @@ void loop() {
 
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
-    case CANMCP::Label::STATUS:
-      connection::can.receiveStatus(&data::mode, &data::camera, &data::sn3, &data::sn4);
+    case CANMCP::Label::SYSTEM_STATUS:
+      connection::can.receiveStatus(&data::mode, &data::camera, &data::sn3);
       break;
     case CANMCP::Label::VOLTAGE_SUPPLY:
       connection::can.receiveScalar(&data::voltage_supply);
@@ -89,7 +89,6 @@ void timer::task10Hz() {
     data::mode,
     data::camera,
     data::sn3,
-    data::sn4,
     data::voltage_supply,
     data::voltage_battery,
     data::voltage_pool,

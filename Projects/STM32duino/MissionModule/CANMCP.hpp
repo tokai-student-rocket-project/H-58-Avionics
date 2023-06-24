@@ -8,26 +8,17 @@
 class CANMCP {
 public:
   enum class Label : uint32_t {
-    TEMPERATURE,
-    PRESSURE,
-    ALTITUDE,
-    ACCELERATION,
-    GYROSCOPE,
-    MAGNETOMETER,
     ORIENTATION,
     LINEAR_ACCELERATION,
-    GRAVITY,
-    STATUS,
+    ALTITUDE,
+    TEMPERATURE,
     VOLTAGE_SUPPLY,
     VOLTAGE_BATTERY,
-    VOLTAGE_POOL
+    VOLTAGE_POOL,
+    SYSTEM_STATUS
   };
 
-  enum class Axis : uint8_t {
-    X,
-    Y,
-    Z
-  };
+  enum class Axis : uint8_t { X, Y, Z };
 
   union Converter {
     float value;
@@ -41,7 +32,7 @@ public:
   bool available();
   Label getLatestLabel();
 
-  void receiveStatus(uint8_t* mode, bool* camera, bool* sn3, bool* sn4);
+  void receiveStatus(uint8_t* mode, bool* camera, bool* sn3);
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);
 

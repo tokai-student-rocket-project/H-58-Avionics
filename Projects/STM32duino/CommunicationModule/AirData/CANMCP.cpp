@@ -29,11 +29,10 @@ CANMCP::Label CANMCP::getLatestLabel() {
 }
 
 
-void CANMCP::receiveStatus(uint8_t* mode, bool* camera, bool* sn3, bool* sn4) {
+void CANMCP::receiveStatus(uint8_t* mode, bool* camera, bool* sn3) {
   *mode = _latestData[0];
   *camera = _latestData[1];
   *sn3 = _latestData[2];
-  *sn4 = _latestData[3];
 }
 
 
