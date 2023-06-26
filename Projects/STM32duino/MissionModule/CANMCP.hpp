@@ -45,21 +45,6 @@ public:
     FLIGHT_MODE_OFF
   };
 
-  union Converter {
-    float value;
-    uint8_t data[4];
-  }converter;
-
-  union Converter32 {
-    uint32_t value;
-    uint8_t data[4];
-  }converter32;
-
-  union Converter16 {
-    uint16_t value;
-    uint8_t data[2];
-  }converter16;
-
   CANMCP(uint8_t cs);
 
   void begin();
