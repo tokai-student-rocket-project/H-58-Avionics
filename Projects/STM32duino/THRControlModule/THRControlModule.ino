@@ -14,8 +14,9 @@ mcp2515_can CAN(SPI_CS_PIN);
 union Converter
 {
     // float value, value1;
-    double value, value1;
+    double correctedTemperature, coldJunctiontemperature, thermoCoupletemperature;
     uint8_t data[4], data1[4];
+    uint8_t 
 } converter;
 
 /* CAN Config END */
@@ -36,19 +37,19 @@ IcsHardSerialClass B3M(&Serial1, EN_PIN, BAUNDRATE, TIMEOUT);
 
 /*RS405CB Servo Config START*/
 uint8_t REDE = 3;
-int Rs405cbCloseAngle = -800;
-int Rs405cbOpenAngle = 0;
+int rs405cbCloseangle = -800;
+int rs405cbOpenangle = 0;
 /*RS405CB Servo Config END*/
 
-/*Position Change Config START*/
+/*position Change Config START*/
 constexpr int POSITION_CHANGING_THRESHOLD = 5;
-uint8_t LaunchCount = 0;
-uint8_t WaitingCount = 0;
-uint8_t Position = 1;
-uint8_t WaitingPin = 8;
-uint8_t LaunchPin = 7;
+uint8_t launchCount = 0;
+uint8_t waitingCount = 0;
+uint8_t position = 1;
+uint8_t waitingPin = 8;
+uint8_t launchPin = 7;
 
-/*Position Change Config END*/
+/*position Change Config END*/
 
 /*EX_MAX31855 Config START*/
 // int32_t rawData = 0;
@@ -88,7 +89,7 @@ void setup()
     delay(100);
     // Move(1, 900, 100);
     delay(1100);
-    Move(1, Rs405cbOpenAngle, 100);
+    Move(1, rs405cbOpenangle, 100);
 
     /* --- RS405CB END Config --- */
 
@@ -99,9 +100,9 @@ void setup()
 
     B3M.begin(); // B3Mと通信開始
     B3M_initialize();
-    // B3M_setPosition(0x01, -7500, 1000);
+    // B3M_setposition(0x01, -7500, 1000);
     delay(2000);
-    B3M_setPosition(0x01, 0, 1000);
+    B3M_setposition(0x01, 0, 1000);
 
     /* ---B3M Config END--- */
 
@@ -134,11 +135,11 @@ void setup()
                 Serial.print("CorrectedTemperature: ");
                 Serial.print(CorrectedTemperature());
                 Serial.print(" | ");
-                Serial.print("LaunchCount: ");
-                Serial.print(LaunchCount);
+                Serial.print("launchCount: ");
+                Serial.print(launchCount);
                 Serial.print(" | ");
-                Serial.print("WaitingCount: ");
-                Serial.println(WaitingCount); })
+                Serial.print("waitingCount: ");
+                Serial.println(waitingCount); })
         ->startFps(100); // 1/10*10^-3 = 100Hz
                          //->startIntervalMsec(1000); // 1/1000*10^-3 = 1Hz
 }
@@ -152,34 +153,35 @@ void loop()
     //myMAX31855.getColdJunctionTemperature(rawData);
 
     /*↓ここを100Hzで回す*/
-    if (Position == 1 && digitalRead(LaunchPin) == LOW)
+    if (position == 1 && digitalRead(launchPin) == LOW)
     {
-        LaunchCount++;
+        launchCount++;
     }
     else
     {
-        LaunchCount = 0;
+        launchCount = 0;
     }
 
-    if (LaunchCount >= POSITION_CHANGING_THRESHOLD)
+    if (launchCount >= POSITION_CHANGING_THRESHOLD)
     {
-        LaunchCount = 0;
+        launchCount = 0;
         Serial.println("Launch!!");
+
         Torque(0x01, 0x01);
         Move(1, -800, 10);                // RS405CBを-80度動作させる //供給と一緒に位置合わせを行った
         delay(200);                       // 200ms 待機
-        B3M_setPosition(0x01, -6500, 10); // B3Mを-65度(-6500)動作させる
+        B3M_setposition(0x01, -6500, 10); // B3Mを-65度(-6500)動作させる
 
-        Position = 2;
+        position = 2;
         delay(50);
     }
 
-    // if (digitalRead(LaunchPin) == LOW)
+    // if (digitalRead(launchPin) == LOW)
     // {
     //     Torque(0x01, 0x01);
     //     Move(1, -800, 10);                // RS405CBを-80度動作させる //供給と一緒に位置合わせを行った
     //     delay(200);                       // 200ms 待機
-    //     B3M_setPosition(0x01, -6500, 10); // B3Mを-65度(-6500)動作させる
+    //     B3M_setposition(0x01, -6500, 10); // B3Mを-65度(-6500)動作させる
 
     //     Serial.println("Launch!!");
     //     delay(10);
@@ -187,32 +189,32 @@ void loop()
 
     //-------------------------------------------------//
 
-    if (Position == 2 && digitalRead(WaitingPin) == LOW)
+    if (position == 2 && digitalRead(waitingPin) == LOW)
     {
-        WaitingCount++;
+        waitingCount++;
     }
     else
     {
-        WaitingCount = 0;
+        waitingCount = 0;
     }
 
-    if (WaitingCount >= POSITION_CHANGING_THRESHOLD)
+    if (waitingCount >= POSITION_CHANGING_THRESHOLD)
     {
-        WaitingCount = 0;
+        waitingCount = 0;
         Serial.println("Waiting!!");
         Move(1, 0, 100);                // RS405CBを0度動作させる //供給と一緒に位置合わせを行った。
         delay(500);                     // 500ms 待機
-        B3M_setPosition(0x01, 0, 1000); // B3Mを0度(0000)動作させる
+        B3M_setposition(0x01, 0, 1000); // B3Mを0度(0000)動作させる
 
-        Position = 1;
+        position = 1;
         delay(50);
     }
 
-    // if (digitalRead(WaitingPin) == LOW)
+    // if (digitalRead(waitingPin) == LOW)
     // {
     //     Move(1, 0, 100);                // RS405CBを0度動作させる //供給と一緒に位置合わせを行った。
     //     delay(500);                     // 500ms 待機
-    //     B3M_setPosition(0x01, 0, 1000); // B3Mを0度(0000)動作させる
+    //     B3M_setposition(0x01, 0, 1000); // B3Mを0度(0000)動作させる
 
     //     Serial.println("Waiting!!");
     //     delay(10);
@@ -237,29 +239,14 @@ void loop()
     // send data:  id = 0x100, standrad frame, data len = 8, stmp: data buf
     // converter.value = myMAX31855.getTemperature(rawData);
     //converter.value = thermocouple.readCelsius();
-    converter.value = CorrectedTemperature();
+    converter.correctedTemperature = CorrectedTemperature();
     CAN.sendMsgBuf(0x100, 0, 4, converter.data);
-    // Serial.print("CANmsg: ");
-    // Serial.print(converter.data[0]);
-    // Serial.print(" | ");
-    // Serial.print(converter.data[1]);
-    // Serial.print(" | ");
-    // Serial.print(converter.data[2]);
-    // Serial.print(" | ");
-    // Serial.print(converter.data[3]);
-    // Serial.print(" || ");
 
-    converter.value1 = thermocouple.readInternal();
+    converter.coldJunctiontemperature = thermocouple.readInternal();
     CAN.sendMsgBuf(0x101, 0, 4, converter.data1);
-    // Serial.print(converter.data1[0]);
-    // Serial.print(" | ");
-    // Serial.print(converter.data1[1]);
-    // Serial.print(" | ");
-    // Serial.print(converter.data1[2]);
-    // Serial.print(" | ");
-    // Serial.print(converter.data1[3]);
-    // Serial.println(" | ");
 
+    converter.thermoCoupletemperature = thermocouple.readCelsius();
+    CAN.sendMsgBuf();
     // digitalWrite(A6, HIGH);
     // delay(1000);
     // Serial.println("Busser ON");
@@ -268,15 +255,15 @@ void loop()
 
     // rawData = myMAX31855.readRawData();
 
-    // Serial.print(LaunchCount);
+    // Serial.print(launchCount);
     // Serial.print(",");
-    // Serial.println(WaitingCount);
+    // Serial.println(waitingCount);
 
     /*B3M テスト用*/
 
-    // B3M_setPosition(0x01, -9000, 100); //B3Mを-90度(-9000)動作させる
+    // B3M_setposition(0x01, -9000, 100); //B3Mを-90度(-9000)動作させる
     // delay(2100);
-    // B3M_setPosition(0x01, 9000, 100);
+    // B3M_setposition(0x01, 9000, 100);
     // delay(2100);
 
     /*B3M テスト用*/
@@ -284,9 +271,9 @@ void loop()
     /*RS405CB テスト用*/
 
     // delay(100);
-    // Move(1, 900, 50); // ID =1, GoalPosition = 90.0deg(900), Time = 0.5sec(50)
+    // Move(1, 900, 50); // ID =1, Goalposition = 90.0deg(900), Time = 0.5sec(50)
     // delay(2510);
-    // Move(1, -900, 100); // ID =1, GoalPosition = -90.0deg(-900), Time = 1.0sec(100)
+    // Move(1, -900, 100); // ID =1, Goalposition = -90.0deg(-900), Time = 1.0sec(100)
     // delay(2100);
 
     /*RS405CB テスト用*/
@@ -332,7 +319,7 @@ int B3M_writeCommand(byte id, byte TxData, byte Address)
     return reData;
 }
 
-int B3M_setPosition(byte id, int Pos, int Time)
+int B3M_setposition(byte id, int Pos, int Time)
 {
     byte txCmd[9];
     byte rxCmd[7];
@@ -517,25 +504,25 @@ float CorrectedTemperature()
 
 void SIGNAL_initialize()
 {
-    uint8_t LaunchPin = 7;
-    uint8_t WaitingPin = 8;
+    uint8_t launchPin = 7;
+    uint8_t waitingPin = 8;
 
-    pinMode(LaunchPin, INPUT_PULLUP);
-    pinMode(WaitingPin, INPUT_PULLUP);
+    pinMode(launchPin, INPUT_PULLUP);
+    pinMode(waitingPin, INPUT_PULLUP);
 }
 
 // void Launch_Count()
 // {
-//     uint8_t Position;
-//     uint8_t LaunchCount;
-//     uint8_t LaunchPin;
+//     uint8_t position;
+//     uint8_t launchCount;
+//     uint8_t launchPin;
 
-//     if (Position == 1 && digitalRead(LaunchPin) == LOW)
+//     if (position == 1 && digitalRead(launchPin) == LOW)
 //     {
-//         LaunchCount++;
+//         launchCount++;
 //     }
 //     else
 //     {
-//         LaunchCount = 0;
+//         launchCount = 0;
 //     }
 // }
