@@ -15,13 +15,15 @@ public:
     VOLTAGE_SUPPLY,
     VOLTAGE_BATTERY,
     VOLTAGE_POOL,
-    SYSTEM_STATUS
+    SYSTEM_STATUS,
+    EVENT
   };
 
   enum class Axis : uint8_t { X, Y, Z };
 
   union Converter {
     float value;
+    uint32_t value_uint32;
     uint8_t data[4];
   }converter;
 
@@ -30,7 +32,9 @@ public:
   bool available();
   Label getLatestMessageLabel();
 
-  void sendStatus(Label id, uint8_t mode, bool camera, bool sn3);
+  void sendSystemStatus(uint8_t mode, bool camera, bool sn3);
+  void sendEvent(uint32_t time, char event[]);
+
   void sendScalar(Label label, float value);
   void sendVector(Label label, Axis axis, float value);
   void sendVector3D(Label label, float xValue, float yValue, float zValue);

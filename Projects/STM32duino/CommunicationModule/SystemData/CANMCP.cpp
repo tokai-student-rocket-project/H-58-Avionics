@@ -64,3 +64,17 @@ void CANMCP::receiveVector(float* xValue, float* yValue, float* zValue) {
     break;
   }
 }
+
+
+void CANMCP::receiveEvent(uint32_t* time, char* event) {
+  converter.data[0] = _latestData[0];
+  converter.data[1] = _latestData[1];
+  converter.data[2] = _latestData[2];
+  converter.data[3] = _latestData[3];
+  *time = converter.value_uint32;
+
+  event[0] = _latestData[4];
+  event[1] = _latestData[5];
+  event[2] = _latestData[6];
+  event[3] = _latestData[7];
+}

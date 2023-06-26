@@ -15,13 +15,15 @@ public:
     VOLTAGE_SUPPLY,
     VOLTAGE_BATTERY,
     VOLTAGE_POOL,
-    SYSTEM_STATUS
+    SYSTEM_STATUS,
+    EVENT
   };
 
   enum class Axis : uint8_t { X, Y, Z };
 
   union Converter {
     float value;
+    uint32_t value_uint32;
     uint8_t data[4];
   }converter;
 
@@ -35,6 +37,7 @@ public:
   void receiveStatus(uint8_t* mode, bool* camera, bool* sn3);
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);
+  void receiveEvent(uint32_t* time, char* event);
 
 private:
   mcp2515_can* _can;

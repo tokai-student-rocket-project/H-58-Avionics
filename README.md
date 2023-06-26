@@ -29,16 +29,17 @@ MM ... MissionModule
 ACM ... AirDataCommunicationModule  
 SCM ... SystemDataCommunicationModule  
 
-| Id   | Label           | From | To          | Rate | Format                                               |
-| ---- | --------------- | ---- | ----------- | ---- | ---------------------------------------------------- |
-| 0x00 | Orientation     | SM   | ACM         | 20Hz | [0]Axis,[1:5]Value                                   |
-| 0x01 | Acceleration    | SM   | ACM         | 20Hz | [0]Axis, [1:5]Value                                  |
-| 0x02 | Altitude        | SM   | FM, ACM     | 20Hz | [0:4] Value                                          |
-| 0x03 | Temperature     | SM   | ACM         | 20Hz | [0:4] Value                                          |
-| 0x04 | Supply Voltage  | FM   | SCM         | 10Hz | [0:4] Value                                          |
-| 0x05 | Battery Voltage | FM   | SCM         | 10Hz | [0:4] Value                                          |
-| 0x06 | Pool Voltage    | FM   | SCM         | 10Hz | [0:4] Value                                          |
-| 0x07 | SystemStatus    | FM   | SM, MM, SCM | 10Hz | [0] FlightMode, [1] CameraState, [2] SeparationState |
+| Id   | Label           | From | To          | Rate | Format                                                                       |
+| ---- | --------------- | ---- | ----------- | ---- | ---------------------------------------------------------------------------- |
+| 0x00 | Orientation     | SM   | ACM         | 20Hz | [0] Axis (uint8_t), [1:5] Value (float)                                      |
+| 0x01 | Acceleration    | SM   | ACM         | 20Hz | [0] Axis (uint8_t), [1:5] Value (float)                                      |
+| 0x02 | Altitude        | SM   | FM, ACM     | 20Hz | [0:4] Value (float)                                                          |
+| 0x03 | Temperature     | SM   | ACM         | 20Hz | [0:4] Value (float)                                                          |
+| 0x04 | Supply Voltage  | FM   | SCM         | 10Hz | [0:4] Value (float)                                                          |
+| 0x05 | Battery Voltage | FM   | SCM         | 10Hz | [0:4] Value (float)                                                          |
+| 0x06 | Pool Voltage    | FM   | SCM         | 10Hz | [0:4] Value (float)                                                          |
+| 0x07 | SystemStatus    | FM   | SM, MM, SCM | 10Hz | [0] FlightMode (uint8_t), [1] CameraState (bool), [2] SeparationState (bool) |
+| 0x08 | Event           | FM   | SCM         | 逐次 | [0:4] TimeStamp (uint32_t), [5:8] Event (char[4])                            |
 
 ## モジュール
 

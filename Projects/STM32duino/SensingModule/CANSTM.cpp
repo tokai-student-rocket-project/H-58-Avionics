@@ -36,14 +36,33 @@ CANSTM::Label CANSTM::getLatestMessageLabel() {
 }
 
 
-void CANSTM::sendStatus(Label label, uint8_t mode, bool camera, bool sn3) {
+void CANSTM::sendSystemStatus(uint8_t mode, bool camera, bool sn3) {
   CANMessage message;
-  message.id = static_cast<uint32_t>(label);
+  message.id = static_cast<uint32_t>(Label::SYSTEM_STATUS);
   message.len = 3;
 
   message.data[0] = mode;
   message.data[1] = camera;
   message.data[2] = sn3;
+
+  can.tryToSendReturnStatus(message);
+}
+
+
+void CANSTM::sendEvent(uint32_t time, char event[]) {
+  CANMessage message;
+  message.id = static_cast<uint32_t>(Label::EVENT);
+  message.len = 8;
+
+  converter.value_uint32 = time;
+  message.data[0] = converter.data[0];
+  message.data[1] = converter.data[1];
+  message.data[2] = converter.data[2];
+  message.data[3] = converter.data[3];
+  message.data[4] = event[0];
+  message.data[5] = event[1];
+  message.data[6] = event[2];
+  message.data[7] = event[3];
 
   can.tryToSendReturnStatus(message);
 }

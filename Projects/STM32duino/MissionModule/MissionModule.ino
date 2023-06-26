@@ -103,6 +103,7 @@ void loop() {
     indicator::sdStatus.startBlink(2);
   }
 
+  //CAN受信処理
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS:

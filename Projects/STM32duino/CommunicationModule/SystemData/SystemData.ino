@@ -69,6 +69,13 @@ void loop() {
     case CANMCP::Label::VOLTAGE_POOL:
       connection::can.receiveScalar(&data::voltage_pool);
       break;
+    case CANMCP::Label::EVENT:
+      uint32_t time;
+      char event[4];
+      connection::can.receiveEvent(&time, event);
+      Serial.print((float)time / 1000.0), 2;
+      Serial.print(" ");
+      Serial.println(event);
     }
 
     indicator::canReceive.toggle();
