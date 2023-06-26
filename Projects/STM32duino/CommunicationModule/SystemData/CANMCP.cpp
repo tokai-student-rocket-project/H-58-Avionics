@@ -48,7 +48,7 @@ void CANMCP::receiveStatus(uint8_t* mode, bool* camera, bool* sn3) {
 
 
 void CANMCP::receiveScalar(float* value) {
-  memcpy(&value, _latestData, 4);
+  memcpy(value, _latestData, 4);
 }
 
 
@@ -74,6 +74,6 @@ void CANMCP::receiveVector(float* xValue, float* yValue, float* zValue) {
 void CANMCP::receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* time, uint16_t* payload) {
   *publisher = static_cast<CANMCP::Publisher>(_latestData[0]);
   *eventCode = static_cast<CANMCP::EventCode>(_latestData[1]);
-  memcpy(&time, _latestData + 2, 4);
-  memcpy(&payload, _latestData + 6, 2);
+  memcpy(time, _latestData + 2, 4);
+  memcpy(payload, _latestData + 6, 2);
 }
