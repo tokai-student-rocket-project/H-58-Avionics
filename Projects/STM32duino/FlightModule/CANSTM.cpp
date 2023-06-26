@@ -16,15 +16,7 @@ bool CANSTM::available() {
     can.receive0(message);
 
     _latestLabel = message.id;
-
-    _latestData[0] = message.data[0];
-    _latestData[1] = message.data[1];
-    _latestData[2] = message.data[2];
-    _latestData[3] = message.data[3];
-    _latestData[4] = message.data[4];
-    _latestData[5] = message.data[5];
-    _latestData[6] = message.data[6];
-    _latestData[7] = message.data[7];
+    memcpy(_latestData, message.data, 8);
   }
 
   return isAvailable;
@@ -32,7 +24,7 @@ bool CANSTM::available() {
 
 
 CANSTM::Label CANSTM::getLatestMessageLabel() {
-  return (CANSTM::Label)_latestLabel;
+  return static_cast<CANSTM::Label>(_latestLabel);
 }
 
 
@@ -54,16 +46,10 @@ void CANSTM::sendEvent(Publisher publisher, EventCode eventCode, uint32_t time, 
   message.id = static_cast<uint32_t>(Label::EVENT);
   message.len = 8;
 
-  converter32.value = time;
-  converter16.value = payload;
   message.data[0] = static_cast<uint32_t>(publisher);
   message.data[1] = static_cast<uint32_t>(eventCode);
-  message.data[2] = converter32.data[0];
-  message.data[3] = converter32.data[1];
-  message.data[4] = converter32.data[2];
-  message.data[5] = converter32.data[3];
-  message.data[6] = converter16.data[0];
-  message.data[7] = converter16.data[1];
+  memcpy(message.data + 2, &time, 4);
+  memcpy(message.data + 6, &payload, 2);
 
   can.tryToSendReturnStatus(message);
 }
@@ -74,11 +60,7 @@ void CANSTM::sendScalar(Label label, float value) {
   message.id = static_cast<uint32_t>(label);
   message.len = 4;
 
-  converter.value = value;
-  message.data[0] = converter.data[0];
-  message.data[1] = converter.data[1];
-  message.data[2] = converter.data[2];
-  message.data[3] = converter.data[3];
+  memcpy(message.data, &value, 4);
 
   can.tryToSendReturnStatus(message);
 }
@@ -89,12 +71,8 @@ void CANSTM::sendVector(Label label, Axis axis, float value) {
   message.id = static_cast<uint32_t>(label);
   message.len = 5;
 
-  converter.value = value;
   message.data[0] = static_cast<uint8_t>(axis);
-  message.data[1] = converter.data[0];
-  message.data[2] = converter.data[1];
-  message.data[3] = converter.data[2];
-  message.data[4] = converter.data[3];
+  memcpy(message.data + 1, &value, 4);
 
   can.tryToSendReturnStatus(message);
 }
@@ -115,30 +93,24 @@ void CANSTM::receiveStatus(uint8_t* mode, bool* camera, bool* sn3) {
 
 
 void CANSTM::receiveScalar(float* value) {
-  converter.data[0] = _latestData[0];
-  converter.data[1] = _latestData[1];
-  converter.data[2] = _latestData[2];
-  converter.data[3] = _latestData[3];
-  *value = converter.value;
+  memcpy(&value, _latestData, 4);
 }
 
 
 void CANSTM::receiveVector(float* xValue, float* yValue, float* zValue) {
-  converter.data[0] = _latestData[1];
-  converter.data[1] = _latestData[2];
-  converter.data[2] = _latestData[3];
-  converter.data[3] = _latestData[4];
+  float value;
+  memcpy(&value, _latestData + 1, 4);
 
   uint8_t axis = _latestData[0];
   switch (axis) {
   case static_cast<uint8_t>(Axis::X):
-    *xValue = converter.value;
+    *xValue = value;
     break;
   case static_cast<uint8_t>(Axis::Y):
-    *yValue = converter.value;
+    *yValue = value;
     break;
   case static_cast<uint8_t>(Axis::Z):
-    *zValue = converter.value;
+    *zValue = value;
     break;
   }
 }

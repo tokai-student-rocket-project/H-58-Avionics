@@ -37,8 +37,6 @@ void setup() {
 
   connection::can.begin();
 
-  // connection::can.sendEvent(CANMCP::Publisher::AIR_DATA_COMMUNICATION_MODULE, CANMCP::EventCode::SETUP);
-
   Tasks.add(timer::task20Hz)->startFps(20);
 }
 

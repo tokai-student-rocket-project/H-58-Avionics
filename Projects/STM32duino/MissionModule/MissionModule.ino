@@ -81,8 +81,6 @@ void setup() {
 
   connection::can.begin();
 
-  // connection::can.sendEvent(CANMCP::Publisher::MISSION_MODULE, CANMCP::EventCode::SETUP);
-
   Tasks.add(timer::task50Hz)->startFps(50);
   Tasks.add(timer::task1k2Hz)->startFps(1200);
 }
