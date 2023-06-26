@@ -48,7 +48,8 @@ void setup() {
 
   connection::can.begin();
 
-  
+  connection::can.sendEvent(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE, CANMCP::EventCode::SETUP);
+
   Tasks.add(timer::task10Hz)->startFps(10);
 }
 

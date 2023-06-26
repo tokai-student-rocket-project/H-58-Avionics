@@ -29,6 +29,17 @@ CANMCP::Label CANMCP::getLatestLabel() {
 }
 
 
+void CANMCP::sendEvent(Publisher publisher, EventCode eventCode, uint32_t time, uint16_t payload) {
+  uint8_t data[8];
+  data[0] = static_cast<uint32_t>(publisher);
+  data[1] = static_cast<uint32_t>(eventCode);
+  memcpy(data + 2, &time, 4);
+  memcpy(data + 6, &payload, 2);
+
+  _can->sendMsgBuf(static_cast<uint32_t>(Label::EVENT), 0, 8, data);
+}
+
+
 void CANMCP::receiveStatus(uint8_t* mode, bool* camera, bool* sn3) {
   *mode = _latestData[0];
   *camera = _latestData[1];
