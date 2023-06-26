@@ -93,7 +93,7 @@ void CANSTM::receiveStatus(uint8_t* mode, bool* camera, bool* sn3) {
 
 
 void CANSTM::receiveScalar(float* value) {
-  memcpy(&value, _latestData, 4);
+  memcpy(value, _latestData, 4);
 }
 
 
