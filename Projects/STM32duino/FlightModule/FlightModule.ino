@@ -25,9 +25,7 @@ namespace flightMode {
 
 namespace timer {
   uint32_t thrust_time = 3000;
-  uint32_t apogee_time = 10000;
-  uint32_t first_separation_time = 11000;
-  uint32_t second_separation_time = 15000;
+  uint32_t force_separation_time = 10000;
   uint32_t land_time = 25000;
   uint32_t shutdown_time = 26000;
 
@@ -179,6 +177,14 @@ void timer::task100Hz() {
   }
 
 
+  // 強制分離
+  if (flightMode::activeMode == flightMode::Mode::CLIMB && isElapsedTime(timer::force_separation_time)) {
+    control::sn3.separate();
+    flightMode::activeMode = flightMode::Mode::PARACHUTE;
+    connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FORCE_SEPARATE, millis());
+  }
+
+
   // 条件が揃えばフライトモードを遷移する
   switch (flightMode::activeMode) {
     // SLEEPモード 打ち上げを静かに待つ
@@ -214,7 +220,7 @@ void timer::task100Hz() {
     // CLIMBモード 上昇中
   case (flightMode::Mode::CLIMB):
     // 頂点を検知すれば下降モードに遷移
-    if (timer::isElapsedTime(timer::apogee_time)) {
+    if (false) {
       flightMode::activeMode = flightMode::Mode::DESCENT;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::APOGEE, millis());
     }

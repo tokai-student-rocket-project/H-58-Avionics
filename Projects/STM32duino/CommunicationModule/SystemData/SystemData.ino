@@ -97,6 +97,7 @@ void loop() {
       case CANMCP::EventCode::SEPARATE: Serial.print("SEPARATE "); break;
       case CANMCP::EventCode::LAND: Serial.print("LAND "); break;
       case CANMCP::EventCode::FLIGHT_MODE_OFF: Serial.print("FLIGHT_MODE_OFF "); break;
+      case CANMCP::EventCode::FORCE_SEPARATE: Serial.print("FORCE_SEPARATE "); break;
       }
 
       Serial.print((float)time / 1000.0, 2);

@@ -42,7 +42,8 @@ public:
     APOGEE,
     SEPARATE,
     LAND,
-    FLIGHT_MODE_OFF
+    FLIGHT_MODE_OFF,
+    FORCE_SEPARATE
   };
 
   CANMCP(uint8_t cs);
