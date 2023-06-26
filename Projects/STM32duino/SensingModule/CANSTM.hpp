@@ -19,13 +19,46 @@ public:
     EVENT
   };
 
-  enum class Axis : uint8_t { X, Y, Z };
+  enum class Axis : uint8_t {
+    X,
+    Y,
+    Z
+  };
+
+  enum class Publisher : uint8_t {
+    SENSING_MODULE,
+    FLIGHT_MODULE,
+    MISSION_MODULE,
+    AIR_DATA_COMMUNICATION_MODULE,
+    SYSTEM_DATA_COMMUNICATION_MODULE
+  };
+
+  enum class EventCode : uint8_t {
+    SETUP,
+    RESET,
+    FLIGHT_MODE_ON,
+    IGNITION,
+    BURNOUT,
+    APOGEE,
+    SEPARATE,
+    LAND,
+    FLIGHT_MODE_OFF
+  };
 
   union Converter {
     float value;
-    uint32_t value_uint32;
     uint8_t data[4];
   }converter;
+
+  union Converter32 {
+    uint32_t value;
+    uint8_t data[4];
+  }converter32;
+
+  union Converter16 {
+    uint16_t value;
+    uint8_t data[2];
+  }converter16;
 
   void begin();
 
@@ -33,7 +66,7 @@ public:
   Label getLatestMessageLabel();
 
   void sendSystemStatus(uint8_t mode, bool camera, bool sn3);
-  void sendEvent(uint32_t time, char event[]);
+  void sendEvent(Publisher publisher, EventCode eventCode, uint32_t time = 0, uint16_t payload = 0);
 
   void sendScalar(Label label, float value);
   void sendVector(Label label, Axis axis, float value);

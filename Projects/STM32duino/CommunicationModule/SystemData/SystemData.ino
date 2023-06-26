@@ -70,12 +70,37 @@ void loop() {
       connection::can.receiveScalar(&data::voltage_pool);
       break;
     case CANMCP::Label::EVENT:
+      // DEBUG //////////////////////////////////////////////////////////////////////////////////
+      CANMCP::Publisher publisher;
+      CANMCP::EventCode eventCode;
       uint32_t time;
-      char event[4];
-      connection::can.receiveEvent(&time, event);
-      Serial.print((float)time / 1000.0), 2;
+      uint16_t payload;
+      connection::can.receiveEvent(&publisher, &eventCode, &time, &payload);
+
+      switch (publisher) {
+      case CANMCP::Publisher::SENSING_MODULE: Serial.print("SM "); break;
+      case CANMCP::Publisher::FLIGHT_MODULE: Serial.print("FM "); break;
+      case CANMCP::Publisher::MISSION_MODULE: Serial.print("MM "); break;
+      case CANMCP::Publisher::AIR_DATA_COMMUNICATION_MODULE: Serial.print("ACM "); break;
+      case CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE: Serial.print("SCM "); break;
+      }
+
+      switch (eventCode) {
+      case CANMCP::EventCode::SETUP: Serial.print("SETUP "); break;
+      case CANMCP::EventCode::RESET: Serial.print("RESET "); break;
+      case CANMCP::EventCode::FLIGHT_MODE_ON: Serial.print("FLIGHT_MODE_ON "); break;
+      case CANMCP::EventCode::IGNITION: Serial.print("IGNITION "); break;
+      case CANMCP::EventCode::BURNOUT: Serial.print("BURNOUT "); break;
+      case CANMCP::EventCode::APOGEE: Serial.print("APOGEE "); break;
+      case CANMCP::EventCode::SEPARATE: Serial.print("SEPARATE "); break;
+      case CANMCP::EventCode::LAND: Serial.print("LAND "); break;
+      case CANMCP::EventCode::FLIGHT_MODE_OFF: Serial.print("FLIGHT_MODE_OFF "); break;
+      }
+
+      Serial.print((float)time / 1000.0, 2);
       Serial.print(" ");
-      Serial.println(event);
+      Serial.println(payload);
+      // DEBUG //////////////////////////////////////////////////////////////////////////////////
     }
 
     indicator::canReceive.toggle();

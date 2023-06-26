@@ -25,7 +25,7 @@ bool CANMCP::available() {
 
 
 CANMCP::Label CANMCP::getLatestLabel() {
-  return (CANMCP::Label)_latestLabel;
+  return static_cast<CANMCP::Label>(_latestLabel);
 }
 
 
@@ -66,15 +66,17 @@ void CANMCP::receiveVector(float* xValue, float* yValue, float* zValue) {
 }
 
 
-void CANMCP::receiveEvent(uint32_t* time, char* event) {
-  converter.data[0] = _latestData[0];
-  converter.data[1] = _latestData[1];
-  converter.data[2] = _latestData[2];
-  converter.data[3] = _latestData[3];
-  *time = converter.value_uint32;
+void CANMCP::receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* time, uint16_t* payload) {
+  *publisher = static_cast<CANMCP::Publisher>(_latestData[0]);
+  *eventCode = static_cast<CANMCP::EventCode>(_latestData[1]);
 
-  event[0] = _latestData[4];
-  event[1] = _latestData[5];
-  event[2] = _latestData[6];
-  event[3] = _latestData[7];
+  converter32.data[0] = _latestData[2];
+  converter32.data[1] = _latestData[3];
+  converter32.data[2] = _latestData[4];
+  converter32.data[3] = _latestData[5];
+  *time = converter32.value;
+
+  converter16.data[0] = _latestData[6];
+  converter16.data[1] = _latestData[7];
+  *payload = converter16.value;
 }

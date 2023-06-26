@@ -19,13 +19,46 @@ public:
     EVENT
   };
 
-  enum class Axis : uint8_t { X, Y, Z };
+  enum class Axis : uint8_t {
+    X,
+    Y,
+    Z
+  };
+
+  enum class Publisher : uint8_t {
+    SENSING_MODULE,
+    FLIGHT_MODULE,
+    MISSION_MODULE,
+    AIR_DATA_COMMUNICATION_MODULE,
+    SYSTEM_DATA_COMMUNICATION_MODULE
+  };
+
+  enum class EventCode : uint8_t {
+    SETUP,
+    RESET,
+    FLIGHT_MODE_ON,
+    IGNITION,
+    BURNOUT,
+    APOGEE,
+    SEPARATE,
+    LAND,
+    FLIGHT_MODE_OFF
+  };
 
   union Converter {
     float value;
-    uint32_t value_uint32;
     uint8_t data[4];
   }converter;
+
+  union Converter32 {
+    uint32_t value;
+    uint8_t data[4];
+  }converter32;
+
+  union Converter16 {
+    uint16_t value;
+    uint8_t data[2];
+  }converter16;
 
   CANMCP(uint8_t cs);
 
@@ -37,7 +70,7 @@ public:
   void receiveStatus(uint8_t* mode, bool* camera, bool* sn3);
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);
-  void receiveEvent(uint32_t* time, char* event);
+  void receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* time, uint16_t* payload);
 
 private:
   mcp2515_can* _can;

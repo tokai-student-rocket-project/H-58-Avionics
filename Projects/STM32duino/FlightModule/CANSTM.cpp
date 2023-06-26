@@ -49,20 +49,21 @@ void CANSTM::sendSystemStatus(uint8_t mode, bool camera, bool sn3) {
 }
 
 
-void CANSTM::sendEvent(uint32_t time, char event[]) {
+void CANSTM::sendEvent(Publisher publisher, EventCode eventCode, uint32_t time, uint16_t payload) {
   CANMessage message;
   message.id = static_cast<uint32_t>(Label::EVENT);
   message.len = 8;
 
-  converter.value_uint32 = time;
-  message.data[0] = converter.data[0];
-  message.data[1] = converter.data[1];
-  message.data[2] = converter.data[2];
-  message.data[3] = converter.data[3];
-  message.data[4] = event[0];
-  message.data[5] = event[1];
-  message.data[6] = event[2];
-  message.data[7] = event[3];
+  converter32.value = time;
+  converter16.value = payload;
+  message.data[0] = static_cast<uint32_t>(publisher);
+  message.data[1] = static_cast<uint32_t>(eventCode);
+  message.data[2] = converter32.data[0];
+  message.data[3] = converter32.data[1];
+  message.data[4] = converter32.data[2];
+  message.data[5] = converter32.data[3];
+  message.data[6] = converter16.data[0];
+  message.data[7] = converter16.data[1];
 
   can.tryToSendReturnStatus(message);
 }
