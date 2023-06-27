@@ -3,6 +3,7 @@
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
 #include "DetectionCounter.hpp"
+#include "ApogeeDetector.hpp"
 #include "Shiranui.hpp"
 #include "AnalogVoltage.hpp"
 
@@ -25,6 +26,7 @@ namespace flightMode {
 
 namespace timer {
   uint32_t thrust_time = 3000;
+  uint32_t protect_separation_time = 7000;
   uint32_t force_separation_time = 10000;
   uint32_t land_time = 25000;
   uint32_t shutdown_time = 26000;
@@ -33,6 +35,7 @@ namespace timer {
 
   void setReferenceTime();
   bool isElapsedTime(uint32_t time);
+  uint32_t flightTime();
 
   void task10Hz();
   void task100Hz();
@@ -61,6 +64,10 @@ namespace indicator {
 }
 
 namespace control {
+  DetectionCounter liftoffDetector(3);
+  DetectionCounter resetDetector(10);
+  ApogeeDetector apogeeDetector(0.05, 0.25);
+
   OutputPin camera(D9);
   Shiranui sn3(A0, "sn3");
 }
@@ -135,7 +142,13 @@ void timer::setReferenceTime() {
 /// @brief タイマーの時間を過ぎたか
 /// @param time 現在の時間
 bool timer::isElapsedTime(uint32_t time) {
-  return (millis() - timer::referenceTime) >= time;
+  return flightTime() >= time;
+}
+
+
+/// @brief 離昇してからの経過時間を返す
+uint32_t timer::flightTime() {
+  return millis() - timer::referenceTime;
 }
 
 
@@ -164,13 +177,14 @@ void timer::task10Hz() {
 
 
 void timer::task100Hz() {
-  // 連続検知の状態更新
-  sensor::liftoffDetector.update(sensor::flightPin.isOpen());
-  sensor::resetDetector.update(!sensor::flightPin.isOpen());
+  // 検知の状態更新
+  control::liftoffDetector.update(sensor::flightPin.isOpen());
+  control::resetDetector.update(!sensor::flightPin.isOpen());
+  control::apogeeDetector.update(data::altitude);
 
 
   // SLEEPモード以外の時にフライトピンが接続されたらリセット
-  if (flightMode::activeMode != flightMode::Mode::SLEEP && sensor::resetDetector.isDetected()) {
+  if (flightMode::activeMode != flightMode::Mode::SLEEP && control::resetDetector.isDetected()) {
     control::camera.off();
     flightMode::activeMode = flightMode::Mode::SLEEP;
     connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
@@ -181,7 +195,7 @@ void timer::task100Hz() {
   if (flightMode::activeMode == flightMode::Mode::CLIMB && isElapsedTime(timer::force_separation_time)) {
     control::sn3.separate();
     flightMode::activeMode = flightMode::Mode::PARACHUTE;
-    connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FORCE_SEPARATE, millis());
+    connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FORCE_SEPARATE, flightTime());
   }
 
 
@@ -191,7 +205,7 @@ void timer::task100Hz() {
   case (flightMode::Mode::SLEEP):
     // バルブ開信号かフライトモードオンコマンドを受信すればスタンバイモードに遷移する
     // フライトピン開放 || バルブ開 || FlightMode ON
-    if (sensor::liftoffDetector.isDetected() || false || false) {
+    if (control::liftoffDetector.isDetected() || false || false) {
       control::camera.on();
       flightMode::activeMode = flightMode::Mode::STANDBY;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
@@ -200,7 +214,7 @@ void timer::task100Hz() {
     // STANDBYモード 計測を開始し打ち上げを待つ
   case (flightMode::Mode::STANDBY):
     // フライトピン開放を検知すればTHRUSTモードに遷移する
-    if (sensor::liftoffDetector.isDetected()) {
+    if (control::liftoffDetector.isDetected()) {
       // 現時刻をX=0の基準にする
       timer::setReferenceTime();
       flightMode::activeMode = flightMode::Mode::THRUST;
@@ -213,25 +227,27 @@ void timer::task100Hz() {
     // モータ作動時間を超えたら上昇モードに遷移
     if (timer::isElapsedTime(timer::thrust_time)) {
       flightMode::activeMode = flightMode::Mode::CLIMB;
-      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::BURNOUT, millis());
+      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::BURNOUT, flightTime());
     }
     break;
 
     // CLIMBモード 上昇中
   case (flightMode::Mode::CLIMB):
     // 頂点を検知すれば下降モードに遷移
-    if (false) {
+    if (control::apogeeDetector.isDetected()) {
       flightMode::activeMode = flightMode::Mode::DESCENT;
-      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::APOGEE, millis());
+      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::APOGEE, flightTime());
     }
     break;
 
     // DESCENTモード 下降中
   case (flightMode::Mode::DESCENT):
-    // 頂点分離なので下降を始めたらすぐに分離
-    control::sn3.separate();
-    flightMode::activeMode = flightMode::Mode::PARACHUTE;
-    connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, millis());
+    // 頂点分離なので分離保護時間を過ぎているならすぐに分離
+    if (timer::isElapsedTime(timer::protect_separation_time)) {
+      control::sn3.separate();
+      flightMode::activeMode = flightMode::Mode::PARACHUTE;
+      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, flightTime());
+    }
     break;
 
     // PARACHUTEモード パラシュート下降中
@@ -239,7 +255,7 @@ void timer::task100Hz() {
     // 着地時間を超えたら着地モードに遷移
     if (timer::isElapsedTime(timer::land_time)) {
       flightMode::activeMode = flightMode::Mode::LAND;
-      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::LAND, millis());
+      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::LAND, flightTime());
     }
     break;
 
@@ -249,7 +265,7 @@ void timer::task100Hz() {
     if (timer::isElapsedTime(timer::shutdown_time)) {
       control::camera.off();
       flightMode::activeMode = flightMode::Mode::SHUTDOWN;
-      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, millis());
+      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, flightTime());
     }
     break;
   }
