@@ -26,6 +26,7 @@ namespace flightMode {
 
 namespace timer {
   uint32_t thrust_time = 3000;
+  uint32_t protect_separation_time = 7000;
   uint32_t force_separation_time = 10000;
   uint32_t land_time = 25000;
   uint32_t shutdown_time = 26000;
@@ -241,10 +242,12 @@ void timer::task100Hz() {
 
     // DESCENTモード 下降中
   case (flightMode::Mode::DESCENT):
-    // 頂点分離なので下降を始めたらすぐに分離
-    control::sn3.separate();
-    flightMode::activeMode = flightMode::Mode::PARACHUTE;
-    connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, flightTime());
+    // 頂点分離なので分離保護時間を過ぎているならすぐに分離
+    if (timer::isElapsedTime(timer::protect_separation_time)) {
+      control::sn3.separate();
+      flightMode::activeMode = flightMode::Mode::PARACHUTE;
+      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, flightTime());
+    }
     break;
 
     // PARACHUTEモード パラシュート下降中
