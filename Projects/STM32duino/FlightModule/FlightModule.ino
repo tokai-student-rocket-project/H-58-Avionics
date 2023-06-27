@@ -3,7 +3,7 @@
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
 #include "DetectionCounter.hpp"
-#include "ExponentialMovingAverage.hpp"
+#include "ApogeeDetector.hpp"
 #include "Shiranui.hpp"
 #include "AnalogVoltage.hpp"
 
@@ -63,6 +63,10 @@ namespace indicator {
 }
 
 namespace control {
+  DetectionCounter liftoffDetector(3);
+  DetectionCounter resetDetector(10);
+  ApogeeDetector apogeeDetector(0.5, 0.25);
+
   OutputPin camera(D9);
   Shiranui sn3(A0, "sn3");
 }
@@ -73,9 +77,6 @@ namespace connection {
 
 namespace data {
   float altitude;
-
-  ExponentialMovingAverage altitude_lpf_high(0.5);
-  ExponentialMovingAverage altitude_lpf_low(0.25);
 
   float voltage_supply, voltage_battery, voltage_pool;
 }
@@ -175,13 +176,14 @@ void timer::task10Hz() {
 
 
 void timer::task100Hz() {
-  // 連続検知の状態更新
-  sensor::liftoffDetector.update(sensor::flightPin.isOpen());
-  sensor::resetDetector.update(!sensor::flightPin.isOpen());
+  // 検知の状態更新
+  control::liftoffDetector.update(sensor::flightPin.isOpen());
+  control::resetDetector.update(!sensor::flightPin.isOpen());
+  control::apogeeDetector.update(data::altitude);
 
 
   // SLEEPモード以外の時にフライトピンが接続されたらリセット
-  if (flightMode::activeMode != flightMode::Mode::SLEEP && sensor::resetDetector.isDetected()) {
+  if (flightMode::activeMode != flightMode::Mode::SLEEP && control::resetDetector.isDetected()) {
     control::camera.off();
     flightMode::activeMode = flightMode::Mode::SLEEP;
     connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
@@ -202,7 +204,7 @@ void timer::task100Hz() {
   case (flightMode::Mode::SLEEP):
     // バルブ開信号かフライトモードオンコマンドを受信すればスタンバイモードに遷移する
     // フライトピン開放 || バルブ開 || FlightMode ON
-    if (sensor::liftoffDetector.isDetected() || false || false) {
+    if (control::liftoffDetector.isDetected() || false || false) {
       control::camera.on();
       flightMode::activeMode = flightMode::Mode::STANDBY;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
@@ -211,7 +213,7 @@ void timer::task100Hz() {
     // STANDBYモード 計測を開始し打ち上げを待つ
   case (flightMode::Mode::STANDBY):
     // フライトピン開放を検知すればTHRUSTモードに遷移する
-    if (sensor::liftoffDetector.isDetected()) {
+    if (control::liftoffDetector.isDetected()) {
       // 現時刻をX=0の基準にする
       timer::setReferenceTime();
       flightMode::activeMode = flightMode::Mode::THRUST;
@@ -230,20 +232,8 @@ void timer::task100Hz() {
 
     // CLIMBモード 上昇中
   case (flightMode::Mode::CLIMB):
-    // 頂点検知処理
-    data::altitude_lpf_low.update(data::altitude);
-    data::altitude_lpf_high.update(data::altitude);
-
-    float difference = data::altitude_lpf_low.getAverage() - data::altitude_lpf_high.getAverage();
-
-    Serial.print(data::altitude);
-    Serial.print(",");
-    Serial.print(data::altitude_lpf_low.getAverage());
-    Serial.print(",");
-    Serial.println(data::altitude_lpf_high.getAverage());
-
     // 頂点を検知すれば下降モードに遷移
-    if (difference <= 0) {
+    if (control::apogeeDetector.isDetected()) {
       flightMode::activeMode = flightMode::Mode::DESCENT;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::APOGEE, flightTime());
     }
