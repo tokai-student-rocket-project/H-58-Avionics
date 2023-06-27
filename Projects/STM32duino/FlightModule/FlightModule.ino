@@ -33,6 +33,7 @@ namespace timer {
 
   void setReferenceTime();
   bool isElapsedTime(uint32_t time);
+  uint32_t flightTime();
 
   void task10Hz();
   void task100Hz();
@@ -71,6 +72,7 @@ namespace connection {
 
 namespace data {
   float altitude;
+  float altitude_lpf_low, altitude_lpf_high;
 
   float voltage_supply, voltage_battery, voltage_pool;
 }
@@ -135,7 +137,13 @@ void timer::setReferenceTime() {
 /// @brief タイマーの時間を過ぎたか
 /// @param time 現在の時間
 bool timer::isElapsedTime(uint32_t time) {
-  return (millis() - timer::referenceTime) >= time;
+  return flightTime() >= time;
+}
+
+
+/// @brief 離昇してからの経過時間を返す
+uint32_t timer::flightTime() {
+  return millis() - timer::referenceTime;
 }
 
 
@@ -181,7 +189,7 @@ void timer::task100Hz() {
   if (flightMode::activeMode == flightMode::Mode::CLIMB && isElapsedTime(timer::force_separation_time)) {
     control::sn3.separate();
     flightMode::activeMode = flightMode::Mode::PARACHUTE;
-    connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FORCE_SEPARATE, millis());
+    connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FORCE_SEPARATE, flightTime());
   }
 
 
@@ -213,7 +221,7 @@ void timer::task100Hz() {
     // モータ作動時間を超えたら上昇モードに遷移
     if (timer::isElapsedTime(timer::thrust_time)) {
       flightMode::activeMode = flightMode::Mode::CLIMB;
-      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::BURNOUT, millis());
+      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::BURNOUT, flightTime());
     }
     break;
 
@@ -222,7 +230,7 @@ void timer::task100Hz() {
     // 頂点を検知すれば下降モードに遷移
     if (false) {
       flightMode::activeMode = flightMode::Mode::DESCENT;
-      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::APOGEE, millis());
+      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::APOGEE, flightTime());
     }
     break;
 
@@ -231,7 +239,7 @@ void timer::task100Hz() {
     // 頂点分離なので下降を始めたらすぐに分離
     control::sn3.separate();
     flightMode::activeMode = flightMode::Mode::PARACHUTE;
-    connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, millis());
+    connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, flightTime());
     break;
 
     // PARACHUTEモード パラシュート下降中
@@ -239,7 +247,7 @@ void timer::task100Hz() {
     // 着地時間を超えたら着地モードに遷移
     if (timer::isElapsedTime(timer::land_time)) {
       flightMode::activeMode = flightMode::Mode::LAND;
-      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::LAND, millis());
+      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::LAND, flightTime());
     }
     break;
 
@@ -249,7 +257,7 @@ void timer::task100Hz() {
     if (timer::isElapsedTime(timer::shutdown_time)) {
       control::camera.off();
       flightMode::activeMode = flightMode::Mode::SHUTDOWN;
-      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, millis());
+      connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, flightTime());
     }
     break;
   }
