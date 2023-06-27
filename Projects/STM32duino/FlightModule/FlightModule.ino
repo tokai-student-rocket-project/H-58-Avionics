@@ -3,6 +3,7 @@
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
 #include "DetectionCounter.hpp"
+#include "ExponentialMovingAverage.hpp"
 #include "Shiranui.hpp"
 #include "AnalogVoltage.hpp"
 
@@ -72,7 +73,9 @@ namespace connection {
 
 namespace data {
   float altitude;
-  float altitude_lpf_low, altitude_lpf_high;
+
+  ExponentialMovingAverage altitude_lpf_high(0.5);
+  ExponentialMovingAverage altitude_lpf_low(0.25);
 
   float voltage_supply, voltage_battery, voltage_pool;
 }
@@ -227,8 +230,20 @@ void timer::task100Hz() {
 
     // CLIMBモード 上昇中
   case (flightMode::Mode::CLIMB):
+    // 頂点検知処理
+    data::altitude_lpf_low.update(data::altitude);
+    data::altitude_lpf_high.update(data::altitude);
+
+    float difference = data::altitude_lpf_low.getAverage() - data::altitude_lpf_high.getAverage();
+
+    Serial.print(data::altitude);
+    Serial.print(",");
+    Serial.print(data::altitude_lpf_low.getAverage());
+    Serial.print(",");
+    Serial.println(data::altitude_lpf_high.getAverage());
+
     // 頂点を検知すれば下降モードに遷移
-    if (false) {
+    if (difference <= 0) {
       flightMode::activeMode = flightMode::Mode::DESCENT;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::APOGEE, flightTime());
     }
