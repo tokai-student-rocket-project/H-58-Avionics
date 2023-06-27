@@ -65,7 +65,7 @@ namespace indicator {
 namespace control {
   DetectionCounter liftoffDetector(3);
   DetectionCounter resetDetector(10);
-  ApogeeDetector apogeeDetector(0.5, 0.25);
+  ApogeeDetector apogeeDetector(0.05, 0.25);
 
   OutputPin camera(D9);
   Shiranui sn3(A0, "sn3");

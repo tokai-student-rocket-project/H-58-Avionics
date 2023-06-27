@@ -6,8 +6,8 @@
 
 class ExponentialMovingAverage {
 private:
-  float _sensitivity;
-  float _previousAverage;
+  float _sensitivity = 0;
+  float _previousAverage = 0;
 
 public:
   ExponentialMovingAverage(float sensitivity);
