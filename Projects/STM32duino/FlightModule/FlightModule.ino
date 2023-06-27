@@ -26,8 +26,8 @@ namespace flightMode {
 
 namespace timer {
   uint32_t thrust_time = 3000;
-  uint32_t protect_separation_time = 7000;
-  uint32_t force_separation_time = 10000;
+  uint32_t protectSeparation_time = 7000;
+  uint32_t forceSeparation_time = 10000;
   uint32_t land_time = 25000;
   uint32_t shutdown_time = 26000;
 
@@ -79,7 +79,7 @@ namespace connection {
 namespace data {
   float altitude;
 
-  float voltage_supply, voltage_battery, voltage_pool;
+  float voltageSupply, voltageBattery, voltagePool;
 }
 
 namespace develop {
@@ -161,14 +161,14 @@ void timer::task10Hz() {
 
   // デバッグ中はピンが干渉するので電圧監視を行わない
   if (!develop::isDebugMode) {
-    data::voltage_supply = sensor::supply.voltage();
-    data::voltage_battery = sensor::battery.voltage();
-    data::voltage_pool = sensor::pool.voltage();
+    data::voltageSupply = sensor::supply.voltage();
+    data::voltageBattery = sensor::battery.voltage();
+    data::voltagePool = sensor::pool.voltage();
   }
 
-  connection::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltage_supply);
-  connection::can.sendScalar(CANSTM::Label::VOLTAGE_BATTERY, data::voltage_battery);
-  connection::can.sendScalar(CANSTM::Label::VOLTAGE_POOL, data::voltage_pool);
+  connection::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltageSupply);
+  connection::can.sendScalar(CANSTM::Label::VOLTAGE_BATTERY, data::voltageBattery);
+  connection::can.sendScalar(CANSTM::Label::VOLTAGE_POOL, data::voltagePool);
   indicator::canSend.toggle();
 
   // その時のフライトモードに合わせてLEDを切り替える
@@ -192,7 +192,7 @@ void timer::task100Hz() {
 
 
   // 強制分離
-  if (flightMode::activeMode == flightMode::Mode::CLIMB && isElapsedTime(timer::force_separation_time)) {
+  if (flightMode::activeMode == flightMode::Mode::CLIMB && isElapsedTime(timer::forceSeparation_time)) {
     control::sn3.separate();
     flightMode::activeMode = flightMode::Mode::PARACHUTE;
     connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FORCE_SEPARATE, flightTime());
@@ -243,7 +243,7 @@ void timer::task100Hz() {
     // DESCENTモード 下降中
   case (flightMode::Mode::DESCENT):
     // 頂点分離なので分離保護時間を過ぎているならすぐに分離
-    if (timer::isElapsedTime(timer::protect_separation_time)) {
+    if (timer::isElapsedTime(timer::protectSeparation_time)) {
       control::sn3.separate();
       flightMode::activeMode = flightMode::Mode::PARACHUTE;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, flightTime());
