@@ -14,21 +14,26 @@ void setup() {
 
   pinMode(LED_BUILTIN, OUTPUT);
   LoRa.begin(921.8E6);
+  LoRa.setSignalBandwidth(500E3);
 
   MsgPacketizer::subscribe(LoRa, 0x00,
     [](
       uint8_t mode,
-      uint8_t camera,
-      uint8_t separatorDrogue,
-      uint8_t separatorMain,
+      bool camera,
+      bool sn3,
+      float voltage_supply,
+      float voltage_battery,
+      float voltage_pool,
       float latitude,
       float longitude
       )
     {
       transmitter::packet["mod"] = mode;
       transmitter::packet["cam"] = camera;
-      transmitter::packet["spd"] = separatorDrogue;
-      transmitter::packet["spm"] = separatorMain;
+      transmitter::packet["sn3"] = sn3;
+      transmitter::packet["vsp"] = voltage_supply;
+      transmitter::packet["vbt"] = voltage_battery;
+      transmitter::packet["vpl"] = voltage_pool;
       transmitter::packet["lat"] = latitude;
       transmitter::packet["lon"] = longitude;
 
