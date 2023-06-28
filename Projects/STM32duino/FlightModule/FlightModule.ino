@@ -66,7 +66,7 @@ namespace indicator {
 namespace control {
   DetectionCounter liftoffDetector(3);
   DetectionCounter resetDetector(10);
-  ApogeeDetector apogeeDetector(0.05, 0.25);
+  ApogeeDetector apogeeDetector(0.25, 0.75);
 
   OutputPin camera(D9);
   Shiranui sn3(A0, "sn3");
@@ -153,11 +153,15 @@ uint32_t timer::flightTime() {
 
 
 void timer::task10Hz() {
-  connection::can.sendSystemStatus(
-    static_cast<uint8_t>(flightMode::activeMode),
-    control::camera.get(),
-    control::sn3.get()
-  );
+  // その時のフライトモードに合わせてLEDを切り替える
+  indicator::indicateFlightMode(flightMode::activeMode);
+
+
+  // 検知の状態更新
+  control::liftoffDetector.update(sensor::flightPin.isOpen());
+  control::resetDetector.update(!sensor::flightPin.isOpen());
+  control::apogeeDetector.update(data::altitude);
+
 
   // デバッグ中はピンが干渉するので電圧監視を行わない
   if (!develop::isDebugMode) {
@@ -166,23 +170,21 @@ void timer::task10Hz() {
     data::voltagePool = sensor::pool.voltage();
   }
 
+
+  connection::can.sendSystemStatus(
+    static_cast<uint8_t>(flightMode::activeMode),
+    control::camera.get(),
+    control::sn3.get()
+  );
+
   connection::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltageSupply);
   connection::can.sendScalar(CANSTM::Label::VOLTAGE_BATTERY, data::voltageBattery);
   connection::can.sendScalar(CANSTM::Label::VOLTAGE_POOL, data::voltagePool);
   indicator::canSend.toggle();
-
-  // その時のフライトモードに合わせてLEDを切り替える
-  indicator::indicateFlightMode(flightMode::activeMode);
 }
 
 
 void timer::task100Hz() {
-  // 検知の状態更新
-  control::liftoffDetector.update(sensor::flightPin.isOpen());
-  control::resetDetector.update(!sensor::flightPin.isOpen());
-  control::apogeeDetector.update(data::altitude);
-
-
   // SLEEPモード以外の時にフライトピンが接続されたらリセット
   if (flightMode::activeMode != flightMode::Mode::SLEEP && control::resetDetector.isDetected()) {
     control::camera.off();
