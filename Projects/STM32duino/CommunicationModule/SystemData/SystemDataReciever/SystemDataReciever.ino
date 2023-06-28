@@ -46,6 +46,49 @@ void setup() {
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
   );
+
+  MsgPacketizer::subscribe(LoRa, 0x01,
+    [](
+      uint8_t publisher,
+      uint8_t eventCode,
+      uint32_t time,
+      uint16_t payload
+      )
+    {
+      transmitter::packet["tlm"]["rssi"] = LoRa.packetRssi();
+      transmitter::packet["tlm"]["snr"] = LoRa.packetSnr();
+
+      switch (publisher) {
+      case 0: transmitter::packet["pub"] = "SM"; break;
+      case 1: transmitter::packet["pub"] = "FM"; break;
+      case 2: transmitter::packet["pub"] = "MM"; break;
+      case 3: transmitter::packet["pub"] = "ACM"; break;
+      case 4: transmitter::packet["pub"] = "SCM"; break;
+      }
+
+      switch (eventCode) {
+      case 0: transmitter::packet["ecd"] = "SETUP"; break;
+      case 1: transmitter::packet["ecd"] = "RESET"; break;
+      case 2: transmitter::packet["ecd"] = "FLIGHT_MODE_ON"; break;
+      case 3: transmitter::packet["ecd"] = "IGNITION"; break;
+      case 4: transmitter::packet["ecd"] = "BURNOUT"; break;
+      case 5: transmitter::packet["ecd"] = "APOGEE"; break;
+      case 6: transmitter::packet["ecd"] = "SEPARATE"; break;
+      case 7: transmitter::packet["ecd"] = "LAND"; break;
+      case 8: transmitter::packet["ecd"] = "FLIGHT_MODE_OFF"; break;
+      case 9: transmitter::packet["ecd"] = "FORCE_SEPARATE"; break;
+      }
+
+      transmitter::packet["tim"] = time;
+      transmitter::packet["pld"] = payload;
+
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
+      transmitter::packet.clear();
+
+      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    }
+  );
 }
 
 
