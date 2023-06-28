@@ -2,7 +2,7 @@
 
 
 void CANSTM::begin() {
-  ACAN_STM32_Settings settings(500000);
+  ACAN_STM32_Settings settings(80000);
   settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
   can.begin(settings);
 }
