@@ -176,6 +176,7 @@ void timer::task10Hz() {
   sensor::thermistor.getTemperature(&data::temperature);
 
   connection::can.sendScalar(CANSTM::Label::TEMPERATURE, data::temperature);
+  indicator::canSend.toggle();
 }
 
 
@@ -184,6 +185,7 @@ void timer::task20Hz() {
 
   connection::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x, data::magnetometer_y, data::magnetometer_z);
   connection::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z);
+  connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
   indicator::canSend.toggle();
 }
 
@@ -197,7 +199,4 @@ void timer::task100Hz() {
 
   sensor::bme.getPressure(&data::pressure);
   data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::temperature + 273.15)) / 0.0065;
-
-  connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
-  indicator::canSend.toggle();
 }
