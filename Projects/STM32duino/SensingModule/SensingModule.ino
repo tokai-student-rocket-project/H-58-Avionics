@@ -174,6 +174,8 @@ void loop() {
 
 void timer::task10Hz() {
   sensor::thermistor.getTemperature(&data::temperature);
+
+  connection::can.sendScalar(CANSTM::Label::TEMPERATURE, data::temperature);
 }
 
 
