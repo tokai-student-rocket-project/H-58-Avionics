@@ -61,15 +61,19 @@ void loop() {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS:
       connection::can.receiveStatus(&data::mode, &data::camera, &data::sn3);
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::VOLTAGE_SUPPLY:
       connection::can.receiveScalar(&data::voltage_supply);
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::VOLTAGE_BATTERY:
       connection::can.receiveScalar(&data::voltage_battery);
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::VOLTAGE_POOL:
       connection::can.receiveScalar(&data::voltage_pool);
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::EVENT:
       CANMCP::Publisher publisher;
@@ -77,6 +81,7 @@ void loop() {
       uint32_t time;
       uint16_t payload;
       connection::can.receiveEvent(&publisher, &eventCode, &time, &payload);
+      indicator::canReceive.toggle();
 
       const auto& packet = MsgPacketizer::encode(
         0x01,
@@ -91,8 +96,6 @@ void loop() {
       LoRa.endPacket();
       indicator::loRaSend.toggle();
     }
-
-    indicator::canReceive.toggle();
   }
 }
 

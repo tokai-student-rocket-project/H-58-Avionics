@@ -164,10 +164,9 @@ void loop() {
     switch (connection::can.getLatestMessageLabel()) {
     case CANSTM::Label::SYSTEM_STATUS:
       connection::can.receiveStatus(&data::mode, &data::camera, &data::separator);
+      indicator::canReceive.toggle();
       break;
     }
-
-    indicator::canReceive.toggle();
   }
 }
 
@@ -176,7 +175,6 @@ void timer::task10Hz() {
   sensor::thermistor.getTemperature(&data::temperature);
 
   connection::can.sendScalar(CANSTM::Label::TEMPERATURE, data::temperature);
-  indicator::canSend.toggle();
 }
 
 
