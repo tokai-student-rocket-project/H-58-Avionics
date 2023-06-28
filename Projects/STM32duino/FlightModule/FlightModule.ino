@@ -158,8 +158,6 @@ void timer::task10Hz() {
 
 
   // 検知の状態更新
-  control::liftoffDetector.update(sensor::flightPin.isOpen());
-  control::resetDetector.update(!sensor::flightPin.isOpen());
   control::apogeeDetector.update(data::altitude);
 
 
@@ -185,6 +183,11 @@ void timer::task10Hz() {
 
 
 void timer::task100Hz() {
+  // 検知の状態更新
+  control::liftoffDetector.update(sensor::flightPin.isOpen());
+  control::resetDetector.update(!sensor::flightPin.isOpen());
+
+
   // SLEEPモード以外の時にフライトピンが接続されたらリセット
   if (flightMode::activeMode != flightMode::Mode::SLEEP && control::resetDetector.isDetected()) {
     control::camera.off();
