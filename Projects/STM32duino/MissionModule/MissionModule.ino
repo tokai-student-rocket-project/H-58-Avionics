@@ -110,10 +110,9 @@ void loop() {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS:
       connection::can.receiveStatus(&data::mode, &data::camera, &data::sn3);
+      indicator::canReceive.toggle();
       break;
     }
-
-    indicator::canReceive.toggle();
   }
 }
 

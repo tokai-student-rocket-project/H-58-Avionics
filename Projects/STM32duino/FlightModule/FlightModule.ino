@@ -125,10 +125,9 @@ void loop() {
     switch (connection::can.getLatestMessageLabel()) {
     case CANSTM::Label::ALTITUDE:
       connection::can.receiveScalar(&data::altitude);
+      indicator::canReceive.toggle();
       break;
     }
-
-    indicator::canReceive.toggle();
   }
 }
 

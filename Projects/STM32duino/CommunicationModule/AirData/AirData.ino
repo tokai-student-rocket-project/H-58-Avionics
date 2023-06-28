@@ -50,19 +50,21 @@ void loop() {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::ORIENTATION:
       connection::can.receiveVector(&data::orientation_x, &data::orientation_y, &data::orientation_z);
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::LINEAR_ACCELERATION:
       connection::can.receiveVector(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::ALTITUDE:
       connection::can.receiveScalar(&data::altitude);
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::TEMPERATURE:
       connection::can.receiveScalar(&data::temperature);
+      indicator::canReceive.toggle();
       break;
     }
-
-    indicator::canReceive.toggle();
   }
 }
 
