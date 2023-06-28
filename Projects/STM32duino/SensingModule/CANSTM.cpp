@@ -2,7 +2,7 @@
 
 
 void CANSTM::begin() {
-  ACAN_STM32_Settings settings(125000);
+  ACAN_STM32_Settings settings(250000);
   settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
   settings.mTransmitPriority = ACAN_STM32_Settings::BY_REQUEST_ORDER;
   can.begin(settings);

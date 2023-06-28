@@ -7,7 +7,7 @@ CANMCP::CANMCP(uint8_t cs) {
 
 
 void CANMCP::begin() {
-  _can->begin(CAN_125KBPS, MCP_8MHz);
+  _can->begin(CAN_250KBPS, MCP_8MHz);
 }
 
 
