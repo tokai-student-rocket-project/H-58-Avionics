@@ -28,6 +28,8 @@ void setup() {
       float linear_acceleration_z
       )
     {
+      transmitter::packet["tlm"]["rssi"] = LoRa.packetRssi();
+      transmitter::packet["tlm"]["snr"] = LoRa.packetSnr();
       transmitter::packet["alt"] = altitude;
       transmitter::packet["temp"] = temperature;
       transmitter::packet["ori"]["x"] = orientation_x;

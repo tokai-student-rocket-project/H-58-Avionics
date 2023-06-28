@@ -28,6 +28,8 @@ void setup() {
       float longitude
       )
     {
+      transmitter::packet["tlm"]["rssi"] = LoRa.packetRssi();
+      transmitter::packet["tlm"]["snr"] = LoRa.packetSnr();
       transmitter::packet["mod"] = mode;
       transmitter::packet["cam"] = camera;
       transmitter::packet["sn3"] = sn3;
