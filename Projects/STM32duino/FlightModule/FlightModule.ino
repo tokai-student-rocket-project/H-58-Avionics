@@ -5,6 +5,7 @@
 #include "DetectionCounter.hpp"
 #include "ApogeeDetector.hpp"
 #include "Shiranui.hpp"
+#include "Buzzer.hpp"
 #include "AnalogVoltage.hpp"
 
 
@@ -54,6 +55,8 @@ namespace sensor {
 namespace indicator {
   OutputPin canSend(D0);
   OutputPin canReceive(D1);
+
+  Buzzer buzzer(A1, "buzzer");
 
   OutputPin flightModeBit0(D8);
   OutputPin flightModeBit1(D7);
@@ -221,6 +224,7 @@ void timer::task100Hz() {
     if (control::liftoffDetector.isDetected()) {
       // 現時刻をX=0の基準にする
       timer::setReferenceTime();
+      indicator::buzzer.beepOnce();
       flightMode::activeMode = flightMode::Mode::THRUST;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::IGNITION);
     }
@@ -249,6 +253,7 @@ void timer::task100Hz() {
     // 頂点分離なので分離保護時間を過ぎているならすぐに分離
     if (timer::isElapsedTime(timer::protectSeparation_time)) {
       control::sn3.separate();
+      // indicator::buzzer.electricalParade();
       flightMode::activeMode = flightMode::Mode::PARACHUTE;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, flightTime());
     }
