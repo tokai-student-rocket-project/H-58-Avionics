@@ -52,7 +52,7 @@ public:
   Label getLatestMessageLabel();
 
   void sendSystemStatus(uint8_t mode, bool camera, bool sn3);
-  void sendEvent(Publisher publisher, EventCode eventCode, uint32_t time = 0, uint16_t payload = 0);
+  void sendEvent(Publisher publisher, EventCode eventCode, uint32_t timestamp = 0);
 
   void sendScalar(Label label, float value);
   void sendVector(Label label, Axis axis, float value);

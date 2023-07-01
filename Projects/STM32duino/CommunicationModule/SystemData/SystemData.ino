@@ -78,17 +78,15 @@ void loop() {
     case CANMCP::Label::EVENT:
       CANMCP::Publisher publisher;
       CANMCP::EventCode eventCode;
-      uint32_t time;
-      uint16_t payload;
-      connection::can.receiveEvent(&publisher, &eventCode, &time, &payload);
+      uint32_t timestamp;
+      connection::can.receiveEvent(&publisher, &eventCode, &timestamp);
       indicator::canReceive.toggle();
 
       const auto& packet = MsgPacketizer::encode(
         0x01,
         static_cast<uint8_t>(publisher),
         static_cast<uint8_t>(eventCode),
-        time,
-        payload
+        timestamp
       );
 
       LoRa.beginPacket();

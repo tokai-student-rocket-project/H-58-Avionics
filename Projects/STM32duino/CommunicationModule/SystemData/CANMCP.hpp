@@ -53,13 +53,13 @@ public:
   bool available();
   Label getLatestLabel();
 
-  void sendEvent(Publisher publisher, EventCode eventCode, uint32_t time = 0, uint16_t payload = 0);
+  void sendEvent(Publisher publisher, EventCode eventCode, uint32_t timestamp = 0);
 
 
   void receiveStatus(uint8_t* mode, bool* camera, bool* sn3);
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);
-  void receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* time, uint16_t* payload);
+  void receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* timestamp);
 
 private:
   mcp2515_can* _can;
