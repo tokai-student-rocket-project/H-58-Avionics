@@ -5,13 +5,21 @@ Buzzer::Buzzer(uint8_t pinNumber, String identify) {
   _pin = new OutputPin(pinNumber);
   _identify = identify;
 
-  Tasks.add(_identify, [&]() {_pin->off();});
+  Tasks.add(_identify, [&]() {_pin->toggle();});
 }
 
 
 void Buzzer::beepOnce() {
-  _pin->on();
-  Tasks[_identify]->startOnceAfterSec(0.1);
+  Tasks[_identify]->startIntervalMsecForCount(100, 2);
+}
+
+
+void Buzzer::beepTwice() {
+  Tasks[_identify]->startIntervalMsecForCount(100, 4);
+}
+
+void Buzzer::beepLongOnce() {
+  Tasks[_identify]->startIntervalMsecForCount(400, 2);
 }
 
 
@@ -270,8 +278,4 @@ void Buzzer::sleep4() {
 void Buzzer::sleep8() {
   delay(125);
   delay(15);
-}
-
-
-void Buzzer::beepTwice() {
 }

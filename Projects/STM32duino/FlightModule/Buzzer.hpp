@@ -13,6 +13,8 @@ public:
   void beepOnce();
   void beepTwice();
 
+  void beepLongOnce();
+
   void electricalParade();
 
   void beep2();
