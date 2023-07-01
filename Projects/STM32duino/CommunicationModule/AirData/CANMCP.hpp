@@ -16,7 +16,8 @@ public:
     VOLTAGE_BATTERY,
     VOLTAGE_POOL,
     SYSTEM_STATUS,
-    EVENT
+    EVENT,
+    COMMAND
   };
 
   enum class Axis : uint8_t {
@@ -46,6 +47,10 @@ public:
     FORCE_SEPARATE
   };
 
+  enum class CommandCode : uint8_t {
+    SET_REFERENCE_PRESSURE
+  };
+
   CANMCP(uint8_t cs);
 
   void begin();
@@ -54,6 +59,7 @@ public:
   Label getLatestLabel();
 
   void sendEvent(Publisher publisher, EventCode eventCode, uint32_t timestamp = 0);
+  void sendSetReferencePressureCommand(float referencePressure);
 
 
   void receiveStatus(uint8_t* mode, bool* camera, bool* sn3);

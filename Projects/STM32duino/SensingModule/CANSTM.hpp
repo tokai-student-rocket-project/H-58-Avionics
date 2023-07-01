@@ -16,7 +16,8 @@ public:
     VOLTAGE_BATTERY,
     VOLTAGE_POOL,
     SYSTEM_STATUS,
-    EVENT
+    EVENT,
+    COMMAND
   };
 
   enum class Axis : uint8_t {
@@ -46,6 +47,10 @@ public:
     FORCE_SEPARATE
   };
 
+  enum class CommandCode : uint8_t {
+    SET_REFERENCE_PRESSURE
+  };
+
   void begin();
 
   bool available();
@@ -61,6 +66,7 @@ public:
   void receiveStatus(uint8_t* mode, bool* camera, bool* sn3);
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);
+  void receiveSetReferencePressureCommand(float* referencePressure);
 
 private:
   uint32_t _latestLabel;

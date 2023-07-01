@@ -17,6 +17,7 @@ namespace sensor {
 }
 
 namespace indicator {
+  OutputPin canSend(2);
   OutputPin canReceive(1);
 
   OutputPin loRaSend(4);
@@ -51,6 +52,12 @@ void setup() {
   connection::can.sendEvent(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE, CANMCP::EventCode::SETUP);
 
   Tasks.add(timer::task10Hz)->startFps(10);
+
+  // デバッグ用 開始から10秒後に実行
+  Tasks.add([&]() {
+    connection::can.sendSetReferencePressureCommand(900.0);
+    indicator::canSend.toggle();
+    })->startOnceAfterSec(10);
 }
 
 
