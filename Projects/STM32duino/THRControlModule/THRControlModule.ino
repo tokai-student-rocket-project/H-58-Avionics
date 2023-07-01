@@ -1,6 +1,6 @@
 #include <TaskManager.h>
 #include "IcsHardSerialClass.h"
-//#include "EX_MAX31855.h" //test用のhファイル
+// #include "EX_MAX31855.h" //test用のhファイル
 #include "Adafruit_MAX31855.h"
 #include <SPI.h>
 #include <mcp2515_can.h>
@@ -11,17 +11,27 @@
 const int SPI_CS_PIN = 6;
 mcp2515_can CAN(SPI_CS_PIN);
 // unsigned char sample[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+
+namespace event
+{
+    enum class Mode : uint8_t
+    {
+        LAUNCH,
+        WAITING,
+    };
+
+    Mode eventMode;
+}
 union Converter
 {
-    // float value, value1;
     double correctedTemperature, coldJunctiontemperature, thermoCoupletemperature;
-    uint8_t data[4], data1[4];
-    uint8_t 
+    uint8_t correctedTemperatureData[8], coldJunctiontemperatureData[8], thermoCoupletemperatureData[8];
 } converter;
 
 /* CAN Config END */
 
 /*B3M Servo Config START*/
+
 const byte EN_PIN = 2;
 const long BAUNDRATE = 115200;
 const int TIMEOUT = 500;
@@ -36,12 +46,15 @@ IcsHardSerialClass B3M(&Serial1, EN_PIN, BAUNDRATE, TIMEOUT);
 /*B3M Servo Config END*/
 
 /*RS405CB Servo Config START*/
+
 uint8_t REDE = 3;
 int rs405cbCloseangle = -800;
 int rs405cbOpenangle = 0;
+
 /*RS405CB Servo Config END*/
 
-/*position Change Config START*/
+/*Mode Change Config START*/
+
 constexpr int POSITION_CHANGING_THRESHOLD = 5;
 uint8_t launchCount = 0;
 uint8_t waitingCount = 0;
@@ -49,20 +62,13 @@ uint8_t position = 1;
 uint8_t waitingPin = 8;
 uint8_t launchPin = 7;
 
-/*position Change Config END*/
-
-/*EX_MAX31855 Config START*/
-// int32_t rawData = 0;
-// //float temperature;
-// MAX31855 myMAX31855(5); // Chip Select PIN (CS)
-/*EX_MAX31855 Config END*/
+/* Change Config END*/
 
 /*MAX31855 Config START*/
 
-// #define MAXCS   10
 Adafruit_MAX31855 thermocouple(5);
 
-/*EX_MAX31855 Config END*/
+/*MAX31855 Config END*/
 
 /*MAX31855 Pin Config*/
 // MAX31855      Every
@@ -75,82 +81,77 @@ Adafruit_MAX31855 thermocouple(5);
 
 void setup()
 {
-    // pinMode(A6, OUTPUT); // Busser I/O
-
     Serial1.begin(115200, SERIAL_8N1); // 通信速度、パリティなしに設定
     Serial1.begin(115200);
     Serial.begin(115200);
-    Serial.println("Serial OK");
+    Serial.println(F("Serial OK"));
 
     /* --- RS405CB Config --- */
 
     pinMode(REDE, OUTPUT);
     Torque(0x01, 0x01);
     delay(100);
-    // Move(1, 900, 100);
-    delay(1100);
     Move(1, rs405cbOpenangle, 100);
 
     /* --- RS405CB END Config --- */
 
-    SIGNAL_initialize();
-    // MAX31855_initialize();
+    SignalInitialize();
+    event::eventMode = event::Mode::WAITING;
 
     /* ---B3M Config--- */
 
     B3M.begin(); // B3Mと通信開始
     B3M_initialize();
-    // B3M_setposition(0x01, -7500, 1000);
-    delay(2000);
     B3M_setposition(0x01, 0, 1000);
 
     /* ---B3M Config END--- */
 
     /* --- CAN --- */
 
-    CAN.begin(CAN_500KBPS, MCP_8MHz); // 500KBPSに固定
-    Serial.println("CAN init OK!");
+    CAN.begin(CAN_500KBPS, MCP_8MHz); // 500KBPS　<- 500kBpsに設定, MCP_8MHz <- MCP2515に搭載する水晶発振子に依存 //この値に固定
 
     /* --- CAN Config END --- */
 
     /* --- MAX31855 ---*/
+
     thermocouple.begin();
+
     /* ---  MAX31855 Config END ---*/
 
     Tasks.add("task", []()
               {
-                // Serial.print("Temperature: ");
-                // Serial.print(CorrectedTemperature());
-                // Serial.print(" | ");
-                // Serial.print("ColdJunctionTemperature: ");
-                // Serial.print(myMAX31855.getColdJunctionTemperature(rawData));
-                // Serial.print(" | ");
-
+                Serial.print("CorrectedTemperature: ");
+                Serial.print(CorrectedTemperature());
+                Serial.print(" | ");
                 Serial.print("ColdJunctionTemperature: ");
                 Serial.print(thermocouple.readInternal());
                 Serial.print(" | ");
                 Serial.print("Temperature: ");
                 Serial.print(thermocouple.readCelsius());
                 Serial.print(" | ");
-                Serial.print("CorrectedTemperature: ");
-                Serial.print(CorrectedTemperature());
-                Serial.print(" | ");
+                ChangeLaunchMode();
+                ChangeWaitingMode();
                 Serial.print("launchCount: ");
                 Serial.print(launchCount);
                 Serial.print(" | ");
                 Serial.print("waitingCount: ");
-                Serial.println(waitingCount); })
-        ->startFps(100); // 1/10*10^-3 = 100Hz
-                         //->startIntervalMsec(1000); // 1/1000*10^-3 = 1Hz
+                Serial.print(waitingCount);
+                Serial.print(" | ");
+                Serial.print("Mode: ");
+                if(event::eventMode == event::Mode::WAITING)
+                {
+                    Serial.println("WAITING");
+                }
+                else
+                {
+                    Serial.println("LAUNCH");
+                }; })
+        ->startFps(100);
 }
 
 void loop()
 {
     Tasks.update();
-
-    //rawData = myMAX31855.readRawData();
-    
-    //myMAX31855.getColdJunctionTemperature(rawData);
 
     /*↓ここを100Hzで回す*/
     if (position == 1 && digitalRead(launchPin) == LOW)
@@ -165,7 +166,7 @@ void loop()
     if (launchCount >= POSITION_CHANGING_THRESHOLD)
     {
         launchCount = 0;
-        Serial.println("Launch!!");
+        event::eventMode = event::Mode::LAUNCH;
 
         Torque(0x01, 0x01);
         Move(1, -800, 10);                // RS405CBを-80度動作させる //供給と一緒に位置合わせを行った
@@ -201,7 +202,8 @@ void loop()
     if (waitingCount >= POSITION_CHANGING_THRESHOLD)
     {
         waitingCount = 0;
-        Serial.println("Waiting!!");
+        event::eventMode = event::Mode::WAITING;
+
         Move(1, 0, 100);                // RS405CBを0度動作させる //供給と一緒に位置合わせを行った。
         delay(500);                     // 500ms 待機
         B3M_setposition(0x01, 0, 1000); // B3Mを0度(0000)動作させる
@@ -220,44 +222,34 @@ void loop()
     //     delay(10);
     // }
 
-    //MAX31855_errornotification(); // MAX31855 のエラーをお知らせ
-
-    // sample[7] = sample[7] + 1;
-
-    // if (sample[7] == 100)
-    // {
-    //     sample[7] = 0;
-    //     sample[6] = sample[6] + 1;
-
-    //     if (sample[6] == 100)
-    //     {
-    //         sample[6] = 0;
-    //         sample[5] = sample[5] + 1;
-    //     }
-    // }
+    // MAX31855_errornotification(); // MAX31855 のエラーをお知らせ
 
     // send data:  id = 0x100, standrad frame, data len = 8, stmp: data buf
-    // converter.value = myMAX31855.getTemperature(rawData);
-    //converter.value = thermocouple.readCelsius();
     converter.correctedTemperature = CorrectedTemperature();
-    CAN.sendMsgBuf(0x100, 0, 4, converter.data);
+    CAN.sendMsgBuf(0x100, 0, 8, converter.correctedTemperatureData);
+    // Serial.print(converter.correctedTemperatureData[0]);
+    // Serial.print(converter.correctedTemperatureData[1]);
+    // Serial.print(converter.correctedTemperatureData[2]);
+    // Serial.print(converter.correctedTemperatureData[3]);
+    // Serial.print(converter.correctedTemperatureData[4]);
+    // Serial.print(converter.correctedTemperatureData[5]);
+    // Serial.print(converter.correctedTemperatureData[6]);
+    // Serial.println(converter.correctedTemperatureData[7]);
 
     converter.coldJunctiontemperature = thermocouple.readInternal();
-    CAN.sendMsgBuf(0x101, 0, 4, converter.data1);
+    CAN.sendMsgBuf(0x101, 0, 8, converter.coldJunctiontemperatureData);
 
     converter.thermoCoupletemperature = thermocouple.readCelsius();
-    CAN.sendMsgBuf();
+    CAN.sendMsgBuf(0x102, 0, 8, converter.thermoCoupletemperatureData);
+
+    CAN.sendMsgBuf(0x103, 0, 1, static_cast<uint8_t>(event::eventMode));
+
+
     // digitalWrite(A6, HIGH);
     // delay(1000);
     // Serial.println("Busser ON");
     // digitalWrite(A6, LOW);
     // delay(5000);
-
-    // rawData = myMAX31855.readRawData();
-
-    // Serial.print(launchCount);
-    // Serial.print(",");
-    // Serial.println(waitingCount);
 
     /*B3M テスト用*/
 
@@ -451,45 +443,6 @@ void B3M_initialize()
     Serial.println(B3M_writeCommand(0x01, 0x00, 0x28));
 }
 
-// void MAX31855_initialize()
-// {
-//     myMAX31855.begin();
-//     while (myMAX31855.getChipID() != MAX31855_ID)
-//     {
-//         Serial.println(F("MAX31855 error"));
-//         delay(5000);
-//     }
-// }
-
-// void MAX31855_errornotification()
-// {
-//     while (myMAX31855.detectThermocouple() != MAX31855_THERMOCOUPLE_OK)
-//     {
-//         switch (myMAX31855.detectThermocouple())
-//         {
-//         case MAX31855_THERMOCOUPLE_SHORT_TO_VCC:
-//             Serial.println(F("Thermocouple short to VCC"));
-//             break;
-
-//         case MAX31855_THERMOCOUPLE_SHORT_TO_GND:
-//             Serial.println(F("Thermocouple short to GND"));
-//             break;
-
-//         case MAX31855_THERMOCOUPLE_NOT_CONNECTED:
-//             Serial.println(F("Thermocouple not connected"));
-//             break;
-
-//         case MAX31855_THERMOCOUPLE_UNKNOWN:
-//             Serial.println(F("Thermocouple unknown error"));
-//             break;
-
-//         case MAX31855_THERMOCOUPLE_READ_FAIL:
-//             Serial.println(F("Thermocouple read error, check chip & spi cable"));
-//             break;
-//         }
-//     }
-// }
-
 float CorrectedTemperature()
 {
     const float VOLTAGE_PER_DEGREE = 41.276;
@@ -497,12 +450,12 @@ float CorrectedTemperature()
 
     float temperature = thermocouple.readCelsius();
     float coldtemperature = thermocouple.readInternal();
-    float Voltage = VOLTAGE_PER_DEGREE*(temperature - coldtemperature);
+    float Voltage = VOLTAGE_PER_DEGREE * (temperature - coldtemperature);
 
-    return correcttemperature = Voltage/VOLTAGE_PER_DEGREE + coldtemperature;
+    return correcttemperature = Voltage / VOLTAGE_PER_DEGREE + coldtemperature;
 }
 
-void SIGNAL_initialize()
+void SignalInitialize()
 {
     uint8_t launchPin = 7;
     uint8_t waitingPin = 8;
@@ -511,18 +464,50 @@ void SIGNAL_initialize()
     pinMode(waitingPin, INPUT_PULLUP);
 }
 
-// void Launch_Count()
-// {
-//     uint8_t position;
-//     uint8_t launchCount;
-//     uint8_t launchPin;
+void ChangeLaunchMode()
+{
+    if (position == 1 && digitalRead(launchPin) == LOW)
+    {
+        launchCount++;
+    }
+    else
+    {
+        launchCount = 0;
+    }
 
-//     if (position == 1 && digitalRead(launchPin) == LOW)
-//     {
-//         launchCount++;
-//     }
-//     else
-//     {
-//         launchCount = 0;
-//     }
-// }
+    if (launchCount >= POSITION_CHANGING_THRESHOLD)
+    {
+        launchCount = 0;
+        event::eventMode = event::Mode::LAUNCH;
+        Torque(0x01, 0x01);
+        Move(1, -800, 10);
+        delay(200);
+        B3M_setposition(0x01, -6500, 10);
+
+        position = 2;
+    }
+}
+
+void ChangeWaitingMode()
+{
+    if (position == 2 && digitalRead(waitingPin) == LOW)
+    {
+        waitingCount++;
+    }
+    else
+    {
+        waitingCount = 0;
+    }
+
+    if (waitingCount >= POSITION_CHANGING_THRESHOLD)
+    {
+        waitingCount = 0;
+        event::eventMode = event::Mode::WAITING;
+
+        Move(1, 0, 100);
+        delay(500);
+        B3M_setposition(0x01, 0, 1000);
+
+        position = 1; 
+    }
+}
