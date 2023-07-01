@@ -51,8 +51,7 @@ void setup() {
     [](
       uint8_t publisher,
       uint8_t eventCode,
-      uint32_t time,
-      uint16_t payload
+      uint32_t timestamp,
       )
     {
       transmitter::packet["tlm"]["rssi"] = LoRa.packetRssi();
@@ -79,8 +78,7 @@ void setup() {
       case 9: transmitter::packet["ecd"] = "FORCE_SEPARATE"; break;
       }
 
-      transmitter::packet["tim"] = time;
-      transmitter::packet["pld"] = payload;
+      transmitter::packet["tim"] = timestamp;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();

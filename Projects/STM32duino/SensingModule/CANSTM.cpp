@@ -42,15 +42,14 @@ void CANSTM::sendSystemStatus(uint8_t mode, bool camera, bool sn3) {
 }
 
 
-void CANSTM::sendEvent(Publisher publisher, EventCode eventCode, uint32_t time, uint16_t payload) {
+void CANSTM::sendEvent(Publisher publisher, EventCode eventCode, uint32_t timestamp) {
   CANMessage message;
   message.id = static_cast<uint32_t>(Label::EVENT);
-  message.len = 8;
+  message.len = 6;
 
   message.data[0] = static_cast<uint32_t>(publisher);
   message.data[1] = static_cast<uint32_t>(eventCode);
-  memcpy(message.data + 2, &time, 4);
-  memcpy(message.data + 6, &payload, 2);
+  memcpy(message.data + 2, &timestamp, 4);
 
   can.tryToSendReturnStatus(message);
 }

@@ -29,14 +29,13 @@ CANMCP::Label CANMCP::getLatestLabel() {
 }
 
 
-void CANMCP::sendEvent(Publisher publisher, EventCode eventCode, uint32_t time, uint16_t payload) {
-  uint8_t data[8];
+void CANMCP::sendEvent(Publisher publisher, EventCode eventCode, uint32_t timestamp) {
+  uint8_t data[6];
   data[0] = static_cast<uint32_t>(publisher);
   data[1] = static_cast<uint32_t>(eventCode);
-  memcpy(data + 2, &time, 4);
-  memcpy(data + 6, &payload, 2);
+  memcpy(data + 2, &timestamp, 4);
 
-  _can->sendMsgBuf(static_cast<uint32_t>(Label::EVENT), 0, 8, data);
+  _can->sendMsgBuf(static_cast<uint32_t>(Label::EVENT), 0, 6, data);
 }
 
 
@@ -71,9 +70,8 @@ void CANMCP::receiveVector(float* xValue, float* yValue, float* zValue) {
 }
 
 
-void CANMCP::receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* time, uint16_t* payload) {
+void CANMCP::receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* timestamp) {
   *publisher = static_cast<CANMCP::Publisher>(_latestData[0]);
   *eventCode = static_cast<CANMCP::EventCode>(_latestData[1]);
-  memcpy(time, _latestData + 2, 4);
-  memcpy(payload, _latestData + 6, 2);
+  memcpy(timestamp, _latestData + 2, 4);
 }
