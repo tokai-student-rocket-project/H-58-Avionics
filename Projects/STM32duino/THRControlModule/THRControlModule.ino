@@ -108,7 +108,7 @@ void setup()
 
     /* --- CAN --- */
 
-    CAN.begin(CAN_500KBPS, MCP_8MHz); // 500KBPS　<- 500kBpsに設定, MCP_8MHz <- MCP2515に搭載する水晶発振子に依存 //この値に固定
+    CAN.begin(CAN_250KBPS, MCP_8MHz); // 250KBPS　<- 250kBpsに設定, MCP_8MHz <- MCP2515に搭載する水晶発振子に依存 //この値に固定
 
     /* --- CAN Config END --- */
 
