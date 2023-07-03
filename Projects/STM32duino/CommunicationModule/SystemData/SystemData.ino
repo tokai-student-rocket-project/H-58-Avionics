@@ -62,8 +62,8 @@ void setup() {
 
   // 参照気圧設定コマンド
   MsgPacketizer::subscribe(LoRa, 0xF0, [](uint8_t key, float referencePressure) {
-    command::executeSetReferencePressureCommand(key, referencePressure);
     indicator::loRaReceive.toggle();
+    command::executeSetReferencePressureCommand(key, referencePressure);
     });
 }
 
@@ -108,6 +108,8 @@ void loop() {
         static_cast<uint8_t>(eventCode),
         timestamp
       );
+
+      Serial.println(static_cast<uint8_t>(eventCode));
 
       LoRa.beginPacket();
       LoRa.write(packet.data.data(), packet.data.size());

@@ -169,6 +169,8 @@ void loop() {
     case CANSTM::Label::SET_REFERENCE_PRESSURE_COMMAND:
       connection::can.receiveSetReferencePressureCommand(&data::referencePressure);
       indicator::canReceive.toggle();
+      connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::REFERENCE_PRESSURE_UPDATED);
+      indicator::canSend.toggle();
       break;
     }
   }
@@ -198,9 +200,6 @@ void timer::task100Hz() {
   sensor::bno.getOrientation(&data::orientation_x, &data::orientation_y, &data::orientation_z);
   sensor::bno.getLinearAcceleration(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
   sensor::bno.getGravityVector(&data::gravity_x, &data::gravity_y, &data::gravity_z);
-
-  // デバッグ用
-  Serial.println(data::referencePressure);
 
   sensor::bme.getPressure(&data::pressure);
   data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::temperature + 273.15)) / 0.0065;

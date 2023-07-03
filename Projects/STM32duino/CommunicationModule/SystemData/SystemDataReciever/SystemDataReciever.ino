@@ -51,11 +51,10 @@ void setup() {
   // デバッグ用 開始から10秒後に実行
   Tasks.add([&]() {
     const auto& packet = MsgPacketizer::encode(0xF0, (uint8_t)0, (float)900.0);
-
     LoRa.beginPacket();
     LoRa.write(packet.data.data(), packet.data.size());
     LoRa.endPacket();
-    })->startOnceAfterSec(10);
+    })->startOnceAfterSec(5);
 
     MsgPacketizer::subscribe(LoRa, 0x01,
       [](
@@ -86,6 +85,7 @@ void setup() {
         case 7: transmitter::packet["ecd"] = "LAND"; break;
         case 8: transmitter::packet["ecd"] = "FLIGHT_MODE_OFF"; break;
         case 9: transmitter::packet["ecd"] = "FORCE_SEPARATE"; break;
+        case 10: transmitter::packet["ecd"] = "REFERENCE_PRESSURE_UPDATED"; break;
         }
 
         transmitter::packet["tim"] = timestamp;
