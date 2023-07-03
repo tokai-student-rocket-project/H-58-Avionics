@@ -12,6 +12,12 @@ namespace timer {
   void task10Hz();
 }
 
+namespace command {
+  uint8_t innerKey = 0;
+
+  void executeSetReferencePressureCommand(uint8_t key, float referencePressure);
+}
+
 namespace sensor {
   GNSS gnss;
 }
@@ -21,6 +27,7 @@ namespace indicator {
   OutputPin canReceive(1);
 
   OutputPin loRaSend(4);
+  OutputPin loRaReceive(3);
 
   OutputPin gpsStatus(5);
 }
@@ -53,17 +60,23 @@ void setup() {
 
   Tasks.add(timer::task10Hz)->startFps(10);
 
-  // デバッグ用 開始から10秒後に実行
-  Tasks.add([&]() {
-    connection::can.sendSetReferencePressureCommand(900.0);
-    indicator::canSend.toggle();
-    })->startOnceAfterSec(10);
+  // 参照気圧設定コマンド
+  MsgPacketizer::subscribe(LoRa, 0xF0, [](uint8_t key, float referencePressure) {
+    command::executeSetReferencePressureCommand(key, referencePressure);
+    indicator::loRaReceive.toggle();
+    });
 }
 
 
 void loop() {
   Tasks.update();
 
+  // LoRa受信処理
+  if (LoRa.parsePacket()) {
+    MsgPacketizer::parse();
+  }
+
+  // CAN受信処理
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS:
@@ -129,4 +142,15 @@ void timer::task10Hz() {
   LoRa.write(packet.data.data(), packet.data.size());
   LoRa.endPacket();
   indicator::loRaSend.toggle();
+}
+
+
+void command::executeSetReferencePressureCommand(uint8_t key, float referencePressure) {
+  if (key != command::innerKey) {
+    // TODO キー違うよのエラーをダウンリンクする
+    return;
+  }
+
+  connection::can.sendSetReferencePressureCommand(referencePressure);
+  indicator::canSend.toggle();
 }

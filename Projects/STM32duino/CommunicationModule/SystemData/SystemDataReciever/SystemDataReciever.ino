@@ -1,6 +1,7 @@
 #include <SPI.h>
 #include <LoRa.h>
 #include <MsgPacketizer.h>
+#include <TaskManager.h>
 #include <ArduinoJson.h>
 
 
@@ -47,50 +48,60 @@ void setup() {
     }
   );
 
-  MsgPacketizer::subscribe(LoRa, 0x01,
-    [](
-      uint8_t publisher,
-      uint8_t eventCode,
-      uint32_t timestamp,
-      )
-    {
-      transmitter::packet["tlm"]["rssi"] = LoRa.packetRssi();
-      transmitter::packet["tlm"]["snr"] = LoRa.packetSnr();
+  // デバッグ用 開始から10秒後に実行
+  Tasks.add([&]() {
+    const auto& packet = MsgPacketizer::encode(0xF0, (uint8_t)0, (float)900.0);
 
-      switch (publisher) {
-      case 0: transmitter::packet["pub"] = "SM"; break;
-      case 1: transmitter::packet["pub"] = "FM"; break;
-      case 2: transmitter::packet["pub"] = "MM"; break;
-      case 3: transmitter::packet["pub"] = "ACM"; break;
-      case 4: transmitter::packet["pub"] = "SCM"; break;
-      }
+    LoRa.beginPacket();
+    LoRa.write(packet.data.data(), packet.data.size());
+    LoRa.endPacket();
+    })->startOnceAfterSec(10);
 
-      switch (eventCode) {
-      case 0: transmitter::packet["ecd"] = "SETUP"; break;
-      case 1: transmitter::packet["ecd"] = "RESET"; break;
-      case 2: transmitter::packet["ecd"] = "FLIGHT_MODE_ON"; break;
-      case 3: transmitter::packet["ecd"] = "IGNITION"; break;
-      case 4: transmitter::packet["ecd"] = "BURNOUT"; break;
-      case 5: transmitter::packet["ecd"] = "APOGEE"; break;
-      case 6: transmitter::packet["ecd"] = "SEPARATE"; break;
-      case 7: transmitter::packet["ecd"] = "LAND"; break;
-      case 8: transmitter::packet["ecd"] = "FLIGHT_MODE_OFF"; break;
-      case 9: transmitter::packet["ecd"] = "FORCE_SEPARATE"; break;
-      }
+    MsgPacketizer::subscribe(LoRa, 0x01,
+      [](
+        uint8_t publisher,
+        uint8_t eventCode,
+        uint32_t timestamp
+        )
+      {
+        transmitter::packet["tlm"]["rssi"] = LoRa.packetRssi();
+        transmitter::packet["tlm"]["snr"] = LoRa.packetSnr();
 
-      transmitter::packet["tim"] = timestamp;
+        switch (publisher) {
+        case 0: transmitter::packet["pub"] = "SM"; break;
+        case 1: transmitter::packet["pub"] = "FM"; break;
+        case 2: transmitter::packet["pub"] = "MM"; break;
+        case 3: transmitter::packet["pub"] = "ACM"; break;
+        case 4: transmitter::packet["pub"] = "SCM"; break;
+        }
 
-      serializeJson(transmitter::packet, Serial);
-      Serial.println();
-      transmitter::packet.clear();
+        switch (eventCode) {
+        case 0: transmitter::packet["ecd"] = "SETUP"; break;
+        case 1: transmitter::packet["ecd"] = "RESET"; break;
+        case 2: transmitter::packet["ecd"] = "FLIGHT_MODE_ON"; break;
+        case 3: transmitter::packet["ecd"] = "IGNITION"; break;
+        case 4: transmitter::packet["ecd"] = "BURNOUT"; break;
+        case 5: transmitter::packet["ecd"] = "APOGEE"; break;
+        case 6: transmitter::packet["ecd"] = "SEPARATE"; break;
+        case 7: transmitter::packet["ecd"] = "LAND"; break;
+        case 8: transmitter::packet["ecd"] = "FLIGHT_MODE_OFF"; break;
+        case 9: transmitter::packet["ecd"] = "FORCE_SEPARATE"; break;
+        }
 
-      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-    }
-  );
+        transmitter::packet["tim"] = timestamp;
+
+        serializeJson(transmitter::packet, Serial);
+        Serial.println();
+        transmitter::packet.clear();
+
+        digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+      });
 }
 
 
 void loop() {
+  Tasks.update();
+
   if (LoRa.parsePacket()) {
     MsgPacketizer::parse();
   }
