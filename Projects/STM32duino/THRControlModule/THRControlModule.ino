@@ -188,77 +188,6 @@ void loop()
 {
     Tasks.update();
 
-    /*↓ここを100Hzで回す*/
-    // if (position == 1 && digitalRead(launchPin) == LOW)
-    // {
-    //     launchCount++;
-    // }
-    // else
-    // {
-    //     launchCount = 0;
-    // }
-
-    // if (launchCount >= POSITION_CHANGING_THRESHOLD)
-    // {
-    //     launchCount = 0;
-    //     event::eventMode = event::Mode::LAUNCH;
-
-    //     Torque(0x01, 0x01);
-    //     Move(1, -800, 10);                // RS405CBを-80度動作させる //供給と一緒に位置合わせを行った
-    //     delay(200);                       // 200ms 待機
-    //     B3M_setposition(0x01, -6500, 10); // B3Mを-65度(-6500)動作させる
-
-    //     position = 2;
-    //     delay(50);
-    // }
-
-    // if (digitalRead(launchPin) == LOW)
-    // {
-    //     Torque(0x01, 0x01);
-    //     Move(1, -800, 10);                // RS405CBを-80度動作させる //供給と一緒に位置合わせを行った
-    //     delay(200);                       // 200ms 待機
-    //     B3M_setposition(0x01, -6500, 10); // B3Mを-65度(-6500)動作させる
-
-    //     Serial.println("Launch!!");
-    //     delay(10);
-    // }
-
-    //-------------------------------------------------//
-
-    // if (position == 2 && digitalRead(waitingPin) == LOW)
-    // {
-    //     waitingCount++;
-    // }
-    // else
-    // {
-    //     waitingCount = 0;
-    // }
-
-    // if (waitingCount >= POSITION_CHANGING_THRESHOLD)
-    // {
-    //     waitingCount = 0;
-    //     event::eventMode = event::Mode::WAITING;
-
-    //     Move(1, 0, 100);                // RS405CBを0度動作させる //供給と一緒に位置合わせを行った。
-    //     delay(500);                     // 500ms 待機
-    //     B3M_setposition(0x01, 0, 1000); // B3Mを0度(0000)動作させる
-
-    //     position = 1;
-    //     delay(50);
-    // }
-
-    // if (digitalRead(waitingPin) == LOW)
-    // {
-    //     Move(1, 0, 100);                // RS405CBを0度動作させる //供給と一緒に位置合わせを行った。
-    //     delay(500);                     // 500ms 待機
-    //     B3M_setposition(0x01, 0, 1000); // B3Mを0度(0000)動作させる
-
-    //     Serial.println("Waiting!!");
-    //     delay(10);
-    // }
-
-    // MAX31855_errornotification(); // MAX31855 のエラーをお知らせ
-
     // send data:  id = 0x100, standrad frame, data len = 8, stmp: data buf
     converter.correctedTemperature = CorrectedTemperature();
     CAN.sendMsgBuf(0x100, 0, 8, converter.correctedTemperatureData);
@@ -278,12 +207,6 @@ void loop()
     CAN.sendMsgBuf(0x102, 0, 8, converter.thermoCoupletemperatureData);
 
     CAN.sendMsgBuf(0x103, 0, 1, static_cast<uint8_t>(event::eventMode));
-
-    // digitalWrite(A6, HIGH);
-    // delay(1000);
-    // Serial.println("Busser ON");
-    // digitalWrite(A6, LOW);
-    // delay(5000);
 
     /*B3M テスト用*/
 
