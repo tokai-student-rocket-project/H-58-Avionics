@@ -40,7 +40,7 @@ SCM ... SystemDataCommunicationModule
 | 0x06 | Pool Voltage                   | 4B     | FM   | SCM         | 10Hz | [0:4] Value (float)                                                          |
 | 0x07 | SystemStatus                   | 3B     | FM   | SM, MM, SCM | 10Hz | [0] FlightMode (uint8_t), [1] CameraState (bool), [2] SeparationState (bool) |
 | 0x08 | Event                          | 6B     |      | SCM         |      | [0] Publisher (uint8_t), [1] EventCode (uint8_t), [2:6] TimeStamp (uint32_t) |
-| 0x09 | Set Reference Pressure Command | 6B     | SCM  | SM          |      | [0:4] ReferencePressure (float)                                              |
+| 0x09 | Set Reference Pressure Command | 4B     | SCM  | SM          |      | [0:4] ReferencePressure (float)                                              |
 
 ## モジュール
 
