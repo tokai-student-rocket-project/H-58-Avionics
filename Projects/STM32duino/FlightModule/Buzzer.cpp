@@ -24,7 +24,7 @@ void Buzzer::beepLongOnce() {
 
 
 void Buzzer::electricalParade() {
-  // 1
+  // 1小節
   beep4();
   sleep8();
   beep8();
@@ -32,12 +32,12 @@ void Buzzer::electricalParade() {
   beep8();
   beep4();
 
-  // 2
+  // 2小節
   sleep4();
   beep2();
   beep4();
 
-  // 3
+  // 3小節
   beep4();
   sleep8();
   beep8();
@@ -45,12 +45,12 @@ void Buzzer::electricalParade() {
   beep8();
   beep4();
 
-  // 4
+  // 4小節
   sleep4();
   beep2();
   beep4();
 
-  // 5
+  // 5小節
   beep8();
   sleep8();
   beep8();
@@ -58,7 +58,7 @@ void Buzzer::electricalParade() {
   beep4();
   beep4();
 
-  // 6
+  // 6小節
   beep8();
   sleep8();
   beep8();
@@ -68,7 +68,7 @@ void Buzzer::electricalParade() {
   beep8();
   beep8();
 
-  // 7
+  // 7小節
   beep8();
   sleep8();
   beep8();
@@ -78,7 +78,7 @@ void Buzzer::electricalParade() {
   beep8();
   beep8();
 
-  // 8
+  // 8小節
   beep8();
   beep8();
   beep8();
@@ -88,43 +88,7 @@ void Buzzer::electricalParade() {
   beep8();
   beep8();
 
-  // 9
-  beep8();
-  sleep8();
-  beep8();
-  beep8();
-  beep4();
-  beep4();
-
-  // 10
-  beep8();
-  sleep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-
-  // 11
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-
-  // 12
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep4();
-  sleep4();
-
-  // 13
+  // 9小節
   beep8();
   sleep8();
   beep8();
@@ -132,7 +96,7 @@ void Buzzer::electricalParade() {
   beep4();
   beep4();
 
-  // 14
+  // 10小節
   beep8();
   sleep8();
   beep8();
@@ -142,17 +106,7 @@ void Buzzer::electricalParade() {
   beep8();
   beep8();
 
-  // 15
-  beep8();
-  sleep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-
-  // 16
+  // 11小節
   beep8();
   beep8();
   beep8();
@@ -162,35 +116,7 @@ void Buzzer::electricalParade() {
   beep8();
   beep8();
 
-  // 17
-  beep8();
-  sleep8();
-  beep8();
-  beep8();
-  beep4();
-  beep4();
-
-  // 18
-  beep8();
-  sleep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-
-  // 19
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-
-  // 20
+  // 12小節
   beep8();
   beep8();
   beep8();
@@ -198,49 +124,123 @@ void Buzzer::electricalParade() {
   beep4();
   sleep4();
 
-  // 21
+  // 13小節
+  beep8();
+  sleep8();
+  beep8();
+  beep8();
+  beep4();
+  beep4();
+
+  // 14小節
+  beep8();
+  sleep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+
+  // 15小節
+  beep8();
+  sleep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+
+  // 16小節
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+
+  // 17小節
+  beep8();
+  sleep8();
+  beep8();
+  beep8();
+  beep4();
+  beep4();
+
+  // 18小節
+  beep8();
+  sleep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+
+  // 19小節
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+
+  // 20小節
+  beep8();
+  beep8();
+  beep8();
+  beep8();
+  beep4();
+  sleep4();
+
+  // 21小節
   beep2();
   beep4();
   beep4();
 
-  // 22
+  // 22小節
   beep4();
   beep4();
   beep4();
   sleep4();
 
-  // 23
+  // 23小節
   beep8();
   beep8();
   beep4();
   beep4();
   beep4();
 
-  // 24
+  // 24小節
   beep8();
   beep8();
   beep4();
   beep4();
   sleep4();
 
-  // 25
+  // 25小節
   beep2();
   beep4();
   beep4();
 
-  // 26
+  // 26小節
   beep4();
   beep4();
   beep4();
   sleep4();
 
-  // 27
+  // 27小節
   beep4();
   beep4();
   beep4();
   beep4();
 
-  // 28
+  // 28小節
   beep8();
   beep8();
   beep4();
