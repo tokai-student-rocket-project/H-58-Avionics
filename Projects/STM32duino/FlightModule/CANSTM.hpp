@@ -17,7 +17,7 @@ public:
     VOLTAGE_POOL,
     SYSTEM_STATUS,
     EVENT,
-    COMMAND
+    SET_REFERENCE_PRESSURE_COMMAND
   };
 
   enum class Axis : uint8_t {
@@ -44,12 +44,10 @@ public:
     SEPARATE,
     LAND,
     FLIGHT_MODE_OFF,
-    FORCE_SEPARATE
+    FORCE_SEPARATE,
+    REFERENCE_PRESSURE_UPDATED
   };
 
-  enum class CommandCode : uint8_t {
-    SET_REFERENCE_PRESSURE
-  };
 
   void begin();
 

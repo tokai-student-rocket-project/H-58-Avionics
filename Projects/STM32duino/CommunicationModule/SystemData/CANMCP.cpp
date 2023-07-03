@@ -40,11 +40,10 @@ void CANMCP::sendEvent(Publisher publisher, EventCode eventCode, uint32_t timest
 
 
 void CANMCP::sendSetReferencePressureCommand(float payload) {
-  uint8_t data[5];
-  data[0] = static_cast<uint8_t>(CANMCP::CommandCode::SET_REFERENCE_PRESSURE);
-  memcpy(data + 1, &payload, 4);
+  uint8_t data[4];
+  memcpy(data, &payload, 4);
 
-  _can->sendMsgBuf(static_cast<uint32_t>(Label::COMMAND), 0, 5, data);
+  _can->sendMsgBuf(static_cast<uint32_t>(Label::SET_REFERENCE_PRESSURE_COMMAND), 0, 4, data);
 }
 
 
