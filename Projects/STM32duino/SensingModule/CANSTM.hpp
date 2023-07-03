@@ -17,7 +17,7 @@ public:
     VOLTAGE_POOL,
     SYSTEM_STATUS,
     EVENT,
-    COMMAND
+    SET_REFERENCE_PRESSURE_COMMAND
   };
 
   enum class Axis : uint8_t {
@@ -47,9 +47,6 @@ public:
     FORCE_SEPARATE
   };
 
-  enum class CommandCode : uint8_t {
-    SET_REFERENCE_PRESSURE
-  };
 
   void begin();
 

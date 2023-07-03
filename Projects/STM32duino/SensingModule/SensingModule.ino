@@ -169,6 +169,7 @@ void loop() {
     case CANSTM::Label::COMMAND:
       connection::can.receiveSetReferencePressureCommand(&data::referencePressure);
       indicator::canReceive.toggle();
+      break;
     }
   }
 }

@@ -117,5 +117,5 @@ void CANSTM::receiveVector(float* xValue, float* yValue, float* zValue) {
 
 
 void CANSTM::receiveSetReferencePressureCommand(float* referencePressure) {
-  memcpy(referencePressure, _latestData + 1, 4);
+  memcpy(referencePressure, _latestData, 4);
 }
