@@ -24,20 +24,26 @@ void Buzzer::beepLongOnce() {
 
 
 void Buzzer::electricalParade() {
-  // 1
-  beep4();
+
+  // BPM = 240
+
+  // Intro.
+
+  // 1小節
+  // flat
+  beep4(); // F
   sleep8();
   beep8();
   sleep8();
   beep8();
   beep4();
 
-  // 2
+  // 2小節
   sleep4();
-  beep2();
+  beep2(); // flat
   beep4();
 
-  // 3
+  // 3小節
   beep4();
   sleep8();
   beep8();
@@ -45,205 +51,215 @@ void Buzzer::electricalParade() {
   beep8();
   beep4();
 
-  // 4
+  // 4小節
   sleep4();
-  beep2();
+  beep2(); // flat
   beep4();
 
-  // 5
-  beep8();
+  // A
+
+  // 5小節
+  // flat
+  beep8(); // F
   sleep8();
   beep8();
   beep8();
-  beep4();
+  beep4(); // F/A
   beep4();
 
-  // 6
-  beep8();
+  // 6小節
+  beep8(); // B flat
   sleep8();
   beep8();
   beep8();
+  beep8(); // C
   beep8();
-  beep8();
-  beep8();
+  beep8(); // C7/B flat
   beep8();
 
-  // 7
-  beep8();
+  // 7小節
+  beep8(); // F/A
   sleep8();
   beep8();
   beep8();
+  beep8(); // F
+  beep8();
+  beep8();
+  beep8();
+
+  // 8小節
+  beep8(); // G7
+  beep8();
+  beep8(); // G7/D C
+  beep8();
   beep8();
   beep8();
   beep8();
   beep8();
 
-  // 8
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-
-  // 9
-  beep8();
+  // 9小節
+  // flat
+  beep8(); // F
   sleep8();
   beep8();
   beep8();
-  beep4();
+  beep4(); // F/A
   beep4();
 
-  // 10
-  beep8();
+  // 10小節
+  beep8(); // B flat
   sleep8();
   beep8();
   beep8();
+  beep8(); // C
   beep8();
+  beep8(); // C7/B flat
+  beep8();
+
+  // 11小節
+  beep8(); // F/A
+  beep8();
+  beep8();
+  beep8();
+  beep8(); // B flat
   beep8();
   beep8();
   beep8();
 
-  // 11
+  // 12小節
+  beep8(); // C
   beep8();
+  beep8(); // C/E
   beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-
-  // 12
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep4();
-  sleep4();
-
-  // 13
-  beep8();
-  sleep8();
-  beep8();
-  beep8();
-  beep4();
-  beep4();
-
-  // 14
-  beep8();
-  sleep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-
-  // 15
-  beep8();
-  sleep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-
-  // 16
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-
-  // 17
-  beep8();
-  sleep8();
-  beep8();
-  beep8();
-  beep4();
-  beep4();
-
-  // 18
-  beep8();
-  sleep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-
-  // 19
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-
-  // 20
-  beep8();
-  beep8();
-  beep8();
-  beep8();
-  beep4();
+  beep4(); // F
   sleep4();
 
-  // 21
-  beep2();
-  beep4();
+  // 13小節
+  // flat
+  beep8(); // F
+  sleep8();
+  beep8();
+  beep8();
+  beep4(); // F/A
   beep4();
 
-  // 22
+  // 14小節
+  beep8(); // B flat
+  sleep8();
+  beep8();
+  beep8();
+  beep8(); // C
+  beep8();
+  beep8(); // C7/B flat
+  beep8();
+
+  // 15小節
+  beep8(); // F/A
+  sleep8();
+  beep8();
+  beep8();
+  beep8(); // F
+  beep8();
+  beep8();
+  beep8();
+
+  // 16小節
+  beep8(); // G
+  beep8();
+  beep8(); // G/D
+  beep8();
+  beep8(); // C
+  beep8();
+  beep8();
+  beep8();
+
+  // 17小節
+  // flat
+  beep8(); // F
+  sleep8();
+  beep8();
+  beep8();
+  beep4(); // F/A
   beep4();
+
+  // 18小節
+  beep8(); // B flat
+  sleep8();
+  beep8();
+  beep8();
+  beep8(); // C
+  beep8();
+  beep8(); // C7/B flat
+  beep8();
+
+  // 19小節
+  beep8(); // F/A
+  beep8();
+  beep8();
+  beep8();
+  beep8(); // B flat
+  beep8();
+  beep8();
+  beep8();
+
+  // 20小節
+  beep8(); // C
+  beep8();
+  beep8(); // C/E
+  beep8();
+  beep4(); // F
+  sleep4();
+
+  // B
+
+  // 21小節
+  // flat
+  beep2(); // F
+  beep4(); // C/E
   beep4();
+
+  // 22小節
+  beep4(); // G/D
+  beep4();
+  beep4(); // C
+  sleep4();
+
+  // 23小節
+  beep8(); // F
+  beep8(); // natural
+  beep4();
+  beep4(); // C/G
+  beep4();
+
+  // 24小節
+  beep8(); // F/A
+  beep8();
+  beep4(); // G7/B C
   beep4();
   sleep4();
 
-  // 23
-  beep8();
-  beep8();
-  beep4();
-  beep4();
+  // 25小節
+  // flat
+  beep2(); // F
+  beep4(); // C/E
   beep4();
 
-  // 24
-  beep8();
-  beep8();
+  // 26小節
+  beep4(); // G/D
   beep4();
-  beep4();
+  beep4(); // C
   sleep4();
 
-  // 25
-  beep2();
+  // 27小節
+  beep4(); // F
   beep4();
-  beep4();
-
-  // 26
-  beep4();
-  beep4();
-  beep4();
-  sleep4();
-
-  // 27
-  beep4();
-  beep4();
-  beep4();
+  beep4(); // C/G
   beep4();
 
-  // 28
+  // 28小節
+  beep8(); // F/A
   beep8();
-  beep8();
-  beep4();
+  beep4(); // G7/B C
   beep4();
   sleep4();
 }
