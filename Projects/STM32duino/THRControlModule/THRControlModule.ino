@@ -128,60 +128,43 @@ void setup()
     pinMode(A3, OUTPUT); // launchLED
     pinMode(A7, OUTPUT); // tasksLED
 
-    digitalWrite(A2, LOW); //launch LED OFF
-    digitalWrite(A3, HIGH); //waiting LED ON
+    digitalWrite(A2, LOW);  // launch LED OFF
+    digitalWrite(A3, HIGH); // waiting LED ON
 
     Tasks.add("task", []()
               {
-                ToggleTasksLED();
-                Serial.print(F("CorrectedTemperature: "));
-                Serial.print(CorrectedTemperature());
-                Serial.print(F(" | "));
-                Serial.print(F("ColdJunctionTemperature: "));
-                Serial.print(thermocouple.readInternal());
-                Serial.print(F(" | "));
-                Serial.print(F("Temperature: "));
-                Serial.print(thermocouple.readCelsius());
-                Serial.print(F(" | "));
-                ChangeLaunchMode();
-                ChangeWaitingMode();
-                Serial.print(F("launchCount: "));
-                Serial.print(launchCount);
-                Serial.print(F(" | "));
-                Serial.print(F("waitingCount: "));
-                Serial.print(waitingCount);
-                Serial.print(F(" | "));
-                Serial.print(F("Mode: "));
-                if(event::eventMode == event::Mode::WAITING)
-                {
-                    Serial.println("WAITING");
-                }
-                else
-                {
-                    Serial.println("LAUNCH");
-                }; })
+                  ToggleTasksLED();
+                  Serial.print(F("CorrectedTemperature: "));
+                  Serial.print(CorrectedTemperature());
+                  Serial.print(F(" | "));
+                  Serial.print(F("ColdJunctionTemperature: "));
+                  Serial.print(thermocouple.readInternal());
+                  Serial.print(F(" | "));
+                  Serial.print(F("Temperature: "));
+                  Serial.print(thermocouple.readCelsius());
+                  Serial.print(F(" | "));
+                  ChangeLaunchMode();
+                  ChangeWaitingMode();
+                  Serial.print(F("launchCount: "));
+                  Serial.print(launchCount);
+                  Serial.print(F(" | "));
+                  Serial.print(F("waitingCount: "));
+                  Serial.print(waitingCount);
+                  Serial.print(F(" | "));
+                  Serial.print(F("Mode: "));
+                  if(event::eventMode == event::Mode::LAUNCH)
+                  {
+                    Serial.println(F("LAUNCH"));
+                  }
+                  else
+                  {
+                    Serial.println(F("WAITING"));
+                  };
+              })
         ->startFps(100);
 
-    // Tasks.add("Buzzer", []()
-    //           {
-    //             if(event::eventMode == event::Mode::WAITING)
-    //             {
-    //                 //Serial.println("WAITING");
-    //             }
-    //             else
-    //             {
-    //                 //Serial.println("LAUNCH");
-    //                 ToggleLaunchBuzzer();
-    //             }; })
-    //     //->startFpsForFrame(10, 5, false);
-    //     ->startIntervalSecFromForCount(5, 1, 5, true);
-
-    // Tasks.add("TasksLED", []()
-    // {
-    //     ToggleTasksLED();
-    // }
-    // )
-    // ->startFps(30);
+    Tasks.add("Buzzer", []()
+                { ToggleBuzzer(); });
 }
 
 void loop()
@@ -434,26 +417,17 @@ void ChangeLaunchMode()
 
     if (launchCount >= POSITION_CHANGING_THRESHOLD)
     {
-        launchCount = 0;
         event::eventMode = event::Mode::LAUNCH;
-        Torque(0x01, 0x01);
+
         Move(1, -800, 10);
         delay(200);
         B3M_setposition(0x01, -6500, 10);
 
+        Tasks["Buzzer"]->startIntervalMsecForCount(50, 6);
+
+        launchCount = 0;
         position = 2;
 
-        // digitalWrite(A6, HIGH);
-        // delay(40);
-        // digitalWrite(A6, LOW);
-        // delay(40);
-        // digitalWrite(A6, HIGH);
-        // delay(40);
-        // digitalWrite(A6, LOW);
-        // delay(40);
-        // digitalWrite(A6, HIGH);
-        // delay(40);
-        // digitalWrite(A6, LOW);
         digitalWrite(A3, LOW);
         digitalWrite(A2, HIGH);
     }
@@ -472,51 +446,28 @@ void ChangeWaitingMode()
 
     if (waitingCount >= POSITION_CHANGING_THRESHOLD)
     {
-        waitingCount = 0;
         event::eventMode = event::Mode::WAITING;
 
         Move(1, 0, 100);
         delay(500);
         B3M_setposition(0x01, 0, 1000);
+        
+        Tasks["Buzzer"]->startIntervalMsecForCount(100, 4);
 
+        waitingCount = 0;
         position = 1;
-        // digitalWrite(A6, HIGH);
-        // delay(40);
-        // digitalWrite(A6, LOW);
-        // delay(40);
-        // digitalWrite(A6, HIGH);
-        // delay(40);
-        // digitalWrite(A6, LOW);
+
         digitalWrite(A2, LOW);
         digitalWrite(A3, HIGH);
     }
 }
 
-bool BuzzerOn = false;
-void ToggleLaunchBuzzer()
+void ToggleBuzzer()
 {
-    BuzzerOn = !BuzzerOn;
-
-    if (BuzzerOn)
-    {
-        digitalWrite(A6, HIGH);
-    }
-    else
-    {
-        digitalWrite(A6, LOW);
-    }
+    digitalWrite(A6, !digitalRead(A6));
 }
 
-bool TasksLEDOn = false;
 void ToggleTasksLED()
 {
-    TasksLEDOn = !TasksLEDOn;
-
-    if (TasksLEDOn)
-    {
-        digitalWrite(A7, HIGH);
-    }
-    else{
-        digitalWrite(A7, LOW);
-    }
+    digitalWrite(A7, !digitalRead(A7));
 }
