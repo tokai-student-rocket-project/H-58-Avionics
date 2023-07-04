@@ -17,6 +17,7 @@ public:
     VOLTAGE_POOL,
     SYSTEM_STATUS,
     EVENT,
+    ERROR,
     SET_REFERENCE_PRESSURE_COMMAND
   };
 
@@ -48,6 +49,14 @@ public:
     REFERENCE_PRESSURE_UPDATED
   };
 
+  enum class ErrorCode : uint8_t {
+    COMMAND_RECEIVE_FAILED
+  };
+
+  enum class ErrorReason : uint8_t {
+    INVALID_KEY
+  };
+
 
   CANMCP(uint8_t cs);
 
@@ -57,6 +66,7 @@ public:
   Label getLatestLabel();
 
   void sendEvent(Publisher publisher, EventCode eventCode, uint32_t timestamp = 0);
+  void sendError(Publisher publisher, ErrorCode errorCode, ErrorReason errorReason, uint32_t timestamp = 0);
   void sendSetReferencePressureCommand(float referencePressure);
 
 
@@ -64,6 +74,7 @@ public:
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);
   void receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* timestamp);
+  void receiveError(Publisher* publisher, ErrorCode* errorCode, ErrorReason* errorReason, uint32_t* timestamp);
 
 private:
   mcp2515_can* _can;

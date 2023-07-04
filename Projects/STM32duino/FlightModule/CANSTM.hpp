@@ -17,6 +17,7 @@ public:
     VOLTAGE_POOL,
     SYSTEM_STATUS,
     EVENT,
+    ERROR,
     SET_REFERENCE_PRESSURE_COMMAND
   };
 
@@ -48,6 +49,14 @@ public:
     REFERENCE_PRESSURE_UPDATED
   };
 
+  enum class ErrorCode : uint8_t {
+    COMMAND_RECEIVE_FAILED
+  };
+
+  enum class ErrorReason : uint8_t {
+    INVALID_KEY
+  };
+
 
   void begin();
 
@@ -56,6 +65,7 @@ public:
 
   void sendSystemStatus(uint8_t mode, bool camera, bool sn3);
   void sendEvent(Publisher publisher, EventCode eventCode, uint32_t timestamp = 0);
+  void sendError(Publisher publisher, ErrorCode errorCode, ErrorReason errorReason, uint32_t timestamp = 0);
 
   void sendScalar(Label label, float value);
   void sendVector(Label label, Axis axis, float value);

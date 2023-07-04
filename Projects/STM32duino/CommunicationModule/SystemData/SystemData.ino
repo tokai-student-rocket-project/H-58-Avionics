@@ -149,7 +149,19 @@ void timer::task10Hz() {
 
 void command::executeSetReferencePressureCommand(uint8_t key, float referencePressure) {
   if (key != command::innerKey) {
-    // TODO キー違うよのエラーをダウンリンクする
+    const auto& packet = MsgPacketizer::encode(
+      0x02,
+      static_cast<uint8_t>(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE),
+      static_cast<uint8_t>(CANMCP::ErrorCode::COMMAND_RECEIVE_FAILED),
+      static_cast<uint8_t>(CANMCP::ErrorReason::INVALID_KEY),
+      millis()
+    );
+
+    LoRa.beginPacket();
+    LoRa.write(packet.data.data(), packet.data.size());
+    LoRa.endPacket();
+    indicator::loRaSend.toggle();
+
     return;
   }
 

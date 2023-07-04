@@ -39,6 +39,17 @@ void CANMCP::sendEvent(Publisher publisher, EventCode eventCode, uint32_t timest
 }
 
 
+void CANMCP::sendError(Publisher publisher, ErrorCode errorCode, ErrorReason errorReason, uint32_t timestamp) {
+  uint8_t data[7];
+  data[0] = static_cast<uint8_t>(publisher);
+  data[1] = static_cast<uint8_t>(errorCode);
+  data[2] = static_cast<uint8_t>(errorReason);
+  memcpy(data + 3, &timestamp, 4);
+
+  _can->sendMsgBuf(static_cast<uint32_t>(Label::ERROR), 0, 7, data);
+}
+
+
 void CANMCP::sendSetReferencePressureCommand(float payload) {
   uint8_t data[4];
   memcpy(data, &payload, 4);
@@ -82,4 +93,12 @@ void CANMCP::receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* 
   *publisher = static_cast<CANMCP::Publisher>(_latestData[0]);
   *eventCode = static_cast<CANMCP::EventCode>(_latestData[1]);
   memcpy(timestamp, _latestData + 2, 4);
+}
+
+
+void CANMCP::receiveError(Publisher* publisher, ErrorCode* errorCode, ErrorReason* errorReason, uint32_t* timestamp) {
+  *publisher = static_cast<CANMCP::Publisher>(_latestData[0]);
+  *errorCode = static_cast<CANMCP::ErrorCode>(_latestData[1]);
+  *errorReason = static_cast<CANMCP::ErrorReason>(_latestData[2]);
+  memcpy(timestamp, _latestData + 3, 4);
 }
