@@ -20,17 +20,17 @@ namespace StateTransition
     Mode ChangeMode;
 }
 
-// union Converter
-// {
+union Converter
+{
 
-// }converter;
+} converter;
 
 /* CANDATA Config END */
 
 /* B3M Servo Config START */
 const byte ENABLE_PIN = 2;
 const long BAUNDRATE = 115200;
-const int TIMEOUT = 100;
+const int TIMEOUT = 500;
 IcsHardSerialClass B3M(&Serial1, ENABLE_PIN, BAUNDRATE, TIMEOUT);
 /* B3M Servo Config END */
 
@@ -61,8 +61,9 @@ const uint8_t TasksLED = A7;
 
 void setup()
 {
-    Serial1.begin(115200, SERIAL_8N1);
-    Serial1.begin(115200);
+    Serial1.begin(115200 + 1152);
+    Serial1.begin(115200 + 1152, SERIAL_8N1);
+
     Serial.begin(115200);
 
     pinMode(REDE_PIN, OUTPUT);
@@ -93,20 +94,82 @@ void setup()
                   Serial.print(WaitingCount);
                   Serial.print(F(" | "));
                   Serial.print(F("Mode: "));
-                  if(StateTransition::ChangeMode == StateTransition::Mode::LAUNCH)
+                  if (StateTransition::ChangeMode == StateTransition::Mode::LAUNCH)
                   {
-                    Serial.println(F("LAUNCH"));
+                      Serial.print(F("LAUNCH"));
+                      Serial.print(F(" | "));
+
+                    //   B3M_readCommand(0x01, 0x2c, 0x02); // 現在位置読み出し
+                    //   B3M_readCommand(0x01, 0x32, 0x02); // 現在速度読み出し
+                    //   B3M_readCommand(0x01, 0x44, 0x02); // 現在のMCU温度読み出し
+                    //   B3M_readCommand(0x01, 0x46, 0x02); // 現在のモーター温度読み出し
+                    //   B3M_readCommand(0x01, 0x50, 0x02); // 現在のエンコーダーの位置読み出し
+                    //   Serial.println("");
                   }
                   else
                   {
-                    Serial.println(F("WAITING"));
-                  }; })
+                      Serial.print(F("WAITING"));
+                      Serial.print(F(" | "));
+
+                    //   B3M_readCommand(0x01, 0x2c, 0x02); // 現在位置読み出し
+                    //   B3M_readCommand(0x01, 0x32, 0x02); // 現在位置読み出し
+                    //   B3M_readCommand(0x01, 0x44, 0x02); // 現在のMCU温度読み出し
+                    //   B3M_readCommand(0x01, 0x46, 0x02); // 現在のモーター温度読み出し
+                    //   B3M_readCommand(0x01, 0x50, 0x02); // 現在のエンコーダーの位置読み出し
+                    //   Serial.println("");
+                  };
+
+                
+                  Serial.print(B3M_read2byteCommand(0x01, 0x2A)/100); // 目標位置読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x2C)/100); // 現在位置読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x30)/100); // 目標速度読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x32)/100); // 現在速度読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x44)/100); // 現在のMCU温度読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x46)/100); // 現在のモーター温度読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x50)); // 現在のエンコーダーの位置読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x48)/100); // 現在の負荷電流値読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x4A)); // 現在の入力電圧値読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x38)); // コマンド実行中時間読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x34)/100); // 1サンプリング回前の速度読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x4E)); // PWM周期読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x3C)); // 目標トルク読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0xAE)); // 絶対00位置からのエンコーダのずれ読み出し
+                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x0B)/100); // MCU温度リミット読み出し
+                  
+                  
+                  Serial.println(""); })
         ->startFps(100);
+
+    // Tasks.add("ReadCurrentPosition", []()
+    //           {
+    //             if(StateTransition::ChangeMode == StateTransition::Mode::LAUNCH)
+    //               {
+    //                 B3M_setposition(0x01, -6500, 10);
+    //               }
+    //               else
+    //               {
+    //                 B3M_setposition(0x01, 0, 1000);
+    //               }; })
+    //         ->startFps(10);
 
     Tasks.add("Buzzer", []()
               { ToggleBuzzer(); });
 
-    Tasks["Buzzer"]->startIntervalMsecForCount(150, 6);
+    Tasks["Buzzer"]->startIntervalMsecForCount(66, 10);
 }
 
 void loop()
@@ -114,7 +177,9 @@ void loop()
     Tasks.update();
 
     CAN.sendMsgBuf(0x103, 0, 1, static_cast<uint8_t>(StateTransition::ChangeMode));
+    CAN.sendMsgBuf(0x103, 0, 7, B3M_read2byteCommand(0x01, 0x2c));
 }
+
 void Torque(unsigned char ID, unsigned char data)
 {
     unsigned char TxData[9];
@@ -202,13 +267,14 @@ int B3M_writeCommand(byte id, byte TxData, byte Address)
     txCmd[6] = (byte)(0x01); // COUNT
     txCmd[7] = (byte)(0x00); // 初期化
 
+    // Serial.print("tx: ");
     for (int i = 0; i < 7; i++)
     {
         txCmd[7] += txCmd[i];
-        Serial.print(txCmd[i]);
-        Serial.print("");
+        // Serial.print(txCmd[i]);
+        // Serial.print("|");
     }
-    Serial.println("");
+    // Serial.println("");
     txCmd[7] = (byte)(txCmd[7]); // CHECKSUM
 
     // flag = B3M.synchronize(txCmd, sizeof txCmd, rxCmd, sizeof rxCmd);
@@ -219,8 +285,17 @@ int B3M_writeCommand(byte id, byte TxData, byte Address)
         return -1;
         Serial.println(F("synchronize ERROR"));
     }
-    reData = rxCmd[2];
 
+    Serial.print("rx: ");
+    for (int o = 0; o < 7; o++)
+    {
+        rxCmd[7] += rxCmd[o];
+        Serial.print(rxCmd[o]);
+        Serial.print("|");
+    }
+    Serial.println("");
+
+    reData = rxCmd[2];
     return reData;
 }
 
@@ -244,10 +319,14 @@ int B3M_setposition(byte id, int Pos, int Time)
 
     txCmd[8] = 0x00;
 
+    // Serial.print("tx: ");
     for (int i = 0; i < 8; i++)
     {
         txCmd[8] += txCmd[i];
+        // Serial.print(txCmd[i]);
+        // Serial.print("|");
     }
+    // Serial.println("|");
     txCmd[8] = (byte)(txCmd[8]); // SUM
 
     // flag = B3M.synchronize(txCmd, sizeof txCmd, rxCmd, sizeof rxCmd);
@@ -258,14 +337,16 @@ int B3M_setposition(byte id, int Pos, int Time)
         return -1;
         Serial.println(F("synchronize ERROR"));
     }
-    reData = rxCmd[7];
-    for (int i = 0; i < 7; i++)
-    {
-        Serial.print(reData);
-        Serial.print(" ");
-    }
-    Serial.println("");
 
+    // Serial.print("rx: ");
+    for (int o = 0; o < 7; o++)
+    {
+        // Serial.print(rxCmd[o]);
+        // Serial.print("|");
+    }
+    // Serial.println("");
+
+    reData = rxCmd[7];
     return reData;
 }
 
@@ -304,8 +385,7 @@ void ChangeLaunchMode()
 
         Move(1, -800, 10);
         delay(200);
-        B3M_setposition(0x01, -6500, 10);
-
+        B3M_setposition(0x01, -6500, 10); //-6500
         Tasks["Buzzer"]->startIntervalMsecForCount(50, 6);
 
         LaunchCount = 0;
@@ -334,7 +414,6 @@ void ChangeWaitingMode()
         Move(1, 0, 100);
         delay(500);
         B3M_setposition(0x01, 0, 1000);
-
         Tasks["Buzzer"]->startIntervalMsecForCount(100, 4);
 
         WaitingCount = 0;
@@ -374,4 +453,53 @@ void ToggleTasksLED()
 void ToggleBuzzer()
 {
     digitalWrite(BuzzerPin, !digitalRead(BuzzerPin));
+}
+
+int B3M_read2byteCommand(byte id, byte Address)
+{
+    byte txCmd[7];
+    byte rxCmd[7];
+    int16_t value;
+    int reData;
+    bool flag;
+
+    txCmd[0] = (byte)(0x07); // SIZE
+    txCmd[1] = (byte)(0x03); // COMMAND
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
+
+    txCmd[4] = (byte)(Address); // ADDRESS
+    txCmd[5] = (byte)(0x02);  // LENGTH
+
+    txCmd[6] = 0x00; // SUM
+
+    for (int i = 0; i < 6; i++)
+    {
+        txCmd[6] += txCmd[i];
+        // Serial.print(txCmd[i]);
+        // Serial.print("|");
+    }
+    // Serial.println("");
+
+    txCmd[6] = (byte)(txCmd[6]);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 7);
+
+    if (flag == false)
+    {
+        return -1;
+    }
+
+    // Serial.print("RAM: ");
+    for (int o = 4; o < 6; o++)
+    {
+        value = (rxCmd[o] << 8) | rxCmd[o];
+
+        // Serial.print(rxCmd[o], HEX);
+        // Serial.print(" ");
+    }
+    // Serial.print(" | ");
+
+    reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
+
+    return reData;
 }
