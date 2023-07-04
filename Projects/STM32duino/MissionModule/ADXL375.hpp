@@ -2,12 +2,16 @@
 
 
 #include <Arduino.h>
-#include <Wire.h>
+#include <SPI.h>
 
 
 class ADXL375 {
 public:
-  void begin();
+  ADXL375(uint32_t cs);
 
+  void begin();
   void getAcceleration(float* x, float* y, float* z);
+
+private:
+  uint32_t _cs;
 };

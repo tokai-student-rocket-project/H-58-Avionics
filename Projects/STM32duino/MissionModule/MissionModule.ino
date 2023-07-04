@@ -19,7 +19,7 @@ namespace timer {
 }
 
 namespace sensor {
-  ADXL375 adxl;
+  ADXL375 adxl(15);
 }
 
 namespace recorder {
@@ -67,17 +67,14 @@ void setup() {
 
   SPI.begin();
 
+  sensor::adxl.begin();
+
   if (recorder::sd.begin()) {
     indicator::sdStatus.on();
   }
   else {
     indicator::sdStatus.startBlink(2);
   }
-
-  Wire.begin();
-  Wire.setClock(400000);
-
-  sensor::adxl.begin();
 
   connection::can.begin();
 
