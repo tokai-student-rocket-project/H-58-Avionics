@@ -23,11 +23,13 @@ void setup() {
       float acceleration_z
       )
     {
-      transmitter::packet["tlm"]["rssi"] = LoRa.packetRssi();
-      transmitter::packet["tlm"]["snr"] = LoRa.packetSnr();
-      transmitter::packet["acc"]["x"] = acceleration_x;
-      transmitter::packet["acc"]["y"] = acceleration_y;
-      transmitter::packet["acc"]["z"] = acceleration_z;
+      transmitter::packet["PacketInfo"]["Sender"] = "MissionModule";
+      transmitter::packet["PacketInfo"]["Type"] = "MissionData";
+      transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
+      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      // transmitter::packet["Acc"]["x"] = acceleration_x;
+      // transmitter::packet["Acc"]["y"] = acceleration_y;
+      // transmitter::packet["Acc"]["z"] = acceleration_z;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();

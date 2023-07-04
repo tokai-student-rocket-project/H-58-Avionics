@@ -28,16 +28,18 @@ void setup() {
       float linear_acceleration_z
       )
     {
-      transmitter::packet["tlm"]["rssi"] = LoRa.packetRssi();
-      transmitter::packet["tlm"]["snr"] = LoRa.packetSnr();
-      transmitter::packet["alt"] = altitude;
-      transmitter::packet["temp"] = temperature;
-      transmitter::packet["ori"]["x"] = orientation_x;
-      transmitter::packet["ori"]["y"] = orientation_y;
-      transmitter::packet["ori"]["z"] = orientation_z;
-      transmitter::packet["lia"]["x"] = linear_acceleration_x;
-      transmitter::packet["lia"]["y"] = linear_acceleration_y;
-      transmitter::packet["lia"]["z"] = linear_acceleration_z;
+      transmitter::packet["PacketInfo"]["Sender"] = "AirDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Type"] = "AirData";
+      transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
+      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      // transmitter::packet["Alt"] = altitude;
+      // transmitter::packet["Temp"] = temperature;
+      // transmitter::packet["Ori"]["x"] = orientation_x;
+      // transmitter::packet["Ori"]["y"] = orientation_y;
+      // transmitter::packet["Ori"]["z"] = orientation_z;
+      // transmitter::packet["Lia"]["x"] = linear_acceleration_x;
+      // transmitter::packet["Lia"]["y"] = linear_acceleration_y;
+      // transmitter::packet["Lia"]["z"] = linear_acceleration_z;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();
