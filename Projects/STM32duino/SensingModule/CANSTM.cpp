@@ -55,6 +55,20 @@ void CANSTM::sendEvent(Publisher publisher, EventCode eventCode, uint32_t timest
 }
 
 
+void CANSTM::sendError(Publisher publisher, ErrorCode errorCode, ErrorReason errorReason, uint32_t timestamp) {
+  CANMessage message;
+  message.id = static_cast<uint32_t>(Label::ERROR);
+  message.len = 7;
+
+  message.data[0] = static_cast<uint32_t>(publisher);
+  message.data[1] = static_cast<uint32_t>(errorCode);
+  message.data[1] = static_cast<uint32_t>(errorReason);
+  memcpy(message.data + 3, &timestamp, 4);
+
+  can.tryToSendReturnStatus(message);
+}
+
+
 void CANSTM::sendScalar(Label label, float value) {
   CANMessage message;
   message.id = static_cast<uint32_t>(label);
