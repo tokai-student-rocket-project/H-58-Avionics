@@ -28,10 +28,10 @@ void setup() {
       float linear_acceleration_z
       )
     {
-      transmitter::packet["PacketInfo"]["Sender"] = "AirDataCommunicationModule";
-      transmitter::packet["PacketInfo"]["Type"] = "AirData";
-      transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
-      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      // transmitter::packet["PacketInfo"]["Sender"] = "AirDataCommunicationModule";
+      // transmitter::packet["PacketInfo"]["Type"] = "AirData";
+      // transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
+      // transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       // transmitter::packet["Alt"] = altitude;
       // transmitter::packet["Temp"] = temperature;
       // transmitter::packet["Ori"]["x"] = orientation_x;
@@ -41,9 +41,35 @@ void setup() {
       // transmitter::packet["Lia"]["y"] = linear_acceleration_y;
       // transmitter::packet["Lia"]["z"] = linear_acceleration_z;
 
-      serializeJson(transmitter::packet, Serial);
-      Serial.println();
-      transmitter::packet.clear();
+      // serializeJson(transmitter::packet, Serial);
+      // Serial.println();
+      // transmitter::packet.clear();
+
+      Serial.print("AirDataCommunicationModule");
+      Serial.print(",");
+      Serial.print("AirData");
+      Serial.print(",");
+      Serial.print(LoRa.packetRssi());
+      Serial.print(",");
+      Serial.print(LoRa.packetSnr());
+      Serial.print(",");
+      Serial.print(millis());
+      Serial.print(",");
+      Serial.print(altitude);
+      Serial.print(",");
+      Serial.print(temperature);
+      Serial.print(",");
+      Serial.print(orientation_x);
+      Serial.print(",");
+      Serial.print(orientation_y);
+      Serial.print(",");
+      Serial.print(orientation_z);
+      Serial.print(",");
+      Serial.print(linear_acceleration_x);
+      Serial.print(",");
+      Serial.print(linear_acceleration_y);
+      Serial.print(",");
+      Serial.println(linear_acceleration_z);
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }

@@ -23,17 +23,33 @@ void setup() {
       float acceleration_z
       )
     {
-      transmitter::packet["PacketInfo"]["Sender"] = "MissionModule";
-      transmitter::packet["PacketInfo"]["Type"] = "MissionData";
-      transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
-      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      // transmitter::packet["PacketInfo"]["Sender"] = "MissionModule";
+      // transmitter::packet["PacketInfo"]["Type"] = "MissionData";
+      // transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
+      // transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       // transmitter::packet["Acc"]["x"] = acceleration_x;
       // transmitter::packet["Acc"]["y"] = acceleration_y;
       // transmitter::packet["Acc"]["z"] = acceleration_z;
 
-      serializeJson(transmitter::packet, Serial);
-      Serial.println();
-      transmitter::packet.clear();
+      // serializeJson(transmitter::packet, Serial);
+      // Serial.println();
+      // transmitter::packet.clear();
+
+      Serial.print("MissionModule");
+      Serial.print(",");
+      Serial.print("MissionData");
+      Serial.print(",");
+      Serial.print(LoRa.packetRssi());
+      Serial.print(",");
+      Serial.print(LoRa.packetSnr());
+      Serial.print(",");
+      Serial.print(millis());
+      Serial.print(",");
+      Serial.print(acceleration_x);
+      Serial.print(",");
+      Serial.print(acceleration_y);
+      Serial.print(",");
+      Serial.println(acceleration_z);
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
