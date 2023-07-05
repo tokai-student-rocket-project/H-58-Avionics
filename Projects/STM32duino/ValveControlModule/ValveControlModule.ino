@@ -61,8 +61,8 @@ const uint8_t TasksLED = A7;
 
 void setup()
 {
-    Serial1.begin(115200 + 1152);
-    Serial1.begin(115200 + 1152, SERIAL_8N1);
+    Serial1.begin(115200);
+    Serial1.begin(115200, SERIAL_8N1);
 
     Serial.begin(115200);
 
@@ -120,34 +120,34 @@ void setup()
                   };
 
                 
-                  Serial.print(B3M_read2byteCommand(0x01, 0x2A)/100); // 目標位置読み出し
-                  Serial.print(" | ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x2C)/100); // 現在位置読み出し
-                  Serial.print(" | ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x30)/100); // 目標速度読み出し
-                  Serial.print(" | ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x32)/100); // 現在速度読み出し
-                  Serial.print(" | ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x2A)); // 目標位置読み出し
+                  Serial.print("|");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x2C)); // 現在位置読み出し
+                  Serial.print("|");
+                  // Serial.print(B3M_read2byteCommand(0x01, 0x30)/100); // 目標速度読み出し //速度制御モードのみ有効
+                  // Serial.print("|");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x32)); // 現在速度読み出し
+                  Serial.print("|");
                   Serial.print(B3M_read2byteCommand(0x01, 0x44)/100); // 現在のMCU温度読み出し
-                  Serial.print(" | ");
+                  Serial.print("|");
                   Serial.print(B3M_read2byteCommand(0x01, 0x46)/100); // 現在のモーター温度読み出し
-                  Serial.print(" | ");
+                  Serial.print("|");
                   Serial.print(B3M_read2byteCommand(0x01, 0x50)); // 現在のエンコーダーの位置読み出し
-                  Serial.print(" | ");
+                  Serial.print("|");
                   Serial.print(B3M_read2byteCommand(0x01, 0x48)/100); // 現在の負荷電流値読み出し
-                  Serial.print(" | ");
+                  Serial.print("|");
                   Serial.print(B3M_read2byteCommand(0x01, 0x4A)); // 現在の入力電圧値読み出し
-                  Serial.print(" | ");
+                  Serial.print("|");;
                   Serial.print(B3M_read2byteCommand(0x01, 0x38)); // コマンド実行中時間読み出し
-                  Serial.print(" | ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x34)/100); // 1サンプリング回前の速度読み出し
-                  Serial.print(" | ");
+                  Serial.print("|");;
+                  Serial.print(B3M_read2byteCommand(0x01, 0x34)); // 1サンプリング回前の速度読み出し
+                  Serial.print("|");;
                   Serial.print(B3M_read2byteCommand(0x01, 0x4E)); // PWM周期読み出し
-                  Serial.print(" | ");
+                  Serial.print("|");;
                   Serial.print(B3M_read2byteCommand(0x01, 0x3C)); // 目標トルク読み出し
-                  Serial.print(" | ");
+                  Serial.print("|");;
                   Serial.print(B3M_read2byteCommand(0x01, 0xAE)); // 絶対00位置からのエンコーダのずれ読み出し
-                  Serial.print(" | ");
+                  Serial.print("|");;
                   Serial.print(B3M_read2byteCommand(0x01, 0x0B)/100); // MCU温度リミット読み出し
                   
                   
@@ -384,8 +384,8 @@ void ChangeLaunchMode()
         StateTransition::ChangeMode = StateTransition::Mode::LAUNCH;
 
         Move(1, -800, 10);
-        delay(200);
-        B3M_setposition(0x01, -6500, 10); //-6500
+        delay(50);
+        B3M_setposition(0x01, -6500, 10); //-6500/100 = -65deg
         Tasks["Buzzer"]->startIntervalMsecForCount(50, 6);
 
         LaunchCount = 0;
@@ -412,8 +412,8 @@ void ChangeWaitingMode()
         StateTransition::ChangeMode = StateTransition::Mode::WAITING;
 
         Move(1, 0, 100);
-        delay(500);
-        B3M_setposition(0x01, 0, 1000);
+        delay(20);
+        B3M_setposition(0x01, 0, 10);
         Tasks["Buzzer"]->startIntervalMsecForCount(100, 4);
 
         WaitingCount = 0;
