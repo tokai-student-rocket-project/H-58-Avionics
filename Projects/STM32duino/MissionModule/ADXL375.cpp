@@ -85,17 +85,57 @@ void ADXL375::begin() {
 
 
 void ADXL375::getAcceleration(float* x, float* y, float* z) {
-  // Wire.beginTransmission(0x53);
-  // Wire.write(0x32);
-  // Wire.endTransmission();
-  // Wire.requestFrom(0x53, 6);
+  // Read x
+  SPI.beginTransaction(_spiSettings);
+  digitalWrite(_cs, LOW);
+  SPI.transfer(0b11000000 | 0x32); // Address: Read | DATAX0
+  uint8_t xRaw0 = SPI.transfer(0x00);
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
 
-  // int16_t xRaw = ((int16_t)Wire.read() << 8) | (int16_t)Wire.read();
-  // *x = (float)xRaw * 0.049;
+  SPI.beginTransaction(_spiSettings);
+  digitalWrite(_cs, LOW);
+  SPI.transfer(0b11000000 | 0x33); // Address: Read | DATAX1
+  uint8_t xRaw1 = SPI.transfer(0x00);
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
 
-  // int16_t yRaw = ((int16_t)Wire.read() << 8) | (int16_t)Wire.read();
-  // *y = (float)yRaw * 0.049;
+  // Read y
+  SPI.beginTransaction(_spiSettings);
+  digitalWrite(_cs, LOW);
+  SPI.transfer(0b11000000 | 0x34); // Address: Read | DATAY0
+  uint8_t yRaw0 = SPI.transfer(0x00);
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
 
-  // int16_t zRaw = ((int16_t)Wire.read() << 8) | (int16_t)Wire.read();
-  // *z = (float)zRaw * 0.049;
+  SPI.beginTransaction(_spiSettings);
+  digitalWrite(_cs, LOW);
+  SPI.transfer(0b11000000 | 0x35); // Address: Read | DATAY1
+  uint8_t yRaw1 = SPI.transfer(0x00);
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
+
+  // Read z
+  SPI.beginTransaction(_spiSettings);
+  digitalWrite(_cs, LOW);
+  SPI.transfer(0b11000000 | 0x36); // Address: Read | DATAZ0
+  uint8_t zRaw0 = SPI.transfer(0x00);
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
+
+  SPI.beginTransaction(_spiSettings);
+  digitalWrite(_cs, LOW);
+  SPI.transfer(0b11000000 | 0x37); // Address: Read | DATAZ1
+  uint8_t zRaw1 = SPI.transfer(0x00);
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
+
+  int16_t xRaw = ((int16_t)xRaw0 << 8) | (int16_t)xRaw1;
+  *x = (float)xRaw * 0.049;
+
+  int16_t yRaw = ((int16_t)yRaw0 << 8) | (int16_t)yRaw1;
+  *y = (float)yRaw * 0.049;
+
+  int16_t zRaw = ((int16_t)zRaw0 << 8) | (int16_t)zRaw1;
+  *z = (float)zRaw * 0.049;
 }

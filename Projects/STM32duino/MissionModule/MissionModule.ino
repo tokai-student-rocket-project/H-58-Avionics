@@ -132,4 +132,10 @@ void timer::task50Hz() {
 
 void timer::task1k2Hz() {
   sensor::adxl.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
+
+  Serial.print(data::acceleration_x);
+  Serial.print(",");
+  Serial.print(data::acceleration_y);
+  Serial.print(",");
+  Serial.println(data::acceleration_z);
 }
