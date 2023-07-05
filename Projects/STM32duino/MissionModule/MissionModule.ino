@@ -57,6 +57,7 @@ namespace data {
 
 void setup() {
   Serial.begin(115200);
+  delay(800);
 
   LoRa.begin(925.8E6);
   LoRa.setSignalBandwidth(500E3);
