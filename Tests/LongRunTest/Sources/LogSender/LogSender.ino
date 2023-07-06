@@ -35,11 +35,17 @@ namespace data {
 
 
 void setup() {
+  // LoRaのセットアップ
   LoRa.begin(921.8E6);
   LoRa.setSignalBandwidth(250E3);
 
+  // GNSSモジュールのセットアップ
+  sensor::gnss.begin();
+
+  // CANのセットアップ
   connection::can.begin();
 
+  // LoRa送信用10Hzのタスクを開始
   Tasks.add(timer::task10Hz)->startFps(10);
 }
 
@@ -48,6 +54,7 @@ void loop() {
   Tasks.update();
 
   // CAN受信処理
+  // ロングラン試験に必要な温度,電圧を拾う
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::TEMPERATURE:
@@ -72,6 +79,7 @@ void loop() {
 
 
 void timer::task10Hz() {
+  // FMと仕様を合わせるためにGNSS受信も行う。
   if (sensor::gnss.available()) {
     data::latitude = sensor::gnss.getLatitude();
     data::longitude = sensor::gnss.getLongitude();
@@ -80,6 +88,7 @@ void timer::task10Hz() {
   }
 
 
+  // ログをまとめたパケットをダウンリンクで送信する
   const auto& packet = MsgPacketizer::encode(
     0x00,
     millis(),

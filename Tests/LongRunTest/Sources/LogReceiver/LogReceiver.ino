@@ -4,13 +4,17 @@
 
 
 void setup() {
+  // ログ出力用のシリアルポートをセットアップ
   Serial.begin(115200);
   delay(800);
 
-  pinMode(LED_BUILTIN, OUTPUT);
+  // LoRaのセットアップ
   LoRa.begin(921.8E6);
   LoRa.setSignalBandwidth(250E3);
+  pinMode(LED_BUILTIN, OUTPUT);
 
+  // 受信したパケットをパースする処理を登録
+  // 登録するだけなので必要な時に呼び出される
   MsgPacketizer::subscribe(LoRa, 0x00,
     [](
       uint32_t millis,
@@ -39,6 +43,7 @@ void setup() {
 
 
 void loop() {
+  // ダウンリンクを受信していればパースする
   if (LoRa.parsePacket()) {
     MsgPacketizer::parse();
   }
