@@ -14,6 +14,9 @@
 # パワポのいらないファイル
 ~$*.pptx
 
+# エクセルのいらないファイル
+~$*.xlsx
+
 # drawioの一時ファイル
 *.drawio.bkp
 *.drawio.dtmp
