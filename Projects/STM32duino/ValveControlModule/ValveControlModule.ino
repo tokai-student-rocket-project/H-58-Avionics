@@ -119,37 +119,49 @@ void setup()
                     //   Serial.println("");
                   };
 
-                
+                  Serial.print("A: ");
                   Serial.print(B3M_read2byteCommand(0x01, 0x2A)); // 目標位置読み出し
                   Serial.print("|");
+                  Serial.print("B: ");
                   Serial.print(B3M_read2byteCommand(0x01, 0x2C)); // 現在位置読み出し
                   Serial.print("|");
-                  // Serial.print(B3M_read2byteCommand(0x01, 0x30)/100); // 目標速度読み出し //速度制御モードのみ有効
-                  // Serial.print("|");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x32)); // 現在速度読み出し
-                  Serial.print("|");
+                  Serial.print("D: ");
                   Serial.print(B3M_read2byteCommand(0x01, 0x44)/100); // 現在のMCU温度読み出し
                   Serial.print("|");
+                  Serial.print("E: ");
                   Serial.print(B3M_read2byteCommand(0x01, 0x46)/100); // 現在のモーター温度読み出し
                   Serial.print("|");
+                  Serial.print("F: ");
                   Serial.print(B3M_read2byteCommand(0x01, 0x50)); // 現在のエンコーダーの位置読み出し
                   Serial.print("|");
+                  Serial.print("G: ");
                   Serial.print(B3M_read2byteCommand(0x01, 0x48)/100); // 現在の負荷電流値読み出し
                   Serial.print("|");
+                  Serial.print("H: ");
                   Serial.print(B3M_read2byteCommand(0x01, 0x4A)); // 現在の入力電圧値読み出し
-                  Serial.print("|");;
+                  Serial.print("|");
+                  Serial.print("I: ");
                   Serial.print(B3M_read2byteCommand(0x01, 0x38)); // コマンド実行中時間読み出し
-                  Serial.print("|");;
-                  Serial.print(B3M_read2byteCommand(0x01, 0x34)); // 1サンプリング回前の速度読み出し
-                  Serial.print("|");;
-                  Serial.print(B3M_read2byteCommand(0x01, 0x4E)); // PWM周期読み出し
-                  Serial.print("|");;
-                  Serial.print(B3M_read2byteCommand(0x01, 0x3C)); // 目標トルク読み出し
-                  Serial.print("|");;
+                  Serial.print("|");
+                  Serial.print("K: ");
                   Serial.print(B3M_read2byteCommand(0x01, 0xAE)); // 絶対00位置からのエンコーダのずれ読み出し
-                  Serial.print("|");;
-                  Serial.print(B3M_read2byteCommand(0x01, 0x0B)/100); // MCU温度リミット読み出し
-                  
+                  Serial.print("|");
+                  Serial.print("L: ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x0B)); // MCU温度リミット読み出し
+                  Serial.print("|");
+                  Serial.print("C: ");
+                  Serial.print(B3M_read2byteCommand(0x01, 0x32)); // 現在速度読み出し
+                  Serial.print("|");
+                  //   Serial.print("J: ");
+                 //   Serial.print(B3M_read2byteCommand(0x01, 0x34)); // 1サンプリング回前の速度読み出し
+                //   Serial.print("|");
+                  // Serial.print("|");
+                 // Serial.print(B3M_read2byteCommand(0x01, 0x30)/100); // 目標速度読み出し //速度制御モードのみ有効
+                // Serial.print("|");
+                  // Serial.print(B3M_read2byteCommand(0x01, 0x4E)); // PWM周期読み出し
+                 // Serial.print("|");;
+                // Serial.print(B3M_read2byteCommand(0x01, 0x3C)); // 目標トルク読み出し
+                  // Serial.print("|");
                   
                   Serial.println(""); })
         ->startFps(100);
@@ -411,7 +423,7 @@ void ChangeWaitingMode()
     {
         StateTransition::ChangeMode = StateTransition::Mode::WAITING;
 
-        Move(1, 0, 100);
+        Move(1, 0, 50);
         delay(20);
         B3M_setposition(0x01, 0, 10);
         Tasks["Buzzer"]->startIntervalMsecForCount(100, 4);
@@ -455,12 +467,12 @@ void ToggleBuzzer()
     digitalWrite(BuzzerPin, !digitalRead(BuzzerPin));
 }
 
-int B3M_read2byteCommand(byte id, byte Address)
+int16_t B3M_read2byteCommand(byte id, byte Address)
 {
     byte txCmd[7];
     byte rxCmd[7];
     int16_t value;
-    int reData;
+    int16_t reData;
     bool flag;
 
     txCmd[0] = (byte)(0x07); // SIZE
@@ -493,13 +505,12 @@ int B3M_read2byteCommand(byte id, byte Address)
     for (int o = 4; o < 6; o++)
     {
         value = (rxCmd[o] << 8) | rxCmd[o];
-
         // Serial.print(rxCmd[o], HEX);
         // Serial.print(" ");
     }
     // Serial.print(" | ");
 
     reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
-
+    
     return reData;
 }
