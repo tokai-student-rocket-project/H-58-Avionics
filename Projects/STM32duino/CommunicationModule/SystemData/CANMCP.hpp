@@ -18,7 +18,8 @@ public:
     SYSTEM_STATUS,
     EVENT,
     ERROR,
-    SET_REFERENCE_PRESSURE_COMMAND
+    SET_REFERENCE_PRESSURE_COMMAND,
+    TRAJECTORY_DATA
   };
 
   enum class Axis : uint8_t {

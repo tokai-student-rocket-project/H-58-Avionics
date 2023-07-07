@@ -18,7 +18,8 @@ public:
     SYSTEM_STATUS,
     EVENT,
     ERROR,
-    SET_REFERENCE_PRESSURE_COMMAND
+    SET_REFERENCE_PRESSURE_COMMAND,
+    TRAJECTORY_DATA
   };
 
   enum class Axis : uint8_t {
@@ -66,6 +67,7 @@ public:
   void sendSystemStatus(uint8_t mode, bool camera, bool sn3);
   void sendEvent(Publisher publisher, EventCode eventCode, uint32_t timestamp = 0);
   void sendError(Publisher publisher, ErrorCode errorCode, ErrorReason errorReason, uint32_t timestamp = 0);
+  void sendTrajectoryData(bool isFalling);
 
   void sendScalar(Label label, float value);
   void sendVector(Label label, Axis axis, float value);
@@ -75,6 +77,7 @@ public:
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);
   void receiveSetReferencePressureCommand(float* referencePressure);
+  void receiveTrajectoryData(bool* isFalling);
 
 private:
   uint32_t _latestLabel;

@@ -69,6 +69,17 @@ void CANSTM::sendError(Publisher publisher, ErrorCode errorCode, ErrorReason err
 }
 
 
+void CANSTM::sendTrajectoryData(bool isFalling) {
+  CANMessage message;
+  message.id = static_cast<uint32_t>(Label::TRAJECTORY_DATA);
+  message.len = 1;
+
+  message.data[0] = isFalling;
+
+  can.tryToSendReturnStatus(message);
+}
+
+
 void CANSTM::sendScalar(Label label, float value) {
   CANMessage message;
   message.id = static_cast<uint32_t>(label);
@@ -132,4 +143,9 @@ void CANSTM::receiveVector(float* xValue, float* yValue, float* zValue) {
 
 void CANSTM::receiveSetReferencePressureCommand(float* referencePressure) {
   memcpy(referencePressure, _latestData, 4);
+}
+
+
+void CANSTM::receiveTrajectoryData(bool* isFalling) {
+  *isFalling = _latestData[0];
 }

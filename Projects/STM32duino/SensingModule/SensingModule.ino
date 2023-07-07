@@ -5,6 +5,7 @@
 #include "Thermistor.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
+#include "Trajectory.hpp"
 #include "Blinker.hpp"
 #include "FRAM.hpp"
 #include "Sd.hpp"
@@ -62,7 +63,7 @@ namespace connection {
 }
 
 namespace data {
-  float referencePressure = 1013.25;
+  Trajectory trajectory(0.25, 0.75);
 
   float pressure;
   float temperature;
@@ -125,7 +126,6 @@ void setup() {
 
   connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::SETUP);
 
-  Tasks.add(timer::task10Hz)->startFps(10);
   Tasks.add(timer::task20Hz)->startFps(20);
   Tasks.add(timer::task100Hz)->startFps(100);
 
@@ -167,7 +167,9 @@ void loop() {
       indicator::canReceive.toggle();
       break;
     case CANSTM::Label::SET_REFERENCE_PRESSURE_COMMAND:
-      connection::can.receiveSetReferencePressureCommand(&data::referencePressure);
+      float newReferencePressure;
+      connection::can.receiveSetReferencePressureCommand(&newReferencePressure);
+      data::trajectory.setReferencePressure(newReferencePressure);
       indicator::canReceive.toggle();
       connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::REFERENCE_PRESSURE_UPDATED);
       indicator::canSend.toggle();
@@ -177,19 +179,17 @@ void loop() {
 }
 
 
-void timer::task10Hz() {
-  sensor::thermistor.getTemperature(&data::temperature);
-
-  connection::can.sendScalar(CANSTM::Label::TEMPERATURE, data::temperature);
-}
-
-
 void timer::task20Hz() {
   sensor::bno.getMagnetometer(&data::magnetometer_x, &data::magnetometer_y, &data::magnetometer_z);
+  sensor::thermistor.getTemperature(&data::temperature);
 
+  data::altitude = data::trajectory.update(data::pressure, data::temperature);
+
+  connection::can.sendScalar(CANSTM::Label::TEMPERATURE, data::temperature);
+  connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
+  connection::can.sendTrajectoryData(data::trajectory.isFalling());
   connection::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x, data::magnetometer_y, data::magnetometer_z);
   connection::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z);
-  connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
   indicator::canSend.toggle();
 }
 
@@ -200,7 +200,5 @@ void timer::task100Hz() {
   sensor::bno.getOrientation(&data::orientation_x, &data::orientation_y, &data::orientation_z);
   sensor::bno.getLinearAcceleration(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
   sensor::bno.getGravityVector(&data::gravity_x, &data::gravity_y, &data::gravity_z);
-
   sensor::bme.getPressure(&data::pressure);
-  data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::temperature + 273.15)) / 0.0065;
 }

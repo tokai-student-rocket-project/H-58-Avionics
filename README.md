@@ -42,6 +42,7 @@ SCM ... SystemDataCommunicationModule
 | 0x08 | Event                          | 6B     |      | SCM         |      | [0] Publisher (uint8_t), [1] EventCode (uint8_t), [2:6] Timestamp (uint32_t)                            |
 | 0x09 | Error                          | 7B     |      | SCM         |      | [0] Publisher (uint8_t), [1] ErrorCode (uint8_t), [2] ErrorReason (uint8_t), [3:7] Timestamp (uint32_t) |
 | 0x10 | Set Reference Pressure Command | 4B     | SCM  | SM          |      | [0:4] ReferencePressure (float)                                                                         |
+| 0x11 | Trajectory Data                | 1B     | SM   | FM          |      | [0] IsFalling (bool)                                                                                    |
 
 ## モジュール
 
