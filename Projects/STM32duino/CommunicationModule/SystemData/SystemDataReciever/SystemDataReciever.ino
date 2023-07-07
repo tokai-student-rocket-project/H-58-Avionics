@@ -29,48 +29,22 @@ void setup() {
       float longitude
       )
     {
-      // transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
-      // transmitter::packet["PacketInfo"]["Type"] = "SystemData";
-      // transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
-      // transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
-      // transmitter::packet["FlightMode"] = mode;
-      // transmitter::packet["Camera"] = camera;
-      // transmitter::packet["SN3"] = sn3;
-      // transmitter::packet["SupplyVoltage"] = voltage_supply;
-      // transmitter::packet["BatteryVoltage"] = voltage_battery;
-      // transmitter::packet["PoolVoltage"] = voltage_pool;
-      // transmitter::packet["Latitude"] = latitude;
-      // transmitter::packet["Longitude"] = longitude;
+      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Type"] = "SystemData";
+      transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
+      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["FlightMode"] = mode;
+      transmitter::packet["Camera"] = camera;
+      transmitter::packet["SN3"] = sn3;
+      transmitter::packet["SupplyVoltage"] = voltage_supply;
+      transmitter::packet["BatteryVoltage"] = voltage_battery;
+      transmitter::packet["PoolVoltage"] = voltage_pool;
+      transmitter::packet["Latitude"] = latitude;
+      transmitter::packet["Longitude"] = longitude;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
-      // transmitter::packet.clear();
-
-      Serial.print("SystemDataCommunicationModule");
-      Serial.print(",");
-      Serial.print("SystemData");
-      Serial.print(",");
-      Serial.print(LoRa.packetRssi());
-      Serial.print(",");
-      Serial.print(LoRa.packetSnr());
-      Serial.print(",");
-      Serial.print(millis());
-      Serial.print(",");
-      Serial.print(mode);
-      Serial.print(",");
-      Serial.print(camera);
-      Serial.print(",");
-      Serial.print(sn3);
-      Serial.print(",");
-      Serial.print(voltage_supply);
-      Serial.print(",");
-      Serial.print(voltage_battery);
-      Serial.print(",");
-      Serial.print(voltage_pool);
-      Serial.print(",");
-      Serial.print(latitude);
-      Serial.print(",");
-      Serial.println(longitude);
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
+      transmitter::packet.clear();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
@@ -83,76 +57,38 @@ void setup() {
       uint32_t timestamp
       )
     {
-      // transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
-      // transmitter::packet["PacketInfo"]["Type"] = "Event";
-      // transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
-      // transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
-
-      // switch (publisher) {
-      // case 0: transmitter::packet["Publisher"] = "SensingModule"; break;
-      // case 1: transmitter::packet["Publisher"] = "FlightModule"; break;
-      // case 2: transmitter::packet["Publisher"] = "MissionModule"; break;
-      // case 3: transmitter::packet["Publisher"] = "AirDataCommunicationModule"; break;
-      // case 4: transmitter::packet["Publisher"] = "SystemDataCommunicationModule"; break;
-      // }
-
-      // switch (eventCode) {
-      // case 0: transmitter::packet["EventCode"] = "SETUP"; break;
-      // case 1: transmitter::packet["EventCode"] = "RESET"; break;
-      // case 2: transmitter::packet["EventCode"] = "FLIGHT_MODE_ON"; break;
-      // case 3: transmitter::packet["EventCode"] = "IGNITION"; break;
-      // case 4: transmitter::packet["EventCode"] = "BURNOUT"; break;
-      // case 5: transmitter::packet["EventCode"] = "APOGEE"; break;
-      // case 6: transmitter::packet["EventCode"] = "SEPARATE"; break;
-      // case 7: transmitter::packet["EventCode"] = "LAND"; break;
-      // case 8: transmitter::packet["EventCode"] = "FLIGHT_MODE_OFF"; break;
-      // case 9: transmitter::packet["EventCode"] = "FORCE_SEPARATE"; break;
-      // case 10: transmitter::packet["EventCode"] = "REFERENCE_PRESSURE_UPDATED"; break;
-      // }
-
-      // transmitter::packet["Timestamp"] = timestamp;
-
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
-      // transmitter::packet.clear();
-
-      Serial.print("SystemDataCommunicationModule");
-      Serial.print(",");
-      Serial.print("Event");
-      Serial.print(",");
-      Serial.print(LoRa.packetRssi());
-      Serial.print(",");
-      Serial.print(LoRa.packetSnr());
-      Serial.print(",");
-      Serial.print(millis());
-      Serial.print(",");
+      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Type"] = "Event";
+      transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
+      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
 
       switch (publisher) {
-      case 0: Serial.print("SensingModule"); break;
-      case 1: Serial.print("FlightModule"); break;
-      case 2: Serial.print("MissionModule"); break;
-      case 3: Serial.print("AirDataCommunicationModule"); break;
-      case 4: Serial.print("SystemDataCommunicationModule"); break;
+      case 0: transmitter::packet["Publisher"] = "SensingModule"; break;
+      case 1: transmitter::packet["Publisher"] = "FlightModule"; break;
+      case 2: transmitter::packet["Publisher"] = "MissionModule"; break;
+      case 3: transmitter::packet["Publisher"] = "AirDataCommunicationModule"; break;
+      case 4: transmitter::packet["Publisher"] = "SystemDataCommunicationModule"; break;
       }
-
-      Serial.print(",");
 
       switch (eventCode) {
-      case 0: Serial.print("SETUP"); break;
-      case 1: Serial.print("RESET"); break;
-      case 2: Serial.print("FLIGHT_MODE_ON"); break;
-      case 3: Serial.print("IGNITION"); break;
-      case 4: Serial.print("BURNOUT"); break;
-      case 5: Serial.print("APOGEE"); break;
-      case 6: Serial.print("SEPARATE"); break;
-      case 7: Serial.print("LAND"); break;
-      case 8: Serial.print("FLIGHT_MODE_OFF"); break;
-      case 9: Serial.print("FORCE_SEPARATE"); break;
-      case 10: Serial.print("REFERENCE_PRESSURE_UPDATED"); break;
+      case 0: transmitter::packet["EventCode"] = "SETUP"; break;
+      case 1: transmitter::packet["EventCode"] = "RESET"; break;
+      case 2: transmitter::packet["EventCode"] = "FLIGHT_MODE_ON"; break;
+      case 3: transmitter::packet["EventCode"] = "IGNITION"; break;
+      case 4: transmitter::packet["EventCode"] = "BURNOUT"; break;
+      case 5: transmitter::packet["EventCode"] = "APOGEE"; break;
+      case 6: transmitter::packet["EventCode"] = "SEPARATE"; break;
+      case 7: transmitter::packet["EventCode"] = "LAND"; break;
+      case 8: transmitter::packet["EventCode"] = "FLIGHT_MODE_OFF"; break;
+      case 9: transmitter::packet["EventCode"] = "FORCE_SEPARATE"; break;
+      case 10: transmitter::packet["EventCode"] = "REFERENCE_PRESSURE_UPDATED"; break;
       }
 
-      Serial.print(",");
-      Serial.println(timestamp);
+      transmitter::packet["Timestamp"] = timestamp;
+
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
+      transmitter::packet.clear();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     });
@@ -165,66 +101,32 @@ void setup() {
       uint32_t timestamp
       )
     {
-      // transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
-      // transmitter::packet["PacketInfo"]["Type"] = "Error";
-      // transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
-      // transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
-
-      // switch (publisher) {
-      // case 0: transmitter::packet["Publisher"] = "SensingModule"; break;
-      // case 1: transmitter::packet["Publisher"] = "FlightModule"; break;
-      // case 2: transmitter::packet["Publisher"] = "MissionModule"; break;
-      // case 3: transmitter::packet["Publisher"] = "AirDataCommunicationModule"; break;
-      // case 4: transmitter::packet["Publisher"] = "SystemDataCommunicationModule"; break;
-      // }
-
-      // switch (errorCode) {
-      // case 0: transmitter::packet["ErrorCode"] = "COMMAND_RECEIVE_FAILED"; break;
-      // }
-
-      // switch (errorReason) {
-      // case 0: transmitter::packet["ErrorReason"] = "INVALID_KEY"; break;
-      // }
-
-      // transmitter::packet["Timestamp"] = timestamp;
-
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
-      // transmitter::packet.clear();
-
-      Serial.print("SystemDataCommunicationModule");
-      Serial.print(",");
-      Serial.print("Error");
-      Serial.print(",");
-      Serial.print(LoRa.packetRssi());
-      Serial.print(",");
-      Serial.print(LoRa.packetSnr());
-      Serial.print(",");
-      Serial.print(millis());
-      Serial.print(",");
+      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Type"] = "Error";
+      transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
+      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
 
       switch (publisher) {
-      case 0: Serial.print("SensingModule"); break;
-      case 1: Serial.print("FlightModule"); break;
-      case 2: Serial.print("MissionModule"); break;
-      case 3: Serial.print("AirDataCommunicationModule"); break;
-      case 4: Serial.print("SystemDataCommunicationModule"); break;
+      case 0: transmitter::packet["Publisher"] = "SensingModule"; break;
+      case 1: transmitter::packet["Publisher"] = "FlightModule"; break;
+      case 2: transmitter::packet["Publisher"] = "MissionModule"; break;
+      case 3: transmitter::packet["Publisher"] = "AirDataCommunicationModule"; break;
+      case 4: transmitter::packet["Publisher"] = "SystemDataCommunicationModule"; break;
       }
-
-      Serial.print(",");
 
       switch (errorCode) {
-      case 0: Serial.print("COMMAND_RECEIVE_FAILED"); break;
+      case 0: transmitter::packet["ErrorCode"] = "COMMAND_RECEIVE_FAILED"; break;
       }
-
-      Serial.print(",");
 
       switch (errorReason) {
-      case 0: Serial.print("INVALID_KEY"); break;
+      case 0: transmitter::packet["ErrorReason"] = "INVALID_KEY"; break;
       }
 
-      Serial.print(",");
-      Serial.println(timestamp);
+      transmitter::packet["Timestamp"] = timestamp;
+
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
+      transmitter::packet.clear();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     });
