@@ -66,6 +66,8 @@ void setup()
 
     Serial.begin(115200);
 
+    Serial.println("CAN init ok!");
+
     pinMode(REDE_PIN, OUTPUT);
     Torque(0x01, 0x01);
     Move(1, rs405cbOpenangle, 100);
@@ -78,6 +80,12 @@ void setup()
     B3M_setposition(0x01, 0, 1000);
 
     CAN.begin(CAN_250KBPS, MCP_8MHz);
+    // while (CAN_OK != CAN.begin(CAN_250KBPS, MCP_8MHz))
+    // {
+    //     Serial.println("CAN init fail, retry...");
+    //     delay(100);
+    // }
+    // Serial.println("CAN init ok!");
 
     BuzzerInitialize();
     LEDInitialize();
@@ -98,25 +106,11 @@ void setup()
                   {
                       Serial.print(F("LAUNCH"));
                       Serial.print(F(" | "));
-
-                    //   B3M_readCommand(0x01, 0x2c, 0x02); // 現在位置読み出し
-                    //   B3M_readCommand(0x01, 0x32, 0x02); // 現在速度読み出し
-                    //   B3M_readCommand(0x01, 0x44, 0x02); // 現在のMCU温度読み出し
-                    //   B3M_readCommand(0x01, 0x46, 0x02); // 現在のモーター温度読み出し
-                    //   B3M_readCommand(0x01, 0x50, 0x02); // 現在のエンコーダーの位置読み出し
-                    //   Serial.println("");
                   }
                   else
                   {
                       Serial.print(F("WAITING"));
                       Serial.print(F(" | "));
-
-                    //   B3M_readCommand(0x01, 0x2c, 0x02); // 現在位置読み出し
-                    //   B3M_readCommand(0x01, 0x32, 0x02); // 現在位置読み出し
-                    //   B3M_readCommand(0x01, 0x44, 0x02); // 現在のMCU温度読み出し
-                    //   B3M_readCommand(0x01, 0x46, 0x02); // 現在のモーター温度読み出し
-                    //   B3M_readCommand(0x01, 0x50, 0x02); // 現在のエンコーダーの位置読み出し
-                    //   Serial.println("");
                   };
 
                   Serial.print("A: ");
@@ -189,7 +183,7 @@ void loop()
     Tasks.update();
 
     CAN.sendMsgBuf(0x103, 0, 1, static_cast<uint8_t>(StateTransition::ChangeMode));
-    CAN.sendMsgBuf(0x104, 0, 7, B3M_read2byteCommand(0x01, 0x2C)); //
+    CAN.sendMsgBuf(0x104, 0, 2, B3M_read2byteCommand(0x01, 0x2C));
     CAN.sendMsgBuf(0x105, 0, 2, B3M_read2byteCommand(0x01, 0x2A));
     CAN.sendMsgBuf(0x106, 0, 2, B3M_read2byteCommand(0x01, 0x44));
     CAN.sendMsgBuf(0x107, 0, 2, B3M_read2byteCommand(0x01, 0x46));
@@ -491,7 +485,7 @@ int16_t B3M_read2byteCommand(byte id, byte Address)
     txCmd[3] = (byte)(id);   // ID
 
     txCmd[4] = (byte)(Address); // ADDRESS
-    txCmd[5] = (byte)(0x02);  // LENGTH
+    txCmd[5] = (byte)(0x02);    // LENGTH
 
     txCmd[6] = 0x00; // SUM
 
@@ -521,6 +515,6 @@ int16_t B3M_read2byteCommand(byte id, byte Address)
     // Serial.print(" | ");
 
     reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
-    
+
     return reData;
 }
