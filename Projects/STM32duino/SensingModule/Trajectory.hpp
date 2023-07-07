@@ -10,10 +10,14 @@ private:
   ExponentialMovingAverage* _altitudeAverageStrong;
   ExponentialMovingAverage* _altitudeAverageWeak;
 
+  float _referencePressure = 1013.25;
+
 public:
   Trajectory(float sensitivityStrong, float sensitivityWeak);
 
-  void update(float altitude);
+  void setReferencePressure(float referencePressure);
+  float updateAltitude(float pressure, float temperature);
+
   float climbIndex();
   bool isFalling();
 };

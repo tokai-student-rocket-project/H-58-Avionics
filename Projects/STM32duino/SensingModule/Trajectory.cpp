@@ -7,7 +7,14 @@ Trajectory::Trajectory(float sensitivityStrong, float sensitivityWeak) {
 }
 
 
-void Trajectory::update(float altitude) {
+void Trajectory::setReferencePressure(float referencePressure) {
+  _referencePressure = referencePressure;
+}
+
+
+float Trajectory::updateAltitude(float pressure, float temperature) {
+  float altitude = (((pow((_referencePressure / pressure), (1.0 / 5.257))) - 1.0) * (temperature + 273.15)) / 0.0065;
+
   _altitudeAverageWeak->update(altitude);
   _altitudeAverageStrong->update(altitude);
 }
