@@ -189,7 +189,17 @@ void loop()
     Tasks.update();
 
     CAN.sendMsgBuf(0x103, 0, 1, static_cast<uint8_t>(StateTransition::ChangeMode));
-    CAN.sendMsgBuf(0x103, 0, 7, B3M_read2byteCommand(0x01, 0x2c));
+    CAN.sendMsgBuf(0x104, 0, 7, B3M_read2byteCommand(0x01, 0x2C)); //
+    CAN.sendMsgBuf(0x105, 0, 2, B3M_read2byteCommand(0x01, 0x2A));
+    CAN.sendMsgBuf(0x106, 0, 2, B3M_read2byteCommand(0x01, 0x44));
+    CAN.sendMsgBuf(0x107, 0, 2, B3M_read2byteCommand(0x01, 0x46));
+    CAN.sendMsgBuf(0x108, 0, 2, B3M_read2byteCommand(0x01, 0x50));
+    CAN.sendMsgBuf(0x109, 0, 2, B3M_read2byteCommand(0x01, 0x48));
+    CAN.sendMsgBuf(0x110, 0, 2, B3M_read2byteCommand(0x01, 0x4A));
+    CAN.sendMsgBuf(0x111, 0, 2, B3M_read2byteCommand(0x01, 0x38));
+    CAN.sendMsgBuf(0x112, 0, 2, B3M_read2byteCommand(0x01, 0xAE));
+    CAN.sendMsgBuf(0x113, 0, 2, B3M_read2byteCommand(0x01, 0x0B));
+    CAN.sendMsgBuf(0x114, 0, 2, B3M_read2byteCommand(0x01, 0x32));
 }
 
 void Torque(unsigned char ID, unsigned char data)
