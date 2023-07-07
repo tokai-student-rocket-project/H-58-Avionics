@@ -183,7 +183,7 @@ void timer::task20Hz() {
   sensor::bno.getMagnetometer(&data::magnetometer_x, &data::magnetometer_y, &data::magnetometer_z);
   sensor::thermistor.getTemperature(&data::temperature);
 
-  data::altitude = data::trajectory.updateAltitude(data::pressure, data::temperature);
+  data::altitude = data::trajectory.update(data::pressure, data::temperature);
 
   connection::can.sendScalar(CANSTM::Label::TEMPERATURE, data::temperature);
   connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);

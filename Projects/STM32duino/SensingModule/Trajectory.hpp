@@ -16,7 +16,9 @@ public:
   Trajectory(float sensitivityStrong, float sensitivityWeak);
 
   void setReferencePressure(float referencePressure);
-  float updateAltitude(float pressure, float temperature);
+
+  float update(float pressure, float temperature);
+  float update(float altitude);
 
   float climbIndex();
   bool isFalling();
