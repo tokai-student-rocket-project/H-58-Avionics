@@ -79,7 +79,7 @@ void setup()
     B3M_initialize();
     B3M_setposition(0x01, 0, 1000);
 
-    CAN.begin(CAN_250KBPS, MCP_8MHz);
+    CAN.begin(CAN_250KBPS, MCP_8MHz); // CAN_250KBPS, MCP_8MHzに設定
     // while (CAN_OK != CAN.begin(CAN_250KBPS, MCP_8MHz))
     // {
     //     Serial.println("CAN init fail, retry...");
@@ -183,17 +183,17 @@ void loop()
     Tasks.update();
 
     CAN.sendMsgBuf(0x103, 0, 1, static_cast<uint8_t>(StateTransition::ChangeMode));
-    CAN.sendMsgBuf(0x104, 0, 2, B3M_read2byteCommand(0x01, 0x2C));
-    CAN.sendMsgBuf(0x105, 0, 2, B3M_read2byteCommand(0x01, 0x2A));
-    CAN.sendMsgBuf(0x106, 0, 2, B3M_read2byteCommand(0x01, 0x44));
-    CAN.sendMsgBuf(0x107, 0, 2, B3M_read2byteCommand(0x01, 0x46));
-    CAN.sendMsgBuf(0x108, 0, 2, B3M_read2byteCommand(0x01, 0x50));
-    CAN.sendMsgBuf(0x109, 0, 2, B3M_read2byteCommand(0x01, 0x48));
-    CAN.sendMsgBuf(0x110, 0, 2, B3M_read2byteCommand(0x01, 0x4A));
-    CAN.sendMsgBuf(0x111, 0, 2, B3M_read2byteCommand(0x01, 0x38));
-    CAN.sendMsgBuf(0x112, 0, 2, B3M_read2byteCommand(0x01, 0xAE));
-    CAN.sendMsgBuf(0x113, 0, 2, B3M_read2byteCommand(0x01, 0x0B));
-    CAN.sendMsgBuf(0x114, 0, 2, B3M_read2byteCommand(0x01, 0x32));
+    CAN.sendMsgBuf(0x104, 0, 2, B3M_read2byteCommand(0x01, 0x2C)); // 現在位置
+    CAN.sendMsgBuf(0x105, 0, 2, B3M_read2byteCommand(0x01, 0x2A)); // 目標位置
+    CAN.sendMsgBuf(0x106, 0, 2, B3M_read2byteCommand(0x01, 0x44)); // MCU温度
+    CAN.sendMsgBuf(0x107, 0, 2, B3M_read2byteCommand(0x01, 0x46)); // モーター温度
+    CAN.sendMsgBuf(0x108, 0, 2, B3M_read2byteCommand(0x01, 0x50)); // エンコーダー位置
+    CAN.sendMsgBuf(0x109, 0, 2, B3M_read2byteCommand(0x01, 0x48)); // 負荷電流
+    CAN.sendMsgBuf(0x110, 0, 2, B3M_read2byteCommand(0x01, 0x4A)); // 入力電圧
+    CAN.sendMsgBuf(0x111, 0, 2, B3M_read2byteCommand(0x01, 0x38)); // コマンド実行時間
+    CAN.sendMsgBuf(0x112, 0, 2, B3M_read2byteCommand(0x01, 0xAE)); // 絶対00位置からのエンコーダのずれ
+    CAN.sendMsgBuf(0x113, 0, 2, B3M_read2byteCommand(0x01, 0x0B)); // MCU温度リミット
+    CAN.sendMsgBuf(0x114, 0, 2, B3M_read2byteCommand(0x01, 0x32)); // 現在速度
 }
 
 void Torque(unsigned char ID, unsigned char data)
