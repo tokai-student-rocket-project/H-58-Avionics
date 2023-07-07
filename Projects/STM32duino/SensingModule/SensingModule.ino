@@ -5,6 +5,7 @@
 #include "Thermistor.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
+#include "Trajectory.hpp"
 #include "Blinker.hpp"
 #include "FRAM.hpp"
 #include "Sd.hpp"
@@ -63,10 +64,14 @@ namespace connection {
 
 namespace data {
   float referencePressure = 1013.25;
+  float referenceTemperature = 15.0;
 
   float pressure;
   float temperature;
   float altitude;
+
+  Trajectory trajectory(0.25, 0.75);
+  float climbIndex;
 
   float acceleration_x, acceleration_y, acceleration_z;
   float magnetometer_x, magnetometer_y, magnetometer_z;
@@ -187,9 +192,17 @@ void timer::task10Hz() {
 void timer::task20Hz() {
   sensor::bno.getMagnetometer(&data::magnetometer_x, &data::magnetometer_y, &data::magnetometer_z);
 
+
+  float normalAltitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::referenceTemperature + 273.15)) / 0.0065;
+  float normalTemperature = data::referenceTemperature - 0.006 * normalAltitude;
+
+  data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (normalTemperature + 273.15)) / 0.0065;
+  data::trajectory.update(data::altitude);
+  data::climbIndex = data::trajectory.climbIndex();
+
+  connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
   connection::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x, data::magnetometer_y, data::magnetometer_z);
   connection::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z);
-  connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
   indicator::canSend.toggle();
 }
 
@@ -200,7 +213,5 @@ void timer::task100Hz() {
   sensor::bno.getOrientation(&data::orientation_x, &data::orientation_y, &data::orientation_z);
   sensor::bno.getLinearAcceleration(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
   sensor::bno.getGravityVector(&data::gravity_x, &data::gravity_y, &data::gravity_z);
-
   sensor::bme.getPressure(&data::pressure);
-  data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::temperature + 273.15)) / 0.0065;
 }
