@@ -71,7 +71,6 @@ namespace data {
   float altitude;
 
   Trajectory trajectory(0.25, 0.75);
-  float climbIndex;
 
   float acceleration_x, acceleration_y, acceleration_z;
   float magnetometer_x, magnetometer_y, magnetometer_z;
@@ -195,12 +194,11 @@ void timer::task20Hz() {
 
   float normalAltitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (data::referenceTemperature + 273.15)) / 0.0065;
   float normalTemperature = data::referenceTemperature - 0.006 * normalAltitude;
-
   data::altitude = (((pow((data::referencePressure / data::pressure), (1.0 / 5.257))) - 1.0) * (normalTemperature + 273.15)) / 0.0065;
   data::trajectory.update(data::altitude);
-  data::climbIndex = data::trajectory.climbIndex();
 
   connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
+  connection::can.sendTrajectoryData(data::trajectory.isFalling());
   connection::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x, data::magnetometer_y, data::magnetometer_z);
   connection::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z);
   indicator::canSend.toggle();

@@ -18,6 +18,6 @@ float Trajectory::climbIndex() {
 }
 
 
-bool Trajectory::isDescending() {
+bool Trajectory::isFalling() {
   return climbIndex() <= 0;
 }

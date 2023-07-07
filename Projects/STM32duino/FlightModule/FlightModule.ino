@@ -3,7 +3,6 @@
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
 #include "DetectionCounter.hpp"
-#include "ApogeeDetector.hpp"
 #include "Shiranui.hpp"
 #include "Buzzer.hpp"
 #include "AnalogVoltage.hpp"
@@ -69,7 +68,6 @@ namespace indicator {
 namespace control {
   DetectionCounter liftoffDetector(3);
   DetectionCounter resetDetector(10);
-  ApogeeDetector apogeeDetector(0.25, 0.75);
 
   OutputPin camera(D9);
   Shiranui sn3(A0, "sn3");
@@ -80,9 +78,8 @@ namespace connection {
 }
 
 namespace data {
-  float altitude;
-
   float voltageSupply, voltageBattery, voltagePool;
+  bool isFalling;
 }
 
 namespace develop {
@@ -126,8 +123,8 @@ void loop() {
   // CAN受信処理
   if (connection::can.available()) {
     switch (connection::can.getLatestMessageLabel()) {
-    case CANSTM::Label::ALTITUDE:
-      connection::can.receiveScalar(&data::altitude);
+    case CANSTM::Label::TRAJECTORY_DATA:
+      connection::can.receiveTrajectoryData(&data::isFalling);
       indicator::canReceive.toggle();
       break;
     }
@@ -157,10 +154,6 @@ uint32_t timer::flightTime() {
 void timer::task10Hz() {
   // その時のフライトモードに合わせてLEDを切り替える
   indicator::indicateFlightMode(flightMode::activeMode);
-
-
-  // 検知の状態更新
-  control::apogeeDetector.update(data::altitude);
 
 
   // デバッグ中はピンが干渉するので電圧監視を行わない
@@ -244,7 +237,7 @@ void timer::task100Hz() {
     // CLIMBモード 上昇中
   case (flightMode::Mode::CLIMB):
     // 頂点を検知すれば下降モードに遷移
-    if (control::apogeeDetector.isDetected()) {
+    if (data::isFalling) {
       flightMode::activeMode = flightMode::Mode::DESCENT;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::APOGEE, flightTime());
     }

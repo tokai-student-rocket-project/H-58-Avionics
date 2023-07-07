@@ -15,5 +15,5 @@ public:
 
   void update(float altitude);
   float climbIndex();
-  bool isDescending();
+  bool isFalling();
 };
