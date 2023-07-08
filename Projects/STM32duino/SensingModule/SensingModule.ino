@@ -11,22 +11,7 @@
 #include "Sd.hpp"
 
 
-namespace flightMode {
-  enum class Mode : uint8_t {
-    SLEEP,
-    STANDBY,
-    THRUST,
-    CLIMB,
-    DESCENT,
-    DECEL,
-    PARACHUTE,
-    LAND,
-    SHUTDOWN
-  };
-}
-
 namespace timer {
-  void task10Hz();
   void task20Hz();
   void task100Hz();
 }
@@ -58,6 +43,9 @@ namespace control {
 
 namespace connection {
   CANSTM can;
+
+  void handleSystemStatus();
+  void handleSetReferencePressureCommand();
 }
 
 namespace data {
@@ -150,32 +138,10 @@ void loop() {
   if (connection::can.available()) {
     switch (connection::can.getLatestMessageLabel()) {
     case CANSTM::Label::SYSTEM_STATUS:
-      connection::can.receiveStatus(&data::mode, &data::camera, &data::separator);
-      indicator::canReceive.toggle();
-
-      // フライトモードがSTANDBYとLANDの間ならログを保存する
-      if (1 <= data::mode && data::mode <= 7) {
-        if (!recorder::doRecording) {
-          recorder::doRecording = true;
-          recorder::recorder.reset();
-          indicator::recorderStatus.on();
-        }
-      }
-      else {
-        if (recorder::doRecording) {
-          recorder::doRecording = false;
-          indicator::recorderStatus.off();
-        }
-      }
-
+      connection::handleSystemStatus();
       break;
     case CANSTM::Label::SET_REFERENCE_PRESSURE_COMMAND:
-      float newReferencePressure;
-      connection::can.receiveSetReferencePressureCommand(&newReferencePressure);
-      data::trajectory.setReferencePressure(newReferencePressure);
-      indicator::canReceive.toggle();
-      connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::REFERENCE_PRESSURE_UPDATED);
-      indicator::canSend.toggle();
+      connection::handleSetReferencePressureCommand();
       break;
     }
   }
@@ -218,4 +184,38 @@ void timer::task100Hz() {
       data::gravity_x, data::gravity_y, data::gravity_z
     );
   }
+}
+
+
+void connection::handleSystemStatus() {
+  connection::can.receiveStatus(&data::mode, &data::camera, &data::separator);
+  indicator::canReceive.toggle();
+
+  // フライトモードがSTANDBYとLANDの間ならログを保存する
+  if (1 <= data::mode && data::mode <= 7) {
+    if (!recorder::doRecording) {
+      recorder::doRecording = true;
+      recorder::recorder.reset();
+      indicator::recorderStatus.on();
+    }
+  }
+  else {
+    if (recorder::doRecording) {
+      recorder::doRecording = false;
+      indicator::recorderStatus.off();
+    }
+  }
+}
+
+
+void connection::handleSetReferencePressureCommand() {
+  float newReferencePressure;
+
+  connection::can.receiveSetReferencePressureCommand(&newReferencePressure);
+  indicator::canReceive.toggle();
+
+  connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::REFERENCE_PRESSURE_UPDATED);
+  indicator::canSend.toggle();
+
+  data::trajectory.setReferencePressure(newReferencePressure);
 }
