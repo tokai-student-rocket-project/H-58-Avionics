@@ -271,7 +271,7 @@ void timer::task100Hz() {
       indicator::buzzer.beepLongOnce();
       flightMode::activeMode = flightMode::Mode::SHUTDOWN;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, flightTime());
-      indicator::buzzer.electricalParade();
+      // indicator::buzzer.electricalParade();
     }
     break;
   }

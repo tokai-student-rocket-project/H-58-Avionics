@@ -38,6 +38,7 @@ namespace sensor {
 }
 
 namespace recorder {
+  Recorder recorder(A2, A3);
   Sd sd(A0);
   PullupPin cardDetection(D8);
 
@@ -57,7 +58,6 @@ namespace control {
 
 namespace connection {
   CANSTM can;
-  Recorder recorder(A2, A3);
 }
 
 namespace data {
@@ -127,19 +127,6 @@ void setup() {
 
   Tasks.add(timer::task20Hz)->startFps(20);
   Tasks.add(timer::task100Hz)->startFps(100);
-
-  // メモリ切断処理
-  // control::recorderPower.off();
-  // SPI.end();
-  // pinMode(A6, OUTPUT); // MOSI
-  // digitalWrite(A6, LOW);
-  // pinMode(A5, OUTPUT); // MISO
-  // digitalWrite(A5, LOW);
-  // digitalWrite(A2, LOW); // CS FRAM0
-  // digitalWrite(A3, LOW); // CS FRAM1
-  // digitalWrite(A0, LOW); // CS SD
-
-  // connection::recorder.dump();
 }
 
 
@@ -166,6 +153,22 @@ void loop() {
     case CANSTM::Label::SYSTEM_STATUS:
       connection::can.receiveStatus(&data::mode, &data::camera, &data::separator);
       indicator::canReceive.toggle();
+
+      // フライトモードがSTANDBYとLANDの間ならログを保存する
+      if (1 <= data::mode && data::mode <= 7) {
+        if (!recorder::doRecording) {
+          recorder::doRecording = true;
+          recorder::recorder.reset();
+          indicator::recorderStatus.on();
+        }
+      }
+      else {
+        if (recorder::doRecording) {
+          recorder::doRecording = false;
+          indicator::recorderStatus.off();
+        }
+      }
+
       break;
     case CANSTM::Label::SET_REFERENCE_PRESSURE_COMMAND:
       float newReferencePressure;
@@ -204,14 +207,16 @@ void timer::task100Hz() {
   sensor::bme.getPressure(&data::pressure);
 
 
-  connection::recorder.record(
-    millis(),
-    data::temperature, data::pressure, data::altitude, data::trajectory.climbIndex(), data::trajectory.isFalling(),
-    data::acceleration_x, data::acceleration_y, data::acceleration_z,
-    data::gyroscope_x, data::gyroscope_y, data::gyroscope_z,
-    data::magnetometer_x, data::magnetometer_y, data::magnetometer_z,
-    data::orientation_x, data::orientation_y, data::orientation_z,
-    data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z,
-    data::gravity_x, data::gravity_y, data::gravity_z
-  );
+  if (recorder::doRecording) {
+    recorder::recorder.record(
+      millis(),
+      data::temperature, data::pressure, data::altitude, data::trajectory.climbIndex(), data::trajectory.isFalling(),
+      data::acceleration_x, data::acceleration_y, data::acceleration_z,
+      data::gyroscope_x, data::gyroscope_y, data::gyroscope_z,
+      data::magnetometer_x, data::magnetometer_y, data::magnetometer_z,
+      data::orientation_x, data::orientation_y, data::orientation_z,
+      data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z,
+      data::gravity_x, data::gravity_y, data::gravity_z
+    );
+  }
 }
