@@ -19,7 +19,7 @@ namespace timer {
 }
 
 namespace sensor {
-  ADXL375 adxl;
+  ADXL375 adxl(15);
 }
 
 namespace recorder {
@@ -57,6 +57,7 @@ namespace data {
 
 void setup() {
   Serial.begin(115200);
+  delay(800);
 
   LoRa.begin(925.8E6);
   LoRa.setSignalBandwidth(500E3);
@@ -67,17 +68,14 @@ void setup() {
 
   SPI.begin();
 
+  sensor::adxl.begin();
+
   if (recorder::sd.begin()) {
     indicator::sdStatus.on();
   }
   else {
     indicator::sdStatus.startBlink(2);
   }
-
-  Wire.begin();
-  Wire.setClock(400000);
-
-  sensor::adxl.begin();
 
   connection::can.begin();
 
@@ -134,4 +132,10 @@ void timer::task50Hz() {
 
 void timer::task1k2Hz() {
   sensor::adxl.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
+
+  Serial.print(data::acceleration_x);
+  Serial.print(",");
+  Serial.print(data::acceleration_y);
+  Serial.print(",");
+  Serial.println(data::acceleration_z);
 }
