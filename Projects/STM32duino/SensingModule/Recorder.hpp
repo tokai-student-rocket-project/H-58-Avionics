@@ -10,7 +10,9 @@ class Recorder {
 public:
   Recorder(uint32_t csFram0, uint32_t csFram1);
 
+  void reset();
   void dump();
+  void clear();
 
   void record(
     uint32_t millis,

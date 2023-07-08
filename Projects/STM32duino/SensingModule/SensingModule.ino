@@ -11,22 +11,7 @@
 #include "Sd.hpp"
 
 
-namespace flightMode {
-  enum class Mode : uint8_t {
-    SLEEP,
-    STANDBY,
-    THRUST,
-    CLIMB,
-    DESCENT,
-    DECEL,
-    PARACHUTE,
-    LAND,
-    SHUTDOWN
-  };
-}
-
 namespace timer {
-  void task10Hz();
   void task20Hz();
   void task100Hz();
 }
@@ -38,6 +23,7 @@ namespace sensor {
 }
 
 namespace recorder {
+  Recorder recorder(A2, A3);
   Sd sd(A0);
   PullupPin cardDetection(D8);
 
@@ -57,7 +43,9 @@ namespace control {
 
 namespace connection {
   CANSTM can;
-  Recorder recorder(A2, A3);
+
+  void handleSystemStatus();
+  void handleSetReferencePressureCommand();
 }
 
 namespace data {
@@ -96,9 +84,8 @@ void setup() {
     delay(800);
   }
 
-  // 開発中: 保存は常に行う表示
+  // FRAMとSDの電源は常にON
   control::recorderPower.on();
-  indicator::recorderStatus.on();
 
   SPI.setMOSI(A6);
   SPI.setMISO(A5);
@@ -127,19 +114,6 @@ void setup() {
 
   Tasks.add(timer::task20Hz)->startFps(20);
   Tasks.add(timer::task100Hz)->startFps(100);
-
-  // メモリ切断処理
-  // control::recorderPower.off();
-  // SPI.end();
-  // pinMode(A6, OUTPUT); // MOSI
-  // digitalWrite(A6, LOW);
-  // pinMode(A5, OUTPUT); // MISO
-  // digitalWrite(A5, LOW);
-  // digitalWrite(A2, LOW); // CS FRAM0
-  // digitalWrite(A3, LOW); // CS FRAM1
-  // digitalWrite(A0, LOW); // CS SD
-
-  // connection::recorder.dump();
 }
 
 
@@ -164,16 +138,10 @@ void loop() {
   if (connection::can.available()) {
     switch (connection::can.getLatestMessageLabel()) {
     case CANSTM::Label::SYSTEM_STATUS:
-      connection::can.receiveStatus(&data::mode, &data::camera, &data::separator);
-      indicator::canReceive.toggle();
+      connection::handleSystemStatus();
       break;
     case CANSTM::Label::SET_REFERENCE_PRESSURE_COMMAND:
-      float newReferencePressure;
-      connection::can.receiveSetReferencePressureCommand(&newReferencePressure);
-      data::trajectory.setReferencePressure(newReferencePressure);
-      indicator::canReceive.toggle();
-      connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::REFERENCE_PRESSURE_UPDATED);
-      indicator::canSend.toggle();
+      connection::handleSetReferencePressureCommand();
       break;
     }
   }
@@ -204,14 +172,50 @@ void timer::task100Hz() {
   sensor::bme.getPressure(&data::pressure);
 
 
-  connection::recorder.record(
-    millis(),
-    data::temperature, data::pressure, data::altitude, data::trajectory.climbIndex(), data::trajectory.isFalling(),
-    data::acceleration_x, data::acceleration_y, data::acceleration_z,
-    data::gyroscope_x, data::gyroscope_y, data::gyroscope_z,
-    data::magnetometer_x, data::magnetometer_y, data::magnetometer_z,
-    data::orientation_x, data::orientation_y, data::orientation_z,
-    data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z,
-    data::gravity_x, data::gravity_y, data::gravity_z
-  );
+  if (recorder::doRecording) {
+    recorder::recorder.record(
+      millis(),
+      data::temperature, data::pressure, data::altitude, data::trajectory.climbIndex(), data::trajectory.isFalling(),
+      data::acceleration_x, data::acceleration_y, data::acceleration_z,
+      data::gyroscope_x, data::gyroscope_y, data::gyroscope_z,
+      data::magnetometer_x, data::magnetometer_y, data::magnetometer_z,
+      data::orientation_x, data::orientation_y, data::orientation_z,
+      data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z,
+      data::gravity_x, data::gravity_y, data::gravity_z
+    );
+  }
+}
+
+
+void connection::handleSystemStatus() {
+  connection::can.receiveStatus(&data::mode, &data::camera, &data::separator);
+  indicator::canReceive.toggle();
+
+  // フライトモードがSTANDBYとLANDの間ならログを保存する
+  if (1 <= data::mode && data::mode <= 7) {
+    if (!recorder::doRecording) {
+      recorder::doRecording = true;
+      recorder::recorder.reset();
+      indicator::recorderStatus.on();
+    }
+  }
+  else {
+    if (recorder::doRecording) {
+      recorder::doRecording = false;
+      indicator::recorderStatus.off();
+    }
+  }
+}
+
+
+void connection::handleSetReferencePressureCommand() {
+  float newReferencePressure;
+
+  connection::can.receiveSetReferencePressureCommand(&newReferencePressure);
+  indicator::canReceive.toggle();
+
+  connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::REFERENCE_PRESSURE_UPDATED);
+  indicator::canSend.toggle();
+
+  data::trajectory.setReferencePressure(newReferencePressure);
 }

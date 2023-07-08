@@ -7,9 +7,20 @@ Recorder::Recorder(uint32_t csFram0, uint32_t csFram1) {
 }
 
 
+void Recorder::reset() {
+  _offset = 0;
+}
+
+
 void Recorder::dump() {
   _fram0->dump();
   _fram1->dump();
+}
+
+
+void Recorder::clear() {
+  _fram0->clear();
+  _fram1->clear();
 }
 
 
