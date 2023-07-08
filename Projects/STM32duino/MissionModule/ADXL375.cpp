@@ -9,78 +9,39 @@ ADXL375::ADXL375(uint32_t cs) {
 
 
 void ADXL375::begin() {
-  // Disable interrupts to start
-  SPI.beginTransaction(_spiSettings);
-  digitalWrite(_cs, LOW);
-  SPI.transfer(0b01000000 | 0x2E); // Address: Write | INT_ENABLE
-  SPI.transfer(0b00000000); // Data: Reset
-  digitalWrite(_cs, HIGH);
-  SPI.endTransaction();
+  // INT_ENABLE <- Reset
+  write(0x2E, 0b00000000);
 
-  // 62.5 mg/LSB (so 0xFF = 16 g)
-  SPI.beginTransaction(_spiSettings);
-  digitalWrite(_cs, LOW);
-  SPI.transfer(0b01000000 | 0x1D); // Address: Write | THRESH_SHOCK
-  SPI.transfer(20);
-  digitalWrite(_cs, HIGH);
-  SPI.endTransaction();
+  // THRESH_SHOCK
+  write(0x1D, 20);
 
-  // Max tap duration, 625 µs/LSB
-  SPI.beginTransaction(_spiSettings);
-  digitalWrite(_cs, LOW);
-  SPI.transfer(0b01000000 | 0x21); // Address: Write | DUR
-  SPI.transfer(50);
-  digitalWrite(_cs, HIGH);
-  SPI.endTransaction();
+  // DUR
+  write(0x21, 50);
 
   // Tap latency, 1.25 ms/LSB, 0=no double tap
-  SPI.beginTransaction(_spiSettings);
-  digitalWrite(_cs, LOW);
-  SPI.transfer(0b01000000 | 0x22); // Address: Write | Latent
-  SPI.transfer(0b00000000); // Data: Reset
-  digitalWrite(_cs, HIGH);
-  SPI.endTransaction();
+  // Latent <- Reset
+  write(0x22, 0b00000000);
 
   // Waiting period,  1.25 ms/LSB, 0=no double tap
-  SPI.beginTransaction(_spiSettings);
-  digitalWrite(_cs, LOW);
-  SPI.transfer(0b01000000 | 0x23); // Address: Write | Window
-  SPI.transfer(0b00000000); // Data: Reset
-  digitalWrite(_cs, HIGH);
-  SPI.endTransaction();
+  // Window <- Reset
+  write(0x23, 0b00000000);
 
   // Enable the XYZ axis for tap
-  SPI.beginTransaction(_spiSettings);
-  digitalWrite(_cs, LOW);
-  SPI.transfer(0b01000000 | 0x2A); // Address: Write | SHOCK_AXES
-  SPI.transfer(0b00000111); // Data: SHOCK_X,Y,Z enable
-  digitalWrite(_cs, HIGH);
-  SPI.endTransaction();
+  // SHOCK_AXES <- SHOCK_X,Y,Z enable
+  write(0x2A, 0b00000111);
 
   // Enable measurements
-  SPI.beginTransaction(_spiSettings);
-  digitalWrite(_cs, LOW);
-  SPI.transfer(0b01000000 | 0x2D); // Address: Write | POWER_CTL
-  SPI.transfer(0x00001000); // Data: Measure
-  digitalWrite(_cs, HIGH);
-  SPI.endTransaction();
+  // POWER_CTL <- Measure
+  write(0x2D, 0x00001000);
 
   // Force full range (fixes issue with DATA_FORMAT register's reset value)
   // Per datasheet, needs to be D4=0, D3=D1=D0=1
-  SPI.beginTransaction(_spiSettings);
-  digitalWrite(_cs, LOW);
-  SPI.transfer(0b01000000 | 0x31); // Address: Write | DATA_FORMAT
-  SPI.transfer(0b00001011);
-  digitalWrite(_cs, HIGH);
-  SPI.endTransaction();
+  // DATA_FORMAT
+  write(0x31, 0b00001011);
 
   // Sets the data rate for the ADXL343(controls power consumption)
-  SPI.beginTransaction(_spiSettings);
-  digitalWrite(_cs, LOW);
-  SPI.transfer(0b01000000 | 0x2C); // Address: Write | BW_RATE
-  SPI.transfer(0b1110);
-  digitalWrite(_cs, HIGH);
-  SPI.endTransaction();
+  // BW_RATE
+  write(0x2C, 0b1110);
 }
 
 
@@ -138,4 +99,14 @@ void ADXL375::getAcceleration(float* x, float* y, float* z) {
 
   int16_t zRaw = ((int16_t)zRaw0 << 8) | (int16_t)zRaw1;
   *z = (float)zRaw * 0.049;
+}
+
+
+void ADXL375::write(uint8_t address, uint8_t data) {
+  SPI.beginTransaction(_spiSettings);
+  digitalWrite(_cs, LOW);
+  SPI.transfer(0b01000000 | address);
+  SPI.transfer(data);
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
 }

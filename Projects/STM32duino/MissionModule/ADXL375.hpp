@@ -15,4 +15,6 @@ public:
 private:
   uint32_t _cs;
   SPISettings _spiSettings = SPISettings(4000000, MSBFIRST, SPI_MODE3);
+
+  void write(uint8_t address, uint8_t data);
 };
