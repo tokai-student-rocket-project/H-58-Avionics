@@ -3,6 +3,8 @@
 #include <LoRa.h>
 #include <MsgPacketizer.h>
 #include <TaskManager.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_ADXL375.h>
 #include "CANMCP.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
@@ -19,7 +21,8 @@ namespace timer {
 }
 
 namespace sensor {
-  ADXL375 adxl(15);
+  Adafruit_ADXL375 accel = Adafruit_ADXL375(15, &SPI, 12345);
+  // ADXL375 adxl(15);
 }
 
 namespace recorder {
@@ -57,6 +60,7 @@ namespace data {
 
 void setup() {
   Serial.begin(115200);
+  while (!Serial);
   delay(800);
 
   LoRa.begin(925.8E6);
@@ -68,7 +72,9 @@ void setup() {
 
   SPI.begin();
 
-  sensor::adxl.begin();
+  sensor::accel.begin();
+
+  // sensor::adxl.begin();
 
   if (recorder::sd.begin()) {
     indicator::sdStatus.on();
@@ -131,7 +137,14 @@ void timer::task50Hz() {
 
 
 void timer::task1k2Hz() {
-  sensor::adxl.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
+  sensors_event_t event;
+  sensor::accel.getEvent(&event);
+
+  data::acceleration_x = event.acceleration.x;
+  data::acceleration_y = event.acceleration.y;
+  data::acceleration_z = event.acceleration.z;
+
+  // sensor::adxl.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
 
   Serial.print(data::acceleration_x);
   Serial.print(",");
