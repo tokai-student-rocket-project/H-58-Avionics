@@ -7,7 +7,7 @@
 #include "OutputPin.hpp"
 #include "Trajectory.hpp"
 #include "Blinker.hpp"
-#include "Recorder.hpp"
+#include "Logger.hpp"
 #include "Sd.hpp"
 
 
@@ -22,19 +22,19 @@ namespace sensor {
   Thermistor thermistor(A1);
 }
 
-namespace recorder {
-  Recorder recorder(A2, A3);
+namespace logger {
+  Logger logger(A2, A3);
   Sd sd(A0);
   PullupPin cardDetection(D8);
 
-  bool doRecording;
+  bool doLogging;
 }
 
 namespace indicator {
   OutputPin canSend(D12);
   OutputPin canReceive(D11);
   Blinker sdStatus(D9, "invalidSd");
-  OutputPin recorderStatus(D6);
+  OutputPin loggerStatus(D6);
 }
 
 namespace control {
@@ -92,7 +92,8 @@ void setup() {
   SPI.setSCLK(A4);
   SPI.begin();
 
-  if (recorder::sd.begin()) {
+  // SDの初期検知と初期化
+  if (logger::sd.begin()) {
     indicator::sdStatus.on();
   }
   else {
@@ -109,7 +110,6 @@ void setup() {
   sensor::thermistor.initialize();
 
   connection::can.begin();
-
   connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::SETUP);
 
   Tasks.add(timer::task20Hz)->startFps(20);
@@ -122,15 +122,15 @@ void loop() {
 
   // SDの検知の更新
   // SDを新しく検知した時
-  if (!recorder::doRecording && !recorder::sd.isRunning() && !recorder::cardDetection.isOpen()) {
-    recorder::sd.begin();
+  if (!logger::doLogging && !logger::sd.isRunning() && !logger::cardDetection.isOpen()) {
+    logger::sd.begin();
     indicator::sdStatus.stopBlink();
     indicator::sdStatus.on();
   }
 
   // SDが検知できなくなった時
-  if (!recorder::doRecording && recorder::sd.isRunning() && recorder::cardDetection.isOpen()) {
-    recorder::sd.end();
+  if (!logger::doLogging && logger::sd.isRunning() && logger::cardDetection.isOpen()) {
+    logger::sd.end();
     indicator::sdStatus.startBlink(2);
   }
 
@@ -172,8 +172,8 @@ void timer::task100Hz() {
   sensor::bme.getPressure(&data::pressure);
 
 
-  if (recorder::doRecording) {
-    recorder::recorder.record(
+  if (logger::doLogging) {
+    logger::logger.log(
       millis(),
       data::temperature, data::pressure, data::altitude, data::trajectory.climbIndex(), data::trajectory.isFalling(),
       data::acceleration_x, data::acceleration_y, data::acceleration_z,
@@ -193,16 +193,16 @@ void connection::handleSystemStatus() {
 
   // フライトモードがSTANDBYとLANDの間ならログを保存する
   if (1 <= data::mode && data::mode <= 7) {
-    if (!recorder::doRecording) {
-      recorder::doRecording = true;
-      recorder::recorder.reset();
-      indicator::recorderStatus.on();
+    if (!logger::doLogging) {
+      logger::doLogging = true;
+      logger::logger.reset();
+      indicator::loggerStatus.on();
     }
   }
   else {
-    if (recorder::doRecording) {
-      recorder::doRecording = false;
-      indicator::recorderStatus.off();
+    if (logger::doLogging) {
+      logger::doLogging = false;
+      indicator::loggerStatus.off();
     }
   }
 }
