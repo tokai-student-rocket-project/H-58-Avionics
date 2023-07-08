@@ -22,7 +22,4 @@ private:
 
   SPISettings _setting;
   uint32_t _cs;
-
-  void beginTransaction();
-  void endTransaction();
 };

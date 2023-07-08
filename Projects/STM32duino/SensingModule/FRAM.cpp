@@ -10,44 +10,38 @@ FRAM::FRAM(uint32_t cs) {
 
 
 void FRAM::setWriteEnable() {
-  beginTransaction();
+  SPI.beginTransaction(_setting);
+  digitalWrite(_cs, LOW);
 
   SPI.transfer(WREN);
 
-  endTransaction();
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
 }
 
 
 void FRAM::getStatus(uint8_t* buffer) {
-  beginTransaction();
+  SPI.beginTransaction(_setting);
+  digitalWrite(_cs, LOW);
 
   SPI.transfer(RDSR);
-  buffer[0] = SPI.transfer(RDSR);
+  buffer[0] = SPI.transfer(0xFF);
 
-  endTransaction();
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
 }
 
 
 void FRAM::getId(uint8_t* buffer) {
-  beginTransaction();
-
-  SPI.transfer(RDID);
-  buffer[0] = SPI.transfer(RDID);
-  buffer[1] = SPI.transfer(RDID);
-  buffer[2] = SPI.transfer(RDID);
-  buffer[3] = SPI.transfer(RDID);
-
-  endTransaction();
-}
-
-
-void FRAM::beginTransaction() {
   SPI.beginTransaction(_setting);
   digitalWrite(_cs, LOW);
-}
 
+  SPI.transfer(RDID);
+  buffer[0] = SPI.transfer(0xFF);
+  buffer[1] = SPI.transfer(0xFF);
+  buffer[2] = SPI.transfer(0xFF);
+  buffer[3] = SPI.transfer(0xFF);
 
-void FRAM::endTransaction() {
   digitalWrite(_cs, HIGH);
   SPI.endTransaction();
 }
