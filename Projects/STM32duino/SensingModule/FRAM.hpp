@@ -7,7 +7,7 @@
 
 class FRAM {
 public:
-  const uint32_t LENGTH = 262144;
+  static const uint32_t LENGTH = 262144;
 
   FRAM(uint32_t cs);
 
@@ -17,6 +17,7 @@ public:
 
   uint8_t read(uint32_t address);
   void write(uint32_t address, uint8_t data);
+  void write(uint32_t address, const uint8_t* data, uint32_t size);
 
   void clear();
   void dump();

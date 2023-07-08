@@ -1,5 +1,4 @@
 #include <TaskManager.h>
-#include <MsgPacketizer.h>
 #include "CANSTM.hpp"
 #include "BNO055.hpp"
 #include "BME280.hpp"
@@ -8,7 +7,7 @@
 #include "OutputPin.hpp"
 #include "Trajectory.hpp"
 #include "Blinker.hpp"
-#include "FRAM.hpp"
+#include "Recorder.hpp"
 #include "Sd.hpp"
 
 
@@ -39,10 +38,6 @@ namespace sensor {
 }
 
 namespace recorder {
-  FRAM fram0(A2);
-  FRAM fram1(A3);
-  uint32_t framAddress;
-
   Sd sd(A0);
   PullupPin cardDetection(D8);
 
@@ -62,6 +57,7 @@ namespace control {
 
 namespace connection {
   CANSTM can;
+  Recorder recorder(A2, A3);
 }
 
 namespace data {
@@ -143,16 +139,7 @@ void setup() {
   // digitalWrite(A3, LOW); // CS FRAM1
   // digitalWrite(A0, LOW); // CS SD
 
-  // recorder::fram0.setWriteEnable();
-  // recorder::fram0.dump();
-
-  // for (uint32_t address = 0; address < 262144; address++) {
-  //   // for (uint32_t address = 0; address < 64; address++) {
-  //   recorder::fram0.write(address, 0);
-  //   // uint8_t data = recorder::fram0.read(address);
-  // }
-
-  // Serial.println("finish");
+  // connection::recorder.dump();
 }
 
 
@@ -217,8 +204,8 @@ void timer::task100Hz() {
   sensor::bme.getPressure(&data::pressure);
 
 
-  const auto& packet = MsgPacketizer::encode(
-    0xAB, millis(),
+  connection::recorder.record(
+    millis(),
     data::temperature, data::pressure, data::altitude, data::trajectory.climbIndex(), data::trajectory.isFalling(),
     data::acceleration_x, data::acceleration_y, data::acceleration_z,
     data::gyroscope_x, data::gyroscope_y, data::gyroscope_z,
@@ -227,14 +214,4 @@ void timer::task100Hz() {
     data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z,
     data::gravity_x, data::gravity_y, data::gravity_z
   );
-
-  const uint8_t* data = packet.data.data();
-  const uint32_t size = packet.data.size();
-
-  recorder::framAddress += size;
-
-  Serial.print((float)millis() / 1000.0);
-  Serial.print(" sec ");
-  Serial.print(((float)recorder::framAddress / (262144.0 * 2.0)) * 100.0, 2);
-  Serial.println(" %");
 }

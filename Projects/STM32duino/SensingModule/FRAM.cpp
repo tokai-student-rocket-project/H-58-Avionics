@@ -70,6 +70,27 @@ void FRAM::write(uint32_t address, uint8_t data) {
 }
 
 
+void FRAM::write(uint32_t address, const uint8_t* data, uint32_t size) {
+  uint8_t addressPart[3];
+  memcpy(addressPart, &address, 3);
+
+  SPI.beginTransaction(_setting);
+  digitalWrite(_cs, LOW);
+
+  SPI.transfer(WRITE);
+  SPI.transfer(addressPart[2]);
+  SPI.transfer(addressPart[1]);
+  SPI.transfer(addressPart[0]);
+
+  for (uint32_t i = 0; i < size; i++) {
+    SPI.transfer(data[i]);
+  }
+
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
+}
+
+
 void FRAM::getId(uint8_t* buffer) {
   SPI.beginTransaction(_setting);
   digitalWrite(_cs, LOW);
@@ -93,18 +114,16 @@ void FRAM::clear() {
 
 
 void FRAM::dump() {
-  for (uint32_t address = 0; address < LENGTH; address++) {
+  for (size_t address = 0; address < LENGTH; address++) {
     uint8_t data = read(address);
 
-    uint8_t addressPart[3];
-    memcpy(addressPart, &address, 3);
+    Serial.print(data, HEX);
 
-    Serial.print(addressPart[2], BIN);
-    Serial.print(" ");
-    Serial.print(addressPart[1], BIN);
-    Serial.print(" ");
-    Serial.print(addressPart[0], BIN);
-    Serial.print(" | ");
-    Serial.println(data);
+    if (data == 0) {
+      Serial.println();
+    }
+    else {
+      Serial.print(" ");
+    }
   }
 }
