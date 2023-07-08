@@ -24,7 +24,7 @@ namespace data {
   float orientation_x, orientation_y, orientation_z;
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 
-  float temperature;
+  float outsideTemperature;
   float altitude;
 }
 
@@ -60,8 +60,8 @@ void loop() {
       connection::can.receiveScalar(&data::altitude);
       indicator::canReceive.toggle();
       break;
-    case CANMCP::Label::TEMPERATURE:
-      connection::can.receiveScalar(&data::temperature);
+    case CANMCP::Label::OUTSIDE_TEMPERATURE:
+      connection::can.receiveScalar(&data::outsideTemperature);
       indicator::canReceive.toggle();
       break;
     }
@@ -73,7 +73,7 @@ void timer::task20Hz() {
   const auto& packet = MsgPacketizer::encode(
     0x00,
     data::altitude,
-    data::temperature,
+    data::outsideTemperature,
     data::orientation_x,
     data::orientation_y,
     data::orientation_z,

@@ -52,7 +52,7 @@ namespace data {
   Trajectory trajectory(0.25, 0.75);
 
   float pressure;
-  float temperature;
+  float outsideTemperature;
   float altitude;
 
   float acceleration_x, acceleration_y, acceleration_z;
@@ -153,14 +153,14 @@ void timer::task20Hz() {
   // 地磁気はセンサからのODRが20Hzなので20Hzで読み出す
   sensor::bno.getMagnetometer(&data::magnetometer_x, &data::magnetometer_y, &data::magnetometer_z);
   // CAN送信が20Hzなので、外気温はそれに合わせて20Hzで読み出す
-  sensor::thermistor.getTemperature(&data::temperature);
+  sensor::thermistor.getTemperature(&data::outsideTemperature);
 
   // 気圧と気温から高度を算出する
   // 内部的には落下検知の処理もやっている
-  data::altitude = data::trajectory.update(data::pressure, data::temperature);
+  data::altitude = data::trajectory.update(data::pressure, data::outsideTemperature);
 
   // CANにデータを流す
-  connection::can.sendScalar(CANSTM::Label::TEMPERATURE, data::temperature);
+  connection::can.sendScalar(CANSTM::Label::OUTSIDE_TEMPERATURE, data::outsideTemperature);
   connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
   connection::can.sendTrajectoryData(data::trajectory.isFalling());
   connection::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x, data::magnetometer_y, data::magnetometer_z);
@@ -186,7 +186,7 @@ void timer::task100Hz() {
   if (logger::doLogging) {
     logger::logger.log(
       millis(),
-      data::temperature, data::pressure, data::altitude, data::trajectory.climbIndex(), data::trajectory.isFalling(),
+      data::outsideTemperature, data::pressure, data::altitude, data::trajectory.climbIndex(), data::trajectory.isFalling(),
       data::acceleration_x, data::acceleration_y, data::acceleration_z,
       data::gyroscope_x, data::gyroscope_y, data::gyroscope_z,
       data::magnetometer_x, data::magnetometer_y, data::magnetometer_z,

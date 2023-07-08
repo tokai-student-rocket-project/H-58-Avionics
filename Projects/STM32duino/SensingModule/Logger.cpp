@@ -26,7 +26,7 @@ void Logger::clear() {
 
 void Logger::log(
   uint32_t millis,
-  float temperature, float pressure, float altitude, float climbIndex, bool isFalling,
+  float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,
   float acceleration_x, float acceleration_y, float acceleration_z,
   float gyroscope_x, float gyroscope_y, float gyroscope_z,
   float magnetometer_x, float magnetometer_y, float magnetometer_z,
@@ -36,7 +36,7 @@ void Logger::log(
 ) {
   const auto& packet = MsgPacketizer::encode(
     0xAA, millis,
-    temperature, pressure, altitude, climbIndex, isFalling,
+    outsideTemperature, pressure, altitude, climbIndex, isFalling,
     acceleration_x, acceleration_y, acceleration_z,
     gyroscope_x, gyroscope_y, gyroscope_z,
     magnetometer_x, magnetometer_y, magnetometer_z,
