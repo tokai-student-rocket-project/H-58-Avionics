@@ -32,6 +32,44 @@ void FRAM::getStatus(uint8_t* buffer) {
 }
 
 
+uint8_t FRAM::read(uint32_t address) {
+  uint8_t addressPart[3];
+  memcpy(addressPart, &address, 3);
+
+  SPI.beginTransaction(_setting);
+  digitalWrite(_cs, LOW);
+
+  SPI.transfer(READ);
+  SPI.transfer(addressPart[2]);
+  SPI.transfer(addressPart[1]);
+  SPI.transfer(addressPart[0]);
+  uint8_t data = SPI.transfer(0xFF);
+
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
+
+  return data;
+}
+
+
+void FRAM::write(uint32_t address, uint8_t data) {
+  uint8_t addressPart[3];
+  memcpy(addressPart, &address, 3);
+
+  SPI.beginTransaction(_setting);
+  digitalWrite(_cs, LOW);
+
+  SPI.transfer(WRITE);
+  SPI.transfer(addressPart[2]);
+  SPI.transfer(addressPart[1]);
+  SPI.transfer(addressPart[0]);
+  SPI.transfer(data);
+
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
+}
+
+
 void FRAM::getId(uint8_t* buffer) {
   SPI.beginTransaction(_setting);
   digitalWrite(_cs, LOW);
@@ -44,4 +82,29 @@ void FRAM::getId(uint8_t* buffer) {
 
   digitalWrite(_cs, HIGH);
   SPI.endTransaction();
+}
+
+
+void FRAM::clear() {
+  for (uint32_t address = 0; address < LENGTH; address++) {
+    write(address, 0x00);
+  }
+}
+
+
+void FRAM::dump() {
+  for (uint32_t address = 0; address < LENGTH; address++) {
+    uint8_t data = read(address);
+
+    uint8_t addressPart[3];
+    memcpy(addressPart, &address, 3);
+
+    Serial.print(addressPart[2], BIN);
+    Serial.print(" ");
+    Serial.print(addressPart[1], BIN);
+    Serial.print(" ");
+    Serial.print(addressPart[0], BIN);
+    Serial.print(" | ");
+    Serial.println(data);
+  }
 }
