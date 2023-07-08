@@ -1,3 +1,6 @@
+// TODO コメント追加
+
+
 #pragma once
 
 
@@ -11,7 +14,7 @@ public:
     ORIENTATION,
     LINEAR_ACCELERATION,
     ALTITUDE,
-    TEMPERATURE,
+    OUTSIDE_TEMPERATURE,
     VOLTAGE_SUPPLY,
     VOLTAGE_BATTERY,
     VOLTAGE_POOL,

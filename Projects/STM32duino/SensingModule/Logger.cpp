@@ -1,32 +1,35 @@
-#include "Recorder.hpp"
+// TODO コメント追加
 
 
-Recorder::Recorder(uint32_t csFram0, uint32_t csFram1) {
+#include "Logger.hpp"
+
+
+Logger::Logger(uint32_t csFram0, uint32_t csFram1) {
   _fram0 = new FRAM(csFram0);
   _fram1 = new FRAM(csFram1);
 }
 
 
-void Recorder::reset() {
+void Logger::reset() {
   _offset = 0;
 }
 
 
-void Recorder::dump() {
+void Logger::dump() {
   _fram0->dump();
   _fram1->dump();
 }
 
 
-void Recorder::clear() {
+void Logger::clear() {
   _fram0->clear();
   _fram1->clear();
 }
 
 
-void Recorder::record(
+void Logger::log(
   uint32_t millis,
-  float temperature, float pressure, float altitude, float climbIndex, bool isFalling,
+  float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,
   float acceleration_x, float acceleration_y, float acceleration_z,
   float gyroscope_x, float gyroscope_y, float gyroscope_z,
   float magnetometer_x, float magnetometer_y, float magnetometer_z,
@@ -36,7 +39,7 @@ void Recorder::record(
 ) {
   const auto& packet = MsgPacketizer::encode(
     0xAA, millis,
-    temperature, pressure, altitude, climbIndex, isFalling,
+    outsideTemperature, pressure, altitude, climbIndex, isFalling,
     acceleration_x, acceleration_y, acceleration_z,
     gyroscope_x, gyroscope_y, gyroscope_z,
     magnetometer_x, magnetometer_y, magnetometer_z,
@@ -66,8 +69,6 @@ void Recorder::record(
     _fram0->setWriteEnable();
     _fram0->write(writeAddress, data, size);
   }
-
-  Serial.println(_offset);
 
   _offset += size;
 }

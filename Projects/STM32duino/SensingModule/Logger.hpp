@@ -1,3 +1,6 @@
+// TODO コメント追加
+
+
 #pragma once
 
 
@@ -6,17 +9,17 @@
 #include "FRAM.hpp"
 
 
-class Recorder {
+class Logger {
 public:
-  Recorder(uint32_t csFram0, uint32_t csFram1);
+  Logger(uint32_t csFram0, uint32_t csFram1);
 
   void reset();
   void dump();
   void clear();
 
-  void record(
+  void log(
     uint32_t millis,
-    float temperature, float pressure, float altitude, float climbIndex, bool isFalling,
+    float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,
     float acceleration_x, float acceleration_y, float acceleration_z,
     float gyroscope_x, float gyroscope_y, float gyroscope_z,
     float magnetometer_x, float magnetometer_y, float magnetometer_z,

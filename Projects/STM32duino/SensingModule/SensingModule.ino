@@ -7,7 +7,7 @@
 #include "OutputPin.hpp"
 #include "Trajectory.hpp"
 #include "Blinker.hpp"
-#include "Recorder.hpp"
+#include "Logger.hpp"
 #include "Sd.hpp"
 
 
@@ -22,19 +22,19 @@ namespace sensor {
   Thermistor thermistor(A1);
 }
 
-namespace recorder {
-  Recorder recorder(A2, A3);
+namespace logger {
+  Logger logger(A2, A3);
   Sd sd(A0);
   PullupPin cardDetection(D8);
 
-  bool doRecording;
+  bool doLogging;
 }
 
 namespace indicator {
   OutputPin canSend(D12);
   OutputPin canReceive(D11);
   Blinker sdStatus(D9, "invalidSd");
-  OutputPin recorderStatus(D6);
+  OutputPin loggerStatus(D6);
 }
 
 namespace control {
@@ -51,16 +51,16 @@ namespace connection {
 namespace data {
   Trajectory trajectory(0.25, 0.75);
 
-  float pressure;
-  float temperature;
-  float altitude;
+  float pressure_hPa;
+  float outsideTemperature_degC;
+  float altitude_m;
 
-  float acceleration_x, acceleration_y, acceleration_z;
-  float magnetometer_x, magnetometer_y, magnetometer_z;
-  float gyroscope_x, gyroscope_y, gyroscope_z;
-  float orientation_x, orientation_y, orientation_z;
-  float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
-  float gravity_x, gravity_y, gravity_z;
+  float acceleration_x_mps2, acceleration_y_mps2, acceleration_z_mps2;
+  float magnetometer_x_nT, magnetometer_y_nT, magnetometer_z_nT;
+  float gyroscope_x_dps, gyroscope_y_dps, gyroscope_z_dps;
+  float orientation_x_deg, orientation_y_deg, orientation_z_deg;
+  float linear_acceleration_x_mps2, linear_acceleration_y_mps2, linear_acceleration_z_mps2;
+  float gravity_x_mps2, gravity_y_mps2, gravity_z_mps2;
 
   uint8_t mode;
   bool camera, separator;
@@ -92,7 +92,8 @@ void setup() {
   SPI.setSCLK(A4);
   SPI.begin();
 
-  if (recorder::sd.begin()) {
+  // SDの初期検知と初期化
+  if (logger::sd.begin()) {
     indicator::sdStatus.on();
   }
   else {
@@ -109,7 +110,6 @@ void setup() {
   sensor::thermistor.initialize();
 
   connection::can.begin();
-
   connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::SETUP);
 
   Tasks.add(timer::task20Hz)->startFps(20);
@@ -122,15 +122,15 @@ void loop() {
 
   // SDの検知の更新
   // SDを新しく検知した時
-  if (!recorder::doRecording && !recorder::sd.isRunning() && !recorder::cardDetection.isOpen()) {
-    recorder::sd.begin();
+  if (!logger::doLogging && !logger::sd.isRunning() && !logger::cardDetection.isOpen()) {
+    logger::sd.begin();
     indicator::sdStatus.stopBlink();
     indicator::sdStatus.on();
   }
 
   // SDが検知できなくなった時
-  if (!recorder::doRecording && recorder::sd.isRunning() && recorder::cardDetection.isOpen()) {
-    recorder::sd.end();
+  if (!logger::doLogging && logger::sd.isRunning() && logger::cardDetection.isOpen()) {
+    logger::sd.end();
     indicator::sdStatus.startBlink(2);
   }
 
@@ -148,74 +148,91 @@ void loop() {
 }
 
 
+/// @brief 20Hzで実行したい処理
 void timer::task20Hz() {
-  sensor::bno.getMagnetometer(&data::magnetometer_x, &data::magnetometer_y, &data::magnetometer_z);
-  sensor::thermistor.getTemperature(&data::temperature);
+  // 地磁気はセンサからのODRが20Hzなので20Hzで読み出す
+  sensor::bno.getMagnetometer(&data::magnetometer_x_nT, &data::magnetometer_y_nT, &data::magnetometer_z_nT);
+  // CAN送信が20Hzなので、外気温はそれに合わせて20Hzで読み出す
+  sensor::thermistor.getTemperature(&data::outsideTemperature_degC);
 
-  data::altitude = data::trajectory.update(data::pressure, data::temperature);
+  // 気圧と気温から高度を算出する
+  // 内部的には落下検知の処理もやっている
+  data::altitude_m = data::trajectory.update(data::pressure_hPa, data::outsideTemperature_degC);
 
-  connection::can.sendScalar(CANSTM::Label::TEMPERATURE, data::temperature);
-  connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
+  // CANにデータを流す
+  connection::can.sendScalar(CANSTM::Label::OUTSIDE_TEMPERATURE, data::outsideTemperature_degC);
+  connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude_m);
   connection::can.sendTrajectoryData(data::trajectory.isFalling());
-  connection::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x, data::magnetometer_y, data::magnetometer_z);
-  connection::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z);
+  connection::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x_nT, data::magnetometer_y_nT, data::magnetometer_z_nT);
+  connection::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2);
   indicator::canSend.toggle();
 }
 
 
+/// @brief 100Hzで実行したい処理
 void timer::task100Hz() {
-  sensor::bno.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
-  sensor::bno.getGyroscope(&data::gyroscope_x, &data::gyroscope_y, &data::gyroscope_z);
-  sensor::bno.getOrientation(&data::orientation_x, &data::orientation_y, &data::orientation_z);
-  sensor::bno.getLinearAcceleration(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
-  sensor::bno.getGravityVector(&data::gravity_x, &data::gravity_y, &data::gravity_z);
-  sensor::bme.getPressure(&data::pressure);
+  // BNO055からのデータは基本的に100Hzで読み出す
+  sensor::bno.getAcceleration(&data::acceleration_x_mps2, &data::acceleration_y_mps2, &data::acceleration_z_mps2);
+  sensor::bno.getGyroscope(&data::gyroscope_x_dps, &data::gyroscope_y_dps, &data::gyroscope_z_dps);
+  sensor::bno.getOrientation(&data::orientation_x_deg, &data::orientation_y_deg, &data::orientation_z_deg);
+  sensor::bno.getLinearAcceleration(&data::linear_acceleration_x_mps2, &data::linear_acceleration_y_mps2, &data::linear_acceleration_z_mps2);
+  sensor::bno.getGravityVector(&data::gravity_x_mps2, &data::gravity_y_mps2, &data::gravity_z_mps2);
+  // 高度も解析用にできるだけ早い100Hzで読み出したい
+  sensor::bme.getPressure(&data::pressure_hPa);
 
 
-  if (recorder::doRecording) {
-    recorder::recorder.record(
+  // doLoggingのフラグが立っている時はログを保存する
+  // 内部的にはFRAMとSDに書き込んでいる
+  if (logger::doLogging) {
+    logger::logger.log(
       millis(),
-      data::temperature, data::pressure, data::altitude, data::trajectory.climbIndex(), data::trajectory.isFalling(),
-      data::acceleration_x, data::acceleration_y, data::acceleration_z,
-      data::gyroscope_x, data::gyroscope_y, data::gyroscope_z,
-      data::magnetometer_x, data::magnetometer_y, data::magnetometer_z,
-      data::orientation_x, data::orientation_y, data::orientation_z,
-      data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z,
-      data::gravity_x, data::gravity_y, data::gravity_z
+      data::outsideTemperature_degC, data::pressure_hPa, data::altitude_m, data::trajectory.climbIndex(), data::trajectory.isFalling(),
+      data::acceleration_x_mps2, data::acceleration_y_mps2, data::acceleration_z_mps2,
+      data::gyroscope_x_dps, data::gyroscope_y_dps, data::gyroscope_z_dps,
+      data::magnetometer_x_nT, data::magnetometer_y_nT, data::magnetometer_z_nT,
+      data::orientation_x_deg, data::orientation_y_deg, data::orientation_z_deg,
+      data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2,
+      data::gravity_x_mps2, data::gravity_y_mps2, data::gravity_z_mps2
     );
   }
 }
 
 
+/// @brief CANで受け取ったSystemStatusを使って処理を行う関数
+///        loop()内のCAN受信処理から呼び出される用
 void connection::handleSystemStatus() {
   connection::can.receiveStatus(&data::mode, &data::camera, &data::separator);
   indicator::canReceive.toggle();
 
   // フライトモードがSTANDBYとLANDの間ならログを保存する
   if (1 <= data::mode && data::mode <= 7) {
-    if (!recorder::doRecording) {
-      recorder::doRecording = true;
-      recorder::recorder.reset();
-      indicator::recorderStatus.on();
+    if (!logger::doLogging) {
+      logger::doLogging = true;
+      logger::logger.reset();
+      indicator::loggerStatus.on();
     }
   }
   else {
-    if (recorder::doRecording) {
-      recorder::doRecording = false;
-      indicator::recorderStatus.off();
+    if (logger::doLogging) {
+      logger::doLogging = false;
+      indicator::loggerStatus.off();
     }
   }
 }
 
 
+/// @brief CANで受け取ったSetReferencePressureCommandを使って処理を行う関数
+///        loop()内のCAN受信処理から呼び出される用
 void connection::handleSetReferencePressureCommand() {
-  float newReferencePressure;
+  float newReferencePressure_hPa;
 
-  connection::can.receiveSetReferencePressureCommand(&newReferencePressure);
+  connection::can.receiveSetReferencePressureCommand(&newReferencePressure_hPa);
   indicator::canReceive.toggle();
 
+  // 参照気圧を更新したことをイベントとして知らせる
   connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::REFERENCE_PRESSURE_UPDATED);
   indicator::canSend.toggle();
 
-  data::trajectory.setReferencePressure(newReferencePressure);
+  // 高度算出用のライブラリに新しい参照気圧を設定する
+  data::trajectory.setReferencePressure(newReferencePressure_hPa);
 }

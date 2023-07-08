@@ -34,7 +34,7 @@ SCM ... SystemDataCommunicationModule
 | 0x00 | Orientation                    | 5B     | SM   | ACM         | 20Hz | [0] Axis (uint8_t), [1:5] Value (float)                                                                 |
 | 0x01 | Acceleration                   | 5B     | SM   | ACM         | 20Hz | [0] Axis (uint8_t), [1:5] Value (float)                                                                 |
 | 0x02 | Altitude                       | 4B     | SM   | FM, ACM     | 20Hz | [0:4] Value (float)                                                                                     |
-| 0x03 | Temperature                    | 4B     | SM   | ACM         | 20Hz | [0:4] Value (float)                                                                                     |
+| 0x03 | Outside Temperature            | 4B     | SM   | ACM         | 20Hz | [0:4] Value (float)                                                                                     |
 | 0x04 | Supply Voltage                 | 4B     | FM   | SCM         | 10Hz | [0:4] Value (float)                                                                                     |
 | 0x05 | Battery Voltage                | 4B     | FM   | SCM         | 10Hz | [0:4] Value (float)                                                                                     |
 | 0x06 | Pool Voltage                   | 4B     | FM   | SCM         | 10Hz | [0:4] Value (float)                                                                                     |
