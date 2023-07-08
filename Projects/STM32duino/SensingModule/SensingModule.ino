@@ -148,12 +148,18 @@ void loop() {
 }
 
 
+/// @brief 20Hzで実行したい処理
 void timer::task20Hz() {
+  // 地磁気はセンサからのODRが20Hzなので20Hzで読み出す
   sensor::bno.getMagnetometer(&data::magnetometer_x, &data::magnetometer_y, &data::magnetometer_z);
+  // CAN送信が20Hzなので、外気温はそれに合わせて20Hzで読み出す
   sensor::thermistor.getTemperature(&data::temperature);
 
+  // 気圧と気温から高度を算出する
+  // 内部的には落下検知の処理もやっている
   data::altitude = data::trajectory.update(data::pressure, data::temperature);
 
+  // CANにデータを流す
   connection::can.sendScalar(CANSTM::Label::TEMPERATURE, data::temperature);
   connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude);
   connection::can.sendTrajectoryData(data::trajectory.isFalling());
@@ -163,15 +169,20 @@ void timer::task20Hz() {
 }
 
 
+/// @brief 100Hzで実行したい処理
 void timer::task100Hz() {
+  // BNO055からのデータは基本的に100Hzで読み出す
   sensor::bno.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
   sensor::bno.getGyroscope(&data::gyroscope_x, &data::gyroscope_y, &data::gyroscope_z);
   sensor::bno.getOrientation(&data::orientation_x, &data::orientation_y, &data::orientation_z);
   sensor::bno.getLinearAcceleration(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
   sensor::bno.getGravityVector(&data::gravity_x, &data::gravity_y, &data::gravity_z);
+  // 高度も解析用にできるだけ早い100Hzで読み出したい
   sensor::bme.getPressure(&data::pressure);
 
 
+  // doLoggingのフラグが立っている時はログを保存する
+  // 内部的にはFRAMとSDに書き込んでいる
   if (logger::doLogging) {
     logger::logger.log(
       millis(),
@@ -187,6 +198,8 @@ void timer::task100Hz() {
 }
 
 
+/// @brief CANで受け取ったSystemStatusを使って処理を行う関数
+///        loop()内のCAN受信処理から呼び出される用
 void connection::handleSystemStatus() {
   connection::can.receiveStatus(&data::mode, &data::camera, &data::separator);
   indicator::canReceive.toggle();
@@ -208,14 +221,18 @@ void connection::handleSystemStatus() {
 }
 
 
+/// @brief CANで受け取ったSetReferencePressureCommandを使って処理を行う関数
+///        loop()内のCAN受信処理から呼び出される用
 void connection::handleSetReferencePressureCommand() {
   float newReferencePressure;
 
   connection::can.receiveSetReferencePressureCommand(&newReferencePressure);
   indicator::canReceive.toggle();
 
+  // 参照気圧を更新したことをイベントとして知らせる
   connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::REFERENCE_PRESSURE_UPDATED);
   indicator::canSend.toggle();
 
+  // 高度算出用のライブラリに新しい参照気圧を設定する
   data::trajectory.setReferencePressure(newReferencePressure);
 }
