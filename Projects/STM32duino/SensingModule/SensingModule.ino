@@ -96,9 +96,8 @@ void setup() {
     delay(800);
   }
 
-  // 開発中: 保存は常に行う表示
+  // FRAMとSDの電源は常にON
   control::recorderPower.on();
-  indicator::recorderStatus.on();
 
   SPI.setMOSI(A6);
   SPI.setMISO(A5);
