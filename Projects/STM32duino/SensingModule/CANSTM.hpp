@@ -108,7 +108,11 @@ public:
 
   /// @brief 計測ステータスを送信する
   /// @param referencePressure 参照気圧 [hPa]
-  void sendSensingStatus(float referencePressure);
+  /// @param isSystemCalibrated BNO055システムのキャリブレーションが完了しているか
+  /// @param isGyroscopeCalibrated BNO055角加速度計のキャリブレーションが完了しているか
+  /// @param isAccelerometerCalibrated BNO055加速度計のキャリブレーションが完了しているか
+  /// @param isMagnetometerCalibrated BNO055地磁気計のキャリブレーションが完了しているか
+  void sendSensingStatus(float referencePressure, bool isSystemCalibrated, bool isGyroscopeCalibrated, bool isAccelerometerCalibrated, bool isMagnetometerCalibrated);
 
 
   /// @brief スカラー値を送信する

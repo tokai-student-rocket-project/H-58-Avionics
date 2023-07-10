@@ -11,6 +11,12 @@ public:
   /// @brief センサを初期化して起動する
   void begin();
 
+  /// @brief キャリブレーションが完了しているかを返す
+  bool isSystemCalibrated();
+  bool isGyroscopeCalibrated();
+  bool isAccelerometerCalibrated();
+  bool isMagnetometerCalibrated();
+
 
   /// @brief 現在の加速度ベクトルを返す
   /// @param x x軸加速度のポインタ [mps2]
@@ -52,4 +58,6 @@ public:
 private:
   void write(uint8_t address, uint8_t data);
   void readVector3D(uint8_t address, float lsb, float* x, float* y, float* z);
+
+  void getCalibration(uint8_t* sys, uint8_t* gyro, uint8_t* accel, uint8_t* mag);
 };

@@ -69,9 +69,9 @@ namespace data {
 
 void setup() {
   // デバッグ用シリアルポートの準備
-  Serial.begin(115200);
-  while (!Serial);
-  delay(800);
+  // Serial.begin(115200);
+  // while (!Serial);
+  // delay(800);
 
   // FRAMとSDの電源は常にON
   control::recorderPower.on();
@@ -120,7 +120,13 @@ void loop() {
 /// @brief 5秒間隔で実行したい処理
 void timer::task02Hz() {
   // 計測ステータスの送信
-  connection::can.sendSensingStatus(data::trajectory.getReferencePressure());
+  connection::can.sendSensingStatus(
+    data::trajectory.getReferencePressure(),
+    sensor::bno.isSystemCalibrated(),
+    sensor::bno.isGyroscopeCalibrated(),
+    sensor::bno.isAccelerometerCalibrated(),
+    sensor::bno.isMagnetometerCalibrated()
+  );
 }
 
 
