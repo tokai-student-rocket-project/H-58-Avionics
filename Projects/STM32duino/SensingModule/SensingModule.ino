@@ -65,23 +65,12 @@ namespace data {
   bool camera, separator;
 }
 
-namespace develop {
-  PullupPin debugMode(D3);
-
-  bool isDebugMode;
-}
-
 
 void setup() {
-  // 起動モードの判定
-  develop::isDebugMode = !develop::debugMode.isOpen();
-
   // デバッグ用シリアルポートの準備
-  if (develop::isDebugMode) {
-    Serial.begin(115200);
-    while (!Serial);
-    delay(800);
-  }
+  Serial.begin(115200);
+  while (!Serial);
+  delay(800);
 
   // FRAMとSDの電源は常にON
   control::recorderPower.on();
@@ -107,27 +96,27 @@ void setup() {
   Tasks.add(timer::task20Hz)->startFps(20);
   Tasks.add(timer::task100Hz)->startFps(100);
 
-  Tasks.add([&]() {
-    if (!logger::doLogging) {
-      logger::doLogging = true;
-      logger::logger.reset();
-      if (logger::logger.beginLogging("log.csv")) {
-        logger::logger.logHeader();
-        indicator::loggerStatus.on();
-      }
-      else {
-        // TODO 例外処理 ログ開始失敗
-      }
-    }
-    })->startOnceAfterSec(2);
+  // Tasks.add([&]() {
+  //   if (!logger::doLogging) {
+  //     logger::doLogging = true;
+  //     logger::logger.reset();
+  //     if (logger::logger.beginLogging("log.csv")) {
+  //       logger::logger.logHeader();
+  //       indicator::loggerStatus.on();
+  //     }
+  //     else {
+  //       // TODO 例外処理 ログ開始失敗
+  //     }
+  //   }
+  //   })->startOnceAfterSec(2);
 
-    Tasks.add([&]() {
-      if (logger::doLogging) {
-        logger::doLogging = false;
-        logger::logger.endLogging();
-        indicator::loggerStatus.off();
-      }
-      })->startOnceAfterSec(12);
+  //   Tasks.add([&]() {
+  //     if (logger::doLogging) {
+  //       logger::doLogging = false;
+  //       logger::logger.endLogging();
+  //       indicator::loggerStatus.off();
+  //     }
+  //     })->startOnceAfterSec(12);
 }
 
 

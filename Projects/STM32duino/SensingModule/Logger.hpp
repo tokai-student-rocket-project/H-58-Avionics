@@ -7,7 +7,8 @@
 #include "Sd.hpp"
 
 
-/// @brief FRAMとSDを包括したデータ保存用クラスclass Logger {
+/// @brief FRAMとSDを包括したデータ保存用クラス
+class Logger {
 public:
   /// @brief コンストラクタ
   /// @param csFram0 1つ目のFRAMのチップセレクト

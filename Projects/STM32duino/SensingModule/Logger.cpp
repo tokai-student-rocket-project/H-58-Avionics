@@ -94,6 +94,60 @@ void Logger::log(
   }
 
   _offset += size;
+
+
+  // SDへの保存
+  String line = "";
+
+  line += String(millis);
+  line += ",";
+  line += String(outsideTemperature);
+  line += ",";
+  line += String(pressure);
+  line += ",";
+  line += String(altitude);
+  line += ",";
+  line += String(climbIndex);
+  line += ",";
+  line += String(isFalling);
+  line += ",";
+  line += String(acceleration_x);
+  line += ",";
+  line += String(acceleration_y);
+  line += ",";
+  line += String(acceleration_z);
+  line += ",";
+  line += String(gyroscope_x);
+  line += ",";
+  line += String(gyroscope_y);
+  line += ",";
+  line += String(gyroscope_z);
+  line += ",";
+  line += String(magnetometer_x);
+  line += ",";
+  line += String(magnetometer_y);
+  line += ",";
+  line += String(magnetometer_z);
+  line += ",";
+  line += String(orientation_x);
+  line += ",";
+  line += String(orientation_y);
+  line += ",";
+  line += String(orientation_z);
+  line += ",";
+  line += String(linear_acceleration_x);
+  line += ",";
+  line += String(linear_acceleration_y);
+  line += ",";
+  line += String(linear_acceleration_z);
+  line += ",";
+  line += String(gravity_x);
+  line += ",";
+  line += String(gravity_y);
+  line += ",";
+  line += String(gravity_z);
+
+  _sd->println(line);
 }
 
 
