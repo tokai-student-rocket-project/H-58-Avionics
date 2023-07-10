@@ -7,7 +7,6 @@
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
 #include "Trajectory.hpp"
-#include "Blinker.hpp"
 #include "Logger.hpp"
 
 
