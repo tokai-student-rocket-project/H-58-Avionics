@@ -43,6 +43,7 @@ SCM ... SystemDataCommunicationModule
 | 0x09 | Error                  | 7B     |      | SCM         |      | [0] Publisher (uint8_t), [1] ErrorCode (uint8_t), [2] ErrorReason (uint8_t), [3:7] Timestamp (uint32_t) |
 | 0x10 | Set Reference Pressure | 4B     | SCM  | SM          |      | [0:4] ReferencePressure (float)                                                                         |
 | 0x11 | Trajectory Data        | 1B     | SM   | FM          |      | [0] IsFalling (bool)                                                                                    |
+| 0x12 | Sensing Status         | 4B     | SM   | SCM         |      | [0:4] ReferencePressure (float)                                                                         |
 
 ## モジュール
 

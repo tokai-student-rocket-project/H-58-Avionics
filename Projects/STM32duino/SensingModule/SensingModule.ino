@@ -11,6 +11,7 @@
 
 
 namespace timer {
+  void task02Hz();
   void task2Hz();
   void task20Hz();
   void task100Hz();
@@ -92,6 +93,7 @@ void setup() {
   connection::can.begin();
   connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::SETUP);
 
+  Tasks.add(timer::task02Hz)->startIntervalSec(5);
   Tasks.add(timer::task2Hz)->startFps(2);
   Tasks.add(timer::task20Hz)->startFps(20);
   Tasks.add(timer::task100Hz)->startFps(100);
@@ -112,6 +114,13 @@ void loop() {
       break;
     }
   }
+}
+
+
+/// @brief 5秒間隔で実行したい処理
+void timer::task02Hz() {
+  // 計測ステータスの送信
+  connection::can.sendSensingStatus(data::trajectory.getReferencePressure());
 }
 
 

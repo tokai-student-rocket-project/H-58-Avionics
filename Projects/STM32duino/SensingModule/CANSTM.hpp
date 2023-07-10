@@ -20,7 +20,8 @@ public:
     EVENT,
     ERROR,
     SET_REFERENCE_PRESSURE,
-    TRAJECTORY_DATA
+    TRAJECTORY_DATA,
+    SENSING_STATUS
   };
 
   /// @brief ベクトル用のxyzを列挙型で定義しておく
@@ -104,6 +105,10 @@ public:
   /// @brief 軌道情報を送信する
   /// @param isFalling true: 落下中, false: 落下中でない
   void sendTrajectoryData(bool isFalling);
+
+  /// @brief 計測ステータスを送信する
+  /// @param referencePressure 参照気圧 [hPa]
+  void sendSensingStatus(float referencePressure);
 
 
   /// @brief スカラー値を送信する

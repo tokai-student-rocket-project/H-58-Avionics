@@ -102,6 +102,19 @@ void CANSTM::sendTrajectoryData(bool isFalling) {
 }
 
 
+/// @brief 計測ステータスを送信する
+/// @param referencePressure 参照気圧 [hPa]
+void CANSTM::sendSensingStatus(float referencePressure) {
+  CANMessage message;
+  message.id = static_cast<uint32_t>(Label::SENSING_STATUS);
+  message.len = 4;
+
+  memcpy(message.data, &referencePressure, 4);
+
+  can.tryToSendReturnStatus(message);
+}
+
+
 /// @brief スカラー値を送信する
 /// @param label データの種類
 /// @param value 値

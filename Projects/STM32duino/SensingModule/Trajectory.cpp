@@ -17,6 +17,13 @@ void Trajectory::setReferencePressure(float referencePressure) {
 }
 
 
+/// @brief 現在の参照気圧を返す
+/// @return 参照気圧 [hPa]
+float Trajectory::getReferencePressure() {
+  return _referencePressure;
+}
+
+
 /// @brief 気圧と気温から高度を算出して更新
 /// @param pressure 気圧 [hPa]
 /// @param temperature 気温 [degC]
