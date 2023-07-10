@@ -36,18 +36,18 @@ CANSTM::Label CANSTM::getLatestMessageLabel() {
 
 
 /// @brief システムステータスを送信する
-/// @param mode フライトモード
-/// @param camera true: ON, false: OFF
-/// @param sn3 true: ON, false: OFF
+/// @param flightMode フライトモード
+/// @param cameraState true: ON, false: OFF
+/// @param sn3State true: ON, false: OFF
 // TODO 摘出した列挙型に変更
-void CANSTM::sendSystemStatus(uint8_t mode, bool camera, bool sn3) {
+void CANSTM::sendSystemStatus(uint8_t flightMode, bool cameraState, bool sn3State) {
   CANMessage message;
   message.id = static_cast<uint32_t>(Label::SYSTEM_STATUS);
   message.len = 3;
 
-  message.data[0] = mode;
-  message.data[1] = camera;
-  message.data[2] = sn3;
+  message.data[0] = flightMode;
+  message.data[1] = cameraState;
+  message.data[2] = sn3State;
 
   can.tryToSendReturnStatus(message);
 }
@@ -146,14 +146,14 @@ void CANSTM::sendVector3D(Label label, float xValue, float yValue, float zValue)
 
 
 /// @brief システムステータスを受信する
-/// @param mode フライトモード
-/// @param camera true: ON, false: OFF
-/// @param sn3 true: ON, false: OFF
+/// @param flightMode フライトモード
+/// @param cameraState true: ON, false: OFF
+/// @param sn3State true: ON, false: OFF
 // TODO 摘出した列挙型に変更
-void CANSTM::receiveSystemStatus(uint8_t* mode, bool* camera, bool* sn3) {
-  *mode = _latestData[0];
-  *camera = _latestData[1];
-  *sn3 = _latestData[2];
+void CANSTM::receiveSystemStatus(uint8_t* flightMode, bool* cameraState, bool* sn3State) {
+  *flightMode = _latestData[0];
+  *cameraState = _latestData[1];
+  *sn3State = _latestData[2];
 }
 
 
