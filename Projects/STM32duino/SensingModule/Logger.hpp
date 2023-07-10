@@ -47,9 +47,6 @@ public:
     float gravity_x, float gravity_y, float gravity_z
   );
 
-  /// @brief SDのcsvファイルにヘッダーを追記する
-  void logHeader();
-
 private:
   uint32_t _offset = 0;
 

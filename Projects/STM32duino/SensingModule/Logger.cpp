@@ -97,61 +97,14 @@ void Logger::log(
 
 
   // SDへの保存
-  String line = "";
+  for (uint32_t i = 0; i < size; i++) {
+    _sd->print(String(data[i], HEX));
 
-  line += String(millis);
-  line += ",";
-  line += String(outsideTemperature);
-  line += ",";
-  line += String(pressure);
-  line += ",";
-  line += String(altitude);
-  line += ",";
-  line += String(climbIndex);
-  line += ",";
-  line += String(isFalling);
-  line += ",";
-  line += String(acceleration_x);
-  line += ",";
-  line += String(acceleration_y);
-  line += ",";
-  line += String(acceleration_z);
-  line += ",";
-  line += String(gyroscope_x);
-  line += ",";
-  line += String(gyroscope_y);
-  line += ",";
-  line += String(gyroscope_z);
-  line += ",";
-  line += String(magnetometer_x);
-  line += ",";
-  line += String(magnetometer_y);
-  line += ",";
-  line += String(magnetometer_z);
-  line += ",";
-  line += String(orientation_x);
-  line += ",";
-  line += String(orientation_y);
-  line += ",";
-  line += String(orientation_z);
-  line += ",";
-  line += String(linear_acceleration_x);
-  line += ",";
-  line += String(linear_acceleration_y);
-  line += ",";
-  line += String(linear_acceleration_z);
-  line += ",";
-  line += String(gravity_x);
-  line += ",";
-  line += String(gravity_y);
-  line += ",";
-  line += String(gravity_z);
-
-  _sd->println(line);
-}
-
-
-/// @brief SDのcsvファイルにヘッダーを追記する
-void Logger::logHeader() {
-  _sd->println("millis,outsideTemperature, pressure, altitude, climbIndex, isFalling,acceleration_x, acceleration_y, acceleration_z,gyroscope_x, gyroscope_y, gyroscope_z,magnetometer_x, magnetometer_y, magnetometer_z,orientation_x, orientation_y, orientation_z,linear_acceleration_x, linear_acceleration_y, linear_acceleration_z,gravity_x, gravity_y, gravity_z");
+    if (data[i] == 0) {
+      _sd->println("");
+    }
+    else {
+      _sd->print(" ");
+    }
+  }
 }
