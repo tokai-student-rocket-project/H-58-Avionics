@@ -36,18 +36,18 @@ CANSTM::Label CANSTM::getLatestMessageLabel() {
 
 
 /// @brief システムステータスを送信する
-/// @param mode フライトモード
-/// @param camera true: ON, false: OFF
-/// @param sn3 true: ON, false: OFF
+/// @param flightMode フライトモード
+/// @param cameraState true: ON, false: OFF
+/// @param sn3State true: ON, false: OFF
 // TODO 摘出した列挙型に変更
-void CANSTM::sendSystemStatus(uint8_t mode, bool camera, bool sn3) {
+void CANSTM::sendSystemStatus(uint8_t flightMode, bool cameraState, bool sn3State) {
   CANMessage message;
   message.id = static_cast<uint32_t>(Label::SYSTEM_STATUS);
   message.len = 3;
 
-  message.data[0] = mode;
-  message.data[1] = camera;
-  message.data[2] = sn3;
+  message.data[0] = flightMode;
+  message.data[1] = cameraState;
+  message.data[2] = sn3State;
 
   can.tryToSendReturnStatus(message);
 }
@@ -146,15 +146,14 @@ void CANSTM::sendVector3D(Label label, float xValue, float yValue, float zValue)
 
 
 /// @brief システムステータスを受信する
-/// @param mode フライトモード
-/// @param camera true: ON, false: OFF
-/// @param sn3 true: ON, false: OFF
+/// @param flightMode フライトモード
+/// @param cameraState true: ON, false: OFF
+/// @param sn3State true: ON, false: OFF
 // TODO 摘出した列挙型に変更
-// TODO receiveSystemStatusに改名
-void CANSTM::receiveStatus(uint8_t* mode, bool* camera, bool* sn3) {
-  *mode = _latestData[0];
-  *camera = _latestData[1];
-  *sn3 = _latestData[2];
+void CANSTM::receiveSystemStatus(uint8_t* flightMode, bool* cameraState, bool* sn3State) {
+  *flightMode = _latestData[0];
+  *cameraState = _latestData[1];
+  *sn3State = _latestData[2];
 }
 
 
@@ -169,8 +168,7 @@ void CANSTM::receiveScalar(float* value) {
 /// @param xValue x軸の値のポインタ
 /// @param yValue y軸の値のポインタ
 /// @param zValue z軸の値のポインタ
-// TODO 3Dに改名
-void CANSTM::receiveVector(float* xValue, float* yValue, float* zValue) {
+void CANSTM::receiveVector3D(float* xValue, float* yValue, float* zValue) {
   float value;
   memcpy(&value, _latestData + 1, 4);
 
@@ -192,8 +190,7 @@ void CANSTM::receiveVector(float* xValue, float* yValue, float* zValue) {
 
 /// @brief 参照気圧セットを受信する
 /// @param referencePressure 参照気圧のポインタ
-// TODO receiveSetReferencePressureに改名
-void CANSTM::receiveSetReferencePressureCommand(float* referencePressure) {
+void CANSTM::receiveSetReferencePressure(float* referencePressure) {
   memcpy(referencePressure, _latestData, 4);
 }
 

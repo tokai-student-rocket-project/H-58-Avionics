@@ -19,7 +19,7 @@ public:
     SYSTEM_STATUS,
     EVENT,
     ERROR,
-    SET_REFERENCE_PRESSURE_COMMAND,
+    SET_REFERENCE_PRESSURE,
     TRAJECTORY_DATA
   };
 
@@ -80,11 +80,11 @@ public:
 
 
   /// @brief システムステータスを送信する
-  /// @param mode フライトモード
-  /// @param camera true: ON, false: OFF
-  /// @param sn3 true: ON, false: OFF
+/// @param flightMode フライトモード
+/// @param cameraState true: ON, false: OFF
+/// @param sn3State true: ON, false: OFF
   // TODO 摘出した列挙型に変更
-  void sendSystemStatus(uint8_t mode, bool camera, bool sn3);
+  void sendSystemStatus(uint8_t flightMode, bool cameraState, bool sn3State);
 
   /// @brief イベントを送信する
   /// @param publisher どのモジュールがイベントを発行したか
@@ -124,12 +124,11 @@ public:
 
 
   /// @brief システムステータスを受信する
-  /// @param mode フライトモード
-  /// @param camera true: ON, false: OFF
-  /// @param sn3 true: ON, false: OFF
+/// @param flightMode フライトモード
+/// @param cameraState true: ON, false: OFF
+/// @param sn3State true: ON, false: OFF
   // TODO 摘出した列挙型に変更
-  // TODO receiveSystemStatusに改名
-  void receiveStatus(uint8_t* mode, bool* camera, bool* sn3);
+  void receiveSystemStatus(uint8_t* flightMode, bool* cameraState, bool* sn3State);
 
   /// @brief スカラー値を受信する
   /// @param value 値のポインタ
@@ -139,13 +138,11 @@ public:
   /// @param xValue x軸の値のポインタ
   /// @param yValue y軸の値のポインタ
   /// @param zValue z軸の値のポインタ
-  // TODO 3Dに改名
-  void receiveVector(float* xValue, float* yValue, float* zValue);
+  void receiveVector3D(float* xValue, float* yValue, float* zValue);
 
   /// @brief 参照気圧セットを受信する
   /// @param referencePressure 参照気圧のポインタ
-  // TODO receiveSetReferencePressureに改名
-  void receiveSetReferencePressureCommand(float* referencePressure);
+  void receiveSetReferencePressure(float* referencePressure);
 
   /// @brief 軌道情報の受信する
   /// @param isFalling true: 落下中, false: 落下中でない
