@@ -26,6 +26,38 @@ void BNO055::begin() {
 }
 
 
+/// @brief キャリブレーションが完了しているかを返す
+bool BNO055::isSystemCalibrated() {
+  uint8_t system, gyroscope, accelerometer, magnetometer;
+  getCalibration(&system, &gyroscope, &accelerometer, &magnetometer);
+  return system == 3;
+}
+
+
+/// @brief キャリブレーションが完了しているかを返す
+bool BNO055::isGyroscopeCalibrated() {
+  uint8_t system, gyroscope, accelerometer, magnetometer;
+  getCalibration(&system, &gyroscope, &accelerometer, &magnetometer);
+  return gyroscope == 3;
+}
+
+
+/// @brief キャリブレーションが完了しているかを返す
+bool BNO055::isAccelerometerCalibrated() {
+  uint8_t system, gyroscope, accelerometer, magnetometer;
+  getCalibration(&system, &gyroscope, &accelerometer, &magnetometer);
+  return accelerometer == 3;
+}
+
+
+/// @brief キャリブレーションが完了しているかを返す
+bool BNO055::isMagnetometerCalibrated() {
+  uint8_t system, gyroscope, accelerometer, magnetometer;
+  getCalibration(&system, &gyroscope, &accelerometer, &magnetometer);
+  return magnetometer == 3;
+}
+
+
 /// @brief 現在の加速度ベクトルを返す
 /// @param x x軸加速度のポインタ [mps2]
 /// @param y y軸加速度のポインタ [mps2]
@@ -102,4 +134,26 @@ void BNO055::readVector3D(uint8_t address, float lsb, float* x, float* y, float*
   *x = ((float)zRaw) / lsb;
   *y = ((float)xRaw) / lsb;
   *z = ((float)yRaw) / lsb;
+}
+
+
+void BNO055::getCalibration(uint8_t* system, uint8_t* gyroscope, uint8_t* accelerometer, uint8_t* magnetometer) {
+  Wire.beginTransmission(0x28);
+  Wire.write(0x35);
+  Wire.endTransmission();
+  Wire.requestFrom(0x28, 1);
+  uint8_t calibrationData = Wire.read();
+
+  if (system != NULL) {
+    *system = (calibrationData >> 6) & 0x03;
+  }
+  if (gyroscope != NULL) {
+    *gyroscope = (calibrationData >> 4) & 0x03;
+  }
+  if (accelerometer != NULL) {
+    *accelerometer = (calibrationData >> 2) & 0x03;
+  }
+  if (magnetometer != NULL) {
+    *magnetometer = calibrationData & 0x03;
+  }
 }

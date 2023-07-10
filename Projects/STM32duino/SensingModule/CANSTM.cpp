@@ -102,6 +102,27 @@ void CANSTM::sendTrajectoryData(bool isFalling) {
 }
 
 
+/// @brief 計測ステータスを送信する
+/// @param referencePressure 参照気圧 [hPa]
+/// @param isSystemCalibrated BNO055システムのキャリブレーションが完了しているか
+/// @param isGyroscopeCalibrated BNO055角加速度計のキャリブレーションが完了しているか
+/// @param isAccelerometerCalibrated BNO055加速度計のキャリブレーションが完了しているか
+/// @param isMagnetometerCalibrated BNO055地磁気計のキャリブレーションが完了しているか
+void CANSTM::sendSensingStatus(float referencePressure, bool isSystemCalibrated, bool isGyroscopeCalibrated, bool isAccelerometerCalibrated, bool isMagnetometerCalibrated) {
+  CANMessage message;
+  message.id = static_cast<uint32_t>(Label::SENSING_STATUS);
+  message.len = 8;
+
+  memcpy(message.data, &referencePressure, 4);
+  message.data[4] = isSystemCalibrated;
+  message.data[5] = isGyroscopeCalibrated;
+  message.data[6] = isAccelerometerCalibrated;
+  message.data[7] = isMagnetometerCalibrated;
+
+  can.tryToSendReturnStatus(message);
+}
+
+
 /// @brief スカラー値を送信する
 /// @param label データの種類
 /// @param value 値

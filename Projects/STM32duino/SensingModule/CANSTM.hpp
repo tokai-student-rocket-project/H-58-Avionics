@@ -20,7 +20,8 @@ public:
     EVENT,
     ERROR,
     SET_REFERENCE_PRESSURE,
-    TRAJECTORY_DATA
+    TRAJECTORY_DATA,
+    SENSING_STATUS
   };
 
   /// @brief ベクトル用のxyzを列挙型で定義しておく
@@ -104,6 +105,14 @@ public:
   /// @brief 軌道情報を送信する
   /// @param isFalling true: 落下中, false: 落下中でない
   void sendTrajectoryData(bool isFalling);
+
+  /// @brief 計測ステータスを送信する
+  /// @param referencePressure 参照気圧 [hPa]
+  /// @param isSystemCalibrated BNO055システムのキャリブレーションが完了しているか
+  /// @param isGyroscopeCalibrated BNO055角加速度計のキャリブレーションが完了しているか
+  /// @param isAccelerometerCalibrated BNO055加速度計のキャリブレーションが完了しているか
+  /// @param isMagnetometerCalibrated BNO055地磁気計のキャリブレーションが完了しているか
+  void sendSensingStatus(float referencePressure, bool isSystemCalibrated, bool isGyroscopeCalibrated, bool isAccelerometerCalibrated, bool isMagnetometerCalibrated);
 
 
   /// @brief スカラー値を送信する

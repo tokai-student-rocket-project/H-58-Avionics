@@ -15,6 +15,10 @@ public:
   /// @param referencePressure 参照気圧 [hPa]
   void setReferencePressure(float referencePressure);
 
+  /// @brief 現在の参照気圧を返す
+  /// @return 参照気圧 [hPa]
+  float getReferencePressure();
+
 
   /// @brief 気圧と気温から高度を算出して更新
   /// @param pressure 気圧 [hPa]

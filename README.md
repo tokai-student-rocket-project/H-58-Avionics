@@ -29,20 +29,21 @@ MM ... MissionModule
 ACM ... AirDataCommunicationModule  
 SCM ... SystemDataCommunicationModule  
 
-| Id   | Label                  | length | From | To          | Rate | Format                                                                                                  |
-| ---- | ---------------------- | ------ | ---- | ----------- | ---- | ------------------------------------------------------------------------------------------------------- |
-| 0x00 | Orientation            | 5B     | SM   | ACM         | 20Hz | [0] Axis (uint8_t), [1:5] Value (float)                                                                 |
-| 0x01 | Acceleration           | 5B     | SM   | ACM         | 20Hz | [0] Axis (uint8_t), [1:5] Value (float)                                                                 |
-| 0x02 | Altitude               | 4B     | SM   | FM, ACM     | 20Hz | [0:4] Value (float)                                                                                     |
-| 0x03 | Outside Temperature    | 4B     | SM   | ACM         | 20Hz | [0:4] Value (float)                                                                                     |
-| 0x04 | Supply Voltage         | 4B     | FM   | SCM         | 10Hz | [0:4] Value (float)                                                                                     |
-| 0x05 | Battery Voltage        | 4B     | FM   | SCM         | 10Hz | [0:4] Value (float)                                                                                     |
-| 0x06 | Pool Voltage           | 4B     | FM   | SCM         | 10Hz | [0:4] Value (float)                                                                                     |
-| 0x07 | SystemStatus           | 3B     | FM   | SM, MM, SCM | 10Hz | [0] FlightMode (uint8_t), [1] CameraState (bool), [2] SeparationState (bool)                            |
-| 0x08 | Event                  | 6B     |      | SCM         |      | [0] Publisher (uint8_t), [1] EventCode (uint8_t), [2:6] Timestamp (uint32_t)                            |
-| 0x09 | Error                  | 7B     |      | SCM         |      | [0] Publisher (uint8_t), [1] ErrorCode (uint8_t), [2] ErrorReason (uint8_t), [3:7] Timestamp (uint32_t) |
-| 0x10 | Set Reference Pressure | 4B     | SCM  | SM          |      | [0:4] ReferencePressure (float)                                                                         |
-| 0x11 | Trajectory Data        | 1B     | SM   | FM          |      | [0] IsFalling (bool)                                                                                    |
+| Id   | Label                  | length | From | To          | Rate | Format                                                                                                                                                                        |
+| ---- | ---------------------- | ------ | ---- | ----------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0x00 | Orientation            | 5B     | SM   | ACM         | 20Hz | [0] Axis (uint8_t), [1:5] Value (float)                                                                                                                                       |
+| 0x01 | Acceleration           | 5B     | SM   | ACM         | 20Hz | [0] Axis (uint8_t), [1:5] Value (float)                                                                                                                                       |
+| 0x02 | Altitude               | 4B     | SM   | FM, ACM     | 20Hz | [0:4] Value (float)                                                                                                                                                           |
+| 0x03 | Outside Temperature    | 4B     | SM   | ACM         | 20Hz | [0:4] Value (float)                                                                                                                                                           |
+| 0x04 | Supply Voltage         | 4B     | FM   | SCM         | 10Hz | [0:4] Value (float)                                                                                                                                                           |
+| 0x05 | Battery Voltage        | 4B     | FM   | SCM         | 10Hz | [0:4] Value (float)                                                                                                                                                           |
+| 0x06 | Pool Voltage           | 4B     | FM   | SCM         | 10Hz | [0:4] Value (float)                                                                                                                                                           |
+| 0x07 | SystemStatus           | 3B     | FM   | SM, MM, SCM | 10Hz | [0] FlightMode (uint8_t), [1] CameraState (bool), [2] SeparationState (bool)                                                                                                  |
+| 0x08 | Event                  | 6B     |      | SCM         |      | [0] Publisher (uint8_t), [1] EventCode (uint8_t), [2:6] Timestamp (uint32_t)                                                                                                  |
+| 0x09 | Error                  | 7B     |      | SCM         |      | [0] Publisher (uint8_t), [1] ErrorCode (uint8_t), [2] ErrorReason (uint8_t), [3:7] Timestamp (uint32_t)                                                                       |
+| 0x10 | Set Reference Pressure | 4B     | SCM  | SM          |      | [0:4] ReferencePressure (float)                                                                                                                                               |
+| 0x11 | Trajectory Data        | 1B     | SM   | FM          |      | [0] IsFalling (bool)                                                                                                                                                          |
+| 0x12 | Sensing Status         | 8B     | SM   | SCM         |      | [0:4] ReferencePressure (float), [4] IsSystemCalibrated (bool), [5] IsGyroscopeCalibrated (bool), [6] isAccelerometerCalibrated (float), [7] isMagnetometerCalibrated (float) |
 
 ## モジュール
 
