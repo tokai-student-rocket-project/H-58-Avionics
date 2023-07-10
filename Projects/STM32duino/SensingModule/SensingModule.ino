@@ -194,7 +194,7 @@ void connection::handleSystemStatus() {
         indicator::loggerStatus.on();
       }
       else {
-        // TODO 例外処理 ログ開始失敗
+        connection::can.sendError(CANSTM::Publisher::SENSING_MODULE, CANSTM::ErrorCode::LOGGER_FAILURE, CANSTM::ErrorReason::INVALID_SD);
       }
     }
   }

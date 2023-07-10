@@ -74,7 +74,6 @@ void Logger::log(
   const uint32_t size = packet.data.size();
 
   // FRAMの2個分の容量を超えたら何もしない (容量オーバー)
-  // TODO 例外処理
   if (_offset + size >= FRAM::LENGTH * 2) {
     return;
   }

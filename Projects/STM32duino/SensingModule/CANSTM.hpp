@@ -57,12 +57,14 @@ public:
 
   /// @brief エラーを列挙型で定義しておく
   enum class ErrorCode : uint8_t {
-    COMMAND_RECEIVE_FAILED
+    COMMAND_RECEIVE_FAILED,
+    LOGGER_FAILURE
   };
 
   /// @brief エラーの理由を列挙型で定義しておく
   enum class ErrorReason : uint8_t {
-    INVALID_KEY
+    INVALID_KEY,
+    INVALID_SD
   };
 
 
