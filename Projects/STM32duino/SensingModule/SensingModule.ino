@@ -1,7 +1,8 @@
+#include <Wire.h>
 #include <TaskManager.h>
 #include "CANSTM.hpp"
-#include "BNO055.hpp"
-#include "BME280.hpp"
+// #include "BNO055.hpp"
+// #include "BME280.hpp"
 #include "Thermistor.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
@@ -17,8 +18,8 @@ namespace timer {
 }
 
 namespace sensor {
-  BNO055 bno;
-  BME bme;
+  // BNO055 bno;
+  // BME bme;
   Thermistor thermistor(A1);
 }
 
@@ -105,8 +106,8 @@ void setup() {
   Wire.begin();
   Wire.setClock(400000);
 
-  sensor::bno.begin();
-  sensor::bme.begin();
+  // sensor::bno.begin();
+  // sensor::bme.begin();
   sensor::thermistor.initialize();
 
   connection::can.begin();
@@ -151,7 +152,7 @@ void loop() {
 /// @brief 20Hzで実行したい処理
 void timer::task20Hz() {
   // 地磁気はセンサからのODRが20Hzなので20Hzで読み出す
-  sensor::bno.getMagnetometer(&data::magnetometer_x_nT, &data::magnetometer_y_nT, &data::magnetometer_z_nT);
+  // sensor::bno.getMagnetometer(&data::magnetometer_x_nT, &data::magnetometer_y_nT, &data::magnetometer_z_nT);
   // CAN送信が20Hzなので、外気温はそれに合わせて20Hzで読み出す
   sensor::thermistor.getTemperature(&data::outsideTemperature_degC);
 
@@ -173,13 +174,13 @@ void timer::task20Hz() {
 /// @brief 100Hzで実行したい処理
 void timer::task100Hz() {
   // BNO055からのデータは基本的に100Hzで読み出す
-  sensor::bno.getAcceleration(&data::acceleration_x_mps2, &data::acceleration_y_mps2, &data::acceleration_z_mps2);
-  sensor::bno.getGyroscope(&data::gyroscope_x_dps, &data::gyroscope_y_dps, &data::gyroscope_z_dps);
-  sensor::bno.getOrientation(&data::orientation_x_deg, &data::orientation_y_deg, &data::orientation_z_deg);
-  sensor::bno.getLinearAcceleration(&data::linear_acceleration_x_mps2, &data::linear_acceleration_y_mps2, &data::linear_acceleration_z_mps2);
-  sensor::bno.getGravityVector(&data::gravity_x_mps2, &data::gravity_y_mps2, &data::gravity_z_mps2);
+  // sensor::bno.getAcceleration(&data::acceleration_x_mps2, &data::acceleration_y_mps2, &data::acceleration_z_mps2);
+  // sensor::bno.getGyroscope(&data::gyroscope_x_dps, &data::gyroscope_y_dps, &data::gyroscope_z_dps);
+  // sensor::bno.getOrientation(&data::orientation_x_deg, &data::orientation_y_deg, &data::orientation_z_deg);
+  // sensor::bno.getLinearAcceleration(&data::linear_acceleration_x_mps2, &data::linear_acceleration_y_mps2, &data::linear_acceleration_z_mps2);
+  // sensor::bno.getGravityVector(&data::gravity_x_mps2, &data::gravity_y_mps2, &data::gravity_z_mps2);
   // 高度も解析用にできるだけ早い100Hzで読み出したい
-  sensor::bme.getPressure(&data::pressure_hPa);
+  // sensor::bme.getPressure(&data::pressure_hPa);
 
 
   // doLoggingのフラグが立っている時はログを保存する
