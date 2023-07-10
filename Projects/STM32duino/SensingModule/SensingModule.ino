@@ -1,3 +1,4 @@
+#include <Wire.h>
 #include <TaskManager.h>
 #include "CANSTM.hpp"
 #include "BNO055.hpp"
@@ -180,7 +181,6 @@ void timer::task100Hz() {
   sensor::bno.getGravityVector(&data::gravity_x_mps2, &data::gravity_y_mps2, &data::gravity_z_mps2);
   // 高度も解析用にできるだけ早い100Hzで読み出したい
   sensor::bme.getPressure(&data::pressure_hPa);
-
 
   // doLoggingのフラグが立っている時はログを保存する
   // 内部的にはFRAMとSDに書き込んでいる

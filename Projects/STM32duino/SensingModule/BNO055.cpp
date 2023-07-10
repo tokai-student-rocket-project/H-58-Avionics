@@ -1,10 +1,28 @@
 #include "BNO055.hpp"
 
 
-/// @brief BME280の抽象化クラス
+/// @brief センサを初期化して起動する
 void BNO055::begin() {
-  _bno.begin();
-  _bno.setExtCrystalUse(true);
+  delay(850);
+
+  // OPR_MODE <- Config mode
+  write(0x3D, 0x00);
+  delay(30);
+
+  // PWR_MODE <- Normal mode
+  write(0x3E, 0x00);
+  delay(10);
+
+  // PAGE <- 0
+  write(0x07, 0);
+
+  // SYS_TRIGGER <- Use external oscillator
+  write(0x3F, 0b10000000);
+  delay(10);
+
+  // OPR_MODE <- NDOF mode
+  write(0x3D, 0x0C);
+  delay(20);
 }
 
 
@@ -13,12 +31,7 @@ void BNO055::begin() {
 /// @param y y軸加速度のポインタ [mps2]
 /// @param z y軸加速度のポインタ [mps2]
 void BNO055::getAcceleration(float* x, float* y, float* z) {
-  sensors_event_t event;
-  _bno.getEvent(&event, Adafruit_BNO055::VECTOR_ACCELEROMETER);
-  // 座標軸を合わせるためにxyzを入れ替えているので注意
-  *x = event.acceleration.z;
-  *y = event.acceleration.x;
-  *z = event.acceleration.y;
+  readVector3D(0x08, 100.0, x, y, z);
 }
 
 
@@ -27,12 +40,7 @@ void BNO055::getAcceleration(float* x, float* y, float* z) {
 /// @param y y軸地磁気のポインタ [nT]
 /// @param z y軸地磁気のポインタ [nT]
 void BNO055::getMagnetometer(float* x, float* y, float* z) {
-  sensors_event_t event;
-  _bno.getEvent(&event, Adafruit_BNO055::VECTOR_MAGNETOMETER);
-  // 座標軸を合わせるためにxyzを入れ替えているので注意
-  *x = event.magnetic.z;
-  *y = event.magnetic.x;
-  *z = event.magnetic.y;
+  readVector3D(0x0E, 16.0, x, y, z);
 }
 
 
@@ -41,12 +49,7 @@ void BNO055::getMagnetometer(float* x, float* y, float* z) {
 /// @param y y軸周り角加速度のポインタ [dps]
 /// @param z y軸周り角加速度のポインタ [dps]
 void BNO055::getGyroscope(float* x, float* y, float* z) {
-  // 座標軸を合わせるためにxyzを入れ替えているので注意
-  sensors_event_t event;
-  _bno.getEvent(&event, Adafruit_BNO055::VECTOR_GYROSCOPE);
-  *x = event.gyro.z;
-  *y = event.gyro.x;
-  *z = event.gyro.y;
+  readVector3D(0x14, 16.0, x, y, z);
 }
 
 
@@ -55,12 +58,7 @@ void BNO055::getGyroscope(float* x, float* y, float* z) {
 /// @param y y軸重力加速度のポインタ [mps2]
 /// @param z y軸重力加速度のポインタ [mps2]
 void BNO055::getGravityVector(float* x, float* y, float* z) {
-  // 座標軸を合わせるためにxyzを入れ替えているので注意
-  sensors_event_t event;
-  _bno.getEvent(&event, Adafruit_BNO055::VECTOR_GRAVITY);
-  *x = event.acceleration.z;
-  *y = event.acceleration.x;
-  *z = event.acceleration.y;
+  readVector3D(0x2E, 100.0, x, y, z);
 }
 
 
@@ -69,12 +67,7 @@ void BNO055::getGravityVector(float* x, float* y, float* z) {
 /// @param y y軸線形加速度のポインタ [mps2]
 /// @param z y軸線形加速度のポインタ [mps2]
 void BNO055::getLinearAcceleration(float* x, float* y, float* z) {
-  // 座標軸を合わせるためにxyzを入れ替えているので注意
-  sensors_event_t event;
-  _bno.getEvent(&event, Adafruit_BNO055::VECTOR_LINEARACCEL);
-  *x = event.acceleration.z;
-  *y = event.acceleration.x;
-  *z = event.acceleration.y;
+  readVector3D(0x28, 100.0, x, y, z);
 }
 
 
@@ -83,10 +76,30 @@ void BNO055::getLinearAcceleration(float* x, float* y, float* z) {
 /// @param y y軸(Pitch)姿勢角のポインタ [deg]
 /// @param z y軸(Yaw)姿勢角のポインタ [deg]
 void BNO055::getOrientation(float* x, float* y, float* z) {
+  readVector3D(0x1A, 16.0, x, y, z);
+}
+
+
+void BNO055::write(uint8_t address, uint8_t data) {
+  Wire.beginTransmission(0x28);
+  Wire.write(address);
+  Wire.write(data);
+  Wire.endTransmission();
+}
+
+
+void BNO055::readVector3D(uint8_t address, float lsb, float* x, float* y, float* z) {
+  Wire.beginTransmission(0x28);
+  Wire.write(address);
+  Wire.endTransmission();
+  Wire.requestFrom(0x28, 6);
+
+  int16_t xRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  int16_t yRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  int16_t zRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+
   // 座標軸を合わせるためにxyzを入れ替えているので注意
-  sensors_event_t event;
-  _bno.getEvent(&event, Adafruit_BNO055::VECTOR_EULER);
-  *x = -event.orientation.z;
-  *y = -event.orientation.x;
-  *z = -event.orientation.y;
+  *x = ((float)zRaw) / lsb;
+  *y = ((float)xRaw) / lsb;
+  *z = ((float)yRaw) / lsb;
 }

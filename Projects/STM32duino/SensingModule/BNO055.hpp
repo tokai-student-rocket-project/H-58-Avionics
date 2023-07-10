@@ -3,13 +3,12 @@
 
 #include <Arduino.h>
 #include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BNO055.h>
 
-/// @brief BME055の抽象化クラス
+
+/// @brief BME055の軽量版抽象化クラス
 class BNO055 {
 public:
-  /// @brief BME280の抽象化クラス
+  /// @brief センサを初期化して起動する
   void begin();
 
 
@@ -51,5 +50,6 @@ public:
   void getOrientation(float* x, float* y, float* z);
 
 private:
-  Adafruit_BNO055 _bno;
+  void write(uint8_t address, uint8_t data);
+  void readVector3D(uint8_t address, float lsb, float* x, float* y, float* z);
 };
