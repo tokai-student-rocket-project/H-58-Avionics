@@ -168,8 +168,7 @@ void CANSTM::receiveScalar(float* value) {
 /// @param xValue x軸の値のポインタ
 /// @param yValue y軸の値のポインタ
 /// @param zValue z軸の値のポインタ
-// TODO 3Dに改名
-void CANSTM::receiveVector(float* xValue, float* yValue, float* zValue) {
+void CANSTM::receiveVector3D(float* xValue, float* yValue, float* zValue) {
   float value;
   memcpy(&value, _latestData + 1, 4);
 

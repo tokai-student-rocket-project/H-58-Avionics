@@ -139,8 +139,7 @@ public:
   /// @param xValue x軸の値のポインタ
   /// @param yValue y軸の値のポインタ
   /// @param zValue z軸の値のポインタ
-  // TODO 3Dに改名
-  void receiveVector(float* xValue, float* yValue, float* zValue);
+  void receiveVector3D(float* xValue, float* yValue, float* zValue);
 
   /// @brief 参照気圧セットを受信する
   /// @param referencePressure 参照気圧のポインタ
