@@ -8,30 +8,19 @@ Sd::Sd(uint32_t cs) {
 }
 
 
-bool Sd::begin() {
-  bool isSucceeded = SD.begin(_cs);
-
-  _isRunning = isSucceeded;
-  return isSucceeded;
-}
-
-
-void Sd::end() {
-  SD.end();
-  _isRunning = false;
-}
-
-
 void Sd::beginLogging(String fileName) {
-  _logFile = SD.open(fileName, FILE_WRITE);
+  _isRunning = SD.begin(_cs);
+  if (_isRunning) {
+    _logFile = SD.open(fileName, FILE_WRITE);
+  }
 }
 
 
 void Sd::endLogging() {
-  _logFile.close();
-}
+  if (_logFile) {
+    _logFile.close();
+  }
 
-
-bool Sd::isRunning() {
-  return _isRunning;
+  SD.end();
+  _isRunning = false;
 }

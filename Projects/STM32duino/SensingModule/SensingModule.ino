@@ -12,7 +12,7 @@
 
 
 namespace timer {
-  void task1Hz();
+  void task2Hz();
   void task20Hz();
   void task100Hz();
 }
@@ -26,14 +26,14 @@ namespace sensor {
 namespace logger {
   Logger logger(A2, A3, A0);
   PullupPin cardDetection(D8);
-
   bool doLogging;
 }
 
 namespace indicator {
   OutputPin canSend(D12);
   OutputPin canReceive(D11);
-  Blinker sdStatus(D9, "invalidSd");
+  OutputPin sdStatus(D9);
+
   OutputPin loggerStatus(D6);
 }
 
@@ -104,7 +104,7 @@ void setup() {
   connection::can.begin();
   connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::SETUP);
 
-  Tasks.add(timer::task1Hz)->startFps(1);
+  Tasks.add(timer::task2Hz)->startFps(2);
   Tasks.add(timer::task20Hz)->startFps(20);
   Tasks.add(timer::task100Hz)->startFps(100);
 }
@@ -127,21 +127,17 @@ void loop() {
 }
 
 
-/// @brief 1Hzで実行したい処理
-void timer::task1Hz() {
+/// @brief 2Hzで実行したい処理
+void timer::task2Hz() {
   // SDの検知
-  // SDを新しく検知した時
-  // if (!logger::doLogging && !logger::sd.isRunning() && !logger::cardDetection.isOpen()) {
-  //   logger::sd.begin();
-  //   indicator::sdStatus.stopBlink();
-  //   indicator::sdStatus.on();
-  // }
-
-  // SDが検知できなくなった時
-  // if (!logger::doLogging && logger::sd.isRunning() && logger::cardDetection.isOpen()) {
-  //   logger::sd.end();
-  //   indicator::sdStatus.startBlink(2);
-  // }
+  if (!logger::cardDetection.isOpen()) {
+    // SDを検知した時はLED常時点灯
+    indicator::sdStatus.on();
+  }
+  else {
+    // SDが検知できない時はLED点滅
+    indicator::sdStatus.toggle();
+  }
 }
 
 
