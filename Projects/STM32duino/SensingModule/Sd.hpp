@@ -1,7 +1,3 @@
-// TODO コメント追加
-// TODO 全改修
-
-
 #pragma once
 
 
@@ -17,9 +13,14 @@ public:
   bool begin();
   void end();
 
+  void beginLogging(String fileName);
+  void endLogging();
+
   bool isRunning();
 
 private:
   uint32_t _cs;
   bool _isRunning = false;
+
+  File _logFile;
 };

@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <MsgPacketizer.h>
 #include "FRAM.hpp"
+#include "Sd.hpp"
 
 
 /// @brief FRAMとSDを包括したデータ保存用クラス
@@ -12,7 +13,16 @@ public:
   /// @brief コンストラクタ
   /// @param csFram0 1つ目のFRAMのチップセレクト
   /// @param csFram1 2つ目のFRAMのチップセレクト
-  Logger(uint32_t csFram0, uint32_t csFram1);
+  /// @param csSd SDのチップセレクト
+  Logger(uint32_t csFram0, uint32_t csFram1, uint32_t csSd);
+
+
+  /// @brief ログ保存を開始する
+  /// @param fileName ログファイルの名前 拡張子は.txtか.csv
+  void beginLogging(String fileName);
+
+  /// @brief ログ保存を終了する
+  void endLogging();
 
 
   /// @brief 書き込み位置を最初に戻す 元のデータは上書きされるので注意
@@ -41,4 +51,6 @@ private:
 
   FRAM* _fram0;
   FRAM* _fram1;
+
+  Sd* _sd;
 };

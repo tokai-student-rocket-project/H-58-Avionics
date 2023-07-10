@@ -1,7 +1,3 @@
-// TODO コメント追加
-// TODO 全改修
-
-
 #include "Sd.hpp"
 
 
@@ -23,6 +19,16 @@ bool Sd::begin() {
 void Sd::end() {
   SD.end();
   _isRunning = false;
+}
+
+
+void Sd::beginLogging(String fileName) {
+  _logFile = SD.open(fileName, FILE_WRITE);
+}
+
+
+void Sd::endLogging() {
+  _logFile.close();
 }
 
 

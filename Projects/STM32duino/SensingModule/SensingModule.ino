@@ -9,7 +9,6 @@
 #include "Trajectory.hpp"
 #include "Blinker.hpp"
 #include "Logger.hpp"
-#include "Sd.hpp"
 
 
 namespace timer {
@@ -25,8 +24,7 @@ namespace sensor {
 }
 
 namespace logger {
-  Logger logger(A2, A3);
-  Sd sd(A0);
+  Logger logger(A2, A3, A0);
   PullupPin cardDetection(D8);
 
   bool doLogging;
@@ -133,17 +131,17 @@ void loop() {
 void timer::task1Hz() {
   // SDの検知
   // SDを新しく検知した時
-  if (!logger::doLogging && !logger::sd.isRunning() && !logger::cardDetection.isOpen()) {
-    logger::sd.begin();
-    indicator::sdStatus.stopBlink();
-    indicator::sdStatus.on();
-  }
+  // if (!logger::doLogging && !logger::sd.isRunning() && !logger::cardDetection.isOpen()) {
+  //   logger::sd.begin();
+  //   indicator::sdStatus.stopBlink();
+  //   indicator::sdStatus.on();
+  // }
 
   // SDが検知できなくなった時
-  if (!logger::doLogging && logger::sd.isRunning() && logger::cardDetection.isOpen()) {
-    logger::sd.end();
-    indicator::sdStatus.startBlink(2);
-  }
+  // if (!logger::doLogging && logger::sd.isRunning() && logger::cardDetection.isOpen()) {
+  //   logger::sd.end();
+  //   indicator::sdStatus.startBlink(2);
+  // }
 }
 
 
@@ -208,12 +206,14 @@ void connection::handleSystemStatus() {
     if (!logger::doLogging) {
       logger::doLogging = true;
       logger::logger.reset();
+      logger::logger.beginLogging("log.csv");
       indicator::loggerStatus.on();
     }
   }
   else {
     if (logger::doLogging) {
       logger::doLogging = false;
+      logger::logger.endLogging();
       indicator::loggerStatus.off();
     }
   }

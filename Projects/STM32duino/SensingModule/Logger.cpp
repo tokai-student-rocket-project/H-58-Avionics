@@ -4,9 +4,24 @@
 /// @brief コンストラクタ
 /// @param csFram0 1つ目のFRAMのチップセレクト
 /// @param csFram1 2つ目のFRAMのチップセレクト
-Logger::Logger(uint32_t csFram0, uint32_t csFram1) {
+/// @param csSd SDのチップセレクト
+Logger::Logger(uint32_t csFram0, uint32_t csFram1, uint32_t csSd) {
   _fram0 = new FRAM(csFram0);
   _fram1 = new FRAM(csFram1);
+  _sd = new Sd(csSd);
+}
+
+
+/// @brief ログ保存を開始する
+/// @param fileName ログファイルの名前 拡張子は.txtか.csv
+void Logger::beginLogging(String fileName) {
+  _sd->beginLogging(fileName);
+}
+
+
+/// @brief ログ保存を終了する
+void Logger::endLogging() {
+  _sd->endLogging();
 }
 
 
