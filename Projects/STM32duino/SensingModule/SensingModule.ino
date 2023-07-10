@@ -12,6 +12,7 @@
 
 
 namespace timer {
+  void task1Hz();
   void task20Hz();
   void task100Hz();
 }
@@ -120,6 +121,22 @@ void setup() {
 void loop() {
   Tasks.update();
 
+  //CAN受信処理
+  if (connection::can.available()) {
+    switch (connection::can.getLatestMessageLabel()) {
+    case CANSTM::Label::SYSTEM_STATUS:
+      connection::handleSystemStatus();
+      break;
+    case CANSTM::Label::SET_REFERENCE_PRESSURE:
+      connection::handleSetReferencePressure();
+      break;
+    }
+  }
+}
+
+
+/// @brief 1Hzで実行したい処理
+void timer::task1Hz() {
   // SDの検知の更新
   // SDを新しく検知した時
   if (!logger::doLogging && !logger::sd.isRunning() && !logger::cardDetection.isOpen()) {
@@ -132,18 +149,6 @@ void loop() {
   if (!logger::doLogging && logger::sd.isRunning() && logger::cardDetection.isOpen()) {
     logger::sd.end();
     indicator::sdStatus.startBlink(2);
-  }
-
-  //CAN受信処理
-  if (connection::can.available()) {
-    switch (connection::can.getLatestMessageLabel()) {
-    case CANSTM::Label::SYSTEM_STATUS:
-      connection::handleSystemStatus();
-      break;
-    case CANSTM::Label::SET_REFERENCE_PRESSURE:
-      connection::handleSetReferencePressure();
-      break;
-    }
   }
 }
 
