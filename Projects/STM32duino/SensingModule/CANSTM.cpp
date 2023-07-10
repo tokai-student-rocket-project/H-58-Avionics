@@ -191,8 +191,7 @@ void CANSTM::receiveVector(float* xValue, float* yValue, float* zValue) {
 
 /// @brief 参照気圧セットを受信する
 /// @param referencePressure 参照気圧のポインタ
-// TODO receiveSetReferencePressureに改名
-void CANSTM::receiveSetReferencePressureCommand(float* referencePressure) {
+void CANSTM::receiveSetReferencePressure(float* referencePressure) {
   memcpy(referencePressure, _latestData, 4);
 }
 

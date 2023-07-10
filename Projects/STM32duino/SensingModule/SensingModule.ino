@@ -45,7 +45,7 @@ namespace connection {
   CANSTM can;
 
   void handleSystemStatus();
-  void handleSetReferencePressureCommand();
+  void handleSetReferencePressure();
 }
 
 namespace data {
@@ -140,8 +140,8 @@ void loop() {
     case CANSTM::Label::SYSTEM_STATUS:
       connection::handleSystemStatus();
       break;
-    case CANSTM::Label::SET_REFERENCE_PRESSURE_COMMAND:
-      connection::handleSetReferencePressureCommand();
+    case CANSTM::Label::SET_REFERENCE_PRESSURE:
+      connection::handleSetReferencePressure();
       break;
     }
   }
@@ -221,12 +221,12 @@ void connection::handleSystemStatus() {
 }
 
 
-/// @brief CANで受け取ったSetReferencePressureCommandを使って処理を行う関数
+/// @brief CANで受け取ったSetReferencePressureを使って処理を行う関数
 ///        loop()内のCAN受信処理から呼び出される用
-void connection::handleSetReferencePressureCommand() {
+void connection::handleSetReferencePressure() {
   float newReferencePressure_hPa;
 
-  connection::can.receiveSetReferencePressureCommand(&newReferencePressure_hPa);
+  connection::can.receiveSetReferencePressure(&newReferencePressure_hPa);
   indicator::canReceive.toggle();
 
   // 参照気圧を更新したことをイベントとして知らせる

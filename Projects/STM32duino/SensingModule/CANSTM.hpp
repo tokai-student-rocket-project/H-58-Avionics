@@ -19,7 +19,7 @@ public:
     SYSTEM_STATUS,
     EVENT,
     ERROR,
-    SET_REFERENCE_PRESSURE_COMMAND,
+    SET_REFERENCE_PRESSURE,
     TRAJECTORY_DATA
   };
 
@@ -144,8 +144,7 @@ public:
 
   /// @brief 参照気圧セットを受信する
   /// @param referencePressure 参照気圧のポインタ
-  // TODO receiveSetReferencePressureに改名
-  void receiveSetReferencePressureCommand(float* referencePressure);
+  void receiveSetReferencePressure(float* referencePressure);
 
   /// @brief 軌道情報の受信する
   /// @param isFalling true: 落下中, false: 落下中でない
