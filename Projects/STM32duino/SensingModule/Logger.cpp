@@ -4,9 +4,25 @@
 /// @brief コンストラクタ
 /// @param csFram0 1つ目のFRAMのチップセレクト
 /// @param csFram1 2つ目のFRAMのチップセレクト
-Logger::Logger(uint32_t csFram0, uint32_t csFram1) {
+/// @param csSd SDのチップセレクト
+Logger::Logger(uint32_t csFram0, uint32_t csFram1, uint32_t csSd) {
   _fram0 = new FRAM(csFram0);
   _fram1 = new FRAM(csFram1);
+  _sd = new Sd(csSd);
+}
+
+
+/// @brief ログ保存を開始する
+/// @return true: 開始成功, false: 開始失敗
+bool Logger::beginLogging() {
+  bool isSucceeded = _sd->beginLogging();
+  return isSucceeded;
+}
+
+
+/// @brief ログ保存を終了する
+void Logger::endLogging() {
+  _sd->endLogging();
 }
 
 
@@ -58,7 +74,6 @@ void Logger::log(
   const uint32_t size = packet.data.size();
 
   // FRAMの2個分の容量を超えたら何もしない (容量オーバー)
-  // TODO 例外処理
   if (_offset + size >= FRAM::LENGTH * 2) {
     return;
   }
@@ -77,4 +92,8 @@ void Logger::log(
   }
 
   _offset += size;
+
+
+  // SDへの保存
+  _sd->write(data, size);
 }

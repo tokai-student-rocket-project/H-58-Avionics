@@ -7,12 +7,11 @@
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
 #include "Trajectory.hpp"
-#include "Blinker.hpp"
 #include "Logger.hpp"
-#include "Sd.hpp"
 
 
 namespace timer {
+  void task2Hz();
   void task20Hz();
   void task100Hz();
 }
@@ -24,17 +23,16 @@ namespace sensor {
 }
 
 namespace logger {
-  Logger logger(A2, A3);
-  Sd sd(A0);
+  Logger logger(A2, A3, A0);
   PullupPin cardDetection(D8);
-
   bool doLogging;
 }
 
 namespace indicator {
   OutputPin canSend(D12);
   OutputPin canReceive(D11);
-  Blinker sdStatus(D9, "invalidSd");
+  OutputPin sdStatus(D9);
+
   OutputPin loggerStatus(D6);
 }
 
@@ -67,23 +65,12 @@ namespace data {
   bool camera, separator;
 }
 
-namespace develop {
-  PullupPin debugMode(D3);
-
-  bool isDebugMode;
-}
-
 
 void setup() {
-  // 起動モードの判定
-  develop::isDebugMode = !develop::debugMode.isOpen();
-
   // デバッグ用シリアルポートの準備
-  if (develop::isDebugMode) {
-    Serial.begin(115200);
-    while (!Serial);
-    delay(800);
-  }
+  Serial.begin(115200);
+  while (!Serial);
+  delay(800);
 
   // FRAMとSDの電源は常にON
   control::recorderPower.on();
@@ -92,14 +79,6 @@ void setup() {
   SPI.setMISO(A5);
   SPI.setSCLK(A4);
   SPI.begin();
-
-  // SDの初期検知と初期化
-  if (logger::sd.begin()) {
-    indicator::sdStatus.on();
-  }
-  else {
-    indicator::sdStatus.startBlink(2);
-  }
 
   Wire.setSDA(D4);
   Wire.setSCL(D5);
@@ -113,6 +92,7 @@ void setup() {
   connection::can.begin();
   connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::SETUP);
 
+  Tasks.add(timer::task2Hz)->startFps(2);
   Tasks.add(timer::task20Hz)->startFps(20);
   Tasks.add(timer::task100Hz)->startFps(100);
 }
@@ -120,20 +100,6 @@ void setup() {
 
 void loop() {
   Tasks.update();
-
-  // SDの検知の更新
-  // SDを新しく検知した時
-  if (!logger::doLogging && !logger::sd.isRunning() && !logger::cardDetection.isOpen()) {
-    logger::sd.begin();
-    indicator::sdStatus.stopBlink();
-    indicator::sdStatus.on();
-  }
-
-  // SDが検知できなくなった時
-  if (!logger::doLogging && logger::sd.isRunning() && logger::cardDetection.isOpen()) {
-    logger::sd.end();
-    indicator::sdStatus.startBlink(2);
-  }
 
   //CAN受信処理
   if (connection::can.available()) {
@@ -145,6 +111,20 @@ void loop() {
       connection::handleSetReferencePressure();
       break;
     }
+  }
+}
+
+
+/// @brief 2Hzで実行したい処理
+void timer::task2Hz() {
+  // SDの検知
+  if (!logger::cardDetection.isOpen()) {
+    // SDを検知した時はLED常時点灯
+    indicator::sdStatus.on();
+  }
+  else {
+    // SDが検知できない時はLED点滅
+    indicator::sdStatus.toggle();
   }
 }
 
@@ -210,12 +190,18 @@ void connection::handleSystemStatus() {
     if (!logger::doLogging) {
       logger::doLogging = true;
       logger::logger.reset();
-      indicator::loggerStatus.on();
+      if (logger::logger.beginLogging()) {
+        indicator::loggerStatus.on();
+      }
+      else {
+        connection::can.sendError(CANSTM::Publisher::SENSING_MODULE, CANSTM::ErrorCode::LOGGER_FAILURE, CANSTM::ErrorReason::INVALID_SD);
+      }
     }
   }
   else {
     if (logger::doLogging) {
       logger::doLogging = false;
+      logger::logger.endLogging();
       indicator::loggerStatus.off();
     }
   }
