@@ -1,20 +1,22 @@
-// TODO コメント追加
-
-
 #include "Thermistor.hpp"
 
 
+/// @brief コンストラクタ
+/// @param pinNumber アナログのピン番号
 Thermistor::Thermistor(uint8_t pinNumber) {
   _pinNumber = pinNumber;
 }
 
 
+/// @brief ピンを初期化する
 void Thermistor::initialize() {
   analogReadResolution(12);
   pinMode(_pinNumber, INPUT_ANALOG);
 }
 
 
+/// @brief 現在の測定温度を返す
+/// @param temperature 温度のポインタ [degC]
 void Thermistor::getTemperature(float* temperature) {
   float out = analogRead(_pinNumber);
   float resistance = RESISTANCE_0 * out / (4096.0 - out);

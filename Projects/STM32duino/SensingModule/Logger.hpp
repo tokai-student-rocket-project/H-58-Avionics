@@ -1,6 +1,3 @@
-// TODO コメント追加
-
-
 #pragma once
 
 
@@ -9,14 +6,25 @@
 #include "FRAM.hpp"
 
 
+/// @brief FRAMとSDを包括したデータ保存用クラス
 class Logger {
 public:
+  /// @brief コンストラクタ
+  /// @param csFram0 1つ目のFRAMのチップセレクト
+  /// @param csFram1 2つ目のFRAMのチップセレクト
   Logger(uint32_t csFram0, uint32_t csFram1);
 
+
+  /// @brief 書き込み位置を最初に戻す 元のデータは上書きされるので注意
   void reset();
+
+  /// @brief 全てのデータをシリアルに出力する ブロッキング処理で時間がかかる
   void dump();
+
+  /// @brief 全てに0を書き込み初期化する ブロッキング処理で時間がかかる
   void clear();
 
+  /// @brief ログを保存する
   void log(
     uint32_t millis,
     float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,
