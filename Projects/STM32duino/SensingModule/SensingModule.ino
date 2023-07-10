@@ -201,7 +201,7 @@ void timer::task100Hz() {
 /// @brief CANで受け取ったSystemStatusを使って処理を行う関数
 ///        loop()内のCAN受信処理から呼び出される用
 void connection::handleSystemStatus() {
-  connection::can.receiveStatus(&data::mode, &data::camera, &data::separator);
+  connection::can.receiveSystemStatus(&data::mode, &data::camera, &data::separator);
   indicator::canReceive.toggle();
 
   // フライトモードがSTANDBYとLANDの間ならログを保存する

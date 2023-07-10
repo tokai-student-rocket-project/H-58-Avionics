@@ -128,8 +128,8 @@ public:
   /// @param camera true: ON, false: OFF
   /// @param sn3 true: ON, false: OFF
   // TODO 摘出した列挙型に変更
-  // TODO receiveSystemStatusに改名
-  void receiveStatus(uint8_t* mode, bool* camera, bool* sn3);
+  // TODO xxStateに改名
+  void receiveSystemStatus(uint8_t* mode, bool* camera, bool* sn3);
 
   /// @brief スカラー値を受信する
   /// @param value 値のポインタ

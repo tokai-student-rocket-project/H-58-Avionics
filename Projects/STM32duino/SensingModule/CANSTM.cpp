@@ -150,8 +150,7 @@ void CANSTM::sendVector3D(Label label, float xValue, float yValue, float zValue)
 /// @param camera true: ON, false: OFF
 /// @param sn3 true: ON, false: OFF
 // TODO 摘出した列挙型に変更
-// TODO receiveSystemStatusに改名
-void CANSTM::receiveStatus(uint8_t* mode, bool* camera, bool* sn3) {
+void CANSTM::receiveSystemStatus(uint8_t* mode, bool* camera, bool* sn3) {
   *mode = _latestData[0];
   *camera = _latestData[1];
   *sn3 = _latestData[2];
