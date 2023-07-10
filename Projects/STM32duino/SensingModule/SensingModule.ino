@@ -49,7 +49,7 @@ namespace connection {
 }
 
 namespace data {
-  Trajectory trajectory(0.25, 0.75);
+  Trajectory trajectory;
 
   float pressure_hPa;
   float outsideTemperature_degC;
