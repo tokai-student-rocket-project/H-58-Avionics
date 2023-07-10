@@ -23,8 +23,7 @@ public:
   void endLogging();
 
 
-  void print(String text);
-  void println(String text);
+  void write(const uint8_t* data, uint32_t size);
 
 private:
   uint32_t _cs;

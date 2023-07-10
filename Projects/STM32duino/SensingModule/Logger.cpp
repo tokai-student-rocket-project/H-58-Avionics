@@ -97,14 +97,5 @@ void Logger::log(
 
 
   // SDへの保存
-  for (uint32_t i = 0; i < size; i++) {
-    _sd->print(String(data[i], HEX));
-
-    if (data[i] == 0) {
-      _sd->println("");
-    }
-    else {
-      _sd->print(" ");
-    }
-  }
+  _sd->write(data, size);
 }

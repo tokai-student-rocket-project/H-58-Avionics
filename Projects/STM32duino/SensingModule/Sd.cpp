@@ -34,15 +34,8 @@ void Sd::endLogging() {
 }
 
 
-void Sd::print(String text) {
+void Sd::write(const uint8_t* data, uint32_t size) {
   if (_logFile) {
-    _logFile.print(text);
-  }
-}
-
-
-void Sd::println(String text) {
-  if (_logFile) {
-    _logFile.println(text);
+    _logFile.write(data, size);
   }
 }
