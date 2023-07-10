@@ -161,7 +161,7 @@ void timer::task20Hz() {
 
   // CANにデータを流す
     // 安全のため、高度50m以上でないと落下判定しない
-  connection::can.sendTrajectoryData(data::trajectory.isFalling() && data::altitude >= 50.0);
+  connection::can.sendTrajectoryData(data::trajectory.isFalling() && data::altitude_m >= 50.0);
   connection::can.sendScalar(CANSTM::Label::OUTSIDE_TEMPERATURE, data::outsideTemperature_degC);
   connection::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude_m);
   connection::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x_nT, data::magnetometer_y_nT, data::magnetometer_z_nT);
