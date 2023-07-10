@@ -11,12 +11,21 @@ Sd::Sd(uint32_t cs) {
 
 
 /// @brief 保存を開始する この時にファイルが生成される
-/// @param fileName ログファイルの名前 拡張子は.txtか.csv
 /// @return true: 開始成功, false: 開始失敗
-bool Sd::beginLogging(String fileName) {
+bool Sd::beginLogging() {
   _isRunning = SD.begin(_cs);
   if (_isRunning) {
-    _logFile = SD.open(fileName, FILE_WRITE);
+    uint8_t fileNumber = 0;
+    while (fileNumber < 256) {
+      String fileName = String(fileNumber) + ".txt";
+      if (SD.exists(fileName)) {
+        fileNumber++;
+        continue;
+      }
+
+      _logFile = SD.open(fileName, FILE_WRITE);
+      break;
+    }
   }
 
   return _isRunning;
