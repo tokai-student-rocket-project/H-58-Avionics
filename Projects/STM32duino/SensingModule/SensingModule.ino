@@ -2,7 +2,7 @@
 #include <TaskManager.h>
 #include "CANSTM.hpp"
 #include "BNO055.hpp"
-// #include "BME280.hpp"
+#include "BME280.hpp"
 #include "Thermistor.hpp"
 #include "PullupPin.hpp"
 #include "OutputPin.hpp"
@@ -19,7 +19,7 @@ namespace timer {
 
 namespace sensor {
   BNO055 bno;
-  // BME bme;
+  BME bme;
   Thermistor thermistor(A1);
 }
 
@@ -107,7 +107,7 @@ void setup() {
   Wire.setClock(400000);
 
   sensor::bno.begin();
-  // sensor::bme.begin();
+  sensor::bme.begin();
   sensor::thermistor.initialize();
 
   connection::can.begin();
@@ -180,14 +180,7 @@ void timer::task100Hz() {
   sensor::bno.getLinearAcceleration(&data::linear_acceleration_x_mps2, &data::linear_acceleration_y_mps2, &data::linear_acceleration_z_mps2);
   sensor::bno.getGravityVector(&data::gravity_x_mps2, &data::gravity_y_mps2, &data::gravity_z_mps2);
   // 高度も解析用にできるだけ早い100Hzで読み出したい
-  // sensor::bme.getPressure(&data::pressure_hPa);
-
-  Serial.print(data::linear_acceleration_x_mps2);
-  Serial.print(",");
-  Serial.print(data::linear_acceleration_y_mps2);
-  Serial.print(",");
-  Serial.println(data::linear_acceleration_z_mps2);
-
+  sensor::bme.getPressure(&data::pressure_hPa);
 
   // doLoggingのフラグが立っている時はログを保存する
   // 内部的にはFRAMとSDに書き込んでいる
