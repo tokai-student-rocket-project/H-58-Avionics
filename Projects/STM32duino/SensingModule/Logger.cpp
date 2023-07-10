@@ -14,8 +14,10 @@ Logger::Logger(uint32_t csFram0, uint32_t csFram1, uint32_t csSd) {
 
 /// @brief ログ保存を開始する
 /// @param fileName ログファイルの名前 拡張子は.txtか.csv
-void Logger::beginLogging(String fileName) {
-  _sd->beginLogging(fileName);
+/// @return true: 開始成功, false: 開始失敗
+bool Logger::beginLogging(String fileName) {
+  bool isSucceeded = _sd->beginLogging(fileName);
+  return isSucceeded;
 }
 
 

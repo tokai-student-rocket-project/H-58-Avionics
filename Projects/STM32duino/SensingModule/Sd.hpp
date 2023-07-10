@@ -6,11 +6,21 @@
 #include <SD.h>
 
 
+/// @brief SDカード用ライブラリ
 class Sd {
 public:
+  /// @brief コンストラクタ
+  /// @param cs SDのチップセレクト
   Sd(uint32_t cs);
 
-  void beginLogging(String fileName);
+
+  /// @brief 保存を開始する この時にファイルが生成される
+  /// @param fileName ログファイルの名前 拡張子は.txtか.csv
+  /// @return true: 開始成功, false: 開始失敗
+  bool beginLogging(String fileName);
+
+
+  /// @brief 保存を終了する ファイルの後始末もする
   void endLogging();
 
 private:

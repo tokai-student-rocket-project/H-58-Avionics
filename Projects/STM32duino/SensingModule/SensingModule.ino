@@ -201,8 +201,12 @@ void connection::handleSystemStatus() {
     if (!logger::doLogging) {
       logger::doLogging = true;
       logger::logger.reset();
-      logger::logger.beginLogging("log.csv");
-      indicator::loggerStatus.on();
+      if (logger::logger.beginLogging("log.csv")) {
+        indicator::loggerStatus.on();
+      }
+      else {
+        // TODO 例外処理 ログ開始失敗
+      }
     }
   }
   else {

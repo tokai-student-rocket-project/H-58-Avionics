@@ -19,7 +19,8 @@ public:
 
   /// @brief ログ保存を開始する
   /// @param fileName ログファイルの名前 拡張子は.txtか.csv
-  void beginLogging(String fileName);
+  /// @return true: 開始成功, false: 開始失敗
+  bool beginLogging(String fileName);
 
   /// @brief ログ保存を終了する
   void endLogging();
