@@ -95,3 +95,9 @@ void Logger::log(
 
   _offset += size;
 }
+
+
+/// @brief SDのcsvファイルにヘッダーを追記する
+void Logger::logHeader() {
+  _sd->println("millis,outsideTemperature, pressure, altitude, climbIndex, isFalling,acceleration_x, acceleration_y, acceleration_z,gyroscope_x, gyroscope_y, gyroscope_z,magnetometer_x, magnetometer_y, magnetometer_z,orientation_x, orientation_y, orientation_z,linear_acceleration_x, linear_acceleration_y, linear_acceleration_z,gravity_x, gravity_y, gravity_z");
+}

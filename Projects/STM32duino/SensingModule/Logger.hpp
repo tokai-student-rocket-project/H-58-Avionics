@@ -7,8 +7,7 @@
 #include "Sd.hpp"
 
 
-/// @brief FRAMとSDを包括したデータ保存用クラス
-class Logger {
+/// @brief FRAMとSDを包括したデータ保存用クラスclass Logger {
 public:
   /// @brief コンストラクタ
   /// @param csFram0 1つ目のFRAMのチップセレクト
@@ -46,6 +45,9 @@ public:
     float linear_acceleration_x, float linear_acceleration_y, float linear_acceleration_z,
     float gravity_x, float gravity_y, float gravity_z
   );
+
+  /// @brief SDのcsvファイルにヘッダーを追記する
+  void logHeader();
 
 private:
   uint32_t _offset = 0;

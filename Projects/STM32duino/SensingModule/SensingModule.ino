@@ -106,6 +106,28 @@ void setup() {
   Tasks.add(timer::task2Hz)->startFps(2);
   Tasks.add(timer::task20Hz)->startFps(20);
   Tasks.add(timer::task100Hz)->startFps(100);
+
+  Tasks.add([&]() {
+    if (!logger::doLogging) {
+      logger::doLogging = true;
+      logger::logger.reset();
+      if (logger::logger.beginLogging("log.csv")) {
+        logger::logger.logHeader();
+        indicator::loggerStatus.on();
+      }
+      else {
+        // TODO 例外処理 ログ開始失敗
+      }
+    }
+    })->startOnceAfterSec(2);
+
+    Tasks.add([&]() {
+      if (logger::doLogging) {
+        logger::doLogging = false;
+        logger::logger.endLogging();
+        indicator::loggerStatus.off();
+      }
+      })->startOnceAfterSec(12);
 }
 
 

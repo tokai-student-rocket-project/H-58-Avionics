@@ -19,9 +19,12 @@ public:
   /// @return true: 開始成功, false: 開始失敗
   bool beginLogging(String fileName);
 
-
   /// @brief 保存を終了する ファイルの後始末もする
   void endLogging();
+
+
+  void print(String text);
+  void println(String text);
 
 private:
   uint32_t _cs;

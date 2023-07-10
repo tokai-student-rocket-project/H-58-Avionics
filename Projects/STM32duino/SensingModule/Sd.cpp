@@ -32,3 +32,17 @@ void Sd::endLogging() {
   SD.end();
   _isRunning = false;
 }
+
+
+void Sd::print(String text) {
+  if (_logFile) {
+    _logFile.print(text);
+  }
+}
+
+
+void Sd::println(String text) {
+  if (_logFile) {
+    _logFile.println(text);
+  }
+}
