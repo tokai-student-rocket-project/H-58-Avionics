@@ -93,14 +93,6 @@ void setup() {
   SPI.setSCLK(A4);
   SPI.begin();
 
-  // SDの初期検知と初期化
-  if (logger::sd.begin()) {
-    indicator::sdStatus.on();
-  }
-  else {
-    indicator::sdStatus.startBlink(2);
-  }
-
   Wire.setSDA(D4);
   Wire.setSCL(D5);
   Wire.begin();
@@ -138,7 +130,7 @@ void loop() {
 
 /// @brief 1Hzで実行したい処理
 void timer::task1Hz() {
-  // SDの検知の更新
+  // SDの検知
   // SDを新しく検知した時
   if (!logger::doLogging && !logger::sd.isRunning() && !logger::cardDetection.isOpen()) {
     logger::sd.begin();
