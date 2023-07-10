@@ -113,6 +113,7 @@ void setup() {
   connection::can.begin();
   connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::SETUP);
 
+  Tasks.add(timer::task1Hz)->startFps(1);
   Tasks.add(timer::task20Hz)->startFps(20);
   Tasks.add(timer::task100Hz)->startFps(100);
 }
