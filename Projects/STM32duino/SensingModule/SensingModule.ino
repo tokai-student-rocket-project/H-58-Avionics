@@ -9,7 +9,6 @@
 #include "Blinker.hpp"
 #include "Logger.hpp"
 #include "Sd.hpp"
-#include "Vector3D.hpp"
 
 
 namespace timer {
@@ -56,12 +55,12 @@ namespace data {
   float outsideTemperature_degC;
   float altitude_m;
 
-  Vector3D acceleration_mps2;
-  Vector3D magnetometer_nT;
-  Vector3D gyroscope_dps;
-  Vector3D orientation_deg;
-  Vector3D linear_acceleration_mps2;
-  Vector3D gravity_mps2;
+  float acceleration_x_mps2, acceleration_y_mps2, acceleration_z_mps2;
+  float magnetometer_x_nT, magnetometer_y_nT, magnetometer_z_nT;
+  float gyroscope_x_dps, gyroscope_y_dps, gyroscope_z_dps;
+  float orientation_x_deg, orientation_y_deg, orientation_z_deg;
+  float linear_acceleration_x_mps2, linear_acceleration_y_mps2, linear_acceleration_z_mps2;
+  float gravity_x_mps2, gravity_y_mps2, gravity_z_mps2;
 
   uint8_t mode;
   bool camera, separator;
