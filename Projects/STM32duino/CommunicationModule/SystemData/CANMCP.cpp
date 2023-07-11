@@ -58,10 +58,19 @@ void CANMCP::sendSetReferencePressureCommand(float payload) {
 }
 
 
-void CANMCP::receiveStatus(uint8_t* mode, bool* camera, bool* sn3) {
-  *mode = _latestData[0];
-  *camera = _latestData[1];
-  *sn3 = _latestData[2];
+void CANMCP::receiveSystemStatus(uint8_t* flightMode, bool* cameraState, bool* sn3State) {
+  *flightMode = _latestData[0];
+  *cameraState = _latestData[1];
+  *sn3State = _latestData[2];
+}
+
+
+void CANMCP::receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, bool* isGyroscopeCalibrated, bool* isAccelerometerCalibrated, bool* isMagnetometerCalibrated) {
+  memcpy(referencePressure, _latestData, 4);
+  *isSystemCalibrated = _latestData[4];
+  *isGyroscopeCalibrated = _latestData[5];
+  *isAccelerometerCalibrated = _latestData[6];
+  *isMagnetometerCalibrated = _latestData[7];
 }
 
 

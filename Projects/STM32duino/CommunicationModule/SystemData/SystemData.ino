@@ -34,14 +34,15 @@ namespace indicator {
 
 namespace connection {
   CANMCP can(7);
+
+  void handleSystemStatus();
+  void handleSensingStatus();
+  void handleEvent();
+  void handleError();
 }
 
 namespace data {
-  uint8_t mode;
-  bool camera, sn3;
-
   float voltage_supply, voltage_battery, voltage_pool;
-
   float latitude, longitude;
 }
 
@@ -80,7 +81,11 @@ void loop() {
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS:
-      connection::can.receiveStatus(&data::mode, &data::camera, &data::sn3);
+      connection::handleSystemStatus();
+      indicator::canReceive.toggle();
+      break;
+    case CANMCP::Label::SENSING_STATUS:
+      connection::handleSensingStatus();
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::VOLTAGE_SUPPLY:
@@ -96,25 +101,13 @@ void loop() {
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::EVENT:
-      CANMCP::Publisher publisher;
-      CANMCP::EventCode eventCode;
-      uint32_t timestamp;
-      connection::can.receiveEvent(&publisher, &eventCode, &timestamp);
+      connection::handleEvent();
       indicator::canReceive.toggle();
-
-      const auto& packet = MsgPacketizer::encode(
-        0x01,
-        static_cast<uint8_t>(publisher),
-        static_cast<uint8_t>(eventCode),
-        timestamp
-      );
-
-      Serial.println(static_cast<uint8_t>(eventCode));
-
-      LoRa.beginPacket();
-      LoRa.write(packet.data.data(), packet.data.size());
-      LoRa.endPacket();
-      indicator::loRaSend.toggle();
+      break;
+    case CANMCP::Label::ERROR:
+      connection::handleError();
+      indicator::canReceive.toggle();
+      break;
     }
   }
 }
@@ -130,9 +123,6 @@ void timer::task10Hz() {
 
   const auto& packet = MsgPacketizer::encode(
     0x00,
-    data::mode,
-    data::camera,
-    data::sn3,
     data::voltage_supply,
     data::voltage_battery,
     data::voltage_pool,
@@ -150,7 +140,7 @@ void timer::task10Hz() {
 void command::executeSetReferencePressureCommand(uint8_t key, float referencePressure) {
   if (key != command::innerKey) {
     const auto& packet = MsgPacketizer::encode(
-      0x02,
+      0x04,
       static_cast<uint8_t>(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE),
       static_cast<uint8_t>(CANMCP::ErrorCode::COMMAND_RECEIVE_FAILED),
       static_cast<uint8_t>(CANMCP::ErrorReason::INVALID_KEY),
@@ -167,4 +157,90 @@ void command::executeSetReferencePressureCommand(uint8_t key, float referencePre
 
   connection::can.sendSetReferencePressureCommand(referencePressure);
   indicator::canSend.toggle();
+}
+
+
+void connection::handleSystemStatus() {
+  uint8_t flightMode;
+  bool cameraState, sn3State;
+
+  connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State);
+
+  const auto& packet = MsgPacketizer::encode(
+    0x01,
+    flightMode,
+    cameraState,
+    sn3State
+  );
+
+  LoRa.beginPacket();
+  LoRa.write(packet.data.data(), packet.data.size());
+  LoRa.endPacket();
+  indicator::loRaSend.toggle();
+}
+
+
+void connection::handleSensingStatus() {
+  float referencePressure;
+  bool isSystemCalibrated, isGyroscopeCalibrated, isAccelerometerCalibrated, isMagnetometerCalibrated;
+
+  connection::can.receiveSensingStatus(&referencePressure, &isSystemCalibrated, &isGyroscopeCalibrated, &isAccelerometerCalibrated, &isMagnetometerCalibrated);
+
+  const auto& packet = MsgPacketizer::encode(
+    0x02,
+    referencePressure,
+    isSystemCalibrated,
+    isGyroscopeCalibrated,
+    isAccelerometerCalibrated,
+    isMagnetometerCalibrated
+  );
+
+  LoRa.beginPacket();
+  LoRa.write(packet.data.data(), packet.data.size());
+  LoRa.endPacket();
+  indicator::loRaSend.toggle();
+}
+
+
+void connection::handleEvent() {
+  CANMCP::Publisher publisher;
+  CANMCP::EventCode eventCode;
+  uint32_t timestamp;
+
+  connection::can.receiveEvent(&publisher, &eventCode, &timestamp);
+
+  const auto& packet = MsgPacketizer::encode(
+    0x03,
+    static_cast<uint8_t>(publisher),
+    static_cast<uint8_t>(eventCode),
+    timestamp
+  );
+
+  LoRa.beginPacket();
+  LoRa.write(packet.data.data(), packet.data.size());
+  LoRa.endPacket();
+  indicator::loRaSend.toggle();
+}
+
+
+void connection::handleError() {
+  CANMCP::Publisher publisher;
+  CANMCP::ErrorCode errorCode;
+  CANMCP::ErrorReason errorReason;
+  uint32_t timestamp;
+
+  connection::can.receiveError(&publisher, &errorCode, &errorReason, &timestamp);
+
+  const auto& packet = MsgPacketizer::encode(
+    0x04,
+    static_cast<uint8_t>(publisher),
+    static_cast<uint8_t>(errorCode),
+    static_cast<uint8_t>(errorReason),
+    timestamp
+  );
+
+  LoRa.beginPacket();
+  LoRa.write(packet.data.data(), packet.data.size());
+  LoRa.endPacket();
+  indicator::loRaSend.toggle();
 }
