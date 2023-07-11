@@ -6,6 +6,7 @@
 #include "Shiranui.hpp"
 #include "Buzzer.hpp"
 #include "AnalogVoltage.hpp"
+#include "FRAM.hpp"
 
 
 namespace flightMode {
@@ -49,6 +50,10 @@ namespace sensor {
   PullupPin flightPin(D11);
   DetectionCounter liftoffDetector(3);
   DetectionCounter resetDetector(10);
+}
+
+namespace logger {
+  FRAM fram(D4);
 }
 
 namespace indicator {
@@ -106,6 +111,21 @@ void setup() {
     sensor::battery.begin(4700, 820);
     sensor::pool.begin(5600, 820);
   }
+
+  SPI.setMOSI(A6);
+  SPI.setMISO(A5);
+  SPI.setSCLK(A4);
+  SPI.begin();
+
+  uint8_t data[4];
+  logger::fram.getId(data);
+  Serial.print(data[0], BIN);
+  Serial.print(" ");
+  Serial.print(data[1], BIN);
+  Serial.print(" ");
+  Serial.print(data[2], BIN);
+  Serial.print(" ");
+  Serial.println(data[3], BIN);
 
   connection::can.begin();
 
