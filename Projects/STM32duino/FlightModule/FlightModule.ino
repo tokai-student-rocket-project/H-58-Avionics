@@ -6,7 +6,7 @@
 #include "Shiranui.hpp"
 #include "Buzzer.hpp"
 #include "AnalogVoltage.hpp"
-#include "FRAM.hpp"
+#include "Logger.hpp"
 
 
 namespace flightMode {
@@ -23,7 +23,6 @@ namespace flightMode {
   };
 
   Mode activeMode;
-  bool doLogging;
 }
 
 namespace timer {
@@ -54,7 +53,8 @@ namespace sensor {
 }
 
 namespace logger {
-  FRAM fram(D4);
+  Logger logger(D4);
+  bool doLogging;
 }
 
 namespace indicator {
@@ -118,16 +118,6 @@ void setup() {
   SPI.setSCLK(A4);
   SPI.begin();
 
-  uint8_t data[4];
-  logger::fram.getId(data);
-  Serial.print(data[0], BIN);
-  Serial.print(" ");
-  Serial.print(data[1], BIN);
-  Serial.print(" ");
-  Serial.print(data[2], BIN);
-  Serial.print(" ");
-  Serial.println(data[3], BIN);
-
   connection::can.begin();
 
   connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SETUP);
@@ -189,7 +179,7 @@ void timer::task10Hz() {
     static_cast<uint8_t>(flightMode::activeMode),
     control::camera.get(),
     control::sn3.get(),
-    flightMode::doLogging
+    logger::doLogging
   );
 
   connection::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltageSupply);
@@ -210,7 +200,10 @@ void timer::task100Hz() {
     control::camera.off();
     indicator::buzzer.beepLongOnce();
     flightMode::activeMode = flightMode::Mode::SLEEP;
-    flightMode::doLogging = false;
+
+    // TODO 摘出
+    logger::doLogging = false;
+
     connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
   }
 
@@ -233,7 +226,11 @@ void timer::task100Hz() {
     if (control::liftoffDetector.isDetected() || false || false) {
       control::camera.on();
       flightMode::activeMode = flightMode::Mode::STANDBY;
-      flightMode::doLogging = true;
+
+      // TODO 摘出
+      logger::doLogging = true;
+
+      logger::logger.reset();
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
     }
 
@@ -245,7 +242,13 @@ void timer::task100Hz() {
       timer::setReferenceTime();
       indicator::buzzer.beepOnce();
       flightMode::activeMode = flightMode::Mode::THRUST;
-      flightMode::doLogging = true;
+
+      // TODO 摘出
+      if (!logger::doLogging) {
+        logger::doLogging = true;
+        logger::logger.reset();
+      }
+
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::IGNITION);
     }
     break;
@@ -295,11 +298,21 @@ void timer::task100Hz() {
       control::camera.off();
       indicator::buzzer.beepLongOnce();
       flightMode::activeMode = flightMode::Mode::SHUTDOWN;
-      flightMode::doLogging = false;
+
+      // TODO 摘出
+      logger::doLogging = false;
+
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, flightTime());
       // indicator::buzzer.electricalParade();
     }
     break;
+  }
+
+
+  if (logger::doLogging) {
+    logger::logger.log(
+      millis()
+    );
   }
 }
 
