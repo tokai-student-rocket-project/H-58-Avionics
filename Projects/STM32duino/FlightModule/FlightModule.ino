@@ -23,6 +23,7 @@ namespace flightMode {
   };
 
   Mode activeMode;
+  bool doLogging;
 }
 
 namespace timer {
@@ -187,7 +188,8 @@ void timer::task10Hz() {
   connection::can.sendSystemStatus(
     static_cast<uint8_t>(flightMode::activeMode),
     control::camera.get(),
-    control::sn3.get()
+    control::sn3.get(),
+    flightMode::doLogging
   );
 
   connection::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltageSupply);
@@ -208,6 +210,7 @@ void timer::task100Hz() {
     control::camera.off();
     indicator::buzzer.beepLongOnce();
     flightMode::activeMode = flightMode::Mode::SLEEP;
+    flightMode::doLogging = false;
     connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
   }
 
@@ -230,6 +233,7 @@ void timer::task100Hz() {
     if (control::liftoffDetector.isDetected() || false || false) {
       control::camera.on();
       flightMode::activeMode = flightMode::Mode::STANDBY;
+      flightMode::doLogging = true;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
     }
 
@@ -241,6 +245,7 @@ void timer::task100Hz() {
       timer::setReferenceTime();
       indicator::buzzer.beepOnce();
       flightMode::activeMode = flightMode::Mode::THRUST;
+      flightMode::doLogging = true;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::IGNITION);
     }
     break;
@@ -290,6 +295,7 @@ void timer::task100Hz() {
       control::camera.off();
       indicator::buzzer.beepLongOnce();
       flightMode::activeMode = flightMode::Mode::SHUTDOWN;
+      flightMode::doLogging = false;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, flightTime());
       // indicator::buzzer.electricalParade();
     }

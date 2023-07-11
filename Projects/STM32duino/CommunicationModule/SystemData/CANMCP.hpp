@@ -74,7 +74,7 @@ public:
   void sendSetReferencePressureCommand(float referencePressure);
 
 
-  void receiveSystemStatus(uint8_t* flightMode, bool* cameraState, bool* sn3State);
+  void receiveSystemStatus(uint8_t* flightMode, bool* cameraState, bool* sn3State, bool* doLogging);
   void receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, bool* isGyroscopeCalibrated, bool* isAccelerometerCalibrated, bool* isMagnetometerCalibrated);
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);
