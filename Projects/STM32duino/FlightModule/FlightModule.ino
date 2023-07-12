@@ -275,6 +275,11 @@ void timer::task100Hz() {
 
     // PARACHUTEモード パラシュート下降中
   case (flightMode::Mode::PARACHUTE):
+    // 着地3秒前にカメラOFF
+    if (control::camera.get() && timer::isElapsedTime(timer::land_time - 3000)) {
+      control::camera.off();
+    }
+
     // 着地時間を超えたら着地モードに遷移
     if (timer::isElapsedTime(timer::land_time)) {
       flightMode::activeMode = flightMode::Mode::LAND;
@@ -286,7 +291,6 @@ void timer::task100Hz() {
   case (flightMode::Mode::LAND):
     // シャットダウン時間を超えたらシャットダウン
     if (timer::isElapsedTime(timer::shutdown_time)) {
-      control::camera.off();
       indicator::buzzer.beepLongOnce();
       logger::endLogging();
       flightMode::activeMode = flightMode::Mode::SHUTDOWN;
