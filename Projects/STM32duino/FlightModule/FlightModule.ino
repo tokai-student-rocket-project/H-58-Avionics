@@ -6,6 +6,7 @@
 #include "Shiranui.hpp"
 #include "Buzzer.hpp"
 #include "AnalogVoltage.hpp"
+#include "Logger.hpp"
 
 
 namespace flightMode {
@@ -49,6 +50,14 @@ namespace sensor {
   PullupPin flightPin(D11);
   DetectionCounter liftoffDetector(3);
   DetectionCounter resetDetector(10);
+}
+
+namespace logger {
+  Logger logger(D4);
+  bool doLogging = false;
+
+  void beginLogging();
+  void endLogging();
 }
 
 namespace indicator {
@@ -96,6 +105,7 @@ void setup() {
   // デバッグ用シリアルポートの準備
   if (develop::isDebugMode) {
     Serial.begin(115200);
+    while (!Serial);
     delay(800);
   }
 
@@ -106,6 +116,11 @@ void setup() {
     sensor::battery.begin(4700, 820);
     sensor::pool.begin(5600, 820);
   }
+
+  SPI.setMOSI(A6);
+  SPI.setMISO(A5);
+  SPI.setSCLK(A4);
+  SPI.begin();
 
   connection::can.begin();
 
@@ -167,7 +182,8 @@ void timer::task10Hz() {
   connection::can.sendSystemStatus(
     static_cast<uint8_t>(flightMode::activeMode),
     control::camera.get(),
-    control::sn3.get()
+    control::sn3.get(),
+    logger::doLogging
   );
 
   connection::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltageSupply);
@@ -187,6 +203,7 @@ void timer::task100Hz() {
   if (flightMode::activeMode != flightMode::Mode::SLEEP && control::resetDetector.isDetected()) {
     control::camera.off();
     indicator::buzzer.beepLongOnce();
+    logger::endLogging();
     flightMode::activeMode = flightMode::Mode::SLEEP;
     connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
   }
@@ -209,6 +226,7 @@ void timer::task100Hz() {
     // フライトピン開放 || バルブ開 || FlightMode ON
     if (control::liftoffDetector.isDetected() || false || false) {
       control::camera.on();
+      logger::beginLogging();
       flightMode::activeMode = flightMode::Mode::STANDBY;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
     }
@@ -220,6 +238,7 @@ void timer::task100Hz() {
       // 現時刻をX=0の基準にする
       timer::setReferenceTime();
       indicator::buzzer.beepOnce();
+      logger::beginLogging();
       flightMode::activeMode = flightMode::Mode::THRUST;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::IGNITION);
     }
@@ -269,12 +288,44 @@ void timer::task100Hz() {
     if (timer::isElapsedTime(timer::shutdown_time)) {
       control::camera.off();
       indicator::buzzer.beepLongOnce();
+      logger::endLogging();
       flightMode::activeMode = flightMode::Mode::SHUTDOWN;
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, flightTime());
       // indicator::buzzer.electricalParade();
     }
     break;
   }
+
+
+  if (logger::doLogging) {
+    logger::logger.log(
+      millis(), flightTime(),
+      static_cast<uint8_t>(flightMode::activeMode), control::camera.get(), control::sn3.get(), logger::doLogging,
+      data::isFalling, sensor::flightPin.isOpen(), !sensor::flightPin.isOpen(),
+      data::voltageSupply, data::voltageBattery, data::voltagePool
+    );
+  }
+}
+
+
+void logger::beginLogging() {
+  // すでにログ保存がONの場合は何もしない
+  if (logger::doLogging) {
+    return;
+  }
+
+  logger::doLogging = true;
+  logger::logger.reset();
+}
+
+
+void logger::endLogging() {
+  // すでにログ保存がOFFの場合は何もしない
+  if (!logger::doLogging) {
+    return;
+  }
+
+  logger::doLogging = false;
 }
 
 

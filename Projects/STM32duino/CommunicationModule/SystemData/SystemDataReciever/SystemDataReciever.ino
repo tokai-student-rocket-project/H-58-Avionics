@@ -48,7 +48,8 @@ void setup() {
     [](
       uint8_t flightMode,
       bool cameraStatus,
-      bool sn3Status
+      bool sn3Status,
+      bool doLogging
       )
     {
       transmitter::packet.clear();
@@ -59,6 +60,7 @@ void setup() {
       transmitter::packet["FlightMode"] = flightMode;
       transmitter::packet["CameraStatus"] = cameraStatus;
       transmitter::packet["SN3Status"] = sn3Status;
+      transmitter::packet["DoLogging"] = doLogging;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();

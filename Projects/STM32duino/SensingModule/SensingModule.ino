@@ -61,9 +61,6 @@ namespace data {
   float orientation_x_deg, orientation_y_deg, orientation_z_deg;
   float linear_acceleration_x_mps2, linear_acceleration_y_mps2, linear_acceleration_z_mps2;
   float gravity_x_mps2, gravity_y_mps2, gravity_z_mps2;
-
-  uint8_t mode;
-  bool camera, separator;
 }
 
 
@@ -108,9 +105,11 @@ void loop() {
     switch (connection::can.getLatestMessageLabel()) {
     case CANSTM::Label::SYSTEM_STATUS:
       connection::handleSystemStatus();
+      indicator::canReceive.toggle();
       break;
     case CANSTM::Label::SET_REFERENCE_PRESSURE:
       connection::handleSetReferencePressure();
+      indicator::canReceive.toggle();
       break;
     }
   }
@@ -197,28 +196,26 @@ void timer::task100Hz() {
 /// @brief CANで受け取ったSystemStatusを使って処理を行う関数
 ///        loop()内のCAN受信処理から呼び出される用
 void connection::handleSystemStatus() {
-  connection::can.receiveSystemStatus(&data::mode, &data::camera, &data::separator);
-  indicator::canReceive.toggle();
+  uint8_t flightMode;
+  bool cameraState, sn3State, doLogging;
 
-  // フライトモードがSTANDBYとLANDの間ならログを保存する
-  if (1 <= data::mode && data::mode <= 7) {
-    if (!logger::doLogging) {
-      logger::doLogging = true;
-      logger::logger.reset();
-      if (logger::logger.beginLogging()) {
-        indicator::loggerStatus.on();
-      }
-      else {
-        connection::can.sendError(CANSTM::Publisher::SENSING_MODULE, CANSTM::ErrorCode::LOGGER_FAILURE, CANSTM::ErrorReason::INVALID_SD);
-      }
+  connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
+
+  if (doLogging && !logger::doLogging) {
+    logger::doLogging = true;
+    logger::logger.reset();
+    if (logger::logger.beginLogging()) {
+      indicator::loggerStatus.on();
+    }
+    else {
+      connection::can.sendError(CANSTM::Publisher::SENSING_MODULE, CANSTM::ErrorCode::LOGGER_FAILURE, CANSTM::ErrorReason::INVALID_SD);
     }
   }
-  else {
-    if (logger::doLogging) {
-      logger::doLogging = false;
-      logger::logger.endLogging();
-      indicator::loggerStatus.off();
-    }
+
+  if (!doLogging && logger::doLogging) {
+    logger::doLogging = false;
+    logger::logger.endLogging();
+    indicator::loggerStatus.off();
   }
 }
 
@@ -229,7 +226,6 @@ void connection::handleSetReferencePressure() {
   float newReferencePressure_hPa;
 
   connection::can.receiveSetReferencePressure(&newReferencePressure_hPa);
-  indicator::canReceive.toggle();
 
   // 参照気圧を更新したことをイベントとして知らせる
   connection::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::REFERENCE_PRESSURE_UPDATED);

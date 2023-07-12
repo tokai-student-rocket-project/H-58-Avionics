@@ -83,11 +83,12 @@ public:
 
 
   /// @brief システムステータスを送信する
-/// @param flightMode フライトモード
-/// @param cameraState true: ON, false: OFF
-/// @param sn3State true: ON, false: OFF
+  /// @param flightMode フライトモード
+  /// @param cameraState true: ON, false: OFF
+  /// @param sn3State true: ON, false: OFF
+  /// @param doLogging true: ON, false: OFF
   // TODO 摘出した列挙型に変更
-  void sendSystemStatus(uint8_t flightMode, bool cameraState, bool sn3State);
+  void sendSystemStatus(uint8_t flightMode, bool cameraState, bool sn3State, bool doLogging);
 
   /// @brief イベントを送信する
   /// @param publisher どのモジュールがイベントを発行したか
@@ -135,11 +136,12 @@ public:
 
 
   /// @brief システムステータスを受信する
-/// @param flightMode フライトモード
-/// @param cameraState true: ON, false: OFF
-/// @param sn3State true: ON, false: OFF
+  /// @param flightMode フライトモード
+  /// @param cameraState true: ON, false: OFF
+  /// @param sn3State true: ON, false: OFF
+  /// @param doLogging true: ON, false: OFF
   // TODO 摘出した列挙型に変更
-  void receiveSystemStatus(uint8_t* flightMode, bool* cameraState, bool* sn3State);
+  void receiveSystemStatus(uint8_t* flightMode, bool* cameraState, bool* sn3State, bool* doLogging);
 
   /// @brief スカラー値を受信する
   /// @param value 値のポインタ
