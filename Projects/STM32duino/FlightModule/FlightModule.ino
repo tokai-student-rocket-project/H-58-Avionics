@@ -114,9 +114,9 @@ void setup() {
   // デバッグ中はピンが干渉するので電圧監視を行わない
   if (!develop::isDebugMode) {
     analogReadResolution(12);
-    sensor::supply.begin(3300, 750);
-    sensor::battery.begin(4700, 820);
-    sensor::pool.begin(5600, 820);
+    sensor::supply.initialize(3300, 750);
+    sensor::battery.initialize(4700, 820);
+    sensor::pool.initialize(5600, 820);
   }
 
   SPI.setMOSI(A6);
