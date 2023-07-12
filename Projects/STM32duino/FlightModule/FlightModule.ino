@@ -55,6 +55,9 @@ namespace sensor {
 namespace logger {
   Logger logger(D4);
   bool doLogging = false;
+
+  void beginLogging();
+  void endLogging();
 }
 
 namespace indicator {
@@ -200,11 +203,8 @@ void timer::task100Hz() {
   if (flightMode::activeMode != flightMode::Mode::SLEEP && control::resetDetector.isDetected()) {
     control::camera.off();
     indicator::buzzer.beepLongOnce();
+    logger::endLogging();
     flightMode::activeMode = flightMode::Mode::SLEEP;
-
-    // TODO 摘出
-    logger::doLogging = false;
-
     connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
   }
 
@@ -226,12 +226,8 @@ void timer::task100Hz() {
     // フライトピン開放 || バルブ開 || FlightMode ON
     if (control::liftoffDetector.isDetected() || false || false) {
       control::camera.on();
+      logger::beginLogging();
       flightMode::activeMode = flightMode::Mode::STANDBY;
-
-      // TODO 摘出
-      logger::doLogging = true;
-      logger::logger.reset();
-
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
     }
 
@@ -242,14 +238,8 @@ void timer::task100Hz() {
       // 現時刻をX=0の基準にする
       timer::setReferenceTime();
       indicator::buzzer.beepOnce();
+      logger::beginLogging();
       flightMode::activeMode = flightMode::Mode::THRUST;
-
-      // TODO 摘出
-      if (!logger::doLogging) {
-        logger::doLogging = true;
-        logger::logger.reset();
-      }
-
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::IGNITION);
     }
     break;
@@ -298,11 +288,8 @@ void timer::task100Hz() {
     if (timer::isElapsedTime(timer::shutdown_time)) {
       control::camera.off();
       indicator::buzzer.beepLongOnce();
+      logger::endLogging();
       flightMode::activeMode = flightMode::Mode::SHUTDOWN;
-
-      // TODO 摘出
-      logger::doLogging = false;
-
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, flightTime());
       // indicator::buzzer.electricalParade();
     }
@@ -318,6 +305,27 @@ void timer::task100Hz() {
       data::voltageSupply, data::voltageBattery, data::voltagePool
     );
   }
+}
+
+
+void logger::beginLogging() {
+  // すでにログ保存がONの場合は何もしない
+  if (logger::doLogging) {
+    return;
+  }
+
+  logger::doLogging = true;
+  logger::logger.reset();
+}
+
+
+void logger::endLogging() {
+  // すでにログ保存がOFFの場合は何もしない
+  if (!logger::doLogging) {
+    return;
+  }
+
+  logger::doLogging = false;
 }
 
 
