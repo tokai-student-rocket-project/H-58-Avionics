@@ -1,28 +1,37 @@
 #include "Buzzer.hpp"
 
 
+/// @brief コンストラクタ
+/// @param pinNumber ピン番号
+/// @param identify 認識用の一意な名前
 Buzzer::Buzzer(uint8_t pinNumber, String identify) {
   _pin = new OutputPin(pinNumber);
   _identify = identify;
 
+  // 事前にピンの状態をトグルするタスクを登録しておく
   Tasks.add(_identify, [&]() {_pin->toggle();});
 }
 
 
+/// @brief 短音1回を鳴らす
 void Buzzer::beepOnce() {
   Tasks[_identify]->startIntervalMsecForCount(100, 2);
 }
 
 
+/// @brief 短音2回を鳴らす
 void Buzzer::beepTwice() {
   Tasks[_identify]->startIntervalMsecForCount(100, 4);
 }
 
+
+/// @brief 超音1回を鳴らす
 void Buzzer::beepLongOnce() {
   Tasks[_identify]->startIntervalMsecForCount(400, 2);
 }
 
 
+/// @brief ほろびのうたを鳴らす ブロッキング処理なので注意
 void Buzzer::electricalParade() {
 
   // BPM = 240
@@ -265,6 +274,7 @@ void Buzzer::electricalParade() {
 }
 
 
+/// @brief 2分音符
 void Buzzer::beep2() {
   _pin->on();
   delay(500);
@@ -272,6 +282,8 @@ void Buzzer::beep2() {
   delay(15);
 }
 
+
+/// @brief 4分音符
 void Buzzer::beep4() {
   _pin->on();
   delay(250);
@@ -279,6 +291,8 @@ void Buzzer::beep4() {
   delay(15);
 }
 
+
+/// @brief 8分音符
 void Buzzer::beep8() {
   _pin->on();
   delay(125);
@@ -286,11 +300,15 @@ void Buzzer::beep8() {
   delay(15);
 }
 
+
+/// @brief 4分休符
 void Buzzer::sleep4() {
   delay(250);
   delay(15);
 }
 
+
+/// @brief 8分休符
 void Buzzer::sleep8() {
   delay(125);
   delay(15);
