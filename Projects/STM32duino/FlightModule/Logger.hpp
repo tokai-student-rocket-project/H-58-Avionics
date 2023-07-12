@@ -23,6 +23,19 @@ public:
   /// @brief 全てに0を書き込み初期化する ブロッキング処理で時間がかかる
   void clear();
 
+
+  /// @brief ログ保存を開始する
+  /// @return true: 開始成功, false: 開始失敗
+  bool beginLogging();
+
+  /// @brief ログ保存を終了する
+  void endLogging();
+
+  /// @brief ログ保存の状態を返す
+  /// @return true: 保存中, false: 保存中でない
+  bool isLogging();
+
+
   /// @brief ログを保存する
   void log(
     uint32_t millis, uint32_t flightTime,
@@ -32,6 +45,7 @@ public:
   );
 
 private:
+  bool _isLogging = false;
   uint32_t _offset = 0;
 
   FRAM* _fram;

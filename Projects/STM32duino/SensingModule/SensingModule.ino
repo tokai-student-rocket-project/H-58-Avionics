@@ -26,7 +26,6 @@ namespace sensor {
 namespace logger {
   Logger logger(A2, A3, A0);
   PullupPin cardDetection(D8);
-  bool doLogging;
 }
 
 namespace indicator {
@@ -178,7 +177,7 @@ void timer::task100Hz() {
 
   // doLoggingのフラグが立っている時はログを保存する
   // 内部的にはFRAMとSDに書き込んでいる
-  if (logger::doLogging) {
+  if (logger::logger.isLogging()) {
     logger::logger.log(
       millis(),
       data::outsideTemperature_degC, data::pressure_hPa, data::altitude_m, data::trajectory.climbIndex(), data::trajectory.isFalling(),
@@ -201,9 +200,8 @@ void connection::handleSystemStatus() {
 
   connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
 
-  if (doLogging && !logger::doLogging) {
-    logger::doLogging = true;
-    logger::logger.reset();
+  // ログ保存を"やるはず"なのに"やっていない"なら開始
+  if (doLogging && !logger::logger.isLogging()) {
     if (logger::logger.beginLogging()) {
       indicator::loggerStatus.on();
     }
@@ -212,8 +210,8 @@ void connection::handleSystemStatus() {
     }
   }
 
-  if (!doLogging && logger::doLogging) {
-    logger::doLogging = false;
+  // ログ保存を"やらない"はずなのに"やっている"なら終了
+  if (!doLogging && logger::logger.isLogging()) {
     logger::logger.endLogging();
     indicator::loggerStatus.off();
   }

@@ -56,10 +56,6 @@ namespace sensor {
 
 namespace logger {
   Logger logger(D4);
-  bool doLogging = false;
-
-  void beginLogging();
-  void endLogging();
 }
 
 namespace indicator {
@@ -189,7 +185,7 @@ void timer::task10Hz() {
     static_cast<uint8_t>(flightMode::activeMode),
     control::camera.get(),
     control::sn3.get(),
-    logger::doLogging
+    logger::logger.isLogging()
   );
 
   connection::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltageSupply);
@@ -211,7 +207,7 @@ void timer::task100Hz() {
   if (flightMode::activeMode != flightMode::Mode::SLEEP && control::resetDetector.isDetected()) {
     control::camera.off();
     indicator::buzzer.beepLongOnce();
-    logger::endLogging();
+    logger::logger.endLogging();
     flightMode::changeMode(flightMode::Mode::SLEEP);
     connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
   }
@@ -234,7 +230,7 @@ void timer::task100Hz() {
     // フライトピン開放 || バルブ開 || FlightMode ON
     if (control::liftoffDetector.isDetected() || false || false) {
       control::camera.on();
-      logger::beginLogging();
+      logger::logger.beginLogging();
       flightMode::changeMode(flightMode::Mode::STANDBY);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
     }
@@ -246,7 +242,7 @@ void timer::task100Hz() {
       // 現時刻をX=0の基準にする
       timer::setReferenceTime();
       indicator::buzzer.beepOnce();
-      logger::beginLogging();
+      logger::logger.beginLogging();
       flightMode::changeMode(flightMode::Mode::THRUST);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::IGNITION);
     }
@@ -300,7 +296,7 @@ void timer::task100Hz() {
     // シャットダウン時間を超えたらシャットダウン
     if (timer::isElapsedTime(timer::shutdown_time)) {
       indicator::buzzer.beepLongOnce();
-      logger::endLogging();
+      logger::logger.endLogging();
       flightMode::changeMode(flightMode::Mode::SHUTDOWN);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, flightTime());
       // はめつのうた
@@ -311,10 +307,10 @@ void timer::task100Hz() {
 
 
   // ログ保存
-  if (logger::doLogging) {
+  if (logger::logger.isLogging()) {
     logger::logger.log(
       millis(), flightTime(),
-      static_cast<uint8_t>(flightMode::activeMode), control::camera.get(), control::sn3.get(), logger::doLogging,
+      static_cast<uint8_t>(flightMode::activeMode), control::camera.get(), control::sn3.get(), logger::logger.isLogging(),
       data::isFalling, sensor::flightPin.isOpen(), !sensor::flightPin.isOpen(),
       data::voltageSupply, data::voltageBattery, data::voltagePool
     );
@@ -331,29 +327,6 @@ void flightMode::changeMode(flightMode::Mode newMode) {
   }
 
   flightMode::activeMode = newMode;
-}
-
-
-/// @brief ログ保存を開始する
-void logger::beginLogging() {
-  // すでにログ保存がONの場合は何もしない
-  if (logger::doLogging) {
-    return;
-  }
-
-  logger::doLogging = true;
-  logger::logger.reset();
-}
-
-
-/// @brief ログ保存を終了する
-void logger::endLogging() {
-  // すでにログ保存がOFFの場合は何もしない
-  if (!logger::doLogging) {
-    return;
-  }
-
-  logger::doLogging = false;
 }
 
 
