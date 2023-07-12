@@ -25,7 +25,10 @@ public:
 
   /// @brief ログを保存する
   void log(
-    uint32_t millis
+    uint32_t millis, uint32_t flightTime,
+    uint8_t flightMode, bool cameraState, bool sn3State, bool doLogging,
+    bool isFalling, bool flightPinState, bool resetPinState,
+    float supplyVoltage, float batteryVoltage, float poolVoltage
   );
 
 private:
