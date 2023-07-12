@@ -128,6 +128,7 @@ void setup() {
 
   connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SETUP);
 
+  // 起動時はSLEEPモード
   flightMode::changeMode(flightMode::Mode::SLEEP);
 
   Tasks.add(timer::task10Hz)->startFps(10);
@@ -156,7 +157,7 @@ void timer::setReferenceTime() {
 }
 
 
-/// @brief タイマーの時間を過ぎたか
+/// @brief タイマーの時間を過ぎたかを返す
 /// @param time 現在の時間
 bool timer::isElapsedTime(uint32_t time) {
   return flightTime() >= time;
@@ -169,6 +170,7 @@ uint32_t timer::flightTime() {
 }
 
 
+/// @brief 10Hzで実行したい処理
 void timer::task10Hz() {
   // その時のフライトモードに合わせてLEDを切り替える
   indicator::indicateFlightMode(flightMode::activeMode);
@@ -182,6 +184,7 @@ void timer::task10Hz() {
   }
 
 
+  // CANにデータを流す
   connection::can.sendSystemStatus(
     static_cast<uint8_t>(flightMode::activeMode),
     control::camera.get(),
@@ -198,7 +201,9 @@ void timer::task10Hz() {
 
 void timer::task100Hz() {
   // 検知の状態更新
+  // フライトピンが解放されたらリフトオフ検知
   control::liftoffDetector.update(sensor::flightPin.isOpen());
+  // フライトピンが閉鎖されたらリセット検知
   control::resetDetector.update(!sensor::flightPin.isOpen());
 
 
@@ -298,12 +303,14 @@ void timer::task100Hz() {
       logger::endLogging();
       flightMode::changeMode(flightMode::Mode::SHUTDOWN);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, flightTime());
+      // はめつのうた
       // indicator::buzzer.electricalParade();
     }
     break;
   }
 
 
+  // ログ保存
   if (logger::doLogging) {
     logger::logger.log(
       millis(), flightTime(),
@@ -315,6 +322,8 @@ void timer::task100Hz() {
 }
 
 
+/// @brief フライトモードを変更する
+/// @param newMode 新しいモード
 void flightMode::changeMode(flightMode::Mode newMode) {
   // フライトモードに変更がないなら何もしない
   if (flightMode::activeMode == newMode) {
@@ -325,6 +334,7 @@ void flightMode::changeMode(flightMode::Mode newMode) {
 }
 
 
+/// @brief ログ保存を開始する
 void logger::beginLogging() {
   // すでにログ保存がONの場合は何もしない
   if (logger::doLogging) {
@@ -336,6 +346,7 @@ void logger::beginLogging() {
 }
 
 
+/// @brief ログ保存を終了する
 void logger::endLogging() {
   // すでにログ保存がOFFの場合は何もしない
   if (!logger::doLogging) {
@@ -346,8 +357,11 @@ void logger::endLogging() {
 }
 
 
+/// @brief フライトモードによって4つのLEDを切り替える
+/// @param mode フライトモード
 void indicator::indicateFlightMode(flightMode::Mode mode) {
   uint8_t modeNumber = static_cast<uint8_t>(mode);
+  // 1つのLEDに1ビット分を当てはめる
   indicator::flightModeBit0.set(modeNumber & (1 << 0));
   indicator::flightModeBit1.set(modeNumber & (1 << 1));
   indicator::flightModeBit2.set(modeNumber & (1 << 2));
