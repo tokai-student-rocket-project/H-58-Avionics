@@ -15,18 +15,21 @@ Buzzer::Buzzer(uint8_t pinNumber, String identify) {
 
 /// @brief 短音1回を鳴らす
 void Buzzer::beepOnce() {
+  _pin->off();
   Tasks[_identify]->startIntervalMsecForCount(100, 2);
 }
 
 
 /// @brief 短音2回を鳴らす
 void Buzzer::beepTwice() {
+  _pin->off();
   Tasks[_identify]->startIntervalMsecForCount(100, 4);
 }
 
 
 /// @brief 超音1回を鳴らす
 void Buzzer::beepLongOnce() {
+  _pin->off();
   Tasks[_identify]->startIntervalMsecForCount(400, 2);
 }
 
