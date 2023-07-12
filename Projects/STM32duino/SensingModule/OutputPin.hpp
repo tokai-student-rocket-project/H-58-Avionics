@@ -22,6 +22,10 @@ public:
   /// @param isOn true: HIGH, false: Low
   void set(bool isOn);
 
+  /// @brief 現在の出力を返す
+  /// @return 現在の出力
+  bool get();
+
   /// @brief 出力を入れ替える
   void toggle();
 
