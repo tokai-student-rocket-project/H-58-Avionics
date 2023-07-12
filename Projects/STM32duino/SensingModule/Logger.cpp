@@ -41,6 +41,7 @@ void Logger::dump() {
 
 /// @brief 全てに0を書き込み初期化する ブロッキング処理で時間がかかる
 void Logger::clear() {
+  reset();
   _fram0->clear();
   _fram1->clear();
 }
