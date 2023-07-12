@@ -23,6 +23,8 @@ namespace flightMode {
   };
 
   Mode activeMode;
+
+  void changeMode(flightMode::Mode newMode);
 }
 
 namespace timer {
@@ -125,7 +127,8 @@ void setup() {
   connection::can.begin();
 
   connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SETUP);
-  flightMode::activeMode = flightMode::Mode::SLEEP;
+
+  flightMode::changeMode(flightMode::Mode::SLEEP);
 
   Tasks.add(timer::task10Hz)->startFps(10);
   Tasks.add(timer::task100Hz)->startFps(100);
@@ -204,7 +207,7 @@ void timer::task100Hz() {
     control::camera.off();
     indicator::buzzer.beepLongOnce();
     logger::endLogging();
-    flightMode::activeMode = flightMode::Mode::SLEEP;
+    flightMode::changeMode(flightMode::Mode::SLEEP);
     connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
   }
 
@@ -213,7 +216,7 @@ void timer::task100Hz() {
   if (flightMode::activeMode == flightMode::Mode::CLIMB && isElapsedTime(timer::forceSeparation_time)) {
     control::sn3.separate();
     indicator::buzzer.beepTwice();
-    flightMode::activeMode = flightMode::Mode::PARACHUTE;
+    flightMode::changeMode(flightMode::Mode::PARACHUTE);
     connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FORCE_SEPARATE, flightTime());
   }
 
@@ -227,7 +230,7 @@ void timer::task100Hz() {
     if (control::liftoffDetector.isDetected() || false || false) {
       control::camera.on();
       logger::beginLogging();
-      flightMode::activeMode = flightMode::Mode::STANDBY;
+      flightMode::changeMode(flightMode::Mode::STANDBY);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
     }
 
@@ -239,7 +242,7 @@ void timer::task100Hz() {
       timer::setReferenceTime();
       indicator::buzzer.beepOnce();
       logger::beginLogging();
-      flightMode::activeMode = flightMode::Mode::THRUST;
+      flightMode::changeMode(flightMode::Mode::THRUST);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::IGNITION);
     }
     break;
@@ -248,7 +251,7 @@ void timer::task100Hz() {
   case (flightMode::Mode::THRUST):
     // モータ作動時間を超えたら上昇モードに遷移
     if (timer::isElapsedTime(timer::thrust_time)) {
-      flightMode::activeMode = flightMode::Mode::CLIMB;
+      flightMode::changeMode(flightMode::Mode::CLIMB);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::BURNOUT, flightTime());
     }
     break;
@@ -257,7 +260,7 @@ void timer::task100Hz() {
   case (flightMode::Mode::CLIMB):
     // 頂点を検知すれば下降モードに遷移
     if (data::isFalling) {
-      flightMode::activeMode = flightMode::Mode::DESCENT;
+      flightMode::changeMode(flightMode::Mode::DESCENT);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::APOGEE, flightTime());
     }
     break;
@@ -268,7 +271,7 @@ void timer::task100Hz() {
     if (timer::isElapsedTime(timer::protectSeparation_time)) {
       control::sn3.separate();
       indicator::buzzer.beepTwice();
-      flightMode::activeMode = flightMode::Mode::PARACHUTE;
+      flightMode::changeMode(flightMode::Mode::PARACHUTE);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, flightTime());
     }
     break;
@@ -282,7 +285,7 @@ void timer::task100Hz() {
 
     // 着地時間を超えたら着地モードに遷移
     if (timer::isElapsedTime(timer::land_time)) {
-      flightMode::activeMode = flightMode::Mode::LAND;
+      flightMode::changeMode(flightMode::Mode::LAND);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::LAND, flightTime());
     }
     break;
@@ -293,7 +296,7 @@ void timer::task100Hz() {
     if (timer::isElapsedTime(timer::shutdown_time)) {
       indicator::buzzer.beepLongOnce();
       logger::endLogging();
-      flightMode::activeMode = flightMode::Mode::SHUTDOWN;
+      flightMode::changeMode(flightMode::Mode::SHUTDOWN);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, flightTime());
       // indicator::buzzer.electricalParade();
     }
@@ -309,6 +312,16 @@ void timer::task100Hz() {
       data::voltageSupply, data::voltageBattery, data::voltagePool
     );
   }
+}
+
+
+void flightMode::changeMode(flightMode::Mode newMode) {
+  // フライトモードに変更がないなら何もしない
+  if (flightMode::activeMode == newMode) {
+    return;
+  }
+
+  flightMode::activeMode = newMode;
 }
 
 
