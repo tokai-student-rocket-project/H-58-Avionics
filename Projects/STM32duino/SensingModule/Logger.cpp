@@ -75,21 +75,19 @@ void Logger::log(
   const uint32_t size = packet.data.size();
 
   // FRAMの2個分の容量を超えたら何もしない (容量オーバー)
-  if (_offset + size >= FRAM::LENGTH * 2) {
-    return;
-  }
-
-  // FRAMの1個分の容量を超えたらFRAM1に書き込み
-  // 超えていなければFRAM0に書き込み
-  if (_offset + size >= FRAM::LENGTH) {
-    uint32_t writeAddress = _offset - FRAM::LENGTH;
-    _fram1->setWriteEnable();
-    _fram1->write(writeAddress, data, size);
-  }
-  else {
-    uint32_t writeAddress = _offset;
-    _fram0->setWriteEnable();
-    _fram0->write(writeAddress, data, size);
+  if (_offset + size < FRAM::LENGTH * 2) {
+    // FRAMの1個分の容量を超えたらFRAM1に書き込み
+    // 超えていなければFRAM0に書き込み
+    if (_offset + size >= FRAM::LENGTH) {
+      uint32_t writeAddress = _offset - FRAM::LENGTH;
+      _fram1->setWriteEnable();
+      _fram1->write(writeAddress, data, size);
+    }
+    else {
+      uint32_t writeAddress = _offset;
+      _fram0->setWriteEnable();
+      _fram0->write(writeAddress, data, size);
+    }
   }
 
   _offset += size;
