@@ -36,7 +36,7 @@ void Logger::clear() {
 
 /// @brief ログ保存を開始する
 /// @return true: 開始成功, false: 開始失敗
-bool Logger::beginLogging() {
+bool Logger::beginLogging(bool useSd) {
   // すでにログ保存がONの場合は何もしない
   // 多重リセット防止
   if (_isLogging) {
@@ -48,7 +48,11 @@ bool Logger::beginLogging() {
   // リセットして書き込み位置を最初に戻す
   reset();
 
-  bool isSucceeded = _sd->beginLogging();
+  bool isSucceeded = false;
+  if (useSd) {
+    isSucceeded = _sd->beginLogging();
+  }
+
   return isSucceeded;
 }
 
