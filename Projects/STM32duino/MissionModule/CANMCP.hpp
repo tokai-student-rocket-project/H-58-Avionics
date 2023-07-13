@@ -22,15 +22,6 @@ public:
     SET_REFERENCE_PRESSURE_COMMAND,
     TRAJECTORY_DATA,
     SENSING_STATUS
-<<<<<<< HEAD
-  };
-
-  enum class Axis : uint8_t {
-    X,
-    Y,
-    Z
-=======
->>>>>>> main
   };
 
   enum class Publisher : uint8_t {
@@ -78,11 +69,7 @@ public:
   void sendSetReferencePressureCommand(float referencePressure);
 
 
-<<<<<<< HEAD
-  void receiveSystemStatus(uint8_t* flightMode, bool* cameraState, bool* sn3State, bool* doLogging);
-=======
   void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging);
->>>>>>> main
   void receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, bool* isGyroscopeCalibrated, bool* isAccelerometerCalibrated, bool* isMagnetometerCalibrated);
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);
