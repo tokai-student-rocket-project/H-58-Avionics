@@ -68,9 +68,9 @@ namespace data {
 
 void setup() {
   // デバッグ用シリアルポートの準備
-  Serial.begin(115200);
-  while (!Serial);
-  delay(800);
+  // Serial.begin(115200);
+  // while (!Serial);
+  // delay(800);
 
   // FRAMとSDの電源は常にON
   control::recorderPower.on();
