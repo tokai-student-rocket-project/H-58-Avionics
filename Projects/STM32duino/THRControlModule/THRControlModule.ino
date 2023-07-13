@@ -191,6 +191,7 @@ void loop()
 
     CAN.sendMsgBuf(0x103, 0, 1, static_cast<uint8_t>(event::eventMode));
 
+    Torque(0x01, 0x01);
     /*B3M テスト用*/
 
     // B3M_setposition(0x01, -9000, 100); //B3Mを-90度(-9000)動作させる
@@ -419,7 +420,8 @@ void ChangeLaunchMode()
     {
         event::eventMode = event::Mode::LAUNCH;
 
-        Move(1, -800, 10);
+        
+        Move(1, -840, 10);
         delay(200);
         B3M_setposition(0x01, -6500, 10);
 
@@ -427,11 +429,14 @@ void ChangeLaunchMode()
 
         launchCount = 0;
         position = 2;
+        Torque(0x01, 0x00);
 
         digitalWrite(A3, LOW);
         digitalWrite(A2, HIGH);
     }
 }
+
+
 
 void ChangeWaitingMode()
 {
@@ -447,15 +452,18 @@ void ChangeWaitingMode()
     if (waitingCount >= POSITION_CHANGING_THRESHOLD)
     {
         event::eventMode = event::Mode::WAITING;
+        
 
         Move(1, 0, 100);
-        delay(500);
+        delay(50);
         B3M_setposition(0x01, 0, 1000);
         
         Tasks["Buzzer"]->startIntervalMsecForCount(100, 4);
 
         waitingCount = 0;
         position = 1;
+
+        Torque(0x01, 0x01);
 
         digitalWrite(A2, LOW);
         digitalWrite(A3, HIGH);

@@ -20,10 +20,21 @@ namespace StateTransition
     Mode ChangeMode;
 }
 
-union Converter
+namespace Error
 {
+    enum class ErrorCode : uint8_t
+    {
+        MOTOR_POSITION_FAILED,
+    };
 
-} converter;
+    ErrorCode ErrorCode;
+}
+
+// union Converter
+// {
+//     int16_t 
+//     uint8_t 
+// } converter;
 
 /* CANDATA Config END */
 
@@ -93,8 +104,7 @@ void setup()
     Tasks.add("task", []()
               {
                   ToggleTasksLED();
-                  ChangeLaunchMode();
-                  ChangeWaitingMode();
+                  
                   Serial.print(F("launchCount: "));
                   Serial.print(LaunchCount);
                   Serial.print(F(" | "));
@@ -113,51 +123,69 @@ void setup()
                       Serial.print(F(" | "));
                   };
 
-                  Serial.print("A: ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x2A)); // 目標位置読み出し
-                  Serial.print("|");
-                  Serial.print("B: ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x2C)); // 現在位置読み出し
-                  Serial.print("|");
-                  Serial.print("D: ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x44)/100); // 現在のMCU温度読み出し
-                  Serial.print("|");
-                  Serial.print("E: ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x46)/100); // 現在のモーター温度読み出し
-                  Serial.print("|");
-                  Serial.print("F: ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x50)); // 現在のエンコーダーの位置読み出し
-                  Serial.print("|");
-                  Serial.print("G: ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x48)/100); // 現在の負荷電流値読み出し
-                  Serial.print("|");
-                  Serial.print("H: ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x4A)); // 現在の入力電圧値読み出し
-                  Serial.print("|");
-                  Serial.print("I: ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x38)); // コマンド実行中時間読み出し
-                  Serial.print("|");
-                  Serial.print("K: ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0xAE)); // 絶対00位置からのエンコーダのずれ読み出し
-                  Serial.print("|");
-                  Serial.print("L: ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x0B)); // MCU温度リミット読み出し
-                  Serial.print("|");
-                  Serial.print("C: ");
-                  Serial.print(B3M_read2byteCommand(0x01, 0x32)); // 現在速度読み出し
-                  Serial.print("|");
-                  //   Serial.print("J: ");
-                 //   Serial.print(B3M_read2byteCommand(0x01, 0x34)); // 1サンプリング回前の速度読み出し
+                //   Serial.print("A: ");
+                //   Serial.print(B3M_read2byteCommand(0x01, 0x2A)); // 目標位置読み出し
                 //   Serial.print("|");
-                  // Serial.print("|");
-                 // Serial.print(B3M_read2byteCommand(0x01, 0x30)/100); // 目標速度読み出し //速度制御モードのみ有効
-                // Serial.print("|");
-                  // Serial.print(B3M_read2byteCommand(0x01, 0x4E)); // PWM周期読み出し
-                 // Serial.print("|");;
-                // Serial.print(B3M_read2byteCommand(0x01, 0x3C)); // 目標トルク読み出し
-                  // Serial.print("|");
-                  
-                  Serial.println(""); })
+                //   Serial.print("B: ");
+                //   Serial.print(B3M_read2byteCommand(0x01, 0x2C)); // 現在位置読み出し
+                //   Serial.print("|");
+                //   Serial.print("D: ");
+                //   Serial.print(B3M_read2byteCommand(0x01, 0x44) / 100); // 現在のMCU温度読み出し
+                //   Serial.print("|");
+                //   Serial.print("E: ");
+                //   Serial.print(B3M_read2byteCommand(0x01, 0x46) / 100); // 現在のモーター温度読み出し
+                //   Serial.print("|");
+                //   Serial.print("F: ");
+                //   Serial.print(B3M_read2byteCommand(0x01, 0x50)); // 現在のエンコーダーの位置読み出し
+                //   Serial.print("|");
+                //   Serial.print("G: ");
+                //   Serial.print(B3M_read2byteCommand(0x01, 0x48) / 100); // 現在の負荷電流値読み出し
+                //   Serial.print("|");
+                //   Serial.print("H: ");
+                //   Serial.print(B3M_read2byteCommand(0x01, 0x4A)); // 現在の入力電圧値読み出し
+                //   Serial.print("|");
+                //   Serial.print("I: ");
+                //   Serial.print(B3M_read2byteCommand(0x01, 0x38)); // コマンド実行中時間読み出し
+                //   Serial.print("|");
+                //   Serial.print("K: ");
+                //   Serial.print(B3M_read2byteCommand(0x01, 0xAE)); // 絶対00位置からのエンコーダのずれ読み出し
+                //   Serial.print("|");
+                //   Serial.print("L: ");
+                //   Serial.print(B3M_read2byteCommand(0x01, 0x0B)); // MCU温度リミット読み出し
+                //   Serial.print("|");
+                //   Serial.print("C: ");
+                //   Serial.print(B3M_read2byteCommand(0x01, 0x32)); // 現在速度読み出し
+                //   Serial.println("|");
+
+
+                // CAN.sendMsgBuf(0x103, 0, 1, static_cast<uint8_t>(StateTransition::ChangeMode));
+                // CAN.sendMsgBuf(0x104, 0, 2, B3M_read2byteCommand(0x01, 0x2C)); // 現在位置
+                // CAN.sendMsgBuf(0x105, 0, 2, B3M_read2byteCommand(0x01, 0x2A)); // 目標位置
+                // CAN.sendMsgBuf(0x106, 0, 2, B3M_read2byteCommand(0x01, 0x44)); // MCU温度
+                // CAN.sendMsgBuf(0x107, 0, 2, B3M_read2byteCommand(0x01, 0x46)); // モーター温度
+                // CAN.sendMsgBuf(0x108, 0, 2, B3M_read2byteCommand(0x01, 0x50)); // エンコーダー位置
+                // CAN.sendMsgBuf(0x109, 0, 2, B3M_read2byteCommand(0x01, 0x48)); // 負荷電流
+                // CAN.sendMsgBuf(0x110, 0, 2, B3M_read2byteCommand(0x01, 0x4A)); // 入力電圧
+                // CAN.sendMsgBuf(0x111, 0, 2, B3M_read2byteCommand(0x01, 0x38)); // コマンド実行時間
+                // CAN.sendMsgBuf(0x112, 0, 2, B3M_read2byteCommand(0x01, 0xAE)); // 絶対00位置からのエンコーダのずれ
+                // CAN.sendMsgBuf(0x113, 0, 2, B3M_read2byteCommand(0x01, 0x0B)); // MCU温度リミット
+                // CAN.sendMsgBuf(0x114, 0, 2, B3M_read2byteCommand(0x01, 0x32)); // 現在速度
+
+                // Serial.print(b3mReadcurrentPosition(0x01));
+                // Serial.print(F(" | "));
+                // Serial.print(b3mReaddesiredPosition(0x01));
+                // Serial.print(F(" | "));
+                // Serial.print(b3mReadcurrentVelosity(0x01));
+                // Serial.print(F(" | "));
+                // Serial.print(b3mReadmcuTemperature(0x01));
+                // Serial.print(F(" | "));
+                // Serial.print(b3mReadmotorTemperature(0x01));
+                // Serial.print(F(" | "));
+                // Serial.print(b3mReadcurrent(0x01));
+                // Serial.print(F(" | "));
+                // Serial.print(b3mreadInputvoltage(0x01));
+
+                Serial.println(""); })
         ->startFps(100);
 
     // Tasks.add("ReadCurrentPosition", []()
@@ -181,19 +209,25 @@ void setup()
 void loop()
 {
     Tasks.update();
+    ChangeLaunchMode();
+    ChangeWaitingMode();
 
-    CAN.sendMsgBuf(0x103, 0, 1, static_cast<uint8_t>(StateTransition::ChangeMode));
-    CAN.sendMsgBuf(0x104, 0, 2, B3M_read2byteCommand(0x01, 0x2C)); // 現在位置
-    CAN.sendMsgBuf(0x105, 0, 2, B3M_read2byteCommand(0x01, 0x2A)); // 目標位置
-    CAN.sendMsgBuf(0x106, 0, 2, B3M_read2byteCommand(0x01, 0x44)); // MCU温度
-    CAN.sendMsgBuf(0x107, 0, 2, B3M_read2byteCommand(0x01, 0x46)); // モーター温度
-    CAN.sendMsgBuf(0x108, 0, 2, B3M_read2byteCommand(0x01, 0x50)); // エンコーダー位置
-    CAN.sendMsgBuf(0x109, 0, 2, B3M_read2byteCommand(0x01, 0x48)); // 負荷電流
-    CAN.sendMsgBuf(0x110, 0, 2, B3M_read2byteCommand(0x01, 0x4A)); // 入力電圧
-    CAN.sendMsgBuf(0x111, 0, 2, B3M_read2byteCommand(0x01, 0x38)); // コマンド実行時間
-    CAN.sendMsgBuf(0x112, 0, 2, B3M_read2byteCommand(0x01, 0xAE)); // 絶対00位置からのエンコーダのずれ
-    CAN.sendMsgBuf(0x113, 0, 2, B3M_read2byteCommand(0x01, 0x0B)); // MCU温度リミット
-    CAN.sendMsgBuf(0x114, 0, 2, B3M_read2byteCommand(0x01, 0x32)); // 現在速度
+    int16_t recieveCurrentposition = b3mReadcurrentPosition(0x01);
+    int16_t recieveCurrentverosity = b3mReadcurrentVelosity(0x01);
+    int16_t recieveCurrent = b3mReadcurrent(0x01);
+    int16_t recieveDesiredPosition = b3mReaddesiredPosition(0x01);
+    int16_t recieveMcutemperature = b3mReadmcuTemperature(0x01);
+    int16_t recieveMotortemperature = b3mReadmotorTemperature(0x01);
+    int16_t recieveinputVoltage = b3mreadInputvoltage(0x01);
+
+
+    canSendinputVoltage(recieve);
+    canSendcurrentDesiredposition(recieveDesiredPosition);
+    canSendmotorTemperature(recieveMotortemperature);    
+    canSendmcuTemperature(recieveMcutemperature);
+    canSendcurrentVelosity(recieveCurrentverosity);
+    canSendcurrentPosition(recieveCurrentposition);
+
 }
 
 void Torque(unsigned char ID, unsigned char data)
@@ -302,14 +336,14 @@ int B3M_writeCommand(byte id, byte TxData, byte Address)
         Serial.println(F("synchronize ERROR"));
     }
 
-    Serial.print("rx: ");
+    // Serial.print("rx: ");
     for (int o = 0; o < 7; o++)
     {
         rxCmd[7] += rxCmd[o];
-        Serial.print(rxCmd[o]);
-        Serial.print("|");
+        // Serial.print(rxCmd[o]);
+        // Serial.print("|");
     }
-    Serial.println("");
+    // Serial.println("");
 
     reData = rxCmd[2];
     return reData;
@@ -404,6 +438,11 @@ void ChangeLaunchMode()
         B3M_setposition(0x01, -6500, 10); //-6500/100 = -65deg
         Tasks["Buzzer"]->startIntervalMsecForCount(50, 6);
 
+        // if((B3M_read2byteCommand(0x01, 0x2A))!=B3M_read2byteCommand(0x01, 0x2C))
+        // {
+
+        // }
+
         LaunchCount = 0;
         Position = 2;
 
@@ -427,9 +466,9 @@ void ChangeWaitingMode()
     {
         StateTransition::ChangeMode = StateTransition::Mode::WAITING;
 
-        Move(1, 0, 50);
-        delay(20);
-        B3M_setposition(0x01, 0, 10);
+        Move(1, 0, 100);
+        delay(100);
+        B3M_setposition(0x01, 0, 1000);
         Tasks["Buzzer"]->startIntervalMsecForCount(100, 4);
 
         WaitingCount = 0;
@@ -471,7 +510,7 @@ void ToggleBuzzer()
     digitalWrite(BuzzerPin, !digitalRead(BuzzerPin));
 }
 
-int16_t B3M_read2byteCommand(byte id, byte Address)
+int16_t b3mReaddesiredPosition(byte id)
 {
     byte txCmd[7];
     byte rxCmd[7];
@@ -484,8 +523,8 @@ int16_t B3M_read2byteCommand(byte id, byte Address)
     txCmd[2] = (byte)(0x00); // OPTION
     txCmd[3] = (byte)(id);   // ID
 
-    txCmd[4] = (byte)(Address); // ADDRESS
-    txCmd[5] = (byte)(0x02);    // LENGTH
+    txCmd[4] = (byte)(0x2A); // ADDRESS //目標位置のアドレス
+    txCmd[5] = (byte)(0x02); // LENGTH
 
     txCmd[6] = 0x00; // SUM
 
@@ -518,3 +557,370 @@ int16_t B3M_read2byteCommand(byte id, byte Address)
 
     return reData;
 }
+// TODO 機能ごとに関数を作成
+
+int16_t b3mReadcurrentPosition(byte id)
+{
+    byte txCmd[7];
+    byte rxCmd[7];
+    int16_t value;
+    int16_t reData;
+    bool flag;
+
+    txCmd[0] = (byte)(0x07); // SIZE
+    txCmd[1] = (byte)(0x03); // COMMAND
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
+
+    txCmd[4] = (byte)(0x2C); // ADDRESS  //現在位置のアドレス
+    txCmd[5] = (byte)(0x02); // LENGTH
+
+    txCmd[6] = 0x00; // SUM
+
+    for (int i = 0; i < 6; i++)
+    {
+        txCmd[6] += txCmd[i];
+        // Serial.print(txCmd[i]);
+        // Serial.print("|");
+    }
+    // Serial.println("");
+
+    txCmd[6] = (byte)(txCmd[6]);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 7);
+
+    if (flag == false)
+    {
+        return -1;
+    }
+
+    // Serial.print("RAM: ");
+    for (int o = 4; o < 6; o++)
+    {
+        value = (rxCmd[o] << 8) | rxCmd[o];
+        // Serial.print(rxCmd[o], HEX);
+        // Serial.print(" ");
+    }
+    // Serial.print(" | ");
+
+    reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
+
+    return reData;
+}
+
+int16_t b3mReadcurrentVelosity(byte id)
+{
+    byte txCmd[7];
+    byte rxCmd[7];
+    int16_t value;
+    int16_t reData;
+    bool flag;
+
+    txCmd[0] = (byte)(0x07); // SIZE
+    txCmd[1] = (byte)(0x03); // COMMAND
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
+
+    txCmd[4] = (byte)(0x32); // ADDRESS  //現在速度のアドレス
+    txCmd[5] = (byte)(0x02); // LENGTH
+
+    txCmd[6] = 0x00; // SUM
+
+    for (int i = 0; i < 6; i++)
+    {
+        txCmd[6] += txCmd[i];
+        // Serial.print(txCmd[i]);
+        // Serial.print("|");
+    }
+    // Serial.println("");
+
+    txCmd[6] = (byte)(txCmd[6]);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 7);
+
+    if (flag == false)
+    {
+        return -1;
+    }
+
+    // Serial.print("RAM: ");
+    for (int o = 4; o < 6; o++)
+    {
+        value = (rxCmd[o] << 8) | rxCmd[o];
+        // Serial.print(rxCmd[o], HEX);
+        // Serial.print(" ");
+    }
+    // Serial.print(" | ");
+
+    reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
+
+    return reData;
+}
+
+int16_t b3mReadmcuTemperature(byte id)
+{
+    byte txCmd[7];
+    byte rxCmd[7];
+    int16_t value;
+    int16_t reData;
+    bool flag;
+
+    txCmd[0] = (byte)(0x07); // SIZE
+    txCmd[1] = (byte)(0x03); // COMMAND
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
+
+    txCmd[4] = (byte)(0x44); // ADDRESS  //現在のMCU温度のアドレス
+    txCmd[5] = (byte)(0x02); // LENGTH
+
+    txCmd[6] = 0x00; // SUM
+
+    for (int i = 0; i < 6; i++)
+    {
+        txCmd[6] += txCmd[i];
+        // Serial.print(txCmd[i]);
+        // Serial.print("|");
+    }
+    // Serial.println("");
+
+    txCmd[6] = (byte)(txCmd[6]);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 7);
+
+    if (flag == false)
+    {
+        return -1;
+    }
+
+    // Serial.print("RAM: ");
+    for (int o = 4; o < 6; o++)
+    {
+        value = (rxCmd[o] << 8) | rxCmd[o];
+        // Serial.print(rxCmd[o], HEX);
+        // Serial.print(" ");
+    }
+    // Serial.print(" | ");
+
+    reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
+
+    return reData;
+}
+
+int16_t b3mReadmotorTemperature(byte id)
+{
+    byte txCmd[7];
+    byte rxCmd[7];
+    int16_t value;
+    int16_t reData;
+    bool flag;
+
+    txCmd[0] = (byte)(0x07); // SIZE
+    txCmd[1] = (byte)(0x03); // COMMAND
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
+
+    txCmd[4] = (byte)(0x46); // ADDRESS  //現在のモーター温度のアドレス
+    txCmd[5] = (byte)(0x02); // LENGTH
+
+    txCmd[6] = 0x00; // SUM
+
+    for (int i = 0; i < 6; i++)
+    {
+        txCmd[6] += txCmd[i];
+        // Serial.print(txCmd[i]);
+        // Serial.print("|");
+    }
+    // Serial.println("");
+
+    txCmd[6] = (byte)(txCmd[6]);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 7);
+
+    if (flag == false)
+    {
+        return -1;
+    }
+
+    // Serial.print("RAM: ");
+    for (int o = 4; o < 6; o++)
+    {
+        value = (rxCmd[o] << 8) | rxCmd[o];
+        // Serial.print(rxCmd[o], HEX);
+        // Serial.print(" ");
+    }
+    // Serial.print(" | ");
+
+    reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
+
+    return reData;
+}
+
+
+int16_t b3mReadcurrent(byte id)
+{
+    byte txCmd[7];
+    byte rxCmd[7];
+    int16_t value;
+    int16_t reData;
+    bool flag;
+
+    txCmd[0] = (byte)(0x07); // SIZE
+    txCmd[1] = (byte)(0x03); // COMMAND
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
+
+    txCmd[4] = (byte)(0x48); // ADDRESS  //現在負荷電流値のアドレス
+    txCmd[5] = (byte)(0x02); // LENGTH
+
+    txCmd[6] = 0x00; // SUM
+
+    for (int i = 0; i < 6; i++)
+    {
+        txCmd[6] += txCmd[i];
+        // Serial.print(txCmd[i]);
+        // Serial.print("|");
+    }
+    // Serial.println("");
+
+    txCmd[6] = (byte)(txCmd[6]);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 7);
+
+    if (flag == false)
+    {
+        return -1;
+    }
+
+    // Serial.print("RAM: ");
+    for (int o = 4; o < 6; o++)
+    {
+        value = (rxCmd[o] << 8) | rxCmd[o];
+        // Serial.print(rxCmd[o], HEX);
+        // Serial.print(" ");
+    }
+    // Serial.print(" | ");
+
+    reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
+
+    return reData;
+}
+
+int16_t b3mreadInputvoltage(byte id)
+{
+    byte txCmd[7];
+    byte rxCmd[7];
+    int16_t value;
+    int16_t reData;
+    bool flag;
+
+    txCmd[0] = (byte)(0x07); // SIZE
+    txCmd[1] = (byte)(0x03); // COMMAND
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
+
+    txCmd[4] = (byte)(0x4A); // ADDRESS  //現在負荷電流値のアドレス
+    txCmd[5] = (byte)(0x02); // LENGTH
+
+    txCmd[6] = 0x00; // SUM
+
+    for (int i = 0; i < 6; i++)
+    {
+        txCmd[6] += txCmd[i];
+        // Serial.print(txCmd[i]);
+        // Serial.print("|");
+    }
+    // Serial.println("");
+
+    txCmd[6] = (byte)(txCmd[6]);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 7);
+
+    if (flag == false)
+    {
+        return -1;
+    }
+
+    // Serial.print("RAM: ");
+    for (int o = 4; o < 6; o++)
+    {
+        value = (rxCmd[o] << 8) | rxCmd[o];
+        // Serial.print(rxCmd[o], HEX);
+        // Serial.print(" ");
+    }
+    // Serial.print(" | ");
+
+    reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
+
+    return reData;
+}
+
+void canSendcurrentPosition(int16_t currentposition)
+{
+    uint8_t data[2];
+    memcpy(data, &currentposition, 2);
+
+    CAN.sendMsgBuf(0x103, 0, 2, data);
+    // memcpy(&currentposition, data, 2);
+    // Serial.print(data[0]);
+    // Serial.print(" | ");
+    // Serial.print(data[1]);
+    // Serial.print(" | ");
+    // Serial.print(currentposition);
+    // Serial.print(" | ");
+}
+
+void canSendcurrentDesiredposition(int16_t currentDesiredposition)
+{
+    uint8_t data[2];
+    memcpy(data, &currentDesiredposition, 2);
+    CAN.sendMsgBuf(0x104, 0, 2, data);
+}
+
+void canSendcurrentVelosity(int16_t currentVelosity)
+{
+    uint8_t data[2];
+    memcpy(data, &currentVelosity, 2);
+    CAN.sendMsgBuf(0x105, 0, 2, data);
+}
+
+void canSendmcuTemperature(int16_t mcuTemperature)
+{
+    uint8_t data[2];
+    memcpy(data, &mcuTemperature, 2);
+    CAN.sendMsgBuf(0x106, 0, 2, data);
+}
+
+void canSendmotorTemperature(int16_t motorTemperature)
+{
+    uint8_t data[2];
+    memcpy(data, &motorTemperature, 2);
+    CAN.sendMsgBuf(0x107, 0, 2, data);
+}
+
+void canSendcurrent(int16_t current)
+{
+    uint8_t data[2];
+    memcpy(data, &current, 2);
+    CAN.sendMsgBuf(0x107, 0, 2, data);
+}
+
+void canSendinputVoltage(int16_t inputVoltage)
+{
+    uint8_t data[2];
+    memcpy(data, &inputVoltage, 2);
+    CAN.sendMsgBuf(0x108, 0, 2, data);
+}
+
+
+
+// 関数の定義
+// int16_t getServoPosition() {
+//   return ポジションを取得する処理
+// }
+
+// void canSendPostion(int16_t position) {
+//   uint8_t data[2];
+//   memcpy(data, &position, 2);
+
+//   _can->sendMsgBuf(0x200, 0, 2, data);
+// }
+
+// // loopの中
+// int16_t receivedPosition = getServoPosition();
+// canSendPostion(receivedPosition);
+// Serial.println(receivedPosition);
+// TODO
