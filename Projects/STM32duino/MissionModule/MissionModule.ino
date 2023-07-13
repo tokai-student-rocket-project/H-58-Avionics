@@ -4,10 +4,15 @@
 #include <MsgPacketizer.h>
 #include <TaskManager.h>
 #include "CANMCP.hpp"
-#include "PullupPin.hpp"
-#include "OutputPin.hpp"
+#include "Switch.hpp"
+#include "LED.hpp"
 #include "Blinker.hpp"
 #include "ADXL375.hpp"
+<<<<<<< HEAD
+=======
+#include "Sd.hpp"
+#include "Var.hpp"
+>>>>>>> main
 
 
 namespace timer {
@@ -29,20 +34,27 @@ namespace sensor {
 }
 
 namespace recorder {
+<<<<<<< HEAD
+=======
+  Sd sd(6);
+
+  Switch cardDetection(3);
+
+>>>>>>> main
   bool doRecording;
 }
 
 namespace indicator {
-  OutputPin canReceive(0);
+  LED canReceive(0);
 
-  OutputPin loRaSend(A1);
+  LED loRaSend(A1);
 
   Blinker sdStatus(4, "invalidSd");
-  OutputPin recorderStatus(2);
+  LED recorderStatus(2);
 }
 
 namespace control {
-  OutputPin recorderPower(5);
+  LED recorderPower(5);
 }
 
 namespace connection {
@@ -52,6 +64,13 @@ namespace connection {
 }
 
 namespace data {
+<<<<<<< HEAD
+=======
+  Var::FlightMode mode;
+  Var::State camera, sn3;
+  bool doLogging;
+
+>>>>>>> main
   float acceleration_x, acceleration_y, acceleration_z;
 }
 
@@ -84,11 +103,32 @@ void setup() {
 void loop() {
   Tasks.update();
 
+<<<<<<< HEAD
+=======
+  // SDの検知の更新
+  // SDを新しく検知した時
+  if (!recorder::sd.isRunning() && recorder::cardDetection.is(Var::SwitchState::CLOSE)) {
+    recorder::sd.begin();
+    indicator::sdStatus.stopBlink();
+    indicator::sdStatus.on();
+  }
+
+  // SDが検知できなくなった時
+  if (recorder::sd.isRunning() && recorder::cardDetection.is(Var::SwitchState::OPEN)) {
+    recorder::sd.end();
+    indicator::sdStatus.startBlink(2);
+  }
+
+>>>>>>> main
   //CAN受信処理
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS:
+<<<<<<< HEAD
       connection::handleSystemStatus();
+=======
+      connection::can.receiveSystemStatus(&data::mode, &data::camera, &data::sn3, &data::doLogging);
+>>>>>>> main
       indicator::canReceive.toggle();
       break;
     }

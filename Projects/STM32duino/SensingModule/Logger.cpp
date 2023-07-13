@@ -12,20 +12,6 @@ Logger::Logger(uint32_t csFram0, uint32_t csFram1, uint32_t csSd) {
 }
 
 
-/// @brief ログ保存を開始する
-/// @return true: 開始成功, false: 開始失敗
-bool Logger::beginLogging() {
-  bool isSucceeded = _sd->beginLogging();
-  return isSucceeded;
-}
-
-
-/// @brief ログ保存を終了する
-void Logger::endLogging() {
-  _sd->endLogging();
-}
-
-
 /// @brief 書き込み位置を最初に戻す 元のデータは上書きされるので注意
 void Logger::reset() {
   _offset = 0;
@@ -45,6 +31,44 @@ void Logger::clear() {
   _fram0->clear();
   _fram1->setWriteEnable();
   _fram1->clear();
+}
+
+
+/// @brief ログ保存を開始する
+/// @return true: 開始成功, false: 開始失敗
+bool Logger::beginLogging(bool useSd) {
+  // すでにログ保存がONの場合は何もしない
+  // 多重リセット防止
+  if (_isLogging) {
+    return _isLogging;
+  }
+
+  _isLogging = true;
+
+  // リセットして書き込み位置を最初に戻す
+  reset();
+
+  bool isSucceeded = false;
+  if (useSd) {
+    isSucceeded = _sd->beginLogging();
+  }
+
+  return isSucceeded;
+}
+
+
+/// @brief ログ保存を終了する
+void Logger::endLogging() {
+  _sd->endLogging();
+
+  _isLogging = false;
+}
+
+
+/// @brief ログ保存の状態を返す
+/// @return true: 保存中, false: 保存中でない
+bool Logger::isLogging() {
+  return _isLogging;
 }
 
 

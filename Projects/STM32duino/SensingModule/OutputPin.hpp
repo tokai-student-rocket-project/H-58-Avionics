@@ -13,14 +13,18 @@ public:
 
 
   /// @brief 出力をHIGHにする
-  void on();
+  void high();
 
   /// @brief 出力をLOWにする
-  void off();
+  void low();
 
   /// @brief ブール値で出力を設定する
-  /// @param isOn true: HIGH, false: Low
-  void set(bool isOn);
+  /// @param isHigh true: HIGH, false: Low
+  void set(bool isHigh);
+
+  /// @brief 現在の出力を返す
+  /// @return 現在の出力
+  bool get();
 
   /// @brief 出力を入れ替える
   void toggle();

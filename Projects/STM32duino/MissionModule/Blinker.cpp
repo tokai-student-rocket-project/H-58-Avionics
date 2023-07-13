@@ -20,10 +20,10 @@ void Blinker::stopBlink() {
 
 
 void Blinker::on() {
-  _pin->on();
+  _pin->high();
 }
 
 
 void Blinker::off() {
-  _pin->off();
+  _pin->low();
 }

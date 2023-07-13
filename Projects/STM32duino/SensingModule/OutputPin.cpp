@@ -10,21 +10,28 @@ OutputPin::OutputPin(uint8_t pinNumber) {
 
 
 /// @brief 出力をHIGHにする
-void OutputPin::on() {
+void OutputPin::high() {
   digitalWrite(_pinNumber, HIGH);
 }
 
 
 /// @brief 出力をLOWにする
-void OutputPin::off() {
+void OutputPin::low() {
   digitalWrite(_pinNumber, LOW);
 }
 
 
 /// @brief ブール値で出力を設定する
-/// @param isOn true: HIGH, false: Low
-void OutputPin::set(bool isOn) {
-  digitalWrite(_pinNumber, isOn ? HIGH : LOW);
+/// @param isHigh true: HIGH, false: Low
+void OutputPin::set(bool isHigh) {
+  digitalWrite(_pinNumber, isHigh ? HIGH : LOW);
+}
+
+
+/// @brief 現在の出力を返す
+/// @return 現在の出力
+bool OutputPin::get() {
+  return digitalRead(_pinNumber) == HIGH;
 }
 
 

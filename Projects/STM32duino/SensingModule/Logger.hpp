@@ -17,14 +17,6 @@ public:
   Logger(uint32_t csFram0, uint32_t csFram1, uint32_t csSd);
 
 
-  /// @brief ログ保存を開始する
-  /// @return true: 開始成功, false: 開始失敗
-  bool beginLogging();
-
-  /// @brief ログ保存を終了する
-  void endLogging();
-
-
   /// @brief 書き込み位置を最初に戻す 元のデータは上書きされるので注意
   void reset();
 
@@ -33,6 +25,19 @@ public:
 
   /// @brief 全てに0を書き込み初期化する ブロッキング処理で時間がかかる
   void clear();
+
+
+  /// @brief ログ保存を開始する
+  /// @return true: 開始成功, false: 開始失敗
+  bool beginLogging(bool useSd);
+
+  /// @brief ログ保存を終了する
+  void endLogging();
+
+  /// @brief ログ保存の状態を返す
+  /// @return true: 保存中, false: 保存中でない
+  bool isLogging();
+
 
   /// @brief ログを保存する
   void log(
@@ -47,6 +52,7 @@ public:
   );
 
 private:
+  bool _isLogging = false;
   uint32_t _offset = 0;
 
   FRAM* _fram0;

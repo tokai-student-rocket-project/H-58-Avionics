@@ -27,6 +27,37 @@ void Logger::clear() {
 }
 
 
+/// @brief ログ保存を開始する
+/// @return true: 開始成功, false: 開始失敗
+bool Logger::beginLogging() {
+  // すでにログ保存がONの場合は何もしない
+  // 多重リセット防止
+  if (_isLogging) {
+    return _isLogging;
+  }
+
+  _isLogging = true;
+
+  // リセットして書き込み位置を最初に戻す
+  reset();
+
+  return _isLogging;
+}
+
+
+/// @brief ログ保存を終了する
+void Logger::endLogging() {
+  _isLogging = false;
+}
+
+
+/// @brief ログ保存の状態を返す
+/// @return true: 保存中, false: 保存中でない
+bool Logger::isLogging() {
+  return _isLogging;
+}
+
+
 /// @brief ログを保存する
 void Logger::log(
   uint32_t millis, uint32_t flightTime,

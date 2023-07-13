@@ -58,10 +58,20 @@ void CANMCP::sendSetReferencePressureCommand(float payload) {
 }
 
 
-void CANMCP::receiveStatus(uint8_t* mode, bool* camera, bool* sn3) {
-  *mode = _latestData[0];
-  *camera = _latestData[1];
-  *sn3 = _latestData[2];
+void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging) {
+  *flightMode = static_cast<Var::FlightMode>(_latestData[0]);
+  *cameraState = static_cast<Var::State>(_latestData[1]);
+  *sn3State = static_cast<Var::State>(_latestData[2]);
+  *doLogging = _latestData[3];
+}
+
+
+void CANMCP::receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, bool* isGyroscopeCalibrated, bool* isAccelerometerCalibrated, bool* isMagnetometerCalibrated) {
+  memcpy(referencePressure, _latestData, 4);
+  *isSystemCalibrated = _latestData[4];
+  *isGyroscopeCalibrated = _latestData[5];
+  *isAccelerometerCalibrated = _latestData[6];
+  *isMagnetometerCalibrated = _latestData[7];
 }
 
 
@@ -76,13 +86,13 @@ void CANMCP::receiveVector(float* xValue, float* yValue, float* zValue) {
 
   uint8_t axis = _latestData[0];
   switch (axis) {
-  case static_cast<uint8_t>(Axis::X):
+  case static_cast<uint8_t>(Var::Axis::X):
     *xValue = value;
     break;
-  case static_cast<uint8_t>(Axis::Y):
+  case static_cast<uint8_t>(Var::Axis::Y):
     *yValue = value;
     break;
-  case static_cast<uint8_t>(Axis::Z):
+  case static_cast<uint8_t>(Var::Axis::Z):
     *zValue = value;
     break;
   }
