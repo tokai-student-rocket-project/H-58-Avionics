@@ -12,5 +12,5 @@ Switch::Switch(uint8_t pinNumber) {
 /// @param state 指定の状態
 /// @return 現在の状態が指定の状態か
 bool Switch::is(Var::SwitchState state) {
-  return (_pin->get() ? Var::SwitchState::CLOSE : Var::SwitchState::OPEN) == state;
+  return (_pin->get() ? Var::SwitchState::OPEN : Var::SwitchState::CLOSE) == state;
 }
