@@ -16,7 +16,14 @@ namespace timer {
   uint32_t referenceTime;
 
   void task50Hz();
-  void task1k2Hz();
+  void task1kHz();
+}
+
+namespace scheduler {
+  bool doSensing = false;
+
+  uint32_t writePosition = 0;
+  uint32_t readPosition = 0;
 }
 
 namespace sensor {
@@ -46,6 +53,8 @@ namespace control {
 
 namespace connection {
   CANMCP can(7);
+
+  void handleSystemStatus();
 }
 
 namespace data {
@@ -58,33 +67,27 @@ namespace data {
 
 
 void setup() {
+  // デバッグ用シリアルポートの準備
   Serial.begin(115200);
+  while (!Serial);
   delay(800);
+
+  // FRAMとSDの電源は常にON
+  control::recorderPower.on();
 
   LoRa.begin(925.8E6);
   LoRa.setSignalBandwidth(500E3);
 
-  // 開発中: 保存は常に行う表示
-  control::recorderPower.on();
-  indicator::recorderStatus.on();
-
   SPI.begin();
 
   sensor::adxl.begin();
-
-  if (recorder::sd.begin()) {
-    indicator::sdStatus.on();
-  }
-  else {
-    indicator::sdStatus.startBlink(2);
-  }
 
   connection::can.begin();
 
   connection::can.sendEvent(CANMCP::Publisher::MISSION_MODULE, CANMCP::EventCode::SETUP);
 
   Tasks.add(timer::task50Hz)->startFps(50);
-  Tasks.add(timer::task1k2Hz)->startFps(1200);
+  Tasks.add(timer::task1kHz)->startFps(1000);
 }
 
 
@@ -118,26 +121,58 @@ void loop() {
 
 
 void timer::task50Hz() {
-  const auto& packet = MsgPacketizer::encode(
-    0x00,
-    data::acceleration_x,
-    data::acceleration_y,
-    data::acceleration_z
-  );
+  // 計測中はダウンリンクを送信しない
+  if (scheduler::doSensing) {
+    return;
+  }
+
+  // 全て送信し終えているなら何もしない
+  if (scheduler::readPosition >= scheduler::writePosition) {
+    return;
+  }
+
+  // 本当は可変長
+  uint8_t data[19];
 
   LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
+  LoRa.write(data, 19);
   LoRa.endPacket();
   indicator::loRaSend.toggle();
+
+  // 50Hz分に間引く
+  scheduler::readPosition += 380;
 }
 
 
-void timer::task1k2Hz() {
+void timer::task1kHz() {
   sensor::adxl.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
 
-  Serial.print(data::acceleration_x);
-  Serial.print(",");
-  Serial.print(data::acceleration_y);
-  Serial.print(",");
-  Serial.println(data::acceleration_z);
+  if (scheduler::doSensing) {
+    const auto& packet = MsgPacketizer::encode(
+      0xAA,
+      data::acceleration_x, data::acceleration_y, data::acceleration_z
+    );
+
+    const uint8_t* data = packet.data.data();
+    const uint32_t size = packet.data.size();
+
+    scheduler::writePosition += size;
+  }
+
+  Serial.print(millis() / 1000.0, 3);
+  Serial.print(" ");
+  Serial.print(scheduler::writePosition);
+  Serial.print(" ");
+  Serial.println(scheduler::readPosition);
+}
+
+
+void connection::handleSystemStatus() {
+  uint8_t flightMode;
+  bool cameraState, sn3State, doLogging;
+
+  connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
+
+  // フライトモードがSTANDBYかTHRUSTなら加速度の計測を行う
+  scheduler::doSensing = (flightMode == 1 || flightMode == 2);
 }
