@@ -67,9 +67,9 @@ namespace data {
 
 void setup() {
   // デバッグ用シリアルポートの準備
-  // Serial.begin(115200);
-  // while (!Serial);
-  // delay(800);
+  Serial.begin(115200);
+  while (!Serial);
+  delay(800);
 
   // FRAMとSDの電源は常にON
   control::recorderPower.on();
@@ -205,12 +205,11 @@ void connection::handleSystemStatus() {
 
   // ログ保存を"やるはず"なのに"やっていない"なら開始
   if (doLogging && !logger::logger.isLogging()) {
-    if (logger::logger.beginLogging()) {
-      indicator::loggerStatus.on();
-    }
-    else {
+    if (!logger::logger.beginLogging()) {
       connection::can.sendError(CANSTM::Publisher::SENSING_MODULE, CANSTM::ErrorCode::LOGGER_FAILURE, CANSTM::ErrorReason::INVALID_SD);
     }
+
+    indicator::loggerStatus.on();
   }
 
   // ログ保存を"やらない"はずなのに"やっている"なら終了

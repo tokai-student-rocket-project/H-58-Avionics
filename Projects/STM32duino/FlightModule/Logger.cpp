@@ -36,10 +36,11 @@ bool Logger::beginLogging() {
     return _isLogging;
   }
 
+  _isLogging = true;
+
   // リセットして書き込み位置を最初に戻す
   reset();
 
-  _isLogging = true;
   return _isLogging;
 }
 
