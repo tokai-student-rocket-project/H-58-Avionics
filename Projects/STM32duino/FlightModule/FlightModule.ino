@@ -7,7 +7,8 @@
 #include "Buzzer.hpp"
 #include "AnalogVoltage.hpp"
 #include "Logger.hpp"
-#include "FlightMode.hpp"
+#include "Var.hpp"
+#include "FlightModeManager.hpp"
 
 
 namespace timer {
@@ -52,7 +53,7 @@ namespace indicator {
   OutputPin flightModeBit2(D6);
   OutputPin flightModeBit3(D3);
 
-  void indicateFlightMode(FlightMode::Mode mode);
+  void indicateFlightMode(Var::FlightMode mode);
 }
 
 namespace control {
@@ -62,7 +63,7 @@ namespace control {
   OutputPin camera(D9);
   Shiranui sn3(A0, "sn3");
 
-  FlightMode flightMode;
+  FlightModeManager flightModeManager;
 }
 
 namespace connection {
@@ -151,7 +152,7 @@ uint32_t timer::flightTime() {
 /// @brief 10Hzで実行したい処理
 void timer::task10Hz() {
   // その時のフライトモードに合わせてLEDを切り替える
-  indicator::indicateFlightMode(control::flightMode.currentMode());
+  indicator::indicateFlightMode(control::flightModeManager.currentMode());
 
 
   // デバッグ中はピンが干渉するので電圧監視を行わない
@@ -164,9 +165,9 @@ void timer::task10Hz() {
 
   // CANにデータを流す
   connection::can.sendSystemStatus(
-    control::flightMode.currentMode(),
-    control::camera.get(),
-    control::sn3.get(),
+    control::flightModeManager.currentMode(),
+    static_cast<Var::State>(control::camera.get()),
+    static_cast<Var::State>(control::sn3.get()),
     logger::logger.isLogging()
   );
 
@@ -186,27 +187,27 @@ void timer::task100Hz() {
 
 
   // SLEEPモード以外の時にフライトピンが接続されたらリセット
-  if (control::flightMode.isNot(FlightMode::Mode::SLEEP) && control::resetDetector.isDetected()) {
+  if (control::flightModeManager.isNot(Var::FlightMode::SLEEP) && control::resetDetector.isDetected()) {
     control::camera.off();
     indicator::buzzer.beepLongOnce();
     logger::logger.endLogging();
-    control::flightMode.changeMode(FlightMode::Mode::SLEEP);
+    control::flightModeManager.changeMode(Var::FlightMode::SLEEP);
     connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
   }
 
 
   // 強制分離
-  if (control::flightMode.is(FlightMode::Mode::CLIMB) && isElapsedTime(timer::forceSeparation_time)) {
+  if (control::flightModeManager.is(Var::FlightMode::CLIMB) && isElapsedTime(timer::forceSeparation_time)) {
     control::sn3.separate();
     indicator::buzzer.beepTwice();
-    control::flightMode.changeMode(FlightMode::Mode::PARACHUTE);
+    control::flightModeManager.changeMode(Var::FlightMode::PARACHUTE);
     connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FORCE_SEPARATE, flightTime());
   }
 
 
   // 条件が揃えばフライトモードを遷移する
-  switch (control::flightMode.currentMode()) {
-  case (FlightMode::Mode::SLEEP): {
+  switch (control::flightModeManager.currentMode()) {
+  case (Var::FlightMode::SLEEP): {
     // SLEEPモード 打ち上げを静かに待つ
 
     // バルブ開信号かフライトモードオンコマンドを受信すればスタンバイモードに遷移する
@@ -214,14 +215,14 @@ void timer::task100Hz() {
     if (control::liftoffDetector.isDetected() || false || false) {
       control::camera.on();
       logger::logger.beginLogging();
-      control::flightMode.changeMode(FlightMode::Mode::STANDBY);
+      control::flightModeManager.changeMode(Var::FlightMode::STANDBY);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
     }
 
     break;
   }
 
-  case (FlightMode::Mode::STANDBY): {
+  case (Var::FlightMode::STANDBY): {
     // STANDBYモード 計測を開始し打ち上げを待つ
 
     // フライトピン開放を検知すればTHRUSTモードに遷移する
@@ -230,52 +231,52 @@ void timer::task100Hz() {
       timer::setReferenceTime();
       indicator::buzzer.beepOnce();
       logger::logger.beginLogging();
-      control::flightMode.changeMode(FlightMode::Mode::THRUST);
+      control::flightModeManager.changeMode(Var::FlightMode::THRUST);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::IGNITION);
     }
 
     break;
   }
 
-  case (FlightMode::Mode::THRUST): {
+  case (Var::FlightMode::THRUST): {
     // THRUSTモード 推進中
 
     // モータ作動時間を超えたら上昇モードに遷移
     if (timer::isElapsedTime(timer::thrust_time)) {
-      control::flightMode.changeMode(FlightMode::Mode::CLIMB);
+      control::flightModeManager.changeMode(Var::FlightMode::CLIMB);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::BURNOUT, flightTime());
     }
 
     break;
   }
 
-  case (FlightMode::Mode::CLIMB): {
+  case (Var::FlightMode::CLIMB): {
     // CLIMBモード 上昇中
 
     // 頂点を検知すれば下降モードに遷移
     if (data::isFalling) {
-      control::flightMode.changeMode(FlightMode::Mode::DESCENT);
+      control::flightModeManager.changeMode(Var::FlightMode::DESCENT);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::APOGEE, flightTime());
     }
 
     break;
   }
 
-  case (FlightMode::Mode::DESCENT): {
+  case (Var::FlightMode::DESCENT): {
     // DESCENTモード 下降中
 
     // 頂点分離なので分離保護時間を過ぎているならすぐに分離
     if (timer::isElapsedTime(timer::protectSeparation_time)) {
       control::sn3.separate();
       indicator::buzzer.beepTwice();
-      control::flightMode.changeMode(FlightMode::Mode::PARACHUTE);
+      control::flightModeManager.changeMode(Var::FlightMode::PARACHUTE);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, flightTime());
     }
 
     break;
   }
 
-  case (FlightMode::Mode::PARACHUTE): {
+  case (Var::FlightMode::PARACHUTE): {
     // PARACHUTEモード パラシュート下降中
 
     // 着地3秒前にカメラOFF
@@ -285,21 +286,21 @@ void timer::task100Hz() {
 
     // 着地時間を超えたら着地モードに遷移
     if (timer::isElapsedTime(timer::land_time)) {
-      control::flightMode.changeMode(FlightMode::Mode::LAND);
+      control::flightModeManager.changeMode(Var::FlightMode::LAND);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::LAND, flightTime());
     }
 
     break;
   }
 
-  case (FlightMode::Mode::LAND): {
+  case (Var::FlightMode::LAND): {
     // LANDモード 着地後も計測を行う
 
     // シャットダウン時間を超えたらシャットダウン
     if (timer::isElapsedTime(timer::shutdown_time)) {
       indicator::buzzer.beepLongOnce();
       logger::logger.endLogging();
-      control::flightMode.changeMode(FlightMode::Mode::SHUTDOWN);
+      control::flightModeManager.changeMode(Var::FlightMode::SHUTDOWN);
       connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, flightTime());
       // はめつのうた
       // indicator::buzzer.electricalParade();
@@ -314,7 +315,7 @@ void timer::task100Hz() {
   if (logger::logger.isLogging()) {
     logger::logger.log(
       millis(), flightTime(),
-      static_cast<uint8_t>(control::flightMode.currentMode()), control::camera.get(), control::sn3.get(), logger::logger.isLogging(),
+      static_cast<uint8_t>(control::flightModeManager.currentMode()), control::camera.get(), control::sn3.get(), logger::logger.isLogging(),
       data::isFalling, sensor::flightPin.isOpen(), !sensor::flightPin.isOpen(),
       data::voltageSupply, data::voltageBattery, data::voltagePool
     );
@@ -324,7 +325,7 @@ void timer::task100Hz() {
 
 /// @brief フライトモードによって4つのLEDを切り替える
 /// @param mode フライトモード
-void indicator::indicateFlightMode(FlightMode::Mode mode) {
+void indicator::indicateFlightMode(Var::FlightMode mode) {
   uint8_t modeNumber = static_cast<uint8_t>(mode);
   // 1つのLEDに1ビット分を当てはめる
   indicator::flightModeBit0.set(modeNumber & (1 << 0));

@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include <mcp2515_can.h>
-#include "FlightMode.hpp"
+#include "Var.hpp"
 
 
 class CANMCP {
@@ -22,12 +22,6 @@ public:
     SET_REFERENCE_PRESSURE_COMMAND,
     TRAJECTORY_DATA,
     SENSING_STATUS
-  };
-
-  enum class Axis : uint8_t {
-    X,
-    Y,
-    Z
   };
 
   enum class Publisher : uint8_t {
@@ -75,7 +69,7 @@ public:
   void sendSetReferencePressureCommand(float referencePressure);
 
 
-  void receiveSystemStatus(FlightMode::Mode* flightMode, bool* cameraState, bool* sn3State, bool* doLogging);
+  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging);
   void receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, bool* isGyroscopeCalibrated, bool* isAccelerometerCalibrated, bool* isMagnetometerCalibrated);
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);

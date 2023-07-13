@@ -37,18 +37,17 @@ CANSTM::Label CANSTM::getLatestMessageLabel() {
 
 /// @brief システムステータスを送信する
 /// @param flightMode フライトモード
-/// @param cameraState true: ON, false: OFF
-/// @param sn3State true: ON, false: OFF
-/// @param doLogging true: ON, false: OFF
-// TODO 摘出した列挙型に変更
-void CANSTM::sendSystemStatus(FlightMode::Mode flightMode, bool cameraState, bool sn3State, bool doLogging) {
+/// @param cameraState カメラの状態
+/// @param sn3State 不知火3の状態
+/// @param doLogging ログ保存するか
+void CANSTM::sendSystemStatus(Var::FlightMode flightMode, Var::State cameraState, Var::State sn3State, bool doLogging) {
   CANMessage message;
   message.id = static_cast<uint32_t>(Label::SYSTEM_STATUS);
   message.len = 4;
 
   message.data[0] = static_cast<uint8_t>(flightMode);
-  message.data[1] = cameraState;
-  message.data[2] = sn3State;
+  message.data[1] = static_cast<uint8_t>(cameraState);
+  message.data[2] = static_cast<uint8_t>(sn3State);
   message.data[3] = doLogging;
 
   can.tryToSendReturnStatus(message);
@@ -143,7 +142,7 @@ void CANSTM::sendScalar(Label label, float value) {
 /// @param label データの種類
 /// @param axis 軸
 /// @param value 値
-void CANSTM::sendVector(Label label, Axis axis, float value) {
+void CANSTM::sendVector(Label label, Var::Axis axis, float value) {
   CANMessage message;
   message.id = static_cast<uint32_t>(label);
   message.len = 5;
@@ -162,22 +161,21 @@ void CANSTM::sendVector(Label label, Axis axis, float value) {
 /// @param zValue z軸の値
 void CANSTM::sendVector3D(Label label, float xValue, float yValue, float zValue) {
   //3軸分sendVectorを実行してるだけ
-  sendVector(label, Axis::X, xValue);
-  sendVector(label, Axis::Y, yValue);
-  sendVector(label, Axis::Z, zValue);
+  sendVector(label, Var::Axis::X, xValue);
+  sendVector(label, Var::Axis::Y, yValue);
+  sendVector(label, Var::Axis::Z, zValue);
 }
 
 
 /// @brief システムステータスを受信する
 /// @param flightMode フライトモード
-/// @param cameraState true: ON, false: OFF
-/// @param sn3State true: ON, false: OFF
-/// @param doLogging true: ON, false: OFF
-// TODO 摘出した列挙型に変更
-void CANSTM::receiveSystemStatus(FlightMode::Mode* flightMode, bool* cameraState, bool* sn3State, bool* doLogging) {
-  *flightMode = static_cast<FlightMode::Mode>(_latestData[0]);
-  *cameraState = _latestData[1];
-  *sn3State = _latestData[2];
+/// @param cameraState カメラの状態
+/// @param sn3State 不知火3の状態
+/// @param doLogging ログ保存するか
+void CANSTM::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging) {
+  *flightMode = static_cast<Var::FlightMode>(_latestData[0]);
+  *cameraState = static_cast<Var::State>(_latestData[1]);
+  *sn3State = static_cast<Var::State>(_latestData[2]);
   *doLogging = _latestData[3];
 }
 
@@ -200,13 +198,13 @@ void CANSTM::receiveVector3D(float* xValue, float* yValue, float* zValue) {
   uint8_t axis = _latestData[0];
   // 引数では3軸分のポインタをもらうが、データの軸によって代入するのは1軸だけ
   switch (axis) {
-  case static_cast<uint8_t>(Axis::X):
+  case static_cast<uint8_t>(Var::Axis::X):
     *xValue = value;
     break;
-  case static_cast<uint8_t>(Axis::Y):
+  case static_cast<uint8_t>(Var::Axis::Y):
     *yValue = value;
     break;
-  case static_cast<uint8_t>(Axis::Z):
+  case static_cast<uint8_t>(Var::Axis::Z):
     *zValue = value;
     break;
   }

@@ -3,7 +3,8 @@
 
 #include <Arduino.h>
 #include <ACAN_STM32.h>
-#include "FlightMode.hpp"
+#include "Var.hpp"
+
 
 /// @brief CANコントローラ内蔵STM32用クラス
 class CANSTM {
@@ -23,14 +24,6 @@ public:
     SET_REFERENCE_PRESSURE,
     TRAJECTORY_DATA,
     SENSING_STATUS
-  };
-
-  /// @brief ベクトル用のxyzを列挙型で定義しておく
-  // TODO 摘出
-  enum class Axis : uint8_t {
-    X,
-    Y,
-    Z
   };
 
   /// @brief イベントとエラーを発行するモジュールを列挙型で定義しておく
@@ -85,11 +78,10 @@ public:
 
   /// @brief システムステータスを送信する
   /// @param flightMode フライトモード
-  /// @param cameraState true: ON, false: OFF
-  /// @param sn3State true: ON, false: OFF
-  /// @param doLogging true: ON, false: OFF
-  // TODO 摘出した列挙型に変更
-  void sendSystemStatus(FlightMode::Mode flightMode, bool cameraState, bool sn3State, bool doLogging);
+  /// @param cameraState カメラの状態
+  /// @param sn3State 不知火3の状態
+  /// @param doLogging ログ保存するか
+  void sendSystemStatus(Var::FlightMode flightMode, Var::State cameraState, Var::State sn3State, bool doLogging);
 
   /// @brief イベントを送信する
   /// @param publisher どのモジュールがイベントを発行したか
@@ -126,7 +118,7 @@ public:
   /// @param label データの種類
   /// @param axis 軸
   /// @param value 値
-  void sendVector(Label label, Axis axis, float value);
+  void sendVector(Label label, Var::Axis axis, float value);
 
   /// @brief 3次元のベクトル値を送信する
   /// @param label データの種類
@@ -138,11 +130,10 @@ public:
 
   /// @brief システムステータスを受信する
   /// @param flightMode フライトモード
-  /// @param cameraState true: ON, false: OFF
-  /// @param sn3State true: ON, false: OFF
-  /// @param doLogging true: ON, false: OFF
-  // TODO 摘出した列挙型に変更
-  void receiveSystemStatus(FlightMode::Mode* flightMode, bool* cameraState, bool* sn3State, bool* doLogging);
+  /// @param cameraState カメラの状態
+  /// @param sn3State 不知火3の状態
+  /// @param doLogging ログ保存するか
+  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging);
 
   /// @brief スカラー値を受信する
   /// @param value 値のポインタ

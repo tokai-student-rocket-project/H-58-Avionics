@@ -58,10 +58,10 @@ void CANMCP::sendSetReferencePressureCommand(float payload) {
 }
 
 
-void CANMCP::receiveSystemStatus(FlightMode::Mode* flightMode, bool* cameraState, bool* sn3State, bool* doLogging) {
-  *flightMode = static_cast<FlightMode::Mode>(_latestData[0]);
-  *cameraState = _latestData[1];
-  *sn3State = _latestData[2];
+void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging) {
+  *flightMode = static_cast<Var::FlightMode>(_latestData[0]);
+  *cameraState = static_cast<Var::State>(_latestData[1]);
+  *sn3State = static_cast<Var::State>(_latestData[2]);
   *doLogging = _latestData[3];
 }
 
@@ -86,13 +86,13 @@ void CANMCP::receiveVector(float* xValue, float* yValue, float* zValue) {
 
   uint8_t axis = _latestData[0];
   switch (axis) {
-  case static_cast<uint8_t>(Axis::X):
+  case static_cast<uint8_t>(Var::Axis::X):
     *xValue = value;
     break;
-  case static_cast<uint8_t>(Axis::Y):
+  case static_cast<uint8_t>(Var::Axis::Y):
     *yValue = value;
     break;
-  case static_cast<uint8_t>(Axis::Z):
+  case static_cast<uint8_t>(Var::Axis::Z):
     *zValue = value;
     break;
   }

@@ -6,6 +6,7 @@
 #include "CANMCP.hpp"
 #include "OutputPin.hpp"
 #include "GNSS.hpp"
+#include "Var.hpp"
 
 
 namespace timer {
@@ -161,16 +162,17 @@ void command::executeSetReferencePressureCommand(uint8_t key, float referencePre
 
 
 void connection::handleSystemStatus() {
-  FlightMode::Mode flightMode;
-  bool cameraState, sn3State, doLogging;
+  Var::FlightMode flightMode;
+  Var::State cameraState, sn3State;
+  bool doLogging;
 
   connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
 
   const auto& packet = MsgPacketizer::encode(
     0x01,
     static_cast<uint8_t>(flightMode),
-    cameraState,
-    sn3State,
+    static_cast<uint8_t>(cameraState),
+    static_cast<uint8_t>(sn3State),
     doLogging
   );
 

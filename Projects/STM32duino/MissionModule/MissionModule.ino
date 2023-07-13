@@ -9,6 +9,7 @@
 #include "Blinker.hpp"
 #include "ADXL375.hpp"
 #include "Sd.hpp"
+#include "Var.hpp"
 
 
 namespace timer {
@@ -48,8 +49,9 @@ namespace connection {
 }
 
 namespace data {
-  FlightMode::Mode mode;
-  bool camera, sn3, doLogging;
+  Var::FlightMode mode;
+  Var::State camera, sn3;
+  bool doLogging;
 
   float acceleration_x, acceleration_y, acceleration_z;
 }
