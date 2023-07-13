@@ -4,8 +4,9 @@
 #include <MsgPacketizer.h>
 #include <TaskManager.h>
 #include "CANMCP.hpp"
-#include "OutputPin.hpp"
+#include "LED.hpp"
 #include "GNSS.hpp"
+#include "Var.hpp"
 
 
 namespace timer {
@@ -23,13 +24,13 @@ namespace sensor {
 }
 
 namespace indicator {
-  OutputPin canSend(2);
-  OutputPin canReceive(1);
+  LED canSend(2);
+  LED canReceive(1);
 
-  OutputPin loRaSend(4);
-  OutputPin loRaReceive(3);
+  LED loRaSend(4);
+  LED loRaReceive(3);
 
-  OutputPin gpsStatus(5);
+  LED gpsStatus(5);
 }
 
 namespace connection {
@@ -161,16 +162,17 @@ void command::executeSetReferencePressureCommand(uint8_t key, float referencePre
 
 
 void connection::handleSystemStatus() {
-  uint8_t flightMode;
-  bool cameraState, sn3State, doLogging;
+  Var::FlightMode flightMode;
+  Var::State cameraState, sn3State;
+  bool doLogging;
 
   connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
 
   const auto& packet = MsgPacketizer::encode(
     0x01,
-    flightMode,
-    cameraState,
-    sn3State,
+    static_cast<uint8_t>(flightMode),
+    static_cast<uint8_t>(cameraState),
+    static_cast<uint8_t>(sn3State),
     doLogging
   );
 

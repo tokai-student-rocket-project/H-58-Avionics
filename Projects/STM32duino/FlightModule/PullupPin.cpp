@@ -10,7 +10,7 @@ PullupPin::PullupPin(uint8_t pinNumber) {
 
 
 /// @brief 現在の状態を返す
-/// @return true: 回路切断, false: 回路接続
-bool PullupPin::isOpen() {
+/// @return true: HIGH, false: Low
+bool PullupPin::get() {
   return digitalRead(_pinNumber) == HIGH;
 }

@@ -9,13 +9,13 @@ Shiranui::Shiranui(uint8_t pinNumber, String identify) {
   _identify = identify;
 
   // 事前にピンをOFFにするタスクを登録しておく
-  Tasks.add(_identify, [&]() {_pin->off();});
+  Tasks.add(_identify, [&]() {_pin->low();});
 }
 
 
 /// @brief 分離信号を出力する
 void Shiranui::separate() {
-  _pin->on();
+  _pin->high();
   // 3秒後にピンをOFFにするタスクを実行
   Tasks[_identify]->startOnceAfterSec(3);
 }

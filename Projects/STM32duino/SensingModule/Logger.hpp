@@ -29,7 +29,7 @@ public:
 
   /// @brief ログ保存を開始する
   /// @return true: 開始成功, false: 開始失敗
-  bool beginLogging();
+  bool beginLogging(bool useSd);
 
   /// @brief ログ保存を終了する
   void endLogging();
