@@ -109,10 +109,6 @@ void setup() {
 
   connection::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SETUP);
 
-  // TODO FlightMode初期化時点で勝手にSLEEPにする
-  // 起動時はSLEEPモード
-  control::flightMode.changeMode(FlightMode::Mode::SLEEP);
-
   Tasks.add(timer::task10Hz)->startFps(10);
   Tasks.add(timer::task100Hz)->startFps(100);
 }

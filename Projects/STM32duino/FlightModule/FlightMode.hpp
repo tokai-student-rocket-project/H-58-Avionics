@@ -27,5 +27,5 @@ public:
   bool isNot(Mode mode);
 
 private:
-  Mode _currentMode;
+  Mode _currentMode = Mode::SLEEP;
 };
