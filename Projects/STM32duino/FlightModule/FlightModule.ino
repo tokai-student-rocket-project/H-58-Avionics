@@ -19,8 +19,8 @@ namespace internal {
   FlightModeManager flightModeManager;
 
   namespace flag {
-    bool isFalling;
-    bool isDebugMode;
+    bool isFalling = false;
+    bool isDebugMode = false;
   }
 
   namespace time {
@@ -60,8 +60,10 @@ namespace device {
   }
 
   namespace detection {
+    Switch bootSelect1(D12);
+    Switch bootSelect2(D5);
+
     Switch flightPin(D11);
-    Switch debugMode(D12);
 
     DetectionCounter liftoffDetector(3);
     DetectionCounter resetDetector(10);
@@ -85,16 +87,11 @@ namespace data {
 
 
 void setup() {
-  // TODO なくす
-  // 起動モードの判定
-  internal::flag::isDebugMode = device::detection::debugMode.is(Var::SwitchState::CLOSE);
-
-  // デバッグ用シリアルポートの準備
-  if (internal::flag::isDebugMode) {
-    Serial.begin(115200);
-    while (!Serial);
-    delay(800);
-  }
+  // デバッグ用シリアルポート
+  // internal::flag::isDebugMode = true;
+  // Serial.begin(115200);
+  // while (!Serial);
+  // delay(800);
 
   // デバッグ中はピンが干渉するので電圧監視を行わない
   if (!internal::flag::isDebugMode) {
@@ -110,7 +107,6 @@ void setup() {
   SPI.begin();
 
   canbus::can.begin();
-
   canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SETUP);
 
   Tasks.add(internal::task10Hz)->startFps(10);

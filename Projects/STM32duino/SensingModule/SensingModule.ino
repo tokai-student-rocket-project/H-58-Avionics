@@ -35,6 +35,9 @@ namespace device {
   }
 
   namespace detection {
+    Switch bootSelect1(D3);
+    Switch bootSelect2(A7);
+
     Switch cardDetection(D8);
   }
 
@@ -65,7 +68,7 @@ namespace data {
 
 
 void setup() {
-  // デバッグ用シリアルポートの準備
+  // デバッグ用シリアルポート
   // Serial.begin(115200);
   // while (!Serial);
   // delay(800);
