@@ -66,16 +66,6 @@ void loop() {
 
 
 void timer::task20Hz() {
-  connection::transmitter.sendAirData(
-    data::altitude,
-    data::outsideTemperature,
-    data::orientation_x,
-    data::orientation_y,
-    data::orientation_z,
-    data::linear_acceleration_x,
-    data::linear_acceleration_y,
-    data::linear_acceleration_z
-  );
-
+  connection::transmitter.sendAirData(data::altitude, data::outsideTemperature, data::orientation_x, data::orientation_y, data::orientation_z, data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z);
   indicator::loRaSend.toggle();
 }
