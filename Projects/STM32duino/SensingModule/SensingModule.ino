@@ -8,6 +8,7 @@
 #include "OutputPin.hpp"
 #include "Trajectory.hpp"
 #include "Logger.hpp"
+#include "Var.hpp"
 
 
 namespace timer {
@@ -195,8 +196,9 @@ void timer::task100Hz() {
 /// @brief CANで受け取ったSystemStatusを使って処理を行う関数
 ///        loop()内のCAN受信処理から呼び出される用
 void connection::handleSystemStatus() {
-  FlightMode::Mode flightMode;
-  bool cameraState, sn3State, doLogging;
+  Var::FlightMode flightMode;
+  Var::State cameraState, sn3State;
+  bool doLogging;
 
   connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
 
