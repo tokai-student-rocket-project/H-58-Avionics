@@ -168,11 +168,12 @@ void timer::task1kHz() {
 
 
 void connection::handleSystemStatus() {
-  uint8_t flightMode;
-  bool cameraState, sn3State, doLogging;
+  Var::FlightMode flightMode;
+  Var::State cameraState, sn3State;
+  bool doLogging;
 
   connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
 
   // フライトモードがSTANDBYかTHRUSTなら加速度の計測を行う
-  scheduler::doSensing = (flightMode == 1 || flightMode == 2);
+  scheduler::doSensing = (flightMode == Var::FlightMode::STANDBY || flightMode == Var::FlightMode::THRUST);
 }
