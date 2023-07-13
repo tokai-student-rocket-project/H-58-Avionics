@@ -58,10 +58,6 @@ namespace connection {
 }
 
 namespace data {
-  Var::FlightMode mode;
-  Var::State camera, sn3;
-  bool doLogging;
-
   float acceleration_x, acceleration_y, acceleration_z;
 }
 
@@ -112,7 +108,7 @@ void loop() {
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS:
-      connection::can.receiveSystemStatus(&data::mode, &data::camera, &data::sn3, &data::doLogging);
+      connection::handleSystemStatus();
       indicator::canReceive.toggle();
       break;
     }
@@ -159,11 +155,11 @@ void timer::task1kHz() {
     scheduler::writePosition += size;
   }
 
-  Serial.print(millis() / 1000.0, 3);
-  Serial.print(" ");
-  Serial.print(scheduler::writePosition);
-  Serial.print(" ");
-  Serial.println(scheduler::readPosition);
+  // Serial.print(millis() / 1000.0, 3);
+  // Serial.print(" ");
+  // Serial.print(scheduler::writePosition);
+  // Serial.print(" ");
+  // Serial.println(scheduler::readPosition);
 }
 
 
