@@ -1,7 +1,5 @@
-#include <SPI.h>
-#include <LoRa.h>
-#include <MsgPacketizer.h>
 #include <TaskManager.h>
+#include "Transmitter.hpp"
 #include "CANMCP.hpp"
 #include "LED.hpp"
 
@@ -12,12 +10,12 @@ namespace timer {
 
 namespace indicator {
   LED canReceive(1);
-
   LED loRaSend(4);
 }
 
 namespace connection {
   CANMCP can(7);
+  Transmitter transmitter;
 }
 
 namespace data {
@@ -32,11 +30,9 @@ namespace data {
 void setup() {
   Serial.begin(115200);
 
-  LoRa.begin(923.8E6);
-  LoRa.setSignalBandwidth(500E3);
+  connection::transmitter.begin(923.8E6, 500E3);
 
   connection::can.begin();
-
   connection::can.sendEvent(CANMCP::Publisher::AIR_DATA_COMMUNICATION_MODULE, CANMCP::EventCode::SETUP);
 
   Tasks.add(timer::task20Hz)->startFps(20);
@@ -70,8 +66,7 @@ void loop() {
 
 
 void timer::task20Hz() {
-  const auto& packet = MsgPacketizer::encode(
-    0x00,
+  connection::transmitter.sendAirData(
     data::altitude,
     data::outsideTemperature,
     data::orientation_x,
@@ -82,8 +77,5 @@ void timer::task20Hz() {
     data::linear_acceleration_z
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
   indicator::loRaSend.toggle();
 }
