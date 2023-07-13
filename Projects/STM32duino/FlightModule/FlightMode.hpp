@@ -23,9 +23,8 @@ public:
   void changeMode(Mode nextMode);
   Mode currentMode();
 
-  // TODO is(Mode)とかbetween(Mode, Mode)みたいな関数にする
-  bool isNotSleep();
-  bool isClimb();
+  bool is(Mode mode);
+  bool isNot(Mode mode);
 
 private:
   Mode _currentMode;

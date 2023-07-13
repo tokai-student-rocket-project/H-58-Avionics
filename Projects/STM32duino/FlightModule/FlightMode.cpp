@@ -16,11 +16,11 @@ FlightMode::Mode FlightMode::currentMode() {
 }
 
 
-bool FlightMode::isNotSleep() {
-  return _currentMode != Mode::SLEEP;
+bool FlightMode::is(Mode mode) {
+  return _currentMode == mode;
 }
 
 
-bool FlightMode::isClimb() {
-  return _currentMode == Mode::CLIMB;
+bool FlightMode::isNot(Mode mode) {
+  return _currentMode != mode;
 }

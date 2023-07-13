@@ -190,7 +190,7 @@ void timer::task100Hz() {
 
 
   // SLEEPモード以外の時にフライトピンが接続されたらリセット
-  if (control::flightMode.isNotSleep() && control::resetDetector.isDetected()) {
+  if (control::flightMode.isNot(FlightMode::Mode::SLEEP) && control::resetDetector.isDetected()) {
     control::camera.off();
     indicator::buzzer.beepLongOnce();
     logger::logger.endLogging();
@@ -201,7 +201,7 @@ void timer::task100Hz() {
 
   // 強制分離
   // HACK 強制分離をCLIMBモードに限定していいかは疑問
-  if (control::flightMode.isClimb() && isElapsedTime(timer::forceSeparation_time)) {
+  if (control::flightMode.is(FlightMode::Mode::CLIMB) && isElapsedTime(timer::forceSeparation_time)) {
     control::sn3.separate();
     indicator::buzzer.beepTwice();
     control::flightMode.changeMode(FlightMode::Mode::PARACHUTE);
