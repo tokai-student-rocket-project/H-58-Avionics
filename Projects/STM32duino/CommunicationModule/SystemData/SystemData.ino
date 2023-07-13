@@ -161,14 +161,14 @@ void command::executeSetReferencePressureCommand(uint8_t key, float referencePre
 
 
 void connection::handleSystemStatus() {
-  uint8_t flightMode;
+  FlightMode::Mode flightMode;
   bool cameraState, sn3State, doLogging;
 
   connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
 
   const auto& packet = MsgPacketizer::encode(
     0x01,
-    flightMode,
+    static_cast<uint8_t>(flightMode),
     cameraState,
     sn3State,
     doLogging

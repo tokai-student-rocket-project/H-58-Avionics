@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <ACAN_STM32.h>
+#include "FlightMode.hpp"
 
 /// @brief CANコントローラ内蔵STM32用クラス
 class CANSTM {
@@ -88,7 +89,7 @@ public:
   /// @param sn3State true: ON, false: OFF
   /// @param doLogging true: ON, false: OFF
   // TODO 摘出した列挙型に変更
-  void sendSystemStatus(uint8_t flightMode, bool cameraState, bool sn3State, bool doLogging);
+  void sendSystemStatus(FlightMode::Mode flightMode, bool cameraState, bool sn3State, bool doLogging);
 
   /// @brief イベントを送信する
   /// @param publisher どのモジュールがイベントを発行したか
@@ -141,7 +142,7 @@ public:
   /// @param sn3State true: ON, false: OFF
   /// @param doLogging true: ON, false: OFF
   // TODO 摘出した列挙型に変更
-  void receiveSystemStatus(uint8_t* flightMode, bool* cameraState, bool* sn3State, bool* doLogging);
+  void receiveSystemStatus(FlightMode::Mode* flightMode, bool* cameraState, bool* sn3State, bool* doLogging);
 
   /// @brief スカラー値を受信する
   /// @param value 値のポインタ

@@ -195,7 +195,7 @@ void timer::task100Hz() {
 /// @brief CANで受け取ったSystemStatusを使って処理を行う関数
 ///        loop()内のCAN受信処理から呼び出される用
 void connection::handleSystemStatus() {
-  uint8_t flightMode;
+  FlightMode::Mode flightMode;
   bool cameraState, sn3State, doLogging;
 
   connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);

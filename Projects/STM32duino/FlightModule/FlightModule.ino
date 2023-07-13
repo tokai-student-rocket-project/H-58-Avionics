@@ -164,7 +164,7 @@ void timer::task10Hz() {
 
   // CANにデータを流す
   connection::can.sendSystemStatus(
-    static_cast<uint8_t>(control::flightMode.currentMode()),
+    control::flightMode.currentMode(),
     control::camera.get(),
     control::sn3.get(),
     logger::logger.isLogging()
@@ -196,7 +196,6 @@ void timer::task100Hz() {
 
 
   // 強制分離
-  // HACK 強制分離をCLIMBモードに限定していいかは疑問
   if (control::flightMode.is(FlightMode::Mode::CLIMB) && isElapsedTime(timer::forceSeparation_time)) {
     control::sn3.separate();
     indicator::buzzer.beepTwice();

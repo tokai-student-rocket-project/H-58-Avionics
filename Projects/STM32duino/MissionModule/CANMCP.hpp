@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <mcp2515_can.h>
+#include "FlightMode.hpp"
 
 
 class CANMCP {
@@ -19,7 +20,8 @@ public:
     EVENT,
     ERROR,
     SET_REFERENCE_PRESSURE_COMMAND,
-    TRAJECTORY_DATA
+    TRAJECTORY_DATA,
+    SENSING_STATUS
   };
 
   enum class Axis : uint8_t {
@@ -51,11 +53,13 @@ public:
   };
 
   enum class ErrorCode : uint8_t {
-    COMMAND_RECEIVE_FAILED
+    COMMAND_RECEIVE_FAILED,
+    LOGGER_FAILURE
   };
 
   enum class ErrorReason : uint8_t {
-    INVALID_KEY
+    INVALID_KEY,
+    INVALID_SD
   };
 
 
@@ -71,7 +75,8 @@ public:
   void sendSetReferencePressureCommand(float referencePressure);
 
 
-  void receiveStatus(uint8_t* mode, bool* camera, bool* sn3);
+  void receiveSystemStatus(FlightMode::Mode* flightMode, bool* cameraState, bool* sn3State, bool* doLogging);
+  void receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, bool* isGyroscopeCalibrated, bool* isAccelerometerCalibrated, bool* isMagnetometerCalibrated);
   void receiveScalar(float* value);
   void receiveVector(float* xValue, float* yValue, float* zValue);
   void receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* timestamp);
