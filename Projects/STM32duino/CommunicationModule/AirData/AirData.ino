@@ -3,7 +3,7 @@
 #include <MsgPacketizer.h>
 #include <TaskManager.h>
 #include "CANMCP.hpp"
-#include "OutputPin.hpp"
+#include "LED.hpp"
 
 
 namespace timer {
@@ -11,9 +11,9 @@ namespace timer {
 }
 
 namespace indicator {
-  OutputPin canReceive(1);
+  LED canReceive(1);
 
-  OutputPin loRaSend(4);
+  LED loRaSend(4);
 }
 
 namespace connection {

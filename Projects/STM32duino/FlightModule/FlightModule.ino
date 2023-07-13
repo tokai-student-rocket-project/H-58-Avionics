@@ -1,16 +1,18 @@
 #include <TaskManager.h>
 #include "CANSTM.hpp"
-#include "PullupPin.hpp"
-#include "OutputPin.hpp"
+#include "Switch.hpp"
+#include "LED.hpp"
 #include "DetectionCounter.hpp"
 #include "Shiranui.hpp"
 #include "Buzzer.hpp"
+#include "Camera.hpp"
 #include "AnalogVoltage.hpp"
 #include "Logger.hpp"
 #include "Var.hpp"
 #include "FlightModeManager.hpp"
 
 
+// TODO namespace 整理
 namespace timer {
   uint32_t thrust_time = 3000;
   uint32_t protectSeparation_time = 7000;
@@ -33,7 +35,7 @@ namespace sensor {
   AnalogVoltage battery(A2);
   AnalogVoltage pool(A3);
 
-  PullupPin flightPin(D11);
+  Switch flightPin(D11);
   DetectionCounter liftoffDetector(3);
   DetectionCounter resetDetector(10);
 }
@@ -43,15 +45,15 @@ namespace logger {
 }
 
 namespace indicator {
-  OutputPin canSend(D0);
-  OutputPin canReceive(D1);
+  LED canSend(D0);
+  LED canReceive(D1);
 
   Buzzer buzzer(A1, "buzzer");
 
-  OutputPin flightModeBit0(D8);
-  OutputPin flightModeBit1(D7);
-  OutputPin flightModeBit2(D6);
-  OutputPin flightModeBit3(D3);
+  LED flightModeBit0(D8);
+  LED flightModeBit1(D7);
+  LED flightModeBit2(D6);
+  LED flightModeBit3(D3);
 
   void indicateFlightMode(Var::FlightMode mode);
 }
@@ -60,7 +62,7 @@ namespace control {
   DetectionCounter liftoffDetector(3);
   DetectionCounter resetDetector(10);
 
-  OutputPin camera(D9);
+  Camera camera(D9);
   Shiranui sn3(A0, "sn3");
 
   FlightModeManager flightModeManager;
@@ -76,15 +78,16 @@ namespace data {
 }
 
 namespace develop {
-  PullupPin debugMode(D12);
+  Switch debugMode(D12);
 
   bool isDebugMode;
 }
 
 
 void setup() {
+  // TODO なくす
   // 起動モードの判定
-  develop::isDebugMode = !develop::debugMode.isOpen();
+  develop::isDebugMode = develop::debugMode.is(Var::SwitchState::CLOSE);
 
   // デバッグ用シリアルポートの準備
   if (develop::isDebugMode) {
@@ -181,9 +184,9 @@ void timer::task10Hz() {
 void timer::task100Hz() {
   // 検知の状態更新
   // フライトピンが解放されたらリフトオフ検知
-  control::liftoffDetector.update(sensor::flightPin.isOpen());
+  control::liftoffDetector.update(sensor::flightPin.is(Var::SwitchState::OPEN));
   // フライトピンが閉鎖されたらリセット検知
-  control::resetDetector.update(!sensor::flightPin.isOpen());
+  control::resetDetector.update(sensor::flightPin.is(Var::SwitchState::CLOSE));
 
 
   // SLEEPモード以外の時にフライトピンが接続されたらリセット
@@ -280,7 +283,7 @@ void timer::task100Hz() {
     // PARACHUTEモード パラシュート下降中
 
     // 着地3秒前にカメラOFF
-    if (control::camera.get() && timer::isElapsedTime(timer::land_time - 3000)) {
+    if (control::camera.get() == Var::State::ON && timer::isElapsedTime(timer::land_time - 3000)) {
       control::camera.off();
     }
 
@@ -315,8 +318,13 @@ void timer::task100Hz() {
   if (logger::logger.isLogging()) {
     logger::logger.log(
       millis(), flightTime(),
-      static_cast<uint8_t>(control::flightModeManager.currentMode()), control::camera.get(), control::sn3.get(), logger::logger.isLogging(),
-      data::isFalling, sensor::flightPin.isOpen(), !sensor::flightPin.isOpen(),
+      static_cast<uint8_t>(control::flightModeManager.currentMode()),
+      static_cast<uint8_t>(control::camera.get()),
+      static_cast<uint8_t>(control::sn3.get()),
+      logger::logger.isLogging(),
+      data::isFalling,
+      static_cast<uint8_t>(sensor::flightPin.is(Var::SwitchState::CLOSE)),
+      static_cast<uint8_t>(sensor::flightPin.is(Var::SwitchState::OPEN)),
       data::voltageSupply, data::voltageBattery, data::voltagePool
     );
   }
@@ -328,8 +336,8 @@ void timer::task100Hz() {
 void indicator::indicateFlightMode(Var::FlightMode mode) {
   uint8_t modeNumber = static_cast<uint8_t>(mode);
   // 1つのLEDに1ビット分を当てはめる
-  indicator::flightModeBit0.set(modeNumber & (1 << 0));
-  indicator::flightModeBit1.set(modeNumber & (1 << 1));
-  indicator::flightModeBit2.set(modeNumber & (1 << 2));
-  indicator::flightModeBit3.set(modeNumber & (1 << 3));
+  indicator::flightModeBit0.set(modeNumber & (1 << 0) ? Var::State::ON : Var::State::OFF);
+  indicator::flightModeBit1.set(modeNumber & (1 << 1) ? Var::State::ON : Var::State::OFF);
+  indicator::flightModeBit2.set(modeNumber & (1 << 2) ? Var::State::ON : Var::State::OFF);
+  indicator::flightModeBit3.set(modeNumber & (1 << 3) ? Var::State::ON : Var::State::OFF);
 }

@@ -4,13 +4,14 @@
 #include "BNO055.hpp"
 #include "BME280.hpp"
 #include "Thermistor.hpp"
-#include "PullupPin.hpp"
-#include "OutputPin.hpp"
+#include "Switch.hpp"
+#include "LED.hpp"
 #include "Trajectory.hpp"
 #include "Logger.hpp"
 #include "Var.hpp"
 
 
+// TODO namespace 整理
 namespace timer {
   void task02Hz();
   void task2Hz();
@@ -26,19 +27,19 @@ namespace sensor {
 
 namespace logger {
   Logger logger(A2, A3, A0);
-  PullupPin cardDetection(D8);
+  Switch cardDetection(D8);
 }
 
 namespace indicator {
-  OutputPin canSend(D12);
-  OutputPin canReceive(D11);
-  OutputPin sdStatus(D9);
+  LED canSend(D12);
+  LED canReceive(D11);
+  LED sdStatus(D9);
 
-  OutputPin loggerStatus(D6);
+  LED loggerStatus(D6);
 }
 
 namespace control {
-  OutputPin recorderPower(D7);
+  LED recorderPower(D7);
 }
 
 namespace connection {
@@ -132,7 +133,7 @@ void timer::task02Hz() {
 /// @brief 2Hzで実行したい処理
 void timer::task2Hz() {
   // SDの検知
-  if (!logger::cardDetection.isOpen()) {
+  if (logger::cardDetection.is(Var::SwitchState::CLOSE)) {
     // SDを検知した時はLED常時点灯
     indicator::sdStatus.on();
   }

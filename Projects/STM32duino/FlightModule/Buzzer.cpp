@@ -15,21 +15,21 @@ Buzzer::Buzzer(uint8_t pinNumber, String identify) {
 
 /// @brief 短音1回を鳴らす
 void Buzzer::beepOnce() {
-  _pin->off();
+  _pin->low();
   Tasks[_identify]->startIntervalMsecForCount(100, 2);
 }
 
 
 /// @brief 短音2回を鳴らす
 void Buzzer::beepTwice() {
-  _pin->off();
+  _pin->low();
   Tasks[_identify]->startIntervalMsecForCount(100, 4);
 }
 
 
 /// @brief 超音1回を鳴らす
 void Buzzer::beepLongOnce() {
-  _pin->off();
+  _pin->low();
   Tasks[_identify]->startIntervalMsecForCount(400, 2);
 }
 
@@ -279,27 +279,27 @@ void Buzzer::electricalParade() {
 
 /// @brief 2分音符
 void Buzzer::beep2() {
-  _pin->on();
+  _pin->high();
   delay(500);
-  _pin->off();
+  _pin->low();
   delay(15);
 }
 
 
 /// @brief 4分音符
 void Buzzer::beep4() {
-  _pin->on();
+  _pin->high();
   delay(250);
-  _pin->off();
+  _pin->low();
   delay(15);
 }
 
 
 /// @brief 8分音符
 void Buzzer::beep8() {
-  _pin->on();
+  _pin->high();
   delay(125);
-  _pin->off();
+  _pin->low();
   delay(15);
 }
 

@@ -4,8 +4,8 @@
 #include <MsgPacketizer.h>
 #include <TaskManager.h>
 #include "CANMCP.hpp"
-#include "PullupPin.hpp"
-#include "OutputPin.hpp"
+#include "Switch.hpp"
+#include "LED.hpp"
 #include "Blinker.hpp"
 #include "ADXL375.hpp"
 #include "Sd.hpp"
@@ -26,22 +26,22 @@ namespace sensor {
 namespace recorder {
   Sd sd(6);
 
-  PullupPin cardDetection(3);
+  Switch cardDetection(3);
 
   bool doRecording;
 }
 
 namespace indicator {
-  OutputPin canReceive(0);
+  LED canReceive(0);
 
-  OutputPin loRaSend(A1);
+  LED loRaSend(A1);
 
   Blinker sdStatus(4, "invalidSd");
-  OutputPin recorderStatus(2);
+  LED recorderStatus(2);
 }
 
 namespace control {
-  OutputPin recorderPower(5);
+  LED recorderPower(5);
 }
 
 namespace connection {
@@ -93,14 +93,14 @@ void loop() {
 
   // SDの検知の更新
   // SDを新しく検知した時
-  if (!recorder::sd.isRunning() && !recorder::cardDetection.isOpen()) {
+  if (!recorder::sd.isRunning() && recorder::cardDetection.is(Var::SwitchState::CLOSE)) {
     recorder::sd.begin();
     indicator::sdStatus.stopBlink();
     indicator::sdStatus.on();
   }
 
   // SDが検知できなくなった時
-  if (recorder::sd.isRunning() && recorder::cardDetection.isOpen()) {
+  if (recorder::sd.isRunning() && recorder::cardDetection.is(Var::SwitchState::OPEN)) {
     recorder::sd.end();
     indicator::sdStatus.startBlink(2);
   }

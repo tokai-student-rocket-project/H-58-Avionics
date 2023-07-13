@@ -4,7 +4,7 @@
 #include <MsgPacketizer.h>
 #include <TaskManager.h>
 #include "CANMCP.hpp"
-#include "OutputPin.hpp"
+#include "LED.hpp"
 #include "GNSS.hpp"
 #include "Var.hpp"
 
@@ -24,13 +24,13 @@ namespace sensor {
 }
 
 namespace indicator {
-  OutputPin canSend(2);
-  OutputPin canReceive(1);
+  LED canSend(2);
+  LED canReceive(1);
 
-  OutputPin loRaSend(4);
-  OutputPin loRaReceive(3);
+  LED loRaSend(4);
+  LED loRaReceive(3);
 
-  OutputPin gpsStatus(5);
+  LED gpsStatus(5);
 }
 
 namespace connection {
