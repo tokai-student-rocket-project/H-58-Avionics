@@ -187,19 +187,19 @@ void internal::task100Hz() {
 
   // SLEEPモード以外の時にフライトピンが接続されたらリセット
   if (internal::flightModeManager.isNot(Var::FlightMode::SLEEP) && device::detection::resetDetector.isDetected()) {
-    device::peripheral::camera.off();
-    device::indicator::buzzer.beepLongOnce();
-    device::peripheral::logger.endLogging();
     internal::flightModeManager.changeMode(Var::FlightMode::SLEEP);
+    device::peripheral::camera.off();
+    device::peripheral::logger.endLogging();
+    device::indicator::buzzer.beepLongOnce();
     canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
   }
 
 
   // 強制分離
   if (internal::flightModeManager.is(Var::FlightMode::CLIMB) && internal::time::isElapsedTime(internal::time::forceSeparation_time)) {
+    internal::flightModeManager.changeMode(Var::FlightMode::PARACHUTE);
     device::peripheral::sn3.separate();
     device::indicator::buzzer.beepTwice();
-    internal::flightModeManager.changeMode(Var::FlightMode::PARACHUTE);
     canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FORCE_SEPARATE, internal::time::flightTime());
   }
 
@@ -212,9 +212,9 @@ void internal::task100Hz() {
     // バルブ開信号かフライトモードオンコマンドを受信すればスタンバイモードに遷移する
     // フライトピン開放 || バルブ開 || FlightMode ON
     if (device::detection::liftoffDetector.isDetected() || false || false) {
+      internal::flightModeManager.changeMode(Var::FlightMode::STANDBY);
       device::peripheral::camera.on();
       device::peripheral::logger.beginLogging();
-      internal::flightModeManager.changeMode(Var::FlightMode::STANDBY);
       canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
     }
 
@@ -226,11 +226,11 @@ void internal::task100Hz() {
 
     // フライトピン開放を検知すればTHRUSTモードに遷移する
     if (device::detection::liftoffDetector.isDetected()) {
+      internal::flightModeManager.changeMode(Var::FlightMode::THRUST);
       // 現時刻をX=0の基準にする
       internal::time::setReferenceTime();
-      device::indicator::buzzer.beepOnce();
       device::peripheral::logger.beginLogging();
-      internal::flightModeManager.changeMode(Var::FlightMode::THRUST);
+      device::indicator::buzzer.beepOnce();
       canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::IGNITION);
     }
 
@@ -266,9 +266,9 @@ void internal::task100Hz() {
 
     // 頂点分離なので分離保護時間を過ぎているならすぐに分離
     if (internal::time::isElapsedTime(internal::time::protectSeparation_time)) {
+      internal::flightModeManager.changeMode(Var::FlightMode::PARACHUTE);
       device::peripheral::sn3.separate();
       device::indicator::buzzer.beepTwice();
-      internal::flightModeManager.changeMode(Var::FlightMode::PARACHUTE);
       canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, internal::time::flightTime());
     }
 
@@ -297,9 +297,9 @@ void internal::task100Hz() {
 
     // シャットダウン時間を超えたらシャットダウン
     if (internal::time::isElapsedTime(internal::time::shutdown_time)) {
-      device::indicator::buzzer.beepLongOnce();
-      device::peripheral::logger.endLogging();
       internal::flightModeManager.changeMode(Var::FlightMode::SHUTDOWN);
+      device::peripheral::logger.endLogging();
+      device::indicator::buzzer.beepLongOnce();
       canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, internal::time::flightTime());
       // はめつのうた
       // indicator::buzzer.electricalParade();
