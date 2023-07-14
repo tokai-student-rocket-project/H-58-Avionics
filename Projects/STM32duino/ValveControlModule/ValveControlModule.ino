@@ -101,62 +101,72 @@ void setup()
     BuzzerInitialize();
     LEDInitialize();
 
-    Tasks.add("task", []()
+    Tasks.add("CAN", []()
               {
                   ToggleTasksLED();
-                  
-                  Serial.print(F("launchCount: "));
-                  Serial.print(LaunchCount);
-                  Serial.print(F(" | "));
-                  Serial.print(F("waitingCount: "));
-                  Serial.print(WaitingCount);
-                  Serial.print(F(" | "));
-                  Serial.print(F("Mode: "));
-                  if (StateTransition::ChangeMode == StateTransition::Mode::LAUNCH)
-                  {
-                      Serial.print(F("LAUNCH"));
-                      Serial.print(F(" | "));
-                  }
-                  else
-                  {
-                      Serial.print(F("WAITING"));
-                      Serial.print(F(" | "));
-                  };
 
-                    int16_t recieveCurrentposition = b3mReadcurrentPosition(0x01);
-                    int16_t recieveCurrentverosity = b3mReadcurrentVelosity(0x01);
-                    int16_t recieveDesiredPosition = b3mReaddesiredPosition(0x01);
-                    uint8_t recieveCurrent = b3mReadcurrent(0x01);
-                    uint8_t recieveMcutemperature = b3mReadmcuTemperature(0x01);
-                    uint8_t recieveMotortemperature = b3mReadmotorTemperature(0x01);
-                    uint8_t recieveinputVoltage = b3mreadInputvoltage(0x01);
+                  int16_t recieveCurrentposition = b3mReadcurrentPosition(0x01);
+                  int16_t recieveCurrentverosity = b3mReadcurrentVelosity(0x01);
+                  int16_t recieveDesiredPosition = b3mReaddesiredPosition(0x01);
+                  uint8_t recieveCurrent = b3mReadcurrent(0x01);
+                  uint8_t recieveMcutemperature = b3mReadmcuTemperature(0x01);
+                  uint8_t recieveMotortemperature = b3mReadmotorTemperature(0x01);
+                  uint8_t recieveinputVoltage = b3mreadInputvoltage(0x01);
 
-                    // Serial.print(recieveMcutemperature);
-                    // Serial.print(" | ");
-                    // Serial.print(recieveinputVoltage);
-                    // Serial.print(" | ");
-                    // Serial.print(recieveMotortemperature);
-                    // Serial.print(" | ");
+                  // Serial.print(recieveMcutemperature);
+                  // Serial.print(" | ");
+                  // Serial.print(recieveinputVoltage);
+                  // Serial.print(" | ");
+                  // Serial.print(recieveMotortemperature);
+                  // Serial.print(" | ");
+
+                  canSendcurrentPosition(recieveCurrentposition);
+                  canSendinputVoltage(recieveinputVoltage);
+                  canSendcurrentDesiredposition(recieveDesiredPosition);
+                  canSendmotorTemperature(recieveMotortemperature);
+                  canSendmcuTemperature(recieveMcutemperature);
+                  canSendcurrentVelosity(recieveCurrentverosity);
+                  // canSendtemperature(recieveMcutemperature, recieveMotortemperature);
+                  // XXX
+                  // canSendvoltage(recieveinputVoltage, recieveMotortemperature);
+                  // XXX
+              })
+        ->startFps(100);
+
+    Tasks.add("Count", []()
+              {
+                Serial.print(F("Mode: "));
+                if (StateTransition::ChangeMode == StateTransition::Mode::LAUNCH)
+                {
+                    Serial.print(F("LAUNCH"));
+                    Serial.print(F(" | "));
+                }
+                else
+                {
+                    Serial.print(F("WAITING"));
+                    Serial.print(F(" | "));
                     
-                    canSendcurrentPosition(recieveCurrentposition);
-                    canSendinputVoltage(recieveinputVoltage);
-                    canSendcurrentDesiredposition(recieveDesiredPosition);
-                    canSendmotorTemperature(recieveMotortemperature);
-                    canSendmcuTemperature(recieveMcutemperature);
-                    canSendcurrentVelosity(recieveCurrentverosity);
-                    // canSendtemperature(recieveMcutemperature, recieveMotortemperature);
-                    // XXX
-                    // canSendvoltage(recieveinputVoltage, recieveMotortemperature);
-                    // XXX
-                    
+                }; 
+                Serial.print(F("launchCount: "));
+                Serial.print(LaunchCount);
+                Serial.print(F(" | "));
+                Serial.print(F("waitingCount: "));
+                Serial.print(WaitingCount);
+                Serial.print(F(" | ")); 
+                Serial.println("");
+              })
+        ->startFps(100);
 
-                Serial.println(""); })
-        ->startFps(17);
+    Tasks.add("Mode", []()
+              {
+                CAN.sendMsgBuf(0x110, 0, 1, static_cast<uint8_t>(StateTransition::ChangeMode));
+              })
+        ->startFps(10);
 
     Tasks.add("Buzzer", []()
               { ToggleBuzzer(); });
 
-    Tasks["Buzzer"]->startIntervalMsecForCount(66, 10);
+    Tasks["Wakeup Buzzer"]->startIntervalMsecForCount(66, 10);
 }
 
 void loop()
@@ -635,7 +645,7 @@ int16_t b3mReadmcuTemperature(byte id)
 
     reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
 
-    return reData/100;
+    return reData / 100;
 }
 
 int16_t b3mReadmotorTemperature(byte id)
@@ -843,7 +853,6 @@ void canSendmotorTemperature(uint8_t motorTemperature)
 // }
 // XXX
 
-
 // void canSendvoltage(uint8_t inputVoltage, uint8_t motorTemperature)
 // {
 //     uint8_t data[4];
@@ -862,7 +871,6 @@ void canSendmotorTemperature(uint8_t motorTemperature)
 //     CAN.sendMsgBuf(0x111, 0, 4, data);
 // }
 // XXX
-
 
 void canSendcurrent(uint8_t current)
 {
