@@ -223,3 +223,10 @@ void CANSTM::receiveSetReferencePressure(float* referencePressure) {
 void CANSTM::receiveTrajectoryData(bool* isFalling) {
   *isFalling = _latestData[0];
 }
+
+
+/// @brief バルブ制御モードを受信する
+/// @param isWaiting true: WAITING, false: LAUNCH
+void CANSTM::receiveValveMode(bool* isWaiting) {
+  *isWaiting = _latestData[0];
+}

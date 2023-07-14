@@ -54,6 +54,7 @@ namespace device {
     Switch flightPin(D11);
 
     DetectionCounter liftoffDetector(3);
+    DetectionCounter launchDetector(3);
     DetectionCounter resetDetector(10);
   }
 
@@ -129,6 +130,16 @@ void loop() {
 
       device::indicator::canReceive.toggle();
       break;
+    case CANSTM::Label::VALVE_MODE:
+      bool isWaitingMode;
+      canbus::can.receiveValveMode(&isWaitingMode);
+
+      // LAUNCHがtrueの方が都合が良いので反転する
+      bool isLaunchMode = !isWaitingMode;
+
+      // 連続検知を更新
+      device::detection::launchDetector.update(isLaunchMode);
+      break;
     }
   }
 }
@@ -196,8 +207,8 @@ void internal::task100Hz() {
     // SLEEPモード 打ち上げを静かに待つ
 
     // バルブ開信号かフライトモードオンコマンドを受信すればスタンバイモードに遷移する
-    // フライトピン開放 || バルブ開 || FlightMode ON
-    if (device::detection::liftoffDetector.isDetected() || false || false) {
+    // フライトピン開放 || バルブ開
+    if (device::detection::liftoffDetector.isDetected() || device::detection::launchDetector.isDetected()) {
       internal::flightModeManager.changeMode(Var::FlightMode::STANDBY);
       device::peripheral::camera.on();
       device::peripheral::logger.beginLogging();

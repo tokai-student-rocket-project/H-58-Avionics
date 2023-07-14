@@ -32,6 +32,7 @@ public:
     MOTOR_TEMPERATURE,
     CURRENT,
     INPUT_VOLTAGE,
+    VALVE_MODE,
   };
 
   /// @brief イベントとエラーを発行するモジュールを列挙型で定義しておく
@@ -160,6 +161,11 @@ public:
   /// @brief 軌道情報の受信する
   /// @param isFalling true: 落下中, false: 落下中でない
   void receiveTrajectoryData(bool* isFalling);
+
+  /// @brief バルブ制御モードを受信する
+  /// @param isWaiting true: WAITING, false: LAUNCH
+  void receiveValveMode(bool* isWaiting);
+
 
 private:
   uint32_t _latestLabel;

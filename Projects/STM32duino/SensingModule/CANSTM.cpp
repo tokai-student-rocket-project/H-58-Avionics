@@ -5,8 +5,8 @@
 void CANSTM::begin() {
   //ボーレートは250kbpsで固定
   ACAN_STM32_Settings settings(1'000'000);
-  settings.mModuleMode = ACAN_STM32_Settings::NORMAL;s
-    settings.mTransmitPriority = ACAN_STM32_Settings::BY_REQUEST_ORDER;
+  settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
+  settings.mTransmitPriority = ACAN_STM32_Settings::BY_REQUEST_ORDER;
   can.begin(settings);
 }
 
@@ -222,4 +222,11 @@ void CANSTM::receiveSetReferencePressure(float* referencePressure) {
 /// @param isFalling true: 落下中, false: 落下中でない
 void CANSTM::receiveTrajectoryData(bool* isFalling) {
   *isFalling = _latestData[0];
+}
+
+
+/// @brief バルブ制御モードを受信する
+/// @param isWaiting true: WAITING, false: LAUNCH
+void CANSTM::receiveValveMode(bool* isWaiting) {
+  *isWaiting = _latestData[0];
 }
