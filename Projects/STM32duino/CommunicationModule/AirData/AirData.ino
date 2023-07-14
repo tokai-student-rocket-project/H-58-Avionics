@@ -14,6 +14,22 @@ namespace indicator {
 }
 
 namespace connection {
+  enum class Index : uint8_t {
+    AIR_DATA,
+    POWER_DATA,
+    GNSS_DATA,
+    SYSTEM_STATUS,
+    SENSING_STATUS,
+    EVENT,
+    ERROR,
+    VALVE_STATUS,
+    SET_REFERENCE_PRESSURE_COMMAND = 0xF0,
+    SET_FLIGHT_MODE_ON
+  };
+
+  void sendDownlink(const uint8_t* data, uint32_t size);
+
+
   CANMCP can(7);
   Transmitter transmitter;
 }
@@ -66,6 +82,24 @@ void loop() {
 
 
 void timer::task20Hz() {
-  connection::transmitter.sendAirData(data::altitude, data::outsideTemperature, data::orientation_x, data::orientation_y, data::orientation_z, data::linear_acceleration_x, data::linear_acceleration_y, data::linear_acceleration_z);
+  const auto& airDataPacket = MsgPacketizer::encode(static_cast<uint8_t>(connection::Index::AIR_DATA),
+    data::altitude,
+    data::outsideTemperature,
+    data::orientation_x,
+    data::orientation_y,
+    data::orientation_z,
+    data::linear_acceleration_x,
+    data::linear_acceleration_y,
+    data::linear_acceleration_z
+  );
+
+  connection::sendDownlink(airDataPacket.data.data(), airDataPacket.data.size());
+}
+
+
+void connection::sendDownlink(const uint8_t* data, uint32_t size) {
+  LoRa.beginPacket();
+  LoRa.write(data, size);
+  LoRa.endPacket();
   indicator::loRaSend.toggle();
 }
