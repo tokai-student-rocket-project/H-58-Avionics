@@ -17,34 +17,51 @@ void setup() {
   LoRa.begin(921.8E6);
   LoRa.setSignalBandwidth(500E3);
 
-  MsgPacketizer::subscribe(LoRa, 0x00,
+  MsgPacketizer::subscribe(LoRa, 0x01,
     [](
       float voltage_supply,
       float voltage_battery,
-      float voltage_pool,
+      float voltage_pool
+      )
+    {
+      transmitter::packet.clear();
+      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Type"] = "PowerData";
+      transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
+      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["SupplyVoltage"] = voltage_supply;
+      transmitter::packet["BatteryVoltage"] = voltage_battery;
+      transmitter::packet["PoolVoltage"] = voltage_pool;
+
+      // serializeJson(transmitter::packet, Serial);
+      // Serial.println();
+
+      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    }
+  );
+
+  MsgPacketizer::subscribe(LoRa, 0x02,
+    [](
       float latitude,
       float longitude
       )
     {
       transmitter::packet.clear();
       transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
-      transmitter::packet["PacketInfo"]["Type"] = "ValueData";
+      transmitter::packet["PacketInfo"]["Type"] = "PositionData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
-      transmitter::packet["SupplyVoltage"] = voltage_supply;
-      transmitter::packet["BatteryVoltage"] = voltage_battery;
-      transmitter::packet["PoolVoltage"] = voltage_pool;
       transmitter::packet["Latitude"] = latitude;
       transmitter::packet["Longitude"] = longitude;
 
-      serializeJson(transmitter::packet, Serial);
-      Serial.println();
+      // serializeJson(transmitter::packet, Serial);
+      // Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
   );
 
-  MsgPacketizer::subscribe(LoRa, 0x01,
+  MsgPacketizer::subscribe(LoRa, 0x03,
     [](
       uint8_t flightMode,
       bool cameraStatus,
@@ -62,14 +79,14 @@ void setup() {
       transmitter::packet["SN3Status"] = sn3Status;
       transmitter::packet["DoLogging"] = doLogging;
 
-      serializeJson(transmitter::packet, Serial);
-      Serial.println();
+      // serializeJson(transmitter::packet, Serial);
+      // Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
   );
 
-  MsgPacketizer::subscribe(LoRa, 0x02,
+  MsgPacketizer::subscribe(LoRa, 0x04,
     [](
       float referencePressure,
       bool isSystemCalibrated,
@@ -89,14 +106,14 @@ void setup() {
       transmitter::packet["IsAccelerometerCalibrated"] = isAccelerometerCalibrated;
       transmitter::packet["IsMagnetometerCalibrated"] = isMagnetometerCalibrated;
 
-      serializeJson(transmitter::packet, Serial);
-      Serial.println();
+      // serializeJson(transmitter::packet, Serial);
+      // Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
   );
 
-  MsgPacketizer::subscribe(LoRa, 0x03,
+  MsgPacketizer::subscribe(LoRa, 0x05,
     [](
       uint8_t publisher,
       uint8_t eventCode,
@@ -118,7 +135,7 @@ void setup() {
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     });
 
-  MsgPacketizer::subscribe(LoRa, 0x04,
+  MsgPacketizer::subscribe(LoRa, 0x06,
     [](
       uint8_t publisher,
       uint8_t errorCode,
@@ -137,13 +154,13 @@ void setup() {
       transmitter::packet["ErrorReason"] = errorReason;
       transmitter::packet["Timestamp"] = timestamp;
 
-      serializeJson(transmitter::packet, Serial);
-      Serial.println();
+      // serializeJson(transmitter::packet, Serial);
+      // Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     });
 
-  MsgPacketizer::subscribe(LoRa, 0x08,
+  MsgPacketizer::subscribe(LoRa, 0x07,
     [](
       float currentPosition,
       float currentDesiredPosition,
@@ -156,7 +173,7 @@ void setup() {
     {
       transmitter::packet.clear();
       transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
-      transmitter::packet["PacketInfo"]["Type"] = "Servo";
+      transmitter::packet["PacketInfo"]["Type"] = "ValveStatus";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
@@ -168,24 +185,25 @@ void setup() {
       transmitter::packet["Current"] = current;
       transmitter::packet["InputVoltage"] = inputVoltage;
 
-      serializeJson(transmitter::packet, Serial);
-      Serial.println();
+      // serializeJson(transmitter::packet, Serial);
+      // Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     });
-
-  // デバッグ用 開始から10秒後に実行
-  // Tasks.add([&]() {
-  //   const auto& packet = MsgPacketizer::encode(0xF0, (uint8_t)0, (float)900.0);
-  //   LoRa.beginPacket();
-  //   LoRa.write(packet.data.data(), packet.data.size());
-  //   LoRa.endPacket();
-  //   })->startFps(3);
 }
 
 
 void loop() {
   Tasks.update();
+
+  if (Serial.available()) {
+    Serial.read();
+
+    const auto& packet = MsgPacketizer::encode(0xF0, (uint8_t)0, (float)900.0);
+    LoRa.beginPacket();
+    LoRa.write(packet.data.data(), packet.data.size());
+    LoRa.endPacket();
+  }
 
   if (LoRa.parsePacket()) {
     MsgPacketizer::parse();

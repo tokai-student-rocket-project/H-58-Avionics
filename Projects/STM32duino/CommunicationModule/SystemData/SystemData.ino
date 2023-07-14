@@ -7,6 +7,7 @@
 #include "LED.hpp"
 #include "GNSS.hpp"
 #include "Var.hpp"
+#include "Transmitter.hpp"
 
 
 namespace timer {
@@ -35,6 +36,7 @@ namespace indicator {
 }
 
 namespace connection {
+  Transmitter transmitter;
   CANMCP can(7);
 
   void handleSystemStatus();
@@ -60,8 +62,7 @@ namespace data {
 void setup() {
   Serial.begin(115200);
 
-  LoRa.begin(921.8E6);
-  LoRa.setSignalBandwidth(500E3);
+  connection::transmitter.begin(921.8E6, 500E3);
 
   sensor::gnss.begin();
 
@@ -146,8 +147,7 @@ void loop() {
 
 
 void timer::task5Hz() {
-  const auto& packet = MsgPacketizer::encode(
-    0x08,
+  connection::transmitter.sendValveStatus(
     data::currentPosition,
     data::currentDesiredPosition,
     data::currentVelocity,
@@ -157,9 +157,12 @@ void timer::task5Hz() {
     data::inputVoltage
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
+  connection::transmitter.sendPowerData(
+    data::voltage_supply,
+    data::voltage_battery,
+    data::voltage_pool
+  );
+
   indicator::loRaSend.toggle();
 }
 
@@ -172,35 +175,24 @@ void timer::task10Hz() {
     indicator::gpsStatus.toggle();
   }
 
-  const auto& packet = MsgPacketizer::encode(
-    0x00,
-    data::voltage_supply,
-    data::voltage_battery,
-    data::voltage_pool,
+  connection::transmitter.sendPositionData(
     data::latitude,
     data::longitude
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
   indicator::loRaSend.toggle();
 }
 
 
 void command::executeSetReferencePressureCommand(uint8_t key, float referencePressure) {
   if (key != command::innerKey) {
-    const auto& packet = MsgPacketizer::encode(
-      0x04,
+    connection::transmitter.sendError(
       static_cast<uint8_t>(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE),
       static_cast<uint8_t>(CANMCP::ErrorCode::COMMAND_RECEIVE_FAILED),
       static_cast<uint8_t>(CANMCP::ErrorReason::INVALID_KEY),
       millis()
     );
 
-    LoRa.beginPacket();
-    LoRa.write(packet.data.data(), packet.data.size());
-    LoRa.endPacket();
     indicator::loRaSend.toggle();
 
     return;
@@ -218,17 +210,13 @@ void connection::handleSystemStatus() {
 
   connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
 
-  const auto& packet = MsgPacketizer::encode(
-    0x01,
+  connection::transmitter.sendSystemStatus(
     static_cast<uint8_t>(flightMode),
     static_cast<uint8_t>(cameraState),
     static_cast<uint8_t>(sn3State),
     doLogging
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
   indicator::loRaSend.toggle();
 }
 
@@ -239,8 +227,7 @@ void connection::handleSensingStatus() {
 
   connection::can.receiveSensingStatus(&referencePressure, &isSystemCalibrated, &isGyroscopeCalibrated, &isAccelerometerCalibrated, &isMagnetometerCalibrated);
 
-  const auto& packet = MsgPacketizer::encode(
-    0x02,
+  connection::transmitter.sendSensingStatus(
     referencePressure,
     isSystemCalibrated,
     isGyroscopeCalibrated,
@@ -248,9 +235,6 @@ void connection::handleSensingStatus() {
     isMagnetometerCalibrated
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
   indicator::loRaSend.toggle();
 }
 
@@ -262,16 +246,12 @@ void connection::handleEvent() {
 
   connection::can.receiveEvent(&publisher, &eventCode, &timestamp);
 
-  const auto& packet = MsgPacketizer::encode(
-    0x03,
+  connection::transmitter.sendEvent(
     static_cast<uint8_t>(publisher),
     static_cast<uint8_t>(eventCode),
     timestamp
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
   indicator::loRaSend.toggle();
 }
 
@@ -284,16 +264,12 @@ void connection::handleError() {
 
   connection::can.receiveError(&publisher, &errorCode, &errorReason, &timestamp);
 
-  const auto& packet = MsgPacketizer::encode(
-    0x04,
+  connection::transmitter.sendError(
     static_cast<uint8_t>(publisher),
     static_cast<uint8_t>(errorCode),
     static_cast<uint8_t>(errorReason),
     timestamp
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
   indicator::loRaSend.toggle();
 }
