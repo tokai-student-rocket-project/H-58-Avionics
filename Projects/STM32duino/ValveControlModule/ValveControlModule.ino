@@ -170,6 +170,16 @@ void setup()
     Tasks.add("Buzzer", []()
               { ToggleBuzzer(); });
 
+    Tasks.add("Error", []()
+    {
+        if (b3mReaddesiredPosition(0x01) != b3mReadcurrentPosition(0x01))
+        {
+            Error::ErrorCode = Error::ErrorCode::MOTOR_POSITION_FAILED;
+            Serial.print("ERROR");
+            CAN.sendMsgBuf(0x111, 0, 1, static_cast<uint8_t>(Error::ErrorCode));
+        }
+    });
+
     /* Wake Up Buzzer */
     Tasks["Buzzer"]->startIntervalMsecForCount(66, 10); 
 }
@@ -180,12 +190,8 @@ void loop()
     ChangeLaunchMode();
     ChangeWaitingMode();
     Tasks["Mode"]->startFps(10);
-    if (b3mReaddesiredPosition(0x01) != b3mReadcurrentPosition(0x01))
-        {
-            Error::ErrorCode = Error::ErrorCode::MOTOR_POSITION_FAILED;
-            Serial.print("ERROR");
-            CAN.sendMsgBuf(0x111, 0, 1, static_cast<uint8_t>(Error::ErrorCode));
-        }
+    Tasks["Error"]->startFps(20);
+    
 }
 
 void Torque(unsigned char ID, unsigned char data)
@@ -832,7 +838,7 @@ void canSendmcuTemperature(uint8_t mcuTemperature)
     uint8_t data[2];
     memcpy(data, &mcuTemperature, 2);
     CAN.sendMsgBuf(0x106, 0, 2, data);
-    memcpy(&mcuTemperature, data, 2);
+    // memcpy(&mcuTemperature, data, 2);
 }
 
 void canSendmotorTemperature(uint8_t motorTemperature)
