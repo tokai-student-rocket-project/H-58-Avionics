@@ -131,7 +131,7 @@ void setup()
                   // canSendvoltage(recieveinputVoltage, recieveMotortemperature);
                   // XXX
               })
-        ->startFps(100);
+        ->startFps(17);
 
     Tasks.add("Count", []()
               {
@@ -153,20 +153,17 @@ void setup()
                 Serial.print(F("waitingCount: "));
                 Serial.print(WaitingCount);
                 Serial.print(F(" | ")); 
-                Serial.println("");
-              })
+                Serial.println(""); })
         ->startFps(100);
 
     Tasks.add("Mode", []()
-              {
-                CAN.sendMsgBuf(0x110, 0, 1, static_cast<uint8_t>(StateTransition::ChangeMode));
-              })
-        ->startFps(10);
+              { CAN.sendMsgBuf(0x110, 0, 1, static_cast<uint8_t>(StateTransition::ChangeMode)); });
 
     Tasks.add("Buzzer", []()
               { ToggleBuzzer(); });
 
-    Tasks["Wakeup Buzzer"]->startIntervalMsecForCount(66, 10);
+    /* Wake Up Buzzer */
+    Tasks["Buzzer"]->startIntervalMsecForCount(66, 10); 
 }
 
 void loop()
@@ -174,6 +171,7 @@ void loop()
     Tasks.update();
     ChangeLaunchMode();
     ChangeWaitingMode();
+    Tasks["Mode"]->startFps(10);
 }
 
 void Torque(unsigned char ID, unsigned char data)
@@ -384,9 +382,11 @@ void ChangeLaunchMode()
         B3M_setposition(0x01, -6500, 10); //-6500/100 = -65deg
         Tasks["Buzzer"]->startIntervalMsecForCount(50, 6);
 
-        // if((B3M_read2byteCommand(0x01, 0x2A))!=B3M_read2byteCommand(0x01, 0x2C))
+        // if (b3mReaddesiredPosition(0x01) != b3mReadcurrentPosition(0x01))
         // {
-
+        //     Error::ErrorCode = Error::ErrorCode::MOTOR_POSITION_FAILED;
+        //     Serial.print("ERROR");
+        //     CAN.sendMsgBuf(0x111, 0, 1, static_cast<uint8_t>(Error::ErrorCode));
         // }
 
         LaunchCount = 0;
