@@ -143,6 +143,37 @@ void setup() {
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     });
 
+  MsgPacketizer::subscribe(LoRa, 0x08,
+    [](
+      float currentPosition,
+      float currentDesiredPosition,
+      float currentVelocity,
+      float mcuTemperature,
+      float motorTemperature,
+      float current,
+      float inputVoltage
+      )
+    {
+      transmitter::packet.clear();
+      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Type"] = "Servo";
+      transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
+      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["CurrentPosition"] = currentPosition;
+      transmitter::packet["CurrentDesiredPosition"] = currentDesiredPosition;
+      transmitter::packet["CurrentVelocity"] = currentVelocity;
+      transmitter::packet["McuTemperature"] = mcuTemperature;
+      transmitter::packet["MotorTemperature"] = motorTemperature;
+      transmitter::packet["Current"] = current;
+      transmitter::packet["InputVoltage"] = inputVoltage;
+
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
+
+      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    });
+
   // デバッグ用 開始から10秒後に実行
   // Tasks.add([&]() {
   //   const auto& packet = MsgPacketizer::encode(0xF0, (uint8_t)0, (float)900.0);

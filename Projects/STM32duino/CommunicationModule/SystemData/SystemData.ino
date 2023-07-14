@@ -10,6 +10,7 @@
 
 
 namespace timer {
+  void task5Hz();
   void task10Hz();
 }
 
@@ -45,6 +46,14 @@ namespace connection {
 namespace data {
   float voltage_supply, voltage_battery, voltage_pool;
   float latitude, longitude;
+
+  float currentPosition;
+  float currentDesiredPosition;
+  float currentVelocity;
+  float mcuTemperature;
+  float motorTemperature;
+  float current;
+  float inputVoltage;
 }
 
 
@@ -57,9 +66,9 @@ void setup() {
   sensor::gnss.begin();
 
   connection::can.begin();
-
   connection::can.sendEvent(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE, CANMCP::EventCode::SETUP);
 
+  Tasks.add(timer::task5Hz)->startFps(5);
   Tasks.add(timer::task10Hz)->startFps(10);
 
   // 参照気圧設定コマンド
@@ -109,8 +118,49 @@ void loop() {
       connection::handleError();
       indicator::canReceive.toggle();
       break;
+    case CANMCP::Label::CURRENT_POSITION:
+      connection::can.receiveServo(&data::currentPosition);
+      Serial.println(data::currentPosition);
+      break;
+    case CANMCP::Label::CURRENT_DESIRED_POSITION:
+      connection::can.receiveServo(&data::currentDesiredPosition);
+      break;
+    case CANMCP::Label::CURRENT_VELOCITY:
+      connection::can.receiveServo(&data::currentVelocity);
+      break;
+    case CANMCP::Label::MCU_TEMPERATURE:
+      connection::can.receiveServo(&data::mcuTemperature);
+      break;
+    case CANMCP::Label::MOTOR_TEMPERATURE:
+      connection::can.receiveServo(&data::motorTemperature);
+      break;
+    case CANMCP::Label::CURRENT:
+      connection::can.receiveServo(&data::current);
+      break;
+    case CANMCP::Label::INPUT_VOLTAGE:
+      connection::can.receiveServo(&data::inputVoltage);
+      break;
     }
   }
+}
+
+
+void timer::task5Hz() {
+  const auto& packet = MsgPacketizer::encode(
+    0x08,
+    data::currentPosition,
+    data::currentDesiredPosition,
+    data::currentVelocity,
+    data::mcuTemperature,
+    data::motorTemperature,
+    data::current,
+    data::inputVoltage
+  );
+
+  LoRa.beginPacket();
+  LoRa.write(packet.data.data(), packet.data.size());
+  LoRa.endPacket();
+  indicator::loRaSend.toggle();
 }
 
 

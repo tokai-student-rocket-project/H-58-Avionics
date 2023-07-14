@@ -21,7 +21,14 @@ public:
     ERROR,
     SET_REFERENCE_PRESSURE_COMMAND,
     TRAJECTORY_DATA,
-    SENSING_STATUS
+    SENSING_STATUS,
+    CURRENT_POSITION = 0x103,
+    CURRENT_DESIRED_POSITION,
+    CURRENT_VELOCITY,
+    MCU_TEMPERATURE,
+    MOTOR_TEMPERATURE,
+    CURRENT,
+    INPUT_VOLTAGE
   };
 
   enum class Publisher : uint8_t {
@@ -75,6 +82,8 @@ public:
   void receiveVector(float* xValue, float* yValue, float* zValue);
   void receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* timestamp);
   void receiveError(Publisher* publisher, ErrorCode* errorCode, ErrorReason* errorReason, uint32_t* timestamp);
+
+  void receiveServo(float* value);
 
 private:
   mcp2515_can* _can;

@@ -4,7 +4,7 @@
 /// @brief CANコントローラ内蔵STM32用クラス
 void CANSTM::begin() {
   //ボーレートは250kbpsで固定
-  ACAN_STM32_Settings settings(250000);
+  ACAN_STM32_Settings settings(1'000'000);
   settings.mModuleMode = ACAN_STM32_Settings::NORMAL;
   settings.mTransmitPriority = ACAN_STM32_Settings::BY_REQUEST_ORDER;
   can.begin(settings);

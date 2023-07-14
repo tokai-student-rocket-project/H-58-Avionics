@@ -7,7 +7,7 @@ CANMCP::CANMCP(uint8_t cs) {
 
 
 void CANMCP::begin() {
-  _can->begin(CAN_250KBPS, MCP_8MHz);
+  _can->begin(CAN_1000KBPS, MCP_8MHz);
 }
 
 
@@ -111,4 +111,12 @@ void CANMCP::receiveError(Publisher* publisher, ErrorCode* errorCode, ErrorReaso
   *errorCode = static_cast<CANMCP::ErrorCode>(_latestData[1]);
   *errorReason = static_cast<CANMCP::ErrorReason>(_latestData[2]);
   memcpy(timestamp, _latestData + 3, 4);
+}
+
+
+void CANMCP::receiveServo(float* value) {
+  int16_t raw;
+  memcpy(&raw, _latestData, 2);
+
+  *value = (float)raw / 100.0;
 }
