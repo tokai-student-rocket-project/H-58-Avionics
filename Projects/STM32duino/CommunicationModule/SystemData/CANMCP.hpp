@@ -22,6 +22,7 @@ public:
     SET_REFERENCE_PRESSURE_COMMAND,
     TRAJECTORY_DATA,
     SENSING_STATUS,
+    FLIGHT_MODE_ON_COMMAND,
     CURRENT_POSITION = 0x103,
     CURRENT_DESIRED_POSITION,
     CURRENT_VELOCITY,
@@ -74,6 +75,7 @@ public:
   void sendEvent(Publisher publisher, EventCode eventCode, uint32_t timestamp = 0);
   void sendError(Publisher publisher, ErrorCode errorCode, ErrorReason errorReason, uint32_t timestamp = 0);
   void sendSetReferencePressureCommand(float referencePressure);
+  void sendFlightModeOnCommand();
 
 
   void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging);

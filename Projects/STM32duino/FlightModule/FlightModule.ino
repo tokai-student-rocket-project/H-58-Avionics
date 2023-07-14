@@ -76,16 +76,16 @@ namespace data {
 
 void setup() {
   // デバッグ用シリアルポート
-  // internal::flag::isDebugMode = true;
-  // Serial.begin(115200);
-  // while (!Serial);
-  // delay(800);
+  internal::flag::isDebugMode = true;
+  Serial.begin(115200);
+  while (!Serial);
+  delay(800);
 
-  internal::timeManager.THRUST_TIME = 3000;
-  internal::timeManager.PROTECTION_SEPARATION_TIME = 7000;
-  internal::timeManager.FORCE_SEPARATION_TIME = 10000;
-  internal::timeManager.LANDING_TIME = 25000;
-  internal::timeManager.SHUTDOWN_TIME = 26000;
+  internal::timeManager.THRUST_TIME = 2110;
+  internal::timeManager.PROTECTION_SEPARATION_TIME = 99999;
+  internal::timeManager.FORCE_SEPARATION_TIME = 9949;
+  internal::timeManager.LANDING_TIME = 38649;
+  internal::timeManager.SHUTDOWN_TIME = 43649;
 
   // デバッグ中はピンが干渉するので電圧監視を行わない
   if (!internal::flag::isDebugMode) {
@@ -116,6 +116,17 @@ void loop() {
     switch (canbus::can.getLatestMessageLabel()) {
     case CANSTM::Label::TRAJECTORY_DATA:
       canbus::can.receiveTrajectoryData(&internal::flag::isFalling);
+      device::indicator::canReceive.toggle();
+      break;
+    case CANSTM::Label::FLIGHT_MODE_ON_COMMAND:
+      if (internal::flightModeManager.is(Var::FlightMode::SLEEP)) {
+        internal::flightModeManager.changeMode(Var::FlightMode::STANDBY);
+        device::peripheral::camera.on();
+        device::peripheral::logger.beginLogging();
+        device::indicator::buzzer.beepLongOnce();
+        canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
+      }
+
       device::indicator::canReceive.toggle();
       break;
     }
@@ -160,8 +171,8 @@ void internal::task100Hz() {
   device::detection::resetDetector.update(device::detection::flightPin.is(Var::SwitchState::CLOSE));
 
 
-  // SLEEPモード以外の時にフライトピンが接続されたらリセット
-  if (internal::flightModeManager.isNot(Var::FlightMode::SLEEP) && device::detection::resetDetector.isDetected()) {
+  // SLEEPモードかSTANDBYモード以外の時にフライトピンが接続されたらリセット
+  if (internal::flightModeManager.isNot(Var::FlightMode::SLEEP) && internal::flightModeManager.isNot(Var::FlightMode::STANDBY) && device::detection::resetDetector.isDetected()) {
     internal::flightModeManager.changeMode(Var::FlightMode::SLEEP);
     device::peripheral::camera.off();
     device::peripheral::logger.endLogging();
@@ -171,7 +182,7 @@ void internal::task100Hz() {
 
 
   // 強制分離
-  if (internal::flightModeManager.is(Var::FlightMode::CLIMB) && internal::timeManager.isElapsedTime(internal::timeManager.FORCE_SEPARATION_TIME)) {
+  if ((internal::flightModeManager.is(Var::FlightMode::CLIMB) || internal::flightModeManager.is(Var::FlightMode::DESCENT)) && internal::timeManager.isElapsedTime(internal::timeManager.FORCE_SEPARATION_TIME)) {
     internal::flightModeManager.changeMode(Var::FlightMode::PARACHUTE);
     device::peripheral::sn3.separate();
     device::indicator::buzzer.beepTwice();

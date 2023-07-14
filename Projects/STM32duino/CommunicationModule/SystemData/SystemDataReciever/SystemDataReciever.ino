@@ -199,7 +199,7 @@ void loop() {
   if (Serial.available()) {
     Serial.read();
 
-    const auto& packet = MsgPacketizer::encode(0xF0, (uint8_t)0, (float)900.0);
+    const auto& packet = MsgPacketizer::encode(0xF1, (uint8_t)0);
     LoRa.beginPacket();
     LoRa.write(packet.data.data(), packet.data.size());
     LoRa.endPacket();

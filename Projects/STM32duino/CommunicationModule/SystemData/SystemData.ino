@@ -19,6 +19,7 @@ namespace command {
   uint8_t innerKey = 0;
 
   void executeSetReferencePressureCommand(uint8_t key, float referencePressure);
+  void executeFlightModeOnCommand(uint8_t key);
 }
 
 namespace sensor {
@@ -76,6 +77,12 @@ void setup() {
   MsgPacketizer::subscribe(LoRa, 0xF0, [](uint8_t key, float referencePressure) {
     indicator::loRaReceive.toggle();
     command::executeSetReferencePressureCommand(key, referencePressure);
+    });
+
+  // フライトモードオンコマンド
+  MsgPacketizer::subscribe(LoRa, 0xF1, [](uint8_t key) {
+    indicator::loRaReceive.toggle();
+    command::executeFlightModeOnCommand(key);
     });
 }
 
@@ -199,6 +206,25 @@ void command::executeSetReferencePressureCommand(uint8_t key, float referencePre
   }
 
   connection::can.sendSetReferencePressureCommand(referencePressure);
+  indicator::canSend.toggle();
+}
+
+
+void command::executeFlightModeOnCommand(uint8_t key) {
+  if (key != command::innerKey) {
+    connection::transmitter.sendError(
+      static_cast<uint8_t>(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE),
+      static_cast<uint8_t>(CANMCP::ErrorCode::COMMAND_RECEIVE_FAILED),
+      static_cast<uint8_t>(CANMCP::ErrorReason::INVALID_KEY),
+      millis()
+    );
+
+    indicator::loRaSend.toggle();
+
+    return;
+  }
+
+  connection::can.sendFlightModeOnCommand();
   indicator::canSend.toggle();
 }
 

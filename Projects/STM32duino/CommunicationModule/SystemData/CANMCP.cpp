@@ -58,6 +58,12 @@ void CANMCP::sendSetReferencePressureCommand(float payload) {
 }
 
 
+void CANMCP::sendFlightModeOnCommand() {
+  uint8_t data[0];
+  _can->sendMsgBuf(static_cast<uint32_t>(Label::FLIGHT_MODE_ON_COMMAND), 0, 0, data);
+}
+
+
 void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging) {
   *flightMode = static_cast<Var::FlightMode>(_latestData[0]);
   *cameraState = static_cast<Var::State>(_latestData[1]);
