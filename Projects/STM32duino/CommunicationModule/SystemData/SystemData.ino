@@ -18,6 +18,7 @@ namespace command {
   uint8_t innerKey = 0;
 
   void executeSetReferencePressureCommand(uint8_t key, float referencePressure);
+  void executeFlightModeOnCommand(uint8_t key);
 }
 
 namespace sensor {
@@ -35,7 +36,23 @@ namespace indicator {
 }
 
 namespace connection {
+  enum class Index : uint8_t {
+    AIR_DATA,
+    POWER_DATA,
+    GNSS_DATA,
+    SYSTEM_STATUS,
+    SENSING_STATUS,
+    EVENT,
+    ERROR,
+    VALVE_STATUS,
+    SET_REFERENCE_PRESSURE_COMMAND = 0xF0,
+    SET_FLIGHT_MODE_ON
+  };
+
+  void sendDownlink(const uint8_t* data, uint32_t size);
+
   CANMCP can(7);
+
 
   void handleSystemStatus();
   void handleSensingStatus();
@@ -71,10 +88,17 @@ void setup() {
   Tasks.add(timer::task5Hz)->startFps(5);
   Tasks.add(timer::task10Hz)->startFps(10);
 
+
   // 参照気圧設定コマンド
   MsgPacketizer::subscribe(LoRa, 0xF0, [](uint8_t key, float referencePressure) {
     indicator::loRaReceive.toggle();
     command::executeSetReferencePressureCommand(key, referencePressure);
+    });
+
+  // フライトモードオンコマンド
+  MsgPacketizer::subscribe(LoRa, 0xF1, [](uint8_t key) {
+    indicator::loRaReceive.toggle();
+    command::executeFlightModeOnCommand(key);
     });
 }
 
@@ -146,8 +170,8 @@ void loop() {
 
 
 void timer::task5Hz() {
-  const auto& packet = MsgPacketizer::encode(
-    0x08,
+  const auto& valveStatusPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::VALVE_STATUS),
     data::currentPosition,
     data::currentDesiredPosition,
     data::currentVelocity,
@@ -157,10 +181,16 @@ void timer::task5Hz() {
     data::inputVoltage
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
-  indicator::loRaSend.toggle();
+  connection::sendDownlink(valveStatusPacket.data.data(), valveStatusPacket.data.size());
+
+  const auto& powerDataPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::POWER_DATA),
+    data::voltage_supply,
+    data::voltage_battery,
+    data::voltage_pool
+  );
+
+  connection::sendDownlink(powerDataPacket.data.data(), powerDataPacket.data.size());
 }
 
 
@@ -172,42 +202,61 @@ void timer::task10Hz() {
     indicator::gpsStatus.toggle();
   }
 
-  const auto& packet = MsgPacketizer::encode(
-    0x00,
-    data::voltage_supply,
-    data::voltage_battery,
-    data::voltage_pool,
+  const auto& gnssDataPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::GNSS_DATA),
     data::latitude,
     data::longitude
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
-  indicator::loRaSend.toggle();
+  connection::sendDownlink(gnssDataPacket.data.data(), gnssDataPacket.data.size());
 }
 
 
 void command::executeSetReferencePressureCommand(uint8_t key, float referencePressure) {
   if (key != command::innerKey) {
-    const auto& packet = MsgPacketizer::encode(
-      0x04,
+    const auto& errorPacket = MsgPacketizer::encode(
+      static_cast<uint8_t>(connection::Index::ERROR),
       static_cast<uint8_t>(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE),
       static_cast<uint8_t>(CANMCP::ErrorCode::COMMAND_RECEIVE_FAILED),
       static_cast<uint8_t>(CANMCP::ErrorReason::INVALID_KEY),
       millis()
     );
 
-    LoRa.beginPacket();
-    LoRa.write(packet.data.data(), packet.data.size());
-    LoRa.endPacket();
-    indicator::loRaSend.toggle();
+    connection::sendDownlink(errorPacket.data.data(), errorPacket.data.size());
 
     return;
   }
 
   connection::can.sendSetReferencePressureCommand(referencePressure);
   indicator::canSend.toggle();
+}
+
+
+void command::executeFlightModeOnCommand(uint8_t key) {
+  if (key != command::innerKey) {
+    const auto& errorPacket = MsgPacketizer::encode(
+      static_cast<uint8_t>(connection::Index::ERROR),
+      static_cast<uint8_t>(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE),
+      static_cast<uint8_t>(CANMCP::ErrorCode::COMMAND_RECEIVE_FAILED),
+      static_cast<uint8_t>(CANMCP::ErrorReason::INVALID_KEY),
+      millis()
+    );
+
+    connection::sendDownlink(errorPacket.data.data(), errorPacket.data.size());
+
+    return;
+  }
+
+  connection::can.sendFlightModeOnCommand();
+  indicator::canSend.toggle();
+}
+
+
+void connection::sendDownlink(const uint8_t* data, uint32_t size) {
+  LoRa.beginPacket();
+  LoRa.write(data, size);
+  LoRa.endPacket();
+  indicator::loRaSend.toggle();
 }
 
 
@@ -218,18 +267,15 @@ void connection::handleSystemStatus() {
 
   connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
 
-  const auto& packet = MsgPacketizer::encode(
-    0x01,
+  const auto& systemStatusPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::SYSTEM_STATUS),
     static_cast<uint8_t>(flightMode),
     static_cast<uint8_t>(cameraState),
     static_cast<uint8_t>(sn3State),
     doLogging
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
-  indicator::loRaSend.toggle();
+  connection::sendDownlink(systemStatusPacket.data.data(), systemStatusPacket.data.size());
 }
 
 
@@ -239,8 +285,8 @@ void connection::handleSensingStatus() {
 
   connection::can.receiveSensingStatus(&referencePressure, &isSystemCalibrated, &isGyroscopeCalibrated, &isAccelerometerCalibrated, &isMagnetometerCalibrated);
 
-  const auto& packet = MsgPacketizer::encode(
-    0x02,
+  const auto& sensingStatusPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::SENSING_STATUS),
     referencePressure,
     isSystemCalibrated,
     isGyroscopeCalibrated,
@@ -248,10 +294,7 @@ void connection::handleSensingStatus() {
     isMagnetometerCalibrated
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
-  indicator::loRaSend.toggle();
+  connection::sendDownlink(sensingStatusPacket.data.data(), sensingStatusPacket.data.size());
 }
 
 
@@ -262,17 +305,14 @@ void connection::handleEvent() {
 
   connection::can.receiveEvent(&publisher, &eventCode, &timestamp);
 
-  const auto& packet = MsgPacketizer::encode(
-    0x03,
+  const auto& eventPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::EVENT),
     static_cast<uint8_t>(publisher),
     static_cast<uint8_t>(eventCode),
     timestamp
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
-  indicator::loRaSend.toggle();
+  connection::sendDownlink(eventPacket.data.data(), eventPacket.data.size());
 }
 
 
@@ -284,16 +324,13 @@ void connection::handleError() {
 
   connection::can.receiveError(&publisher, &errorCode, &errorReason, &timestamp);
 
-  const auto& packet = MsgPacketizer::encode(
-    0x04,
+  const auto& errorPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::ERROR),
     static_cast<uint8_t>(publisher),
     static_cast<uint8_t>(errorCode),
     static_cast<uint8_t>(errorReason),
     timestamp
   );
 
-  LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
-  LoRa.endPacket();
-  indicator::loRaSend.toggle();
+  connection::sendDownlink(errorPacket.data.data(), errorPacket.data.size());
 }

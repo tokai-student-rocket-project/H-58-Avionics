@@ -21,7 +21,15 @@ public:
     ERROR,
     SET_REFERENCE_PRESSURE_COMMAND,
     TRAJECTORY_DATA,
-    SENSING_STATUS
+    SENSING_STATUS,
+    FLIGHT_MODE_ON_COMMAND,
+    CURRENT_POSITION = 0x103,
+    CURRENT_DESIRED_POSITION,
+    CURRENT_VELOCITY,
+    MCU_TEMPERATURE,
+    MOTOR_TEMPERATURE,
+    CURRENT,
+    INPUT_VOLTAGE
   };
 
   enum class Publisher : uint8_t {
@@ -67,6 +75,7 @@ public:
   void sendEvent(Publisher publisher, EventCode eventCode, uint32_t timestamp = 0);
   void sendError(Publisher publisher, ErrorCode errorCode, ErrorReason errorReason, uint32_t timestamp = 0);
   void sendSetReferencePressureCommand(float referencePressure);
+  void sendFlightModeOnCommand();
 
 
   void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging);
@@ -75,6 +84,8 @@ public:
   void receiveVector(float* xValue, float* yValue, float* zValue);
   void receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* timestamp);
   void receiveError(Publisher* publisher, ErrorCode* errorCode, ErrorReason* errorReason, uint32_t* timestamp);
+
+  void receiveServo(float* value);
 
 private:
   mcp2515_can* _can;

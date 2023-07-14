@@ -58,6 +58,12 @@ void CANMCP::sendSetReferencePressureCommand(float payload) {
 }
 
 
+void CANMCP::sendFlightModeOnCommand() {
+  uint8_t data[0];
+  _can->sendMsgBuf(static_cast<uint32_t>(Label::FLIGHT_MODE_ON_COMMAND), 0, 0, data);
+}
+
+
 void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging) {
   *flightMode = static_cast<Var::FlightMode>(_latestData[0]);
   *cameraState = static_cast<Var::State>(_latestData[1]);
@@ -111,4 +117,12 @@ void CANMCP::receiveError(Publisher* publisher, ErrorCode* errorCode, ErrorReaso
   *errorCode = static_cast<CANMCP::ErrorCode>(_latestData[1]);
   *errorReason = static_cast<CANMCP::ErrorReason>(_latestData[2]);
   memcpy(timestamp, _latestData + 3, 4);
+}
+
+
+void CANMCP::receiveServo(float* value) {
+  int16_t raw;
+  memcpy(&raw, _latestData, 2);
+
+  *value = (float)raw / 100.0;
 }
