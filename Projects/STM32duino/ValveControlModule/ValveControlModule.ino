@@ -113,21 +113,21 @@ void setup()
                   uint8_t recieveMotortemperature = b3mReadmotorTemperature(0x01);
                   uint8_t recieveinputVoltage = b3mreadInputvoltage(0x01);
 
-                  Serial.print(recieveCurrentposition);
-                  Serial.print(" | ");
-                  Serial.print(recieveDesiredPosition);
-                  Serial.print(" | ");
-                  Serial.print(recieveCurrent);
-                  Serial.print(" | ");
-                  Serial.print(recieveMcutemperature);
-                  Serial.print(" | ");
-                  Serial.print(recieveMotortemperature);
-                  Serial.print(" | ");
-                  Serial.print(recieveinputVoltage);
-                  Serial.println(" | ");
-                  Serial.print(recieveCurrentverosity);
-                  Serial.print(" | ");
-                    
+                    Serial.print(recieveCurrentposition);
+                    Serial.print(" | ");
+                    Serial.print(recieveDesiredPosition);
+                    Serial.print(" | ");
+                    Serial.print(recieveCurrent);
+                    Serial.print(" | ");
+                    Serial.print(recieveMcutemperature);
+                    Serial.print(" | ");
+                    Serial.print(recieveMotortemperature);
+                    Serial.print(" | ");
+                    Serial.print(recieveinputVoltage);
+                    Serial.print(" | ");
+                    Serial.print(recieveCurrentverosity);
+                    Serial.println(" | ");
+
                   canSendcurrentPosition(recieveCurrentposition);
                   canSendinputVoltage(recieveinputVoltage);
                   canSendcurrentDesiredposition(recieveDesiredPosition);
@@ -138,8 +138,10 @@ void setup()
                   // XXX
                   // canSendvoltage(recieveinputVoltage, recieveMotortemperature);
                   // XXX
+                  // CAN.sendMsgBuf(0x110, 0, 1, static_cast<uint8_t>(StateTransition::ChangeMode));
+                  // Serial.print(static_cast<uint8_t>(StateTransition::ChangeMode));
               })
-        ->startFps(27);
+        ->startFps(13);
 
     // Tasks.add("Count", []()
     //           {
@@ -153,35 +155,41 @@ void setup()
     //             {
     //                 Serial.print(F("WAITING"));
     //                 Serial.print(F(" | "));
-                    
-    //             }; 
+
+    //             };
     //             Serial.print(F("launchCount: "));
     //             Serial.print(LaunchCount);
     //             Serial.print(F(" | "));
     //             Serial.print(F("waitingCount: "));
     //             Serial.print(WaitingCount);
-    //             Serial.print(F(" | ")); 
+    //             Serial.print(F(" | "));
     //             Serial.println(""); })
     // ->startFps(100);
 
     Tasks.add("Mode", []()
-              { CAN.sendMsgBuf(0x110, 0, 1, static_cast<uint8_t>(StateTransition::ChangeMode)); });
+              { 
+                uint8_t can[1];
+                can[0] = static_cast<uint8_t>(StateTransition::ChangeMode);
+                CAN.sendMsgBuf(0x10A, 0, 1, can);
+                Serial.print(can[0]);
+                Serial.println(" | "); })
+                ->startFps(59);
 
     Tasks.add("Buzzer", []()
               { ToggleBuzzer(); });
 
-    Tasks.add("Error", []()
-    {
-        if (b3mReaddesiredPosition(0x01) != b3mReadcurrentPosition(0x01))
-        {
-            Error::ErrorCode = Error::ErrorCode::MOTOR_POSITION_FAILED;
-            Serial.print("ERROR");
-            CAN.sendMsgBuf(0x111, 0, 1, static_cast<uint8_t>(Error::ErrorCode));
-        }
-    });
+    // Tasks.add("Error", []()
+    //           {
+    //     if ((b3mReadcurrentPosition(0x01) > b3mReaddesiredPosition(0x01) -5.0) && (b3mReadcurrentPosition(0x01) < b3mReaddesiredPosition(0x01) +5.0 ))
+    //     {
+    //         Error::ErrorCode = Error::ErrorCode::MOTOR_POSITION_FAILED;
+    //         Serial.print("ERROR");
+    //         CAN.sendMsgBuf(0x10B, 0, 1, static_cast<uint8_t>(Error::ErrorCode));
+    //     } })
+    //     ->startFps(20);
 
     /* Wake Up Buzzer */
-    Tasks["Buzzer"]->startIntervalMsecForCount(66, 10); 
+    Tasks["Buzzer"]->startIntervalMsecForCount(66, 10);
 }
 
 void loop()
@@ -189,9 +197,16 @@ void loop()
     Tasks.update();
     ChangeLaunchMode();
     ChangeWaitingMode();
-    Tasks["Mode"]->startFps(10);
-    Tasks["Error"]->startFps(20);
-    
+    // Tasks["Mode"]
+    // Tasks["Error"]
+}
+
+void canSendmode()
+{
+    uint8_t can[1];
+    can[0] = static_cast<uint8_t>(StateTransition::ChangeMode);
+    CAN.sendMsgBuf(0x10A, 0, 1, can);
+    Serial.print(can[0]);
 }
 
 void Torque(unsigned char ID, unsigned char data)
