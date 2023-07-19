@@ -424,12 +424,12 @@ void ChangeLaunchMode()
         Move(1, -840, 10);
         delay(200);
         B3M_setposition(0x01, -6500, 10);
-
+        delay(500);
         Tasks["Buzzer"]->startIntervalMsecForCount(50, 6);
 
         launchCount = 0;
         position = 2;
-        Torque(0x01, 0x00);
+        // Torque(0x01, 0x00);
 
         digitalWrite(A3, LOW);
         digitalWrite(A2, HIGH);
