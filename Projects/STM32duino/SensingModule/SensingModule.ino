@@ -15,6 +15,7 @@ namespace internal {
   void task02Hz();
   void task2Hz();
   void task20Hz();
+  void task50Hz();
   void task100Hz();
 
   Trajectory trajectory;
@@ -93,9 +94,11 @@ void setup() {
   canbus::can.begin();
   canbus::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::SETUP);
 
+  // CANで送り損ねないように若干ずらしたレートにする
   Tasks.add(internal::task02Hz)->startIntervalSec(5);
   Tasks.add(internal::task2Hz)->startFps(2);
-  Tasks.add(internal::task20Hz)->startFps(20);
+  Tasks.add(internal::task20Hz)->startFps(29);
+  Tasks.add(internal::task50Hz)->startFps(53);
   Tasks.add(internal::task100Hz)->startFps(100);
 }
 
@@ -153,6 +156,18 @@ void internal::task20Hz() {
   // CAN送信が20Hzなので、外気温はそれに合わせて20Hzで読み出す
   device::sensor::thermistor.getTemperature(&data::outsideTemperature_degC);
 
+  // CANにデータを流す
+  // 安全のため、高度50m以上でないと落下判定しない
+  canbus::can.sendScalar(CANSTM::Label::OUTSIDE_TEMPERATURE, data::outsideTemperature_degC);
+  canbus::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude_m);
+  canbus::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x_nT, data::magnetometer_y_nT, data::magnetometer_z_nT);
+  canbus::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2);
+  device::indicator::canSend.toggle();
+}
+
+
+/// @brief 50Hzで実行したい処理
+void internal::task50Hz() {
   // 気圧と気温から高度を算出する
   // 内部的には落下検知の処理もやっている
   data::altitude_m = internal::trajectory.update(data::pressure_hPa, data::outsideTemperature_degC);
@@ -160,10 +175,6 @@ void internal::task20Hz() {
   // CANにデータを流す
   // 安全のため、高度50m以上でないと落下判定しない
   canbus::can.sendTrajectoryData(internal::trajectory.isFalling() && data::altitude_m >= 50.0);
-  canbus::can.sendScalar(CANSTM::Label::OUTSIDE_TEMPERATURE, data::outsideTemperature_degC);
-  canbus::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude_m);
-  canbus::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x_nT, data::magnetometer_y_nT, data::magnetometer_z_nT);
-  canbus::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2);
   device::indicator::canSend.toggle();
 }
 
