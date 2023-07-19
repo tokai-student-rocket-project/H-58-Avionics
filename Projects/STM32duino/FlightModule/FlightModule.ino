@@ -14,7 +14,8 @@
 
 
 namespace internal {
-  void task10Hz();
+  void task4Hz();
+  void task50Hz();
   void task100Hz();
 
   FlightModeManager flightModeManager;
@@ -104,7 +105,9 @@ void setup() {
   canbus::can.begin();
   canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SETUP);
 
-  Tasks.add(internal::task10Hz)->startFps(10);
+  // CANで送り損ねないように若干ずらしたレートにする
+  Tasks.add(internal::task4Hz)->startFps(5);
+  Tasks.add(internal::task50Hz)->startFps(61);
   Tasks.add(internal::task100Hz)->startFps(100);
 }
 
@@ -134,6 +137,8 @@ void loop() {
       bool isWaitingMode;
       canbus::can.receiveValveMode(&isWaitingMode);
       internal::flag::isLaunchMode = !isWaitingMode;
+
+      Serial.println(internal::flag::isLaunchMode);
       break;
     }
     }
@@ -141,18 +146,28 @@ void loop() {
 }
 
 
-/// @brief 10Hzで実行したい処理
-void internal::task10Hz() {
-  // その時のフライトモードに合わせてLEDを切り替える
-  device::indicator::indicateFlightMode(internal::flightModeManager.currentMode());
-
-
+/// @brief 4Hzで実行したい処理
+void internal::task4Hz() {
   // デバッグ中はピンが干渉するので電圧監視を行わない
   if (!internal::flag::isDebugMode) {
     data::voltageSupply = device::sensor::supply.voltage();
     data::voltageBattery = device::sensor::battery.voltage();
     data::voltagePool = device::sensor::pool.voltage();
   }
+
+
+  // CANにデータを流す
+  canbus::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltageSupply);
+  canbus::can.sendScalar(CANSTM::Label::VOLTAGE_BATTERY, data::voltageBattery);
+  canbus::can.sendScalar(CANSTM::Label::VOLTAGE_POOL, data::voltagePool);
+  device::indicator::canSend.toggle();
+}
+
+
+/// @brief 50Hzで実行したい処理
+void internal::task50Hz() {
+  // その時のフライトモードに合わせてLEDを切り替える
+  device::indicator::indicateFlightMode(internal::flightModeManager.currentMode());
 
 
   // CANにデータを流す
@@ -163,9 +178,6 @@ void internal::task10Hz() {
     device::peripheral::logger.isLogging()
   );
 
-  canbus::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltageSupply);
-  canbus::can.sendScalar(CANSTM::Label::VOLTAGE_BATTERY, data::voltageBattery);
-  canbus::can.sendScalar(CANSTM::Label::VOLTAGE_POOL, data::voltagePool);
   device::indicator::canSend.toggle();
 }
 

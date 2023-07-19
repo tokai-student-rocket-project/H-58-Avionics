@@ -1,19 +1,25 @@
 #include "CANMCP.hpp"
 
 
+/// @brief コンストラクタ
+/// @param cs SPIのチップセレクト
 CANMCP::CANMCP(uint8_t cs) {
   _can = new mcp2515_can(cs);
 }
 
 
+/// @brief CANを初期化して起動する
 void CANMCP::begin() {
   _can->begin(CAN_1000KBPS, MCP_8MHz);
 }
 
 
+/// @brief CANパケットを受信しているかを返す
+/// @return true: 受信している, false: 受信していない
 bool CANMCP::available() {
   bool isAvailable = _can->checkReceive() == CAN_MSGAVAIL;
 
+  // もし受信しているなら、最新のデータとラベルを保存しておく
   if (isAvailable) {
     uint8_t len = 0;
     _can->readMsgBuf(&len, _latestData);
@@ -24,11 +30,17 @@ bool CANMCP::available() {
 }
 
 
+/// @brief 最後に受信したCANパケットのラベルを返す
+/// @return 最後に受信したCANパケットのラベル
 CANMCP::Label CANMCP::getLatestLabel() {
   return static_cast<CANMCP::Label>(_latestLabel);
 }
 
 
+/// @brief イベントを送信する
+/// @param publisher どのモジュールがイベントを発行したか
+/// @param eventCode イベントの種類
+/// @param timestamp イベントを発行した時刻 (不要ならデフォルトで0)
 void CANMCP::sendEvent(Publisher publisher, EventCode eventCode, uint32_t timestamp) {
   uint8_t data[6];
   data[0] = static_cast<uint8_t>(publisher);
@@ -39,6 +51,11 @@ void CANMCP::sendEvent(Publisher publisher, EventCode eventCode, uint32_t timest
 }
 
 
+/// @brief エラーを送信する
+/// @param publisher どのモジュールがエラーを発行したか
+/// @param errorCode エラーの種類
+/// @param errorReason エラーの理由
+/// @param timestamp イベントを発行した時刻 (不要ならデフォルトで0)
 void CANMCP::sendError(Publisher publisher, ErrorCode errorCode, ErrorReason errorReason, uint32_t timestamp) {
   uint8_t data[7];
   data[0] = static_cast<uint8_t>(publisher);
@@ -50,7 +67,9 @@ void CANMCP::sendError(Publisher publisher, ErrorCode errorCode, ErrorReason err
 }
 
 
-void CANMCP::sendSetReferencePressureCommand(float payload) {
+/// @brief 参照気圧セットを送信する
+/// @param referencePressure 参照気圧
+void CANMCP::sendSetReferencePressure(float payload) {
   uint8_t data[4];
   memcpy(data, &payload, 4);
 
@@ -58,12 +77,19 @@ void CANMCP::sendSetReferencePressureCommand(float payload) {
 }
 
 
-void CANMCP::sendFlightModeOnCommand() {
+/// @brief 参照気圧セットを送信する
+/// @param referencePressure 参照気圧
+void CANMCP::sendFlightModeOn() {
   uint8_t data[0];
   _can->sendMsgBuf(static_cast<uint32_t>(Label::FLIGHT_MODE_ON_COMMAND), 0, 0, data);
 }
 
 
+/// @brief システムステータスを受信する
+/// @param flightMode フライトモード
+/// @param cameraState カメラの状態
+/// @param sn3State 不知火3の状態
+/// @param doLogging ログ保存するか
 void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging) {
   *flightMode = static_cast<Var::FlightMode>(_latestData[0]);
   *cameraState = static_cast<Var::State>(_latestData[1]);
@@ -72,6 +98,12 @@ void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* camera
 }
 
 
+/// @brief 計測ステータスを受信する
+/// @param referencePressure 参照気圧 [hPa]
+/// @param isSystemCalibrated BNO055システムのキャリブレーションが完了しているか
+/// @param isGyroscopeCalibrated BNO055角加速度計のキャリブレーションが完了しているか
+/// @param isAccelerometerCalibrated BNO055加速度計のキャリブレーションが完了しているか
+/// @param isMagnetometerCalibrated BNO055地磁気計のキャリブレーションが完了しているか
 void CANMCP::receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, bool* isGyroscopeCalibrated, bool* isAccelerometerCalibrated, bool* isMagnetometerCalibrated) {
   memcpy(referencePressure, _latestData, 4);
   *isSystemCalibrated = _latestData[4];
@@ -81,11 +113,17 @@ void CANMCP::receiveSensingStatus(float* referencePressure, bool* isSystemCalibr
 }
 
 
+/// @brief スカラー値を受信する
+/// @param value 値のポインタ
 void CANMCP::receiveScalar(float* value) {
   memcpy(value, _latestData, 4);
 }
 
 
+/// @brief 3次元のベクトル値を受信する
+/// @param xValue x軸の値のポインタ
+/// @param yValue y軸の値のポインタ
+/// @param zValue z軸の値のポインタ
 void CANMCP::receiveVector(float* xValue, float* yValue, float* zValue) {
   float value;
   memcpy(&value, _latestData + 1, 4);
@@ -105,6 +143,10 @@ void CANMCP::receiveVector(float* xValue, float* yValue, float* zValue) {
 }
 
 
+/// @brief イベントを受診する
+/// @param publisher どのモジュールがイベントを発行したか
+/// @param eventCode イベントの種類
+/// @param timestamp イベントを発行した時刻 (不要ならデフォルトで0)
 void CANMCP::receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* timestamp) {
   *publisher = static_cast<CANMCP::Publisher>(_latestData[0]);
   *eventCode = static_cast<CANMCP::EventCode>(_latestData[1]);
@@ -112,6 +154,11 @@ void CANMCP::receiveEvent(Publisher* publisher, EventCode* eventCode, uint32_t* 
 }
 
 
+/// @brief エラーを受信する
+/// @param publisher どのモジュールがエラーを発行したか
+/// @param errorCode エラーの種類
+/// @param errorReason エラーの理由
+/// @param timestamp イベントを発行した時刻 (不要ならデフォルトで0)
 void CANMCP::receiveError(Publisher* publisher, ErrorCode* errorCode, ErrorReason* errorReason, uint32_t* timestamp) {
   *publisher = static_cast<CANMCP::Publisher>(_latestData[0]);
   *errorCode = static_cast<CANMCP::ErrorCode>(_latestData[1]);

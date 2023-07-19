@@ -58,6 +58,7 @@ void setup() {
 void loop() {
   Tasks.update();
 
+  // CANの受信処理
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::ORIENTATION:
@@ -81,7 +82,9 @@ void loop() {
 }
 
 
+/// @brief 20Hzで実行したい処理
 void timer::task20Hz() {
+  // エアデータをダウンリンクで送信する
   const auto& airDataPacket = MsgPacketizer::encode(static_cast<uint8_t>(connection::Index::AIR_DATA),
     data::altitude,
     data::outsideTemperature,
@@ -97,6 +100,9 @@ void timer::task20Hz() {
 }
 
 
+/// @brief LoRaの送信処理をまとめた関数
+/// @param data 送信するデータ配列 イミュータブル
+/// @param size 送信するデータ長
 void connection::sendDownlink(const uint8_t* data, uint32_t size) {
   LoRa.beginPacket();
   LoRa.write(data, size);

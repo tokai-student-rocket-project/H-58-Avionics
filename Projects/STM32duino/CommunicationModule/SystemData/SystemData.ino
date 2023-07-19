@@ -15,6 +15,7 @@ namespace timer {
 }
 
 namespace command {
+  // セキュリティ用の認証キー
   uint8_t innerKey = 0;
 
   void executeSetReferencePressureCommand(uint8_t key, float referencePressure);
@@ -92,12 +93,14 @@ void setup() {
   // 参照気圧設定コマンド
   MsgPacketizer::subscribe(LoRa, 0xF0, [](uint8_t key, float referencePressure) {
     indicator::loRaReceive.toggle();
+    // 長くなるので処理は関数にまとめている
     command::executeSetReferencePressureCommand(key, referencePressure);
     });
 
   // フライトモードオンコマンド
   MsgPacketizer::subscribe(LoRa, 0xF1, [](uint8_t key) {
     indicator::loRaReceive.toggle();
+    // 長くなるので処理は関数にまとめている
     command::executeFlightModeOnCommand(key);
     });
 }
@@ -169,7 +172,9 @@ void loop() {
 }
 
 
+/// @brief 5Hzで実行したい処理
 void timer::task5Hz() {
+  // バルブ情報をダウンリンクで送信する
   const auto& valveStatusPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::VALVE_STATUS),
     data::currentPosition,
@@ -183,6 +188,8 @@ void timer::task5Hz() {
 
   connection::sendDownlink(valveStatusPacket.data.data(), valveStatusPacket.data.size());
 
+
+  // 電源情報をダウンリンクで送信する
   const auto& powerDataPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::POWER_DATA),
     data::voltage_supply,
@@ -194,7 +201,9 @@ void timer::task5Hz() {
 }
 
 
+/// @brief 10Hzで実行したい処理
 void timer::task10Hz() {
+  // GNSS情報を受信する
   if (sensor::gnss.available()) {
     data::latitude = sensor::gnss.getLatitude();
     data::longitude = sensor::gnss.getLongitude();
@@ -202,6 +211,7 @@ void timer::task10Hz() {
     indicator::gpsStatus.toggle();
   }
 
+  // GNSS情報をダウンリンクで送信する
   const auto& gnssDataPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::GNSS_DATA),
     data::latitude,
@@ -212,8 +222,13 @@ void timer::task10Hz() {
 }
 
 
+/// @brief 参照気圧設定コマンドを処理する
+/// @param key 認証キー
+/// @param referencePressure 設定する参照気圧 [hPa]
 void command::executeSetReferencePressureCommand(uint8_t key, float referencePressure) {
+  // 認証キーが不正のときはエラーを送信して終わり
   if (key != command::innerKey) {
+    // エラーをダウンリンクで送信する
     const auto& errorPacket = MsgPacketizer::encode(
       static_cast<uint8_t>(connection::Index::ERROR),
       static_cast<uint8_t>(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE),
@@ -227,13 +242,18 @@ void command::executeSetReferencePressureCommand(uint8_t key, float referencePre
     return;
   }
 
-  connection::can.sendSetReferencePressureCommand(referencePressure);
+  // CANに参照気圧設定を送信する
+  connection::can.sendSetReferencePressure(referencePressure);
   indicator::canSend.toggle();
 }
 
 
+/// @brief フライトモードオンコマンドを処理する
+/// @param key 認証キー
 void command::executeFlightModeOnCommand(uint8_t key) {
+  // 認証キーが不正のときはエラーを送信して終わり
   if (key != command::innerKey) {
+    // エラーをダウンリンクで送信する
     const auto& errorPacket = MsgPacketizer::encode(
       static_cast<uint8_t>(connection::Index::ERROR),
       static_cast<uint8_t>(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE),
@@ -247,11 +267,15 @@ void command::executeFlightModeOnCommand(uint8_t key) {
     return;
   }
 
-  connection::can.sendFlightModeOnCommand();
+  // CANにフライトモードオンを送信する
+  connection::can.sendFlightModeOn();
   indicator::canSend.toggle();
 }
 
 
+/// @brief LoRaの送信処理をまとめた関数
+/// @param data 送信するデータ配列 イミュータブル
+/// @param size 送信するデータ長
 void connection::sendDownlink(const uint8_t* data, uint32_t size) {
   LoRa.beginPacket();
   LoRa.write(data, size);
@@ -260,6 +284,7 @@ void connection::sendDownlink(const uint8_t* data, uint32_t size) {
 }
 
 
+/// @brief CANのシステムステータス受信処理をまとめた関数
 void connection::handleSystemStatus() {
   Var::FlightMode flightMode;
   Var::State cameraState, sn3State;
@@ -267,6 +292,7 @@ void connection::handleSystemStatus() {
 
   connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
 
+  // システムステータスをそのままダウンリンクで送信
   const auto& systemStatusPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::SYSTEM_STATUS),
     static_cast<uint8_t>(flightMode),
@@ -279,12 +305,14 @@ void connection::handleSystemStatus() {
 }
 
 
+/// @brief CANの計測ステータス受信処理をまとめた関数
 void connection::handleSensingStatus() {
   float referencePressure;
   bool isSystemCalibrated, isGyroscopeCalibrated, isAccelerometerCalibrated, isMagnetometerCalibrated;
 
   connection::can.receiveSensingStatus(&referencePressure, &isSystemCalibrated, &isGyroscopeCalibrated, &isAccelerometerCalibrated, &isMagnetometerCalibrated);
 
+  // システムステータスをそのままダウンリンクで送信
   const auto& sensingStatusPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::SENSING_STATUS),
     referencePressure,
@@ -298,6 +326,7 @@ void connection::handleSensingStatus() {
 }
 
 
+/// @brief CANのイベント受信処理をまとめた関数
 void connection::handleEvent() {
   CANMCP::Publisher publisher;
   CANMCP::EventCode eventCode;
@@ -305,6 +334,7 @@ void connection::handleEvent() {
 
   connection::can.receiveEvent(&publisher, &eventCode, &timestamp);
 
+  // システムステータスをそのままダウンリンクで送信
   const auto& eventPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::EVENT),
     static_cast<uint8_t>(publisher),
@@ -316,6 +346,7 @@ void connection::handleEvent() {
 }
 
 
+/// @brief CANのエラー受信処理をまとめた関数
 void connection::handleError() {
   CANMCP::Publisher publisher;
   CANMCP::ErrorCode errorCode;
@@ -324,6 +355,7 @@ void connection::handleError() {
 
   connection::can.receiveError(&publisher, &errorCode, &errorReason, &timestamp);
 
+  // システムステータスをそのままダウンリンクで送信
   const auto& errorPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::ERROR),
     static_cast<uint8_t>(publisher),
