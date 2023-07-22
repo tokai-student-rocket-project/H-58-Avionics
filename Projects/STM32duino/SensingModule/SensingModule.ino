@@ -160,7 +160,7 @@ void internal::task20Hz() {
   // 安全のため、高度50m以上でないと落下判定しない
   canbus::can.sendScalar(CANSTM::Label::OUTSIDE_TEMPERATURE, data::outsideTemperature_degC);
   canbus::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude_m);
-  canbus::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x_nT, data::magnetometer_y_nT, data::magnetometer_z_nT);
+  canbus::can.sendVector3D(CANSTM::Label::ORIENTATION, data::orientation_x_deg, data::orientation_y_deg, data::orientation_z_deg);
   canbus::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2);
   device::indicator::canSend.toggle();
 }
