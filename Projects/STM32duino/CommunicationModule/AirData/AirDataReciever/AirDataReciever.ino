@@ -28,12 +28,12 @@ void setup() {
       float linear_acceleration_z
       )
     {
-      transmitter::packet["PacketInfo"]["Sender"] = "AirDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "ACM";
       transmitter::packet["PacketInfo"]["Type"] = "AirData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       transmitter::packet["Alt"] = altitude;
-      transmitter::packet["Otp"] = outsideTemperature;
+      transmitter::packet["OutTemp"] = outsideTemperature;
       transmitter::packet["Ori"]["x"] = orientation_x;
       transmitter::packet["Ori"]["y"] = orientation_y;
       transmitter::packet["Ori"]["z"] = orientation_z;

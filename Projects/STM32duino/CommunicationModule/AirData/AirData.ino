@@ -1,5 +1,7 @@
+#include <SPI.h>
+#include <LoRa.h>
+#include <MsgPacketizer.h>
 #include <TaskManager.h>
-#include "Transmitter.hpp"
 #include "CANMCP.hpp"
 #include "LED.hpp"
 
@@ -31,7 +33,6 @@ namespace connection {
 
 
   CANMCP can(7);
-  Transmitter transmitter;
 }
 
 namespace data {
@@ -46,7 +47,8 @@ namespace data {
 void setup() {
   Serial.begin(115200);
 
-  connection::transmitter.begin(923.8E6, 500E3);
+  LoRa.begin(923.8E6);
+  LoRa.setSignalBandwidth(500E3);
 
   connection::can.begin();
   connection::can.sendEvent(CANMCP::Publisher::AIR_DATA_COMMUNICATION_MODULE, CANMCP::EventCode::SETUP);
