@@ -55,6 +55,7 @@ namespace connection {
   CANMCP can(7);
 
 
+  void handleVoltage();
   void handleSystemStatus();
   void handleSensingStatus();
   void handleEvent();
@@ -62,7 +63,6 @@ namespace connection {
 }
 
 namespace data {
-  float voltage_supply, voltage_battery, voltage_pool;
   float latitude, longitude;
 
   float currentPosition;
@@ -126,7 +126,7 @@ void loop() {
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::VOLTAGE:
-      connection::can.receiveVoltage(&data::voltage_supply, &data::voltage_pool, &data::voltage_battery);
+      connection::handleVoltage();
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::EVENT:
@@ -178,17 +178,6 @@ void timer::task5Hz() {
   // );
 
   // connection::sendDownlink(valveStatusPacket.data.data(), valveStatusPacket.data.size());
-
-
-  // 電源情報をダウンリンクで送信する
-  const auto& powerDataPacket = MsgPacketizer::encode(
-    static_cast<uint8_t>(connection::Index::POWER_DATA),
-    data::voltage_supply,
-    data::voltage_battery,
-    data::voltage_pool
-  );
-
-  connection::sendDownlink(powerDataPacket.data.data(), powerDataPacket.data.size());
 }
 
 
@@ -272,6 +261,25 @@ void connection::sendDownlink(const uint8_t* data, uint32_t size) {
   LoRa.write(data, size);
   LoRa.endPacket();
   indicator::loRaSend.toggle();
+}
+
+
+/// @brief CANの電圧受信処理をまとめた関数
+void connection::handleVoltage() {
+  float voltage_supply, voltage_battery, voltage_pool;
+
+  connection::can.receiveVoltage(&voltage_supply, &voltage_pool, &voltage_battery);
+
+
+  // 電源情報をそのままダウンリンクで送信
+  const auto& powerDataPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::POWER_DATA),
+    voltage_supply,
+    voltage_battery,
+    voltage_pool
+  );
+
+  connection::sendDownlink(powerDataPacket.data.data(), powerDataPacket.data.size());
 }
 
 

@@ -120,7 +120,7 @@ public:
   /// @param supply 供給電圧 [V]
   /// @param pool プール電圧 [V]
   /// @param battery バッテリー電圧 [V]
-  void sendVoltage(float supply, bool pool, bool battery);
+  void sendVoltage(float supply, float pool, float battery);
 
 
   /// @brief スカラー値を送信する

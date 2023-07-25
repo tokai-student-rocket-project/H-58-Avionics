@@ -137,8 +137,6 @@ void loop() {
       bool isWaitingMode;
       canbus::can.receiveValveMode(&isWaitingMode);
       internal::flag::isLaunchMode = !isWaitingMode;
-
-      Serial.println(internal::flag::isLaunchMode);
       break;
     }
     }
