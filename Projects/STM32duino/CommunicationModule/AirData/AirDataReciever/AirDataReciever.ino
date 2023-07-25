@@ -19,6 +19,7 @@ void setup() {
   MsgPacketizer::subscribe(LoRa, 0x00,
     [](
       float altitude,
+      float climbRate,
       float outsideTemperature,
       float orientation_x,
       float orientation_y,
@@ -33,6 +34,7 @@ void setup() {
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       transmitter::packet["Alt"] = altitude;
+      transmitter::packet["CR"] = climbRate;
       transmitter::packet["OutTemp"] = outsideTemperature;
       transmitter::packet["Ori"]["x"] = orientation_x;
       transmitter::packet["Ori"]["y"] = orientation_y;

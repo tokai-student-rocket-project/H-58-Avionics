@@ -41,6 +41,7 @@ namespace data {
 
   float outsideTemperature;
   float altitude;
+  float climbRate;
 }
 
 
@@ -79,6 +80,10 @@ void loop() {
       connection::can.receiveScalar(&data::outsideTemperature);
       indicator::canReceive.toggle();
       break;
+    case CANMCP::Label::CLIMB_RATE:
+      connection::can.receiveScalar(&data::climbRate);
+      indicator::canReceive.toggle();
+      break;
     }
   }
 }
@@ -89,6 +94,7 @@ void timer::task20Hz() {
   // エアデータをダウンリンクで送信する
   const auto& airDataPacket = MsgPacketizer::encode(static_cast<uint8_t>(connection::Index::AIR_DATA),
     data::altitude,
+    data::climbRate,
     data::outsideTemperature,
     data::orientation_x,
     data::orientation_y,

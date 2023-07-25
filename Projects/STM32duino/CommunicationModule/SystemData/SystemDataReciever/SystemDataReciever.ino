@@ -33,8 +33,8 @@ void setup() {
       transmitter::packet["BatteryVoltage"] = voltage_battery;
       transmitter::packet["PoolVoltage"] = voltage_pool;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
@@ -54,8 +54,8 @@ void setup() {
       transmitter::packet["Latitude"] = latitude;
       transmitter::packet["Longitude"] = longitude;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
@@ -79,8 +79,8 @@ void setup() {
       transmitter::packet["SN3Status"] = sn3Status;
       transmitter::packet["DoLogging"] = doLogging;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
@@ -106,8 +106,8 @@ void setup() {
       transmitter::packet["IsAccelerometerCalibrated"] = isAccelerometerCalibrated;
       transmitter::packet["IsMagnetometerCalibrated"] = isMagnetometerCalibrated;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }

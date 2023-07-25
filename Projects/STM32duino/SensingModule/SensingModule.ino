@@ -59,6 +59,7 @@ namespace data {
   float pressure_hPa;
   float outsideTemperature_degC;
   float altitude_m;
+  float climbRate_mps;
   float acceleration_x_mps2, acceleration_y_mps2, acceleration_z_mps2;
   float magnetometer_x_nT, magnetometer_y_nT, magnetometer_z_nT;
   float gyroscope_x_dps, gyroscope_y_dps, gyroscope_z_dps;
@@ -157,9 +158,9 @@ void internal::task20Hz() {
   device::sensor::thermistor.getTemperature(&data::outsideTemperature_degC);
 
   // CANにデータを流す
-  // 安全のため、高度50m以上でないと落下判定しない
   canbus::can.sendScalar(CANSTM::Label::OUTSIDE_TEMPERATURE, data::outsideTemperature_degC);
   canbus::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude_m);
+  canbus::can.sendScalar(CANSTM::Label::CLIMB_RATE, data::climbRate_mps);
   canbus::can.sendVector3D(CANSTM::Label::ORIENTATION, data::orientation_x_deg, data::orientation_y_deg, data::orientation_z_deg);
   canbus::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2);
   device::indicator::canSend.toggle();
@@ -170,7 +171,10 @@ void internal::task20Hz() {
 void internal::task50Hz() {
   // 気圧と気温から高度を算出する
   // 内部的には落下検知の処理もやっている
-  data::altitude_m = internal::trajectory.update(data::pressure_hPa, data::outsideTemperature_degC);
+  internal::trajectory.update(data::pressure_hPa, data::outsideTemperature_degC);
+
+  data::altitude_m = internal::trajectory.getAltitude();
+  data::climbRate_mps = internal::trajectory.getClimbRate();
 
   // CANにデータを流す
   // 安全のため、高度50m以上でないと落下判定しない
