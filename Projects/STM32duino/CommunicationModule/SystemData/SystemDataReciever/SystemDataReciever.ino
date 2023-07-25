@@ -154,8 +154,8 @@ void setup() {
       transmitter::packet["ErrorReason"] = errorReason;
       transmitter::packet["Timestamp"] = timestamp;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     });
@@ -185,8 +185,8 @@ void setup() {
       transmitter::packet["Current"] = current;
       transmitter::packet["InputVoltage"] = inputVoltage;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     });
