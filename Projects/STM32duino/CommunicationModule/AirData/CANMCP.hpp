@@ -15,9 +15,7 @@ public:
     LINEAR_ACCELERATION,
     ALTITUDE,
     OUTSIDE_TEMPERATURE,
-    VOLTAGE_SUPPLY,
-    VOLTAGE_BATTERY,
-    VOLTAGE_POOL,
+    VOLTAGE,
     SYSTEM_STATUS,
     EVENT,
     ERROR,
@@ -150,6 +148,12 @@ public:
   void receiveError(Publisher* publisher, ErrorCode* errorCode, ErrorReason* errorReason, uint32_t* timestamp);
 
   void receiveServo(float* value);
+
+  /// @brief 電圧を受信する
+  /// @param supply 供給電圧 [V]
+  /// @param pool プール電圧 [V]
+  /// @param battery バッテリー電圧 [V]
+  void receiveVoltage(float* supply, float* pool, float* battery);
 
 private:
   mcp2515_can* _can;

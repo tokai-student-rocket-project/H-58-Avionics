@@ -148,7 +148,6 @@ void setup() {
       transmitter::packet["PacketInfo"]["Type"] = "Error";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
-      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       transmitter::packet["Publisher"] = publisher;
       transmitter::packet["ErrorCode"] = errorCode;
       transmitter::packet["ErrorReason"] = errorReason;
@@ -175,7 +174,6 @@ void setup() {
       transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
       transmitter::packet["PacketInfo"]["Type"] = "ValveStatus";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
-      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       transmitter::packet["CurrentPosition"] = currentPosition;
       transmitter::packet["CurrentDesiredPosition"] = currentDesiredPosition;

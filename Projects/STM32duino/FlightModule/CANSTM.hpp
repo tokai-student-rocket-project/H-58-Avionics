@@ -15,9 +15,7 @@ public:
     LINEAR_ACCELERATION,
     ALTITUDE,
     OUTSIDE_TEMPERATURE,
-    VOLTAGE_SUPPLY,
-    VOLTAGE_BATTERY,
-    VOLTAGE_POOL,
+    VOLTAGE,
     SYSTEM_STATUS,
     EVENT,
     ERROR,
@@ -117,6 +115,12 @@ public:
   /// @param isAccelerometerCalibrated BNO055加速度計のキャリブレーションが完了しているか
   /// @param isMagnetometerCalibrated BNO055地磁気計のキャリブレーションが完了しているか
   void sendSensingStatus(float referencePressure, bool isSystemCalibrated, bool isGyroscopeCalibrated, bool isAccelerometerCalibrated, bool isMagnetometerCalibrated);
+
+  /// @brief 電圧を送信する
+  /// @param supply 供給電圧 [V]
+  /// @param pool プール電圧 [V]
+  /// @param battery バッテリー電圧 [V]
+  void sendVoltage(float supply, bool pool, bool battery);
 
 
   /// @brief スカラー値を送信する

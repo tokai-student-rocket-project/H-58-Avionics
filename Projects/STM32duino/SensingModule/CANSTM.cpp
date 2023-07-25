@@ -124,6 +124,27 @@ void CANSTM::sendSensingStatus(float referencePressure, bool isSystemCalibrated,
 }
 
 
+/// @brief 電圧を送信する
+/// @param supply 供給電圧 [V]
+/// @param pool プール電圧 [V]
+/// @param battery バッテリー電圧 [V]
+void CANSTM::sendVoltage(float supply, bool pool, bool battery) {
+  CANMessage message;
+  message.id = static_cast<uint32_t>(Label::VOLTAGE);
+  message.len = 6;
+
+  int16_t supplyInt = (int16_t)(supply * 100);
+  int16_t poolInt = (int16_t)(pool * 100);
+  int16_t batteryInt = (int16_t)(battery * 100);
+
+  memcpy(message.data + 0, &supplyInt, 2);
+  memcpy(message.data + 2, &supplyInt, 2);
+  memcpy(message.data + 4, &batteryInt, 2);
+
+  can.tryToSendReturnStatus(message);
+}
+
+
 /// @brief スカラー値を送信する
 /// @param label データの種類
 /// @param value 値

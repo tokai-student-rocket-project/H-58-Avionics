@@ -173,3 +173,19 @@ void CANMCP::receiveServo(float* value) {
 
   *value = (float)raw / 100.0;
 }
+
+
+/// @brief 電圧を受信する
+/// @param supply 供給電圧 [V]
+/// @param pool プール電圧 [V]
+/// @param battery バッテリー電圧 [V]
+void CANMCP::receiveVoltage(float* supply, float* pool, float* battery) {
+  int16_t supplyInt, poolInt, batteryInt;
+  memcpy(&supplyInt, _latestData + 0, 2);
+  memcpy(&poolInt, _latestData + 2, 2);
+  memcpy(&batteryInt, _latestData + 4, 2);
+
+  *supply = (float)supplyInt / 100.0;
+  *pool = (float)poolInt / 100.0;
+  *battery = (float)batteryInt / 100.0;
+}

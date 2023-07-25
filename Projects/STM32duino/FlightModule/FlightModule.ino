@@ -78,10 +78,10 @@ namespace data {
 
 void setup() {
   // デバッグ用シリアルポート
-  internal::flag::isDebugMode = true;
-  Serial.begin(115200);
-  while (!Serial);
-  delay(800);
+  // internal::flag::isDebugMode = true;
+  // Serial.begin(115200);
+  // while (!Serial);
+  // delay(800);
 
   internal::timeManager.THRUST_TIME = 2110;
   internal::timeManager.PROTECTION_SEPARATION_TIME = 99999;
@@ -155,11 +155,7 @@ void internal::task4Hz() {
     data::voltagePool = device::sensor::pool.voltage();
   }
 
-
-  // CANにデータを流す
-  canbus::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltageSupply);
-  canbus::can.sendScalar(CANSTM::Label::VOLTAGE_BATTERY, data::voltageBattery);
-  canbus::can.sendScalar(CANSTM::Label::VOLTAGE_POOL, data::voltagePool);
+  canbus::can.sendVoltage(data::voltageSupply, data::voltagePool, data::voltageBattery);
   device::indicator::canSend.toggle();
 }
 

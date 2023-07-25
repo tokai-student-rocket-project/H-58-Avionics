@@ -125,16 +125,8 @@ void loop() {
       connection::handleSensingStatus();
       indicator::canReceive.toggle();
       break;
-    case CANMCP::Label::VOLTAGE_SUPPLY:
-      connection::can.receiveScalar(&data::voltage_supply);
-      indicator::canReceive.toggle();
-      break;
-    case CANMCP::Label::VOLTAGE_BATTERY:
-      connection::can.receiveScalar(&data::voltage_battery);
-      indicator::canReceive.toggle();
-      break;
-    case CANMCP::Label::VOLTAGE_POOL:
-      connection::can.receiveScalar(&data::voltage_pool);
+    case CANMCP::Label::VOLTAGE:
+      connection::can.receiveVoltage(&data::voltage_supply, &data::voltage_pool, &data::voltage_battery);
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::EVENT:
@@ -147,7 +139,6 @@ void loop() {
       break;
     case CANMCP::Label::CURRENT_POSITION:
       connection::can.receiveServo(&data::currentPosition);
-      Serial.println(data::currentPosition);
       break;
     case CANMCP::Label::CURRENT_DESIRED_POSITION:
       connection::can.receiveServo(&data::currentDesiredPosition);
@@ -175,18 +166,18 @@ void loop() {
 /// @brief 5Hzで実行したい処理
 void timer::task5Hz() {
   // バルブ情報をダウンリンクで送信する
-  const auto& valveStatusPacket = MsgPacketizer::encode(
-    static_cast<uint8_t>(connection::Index::VALVE_STATUS),
-    data::currentPosition,
-    data::currentDesiredPosition,
-    data::currentVelocity,
-    data::mcuTemperature,
-    data::motorTemperature,
-    data::current,
-    data::inputVoltage
-  );
+  // const auto& valveStatusPacket = MsgPacketizer::encode(
+  //   static_cast<uint8_t>(connection::Index::VALVE_STATUS),
+  //   data::currentPosition,
+  //   data::currentDesiredPosition,
+  //   data::currentVelocity,
+  //   data::mcuTemperature,
+  //   data::motorTemperature,
+  //   data::current,
+  //   data::inputVoltage
+  // );
 
-  connection::sendDownlink(valveStatusPacket.data.data(), valveStatusPacket.data.size());
+  // connection::sendDownlink(valveStatusPacket.data.data(), valveStatusPacket.data.size());
 
 
   // 電源情報をダウンリンクで送信する
@@ -312,7 +303,7 @@ void connection::handleSensingStatus() {
 
   connection::can.receiveSensingStatus(&referencePressure, &isSystemCalibrated, &isGyroscopeCalibrated, &isAccelerometerCalibrated, &isMagnetometerCalibrated);
 
-  // システムステータスをそのままダウンリンクで送信
+  // 計測ステータスをそのままダウンリンクで送信
   const auto& sensingStatusPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::SENSING_STATUS),
     referencePressure,
@@ -334,7 +325,7 @@ void connection::handleEvent() {
 
   connection::can.receiveEvent(&publisher, &eventCode, &timestamp);
 
-  // システムステータスをそのままダウンリンクで送信
+  // イベントをそのままダウンリンクで送信
   const auto& eventPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::EVENT),
     static_cast<uint8_t>(publisher),
@@ -355,7 +346,7 @@ void connection::handleError() {
 
   connection::can.receiveError(&publisher, &errorCode, &errorReason, &timestamp);
 
-  // システムステータスをそのままダウンリンクで送信
+  // エラーをそのままダウンリンクで送信
   const auto& errorPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::ERROR),
     static_cast<uint8_t>(publisher),
