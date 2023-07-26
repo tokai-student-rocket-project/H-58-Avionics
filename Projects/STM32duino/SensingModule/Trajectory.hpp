@@ -23,13 +23,19 @@ public:
   /// @brief 気圧と気温から高度を算出して更新
   /// @param pressure 気圧 [hPa]
   /// @param temperature 気温 [degC]
-  /// @return 算出した高度 [m]
-  float update(float pressure, float temperature);
+  void update(float pressure, float temperature);
 
   /// @brief 既知の高度から更新
   /// @param altitude 高度 [m]
+  void update(float altitude);
+
+  /// @brief 算出済みの高度を返す
   /// @return 高度 [m]
-  float update(float altitude);
+  float getAltitude();
+
+  /// @brief 算出済みの上昇率を返す
+  /// @return 上昇率 [m/s]
+  float getClimbRate();
 
   /// @brief 落下検知用に算出した上昇指数を返す
   /// @return 上昇指数
@@ -44,4 +50,10 @@ private:
   ExponentialMovingAverage* _altitudeAverageWeak;
 
   float _referencePressure = 1013.25;
+
+  float _latestAltitude;
+  float _latestClimbRate;
+
+  float _lastAltitude;
+  float _lastTime;
 };

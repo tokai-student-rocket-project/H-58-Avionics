@@ -1,5 +1,7 @@
+#include <SPI.h>
+#include <LoRa.h>
+#include <MsgPacketizer.h>
 #include <TaskManager.h>
-#include "Transmitter.hpp"
 #include "CANMCP.hpp"
 #include "LED.hpp"
 
@@ -31,7 +33,6 @@ namespace connection {
 
 
   CANMCP can(7);
-  Transmitter transmitter;
 }
 
 namespace data {
@@ -40,13 +41,15 @@ namespace data {
 
   float outsideTemperature;
   float altitude;
+  float climbRate;
 }
 
 
 void setup() {
   Serial.begin(115200);
 
-  connection::transmitter.begin(923.8E6, 500E3);
+  LoRa.begin(923.8E6);
+  LoRa.setSignalBandwidth(500E3);
 
   connection::can.begin();
   connection::can.sendEvent(CANMCP::Publisher::AIR_DATA_COMMUNICATION_MODULE, CANMCP::EventCode::SETUP);
@@ -77,6 +80,10 @@ void loop() {
       connection::can.receiveScalar(&data::outsideTemperature);
       indicator::canReceive.toggle();
       break;
+    case CANMCP::Label::CLIMB_RATE:
+      connection::can.receiveScalar(&data::climbRate);
+      indicator::canReceive.toggle();
+      break;
     }
   }
 }
@@ -87,6 +94,7 @@ void timer::task20Hz() {
   // エアデータをダウンリンクで送信する
   const auto& airDataPacket = MsgPacketizer::encode(static_cast<uint8_t>(connection::Index::AIR_DATA),
     data::altitude,
+    data::climbRate,
     data::outsideTemperature,
     data::orientation_x,
     data::orientation_y,

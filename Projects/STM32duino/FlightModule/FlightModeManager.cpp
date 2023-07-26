@@ -24,3 +24,13 @@ bool FlightModeManager::is(Var::FlightMode mode) {
 bool FlightModeManager::isNot(Var::FlightMode mode) {
   return _currentMode != mode;
 }
+
+
+bool FlightModeManager::isFlying() {
+  return _currentMode == Var::FlightMode::THRUST
+    || _currentMode == Var::FlightMode::CLIMB
+    || _currentMode == Var::FlightMode::DESCENT
+    || _currentMode == Var::FlightMode::DECEL
+    || _currentMode == Var::FlightMode::PARACHUTE
+    || _currentMode == Var::FlightMode::LAND;
+}

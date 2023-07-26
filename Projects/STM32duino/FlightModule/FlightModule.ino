@@ -78,10 +78,10 @@ namespace data {
 
 void setup() {
   // デバッグ用シリアルポート
-  internal::flag::isDebugMode = true;
-  Serial.begin(115200);
-  while (!Serial);
-  delay(800);
+  // internal::flag::isDebugMode = true;
+  // Serial.begin(115200);
+  // while (!Serial);
+  // delay(800);
 
   internal::timeManager.THRUST_TIME = 2110;
   internal::timeManager.PROTECTION_SEPARATION_TIME = 99999;
@@ -137,8 +137,6 @@ void loop() {
       bool isWaitingMode;
       canbus::can.receiveValveMode(&isWaitingMode);
       internal::flag::isLaunchMode = !isWaitingMode;
-
-      Serial.println(internal::flag::isLaunchMode);
       break;
     }
     }
@@ -155,11 +153,7 @@ void internal::task4Hz() {
     data::voltagePool = device::sensor::pool.voltage();
   }
 
-
-  // CANにデータを流す
-  canbus::can.sendScalar(CANSTM::Label::VOLTAGE_SUPPLY, data::voltageSupply);
-  canbus::can.sendScalar(CANSTM::Label::VOLTAGE_BATTERY, data::voltageBattery);
-  canbus::can.sendScalar(CANSTM::Label::VOLTAGE_POOL, data::voltagePool);
+  canbus::can.sendVoltage(data::voltageSupply, data::voltagePool, data::voltageBattery);
   device::indicator::canSend.toggle();
 }
 
@@ -175,7 +169,8 @@ void internal::task50Hz() {
     internal::flightModeManager.currentMode(),
     static_cast<Var::State>(device::peripheral::camera.get()),
     static_cast<Var::State>(device::peripheral::sn3.get()),
-    device::peripheral::logger.isLogging()
+    device::peripheral::logger.isLogging(),
+    internal::flightModeManager.isFlying() ? internal::timeManager.flightTime() : -1
   );
 
   device::indicator::canSend.toggle();

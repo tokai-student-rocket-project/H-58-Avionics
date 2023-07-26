@@ -15,9 +15,7 @@ public:
     LINEAR_ACCELERATION,
     ALTITUDE,
     OUTSIDE_TEMPERATURE,
-    VOLTAGE_SUPPLY,
-    VOLTAGE_BATTERY,
-    VOLTAGE_POOL,
+    VOLTAGE,
     SYSTEM_STATUS,
     EVENT,
     ERROR,
@@ -25,6 +23,7 @@ public:
     TRAJECTORY_DATA,
     SENSING_STATUS,
     FLIGHT_MODE_ON_COMMAND,
+    CLIMB_RATE,
     CURRENT_POSITION = 0x103,
     CURRENT_DESIRED_POSITION,
     CURRENT_VELOCITY,
@@ -115,7 +114,8 @@ public:
   /// @param cameraState カメラの状態
   /// @param sn3State 不知火3の状態
   /// @param doLogging ログ保存するか
-  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging);
+  /// @param flightTime 飛翔時間
+  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint32_t* flightTime);
 
   /// @brief 計測ステータスを受信する
   /// @param referencePressure 参照気圧 [hPa]
@@ -149,6 +149,12 @@ public:
   void receiveError(Publisher* publisher, ErrorCode* errorCode, ErrorReason* errorReason, uint32_t* timestamp);
 
   void receiveServo(float* value);
+
+  /// @brief 電圧を受信する
+  /// @param supply 供給電圧 [V]
+  /// @param pool プール電圧 [V]
+  /// @param battery バッテリー電圧 [V]
+  void receiveVoltage(float* supply, float* pool, float* battery);
 
 private:
   mcp2515_can* _can;
