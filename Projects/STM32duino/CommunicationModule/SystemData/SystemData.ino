@@ -10,8 +10,8 @@
 
 
 namespace timer {
-  void task5Hz();
-  void task10Hz();
+  void lowRateDownlinkTask();
+  void highRateDownlinkTask();
 }
 
 namespace command {
@@ -51,13 +51,10 @@ namespace connection {
   };
 
   void sendDownlink(const uint8_t* data, uint32_t size);
+  bool isListenMode = false;
 
   CANMCP can(7);
 
-
-  void handleVoltage();
-  void handleSystemStatus();
-  void handleSensingStatus();
   void handleEvent();
   void handleError();
 }
@@ -72,6 +69,14 @@ namespace data {
   float motorTemperature;
   float current;
   float inputVoltage;
+
+  Var::FlightMode flightMode;
+  Var::State cameraState, sn3State;
+  bool doLogging;
+  uint32_t flightTime;
+  float voltage_supply, voltage_battery, voltage_pool;
+  float referencePressure;
+  bool isSystemCalibrated, isGyroscopeCalibrated, isAccelerometerCalibrated, isMagnetometerCalibrated;
 }
 
 
@@ -86,8 +91,8 @@ void setup() {
   connection::can.begin();
   connection::can.sendEvent(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE, CANMCP::EventCode::SETUP);
 
-  Tasks.add(timer::task5Hz)->startFps(5);
-  Tasks.add(timer::task10Hz)->startFps(10);
+  Tasks.add("lowRateDownlinkTask", timer::lowRateDownlinkTask)->startFps(5);
+  Tasks.add("highRateDownlinkTask", timer::highRateDownlinkTask)->startFps(10);
 
 
   // 参照気圧設定コマンド
@@ -117,16 +122,35 @@ void loop() {
   // CAN受信処理
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
-    case CANMCP::Label::SYSTEM_STATUS:
-      connection::handleSystemStatus();
+    case CANMCP::Label::SYSTEM_STATUS: {
+      connection::can.receiveSystemStatus(&data::flightMode, &data::cameraState, &data::sn3State, &data::doLogging, &data::flightTime);
       indicator::canReceive.toggle();
+
+      // コマンドを受信しやすようにSLEEPモードの時はダウンリンクの頻度を落とす
+      if (data::flightMode == Var::FlightMode::SLEEP && connection::isListenMode == false) {
+        Tasks["lowRateDownlinkTask"]->stop();
+        Tasks["lowRateDownlinkTask"]->startFps(0.5);
+        Tasks["highRateDownlinkTask"]->stop();
+        Tasks["highRateDownlinkTask"]->startFps(0.9);
+        connection::isListenMode = true;
+      }
+
+      if (data::flightMode != Var::FlightMode::SLEEP && connection::isListenMode == true) {
+        Tasks["lowRateDownlinkTask"]->stop();
+        Tasks["lowRateDownlinkTask"]->startFps(5);
+        Tasks["highRateDownlinkTask"]->stop();
+        Tasks["highRateDownlinkTask"]->startFps(9);
+        connection::isListenMode = false;
+      }
+
       break;
+    }
     case CANMCP::Label::SENSING_STATUS:
-      connection::handleSensingStatus();
+      connection::can.receiveSensingStatus(&data::referencePressure, &data::isSystemCalibrated, &data::isGyroscopeCalibrated, &data::isAccelerometerCalibrated, &data::isMagnetometerCalibrated);
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::VOLTAGE:
-      connection::handleVoltage();
+      connection::can.receiveVoltage(&data::voltage_supply, &data::voltage_pool, &data::voltage_battery);
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::EVENT:
@@ -164,7 +188,7 @@ void loop() {
 
 
 /// @brief 5Hzで実行したい処理
-void timer::task5Hz() {
+void timer::lowRateDownlinkTask() {
   // バルブ情報をダウンリンクで送信する
   // const auto& valveStatusPacket = MsgPacketizer::encode(
   //   static_cast<uint8_t>(connection::Index::VALVE_STATUS),
@@ -178,11 +202,21 @@ void timer::task5Hz() {
   // );
 
   // connection::sendDownlink(valveStatusPacket.data.data(), valveStatusPacket.data.size());
+
+    // 電源情報をダウンリンクで送信する
+  const auto& powerDataPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::POWER_DATA),
+    data::voltage_supply,
+    data::voltage_battery,
+    data::voltage_pool
+  );
+
+  connection::sendDownlink(powerDataPacket.data.data(), powerDataPacket.data.size());
 }
 
 
 /// @brief 10Hzで実行したい処理
-void timer::task10Hz() {
+void timer::highRateDownlinkTask() {
   // GNSS情報を受信する
   if (sensor::gnss.available()) {
     data::latitude = sensor::gnss.getLatitude();
@@ -199,6 +233,40 @@ void timer::task10Hz() {
   );
 
   connection::sendDownlink(gnssDataPacket.data.data(), gnssDataPacket.data.size());
+
+  // 計測ステータスをダウンリンクで送信する
+  const auto& sensingStatusPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::SENSING_STATUS),
+    data::referencePressure,
+    data::isSystemCalibrated,
+    data::isGyroscopeCalibrated,
+    data::isAccelerometerCalibrated,
+    data::isMagnetometerCalibrated
+  );
+
+  connection::sendDownlink(sensingStatusPacket.data.data(), sensingStatusPacket.data.size());
+
+  // システムステータスをダウンリンクで送信する
+  const auto& systemStatusPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::SYSTEM_STATUS),
+    static_cast<uint8_t>(data::flightMode),
+    static_cast<bool>(data::cameraState),
+    static_cast<bool>(data::sn3State),
+    data::doLogging,
+    data::flightTime
+  );
+
+  const uint32_t size = gnssDataPacket.data.size() + sensingStatusPacket.data.size() + systemStatusPacket.data.size();
+  const uint8_t* gnssData = gnssDataPacket.data.data();
+  const uint8_t* sensingSData = sensingStatusPacket.data.data();
+  const uint8_t* systemData = systemStatusPacket.data.data();
+
+  uint8_t data[size];
+  memcpy(data, gnssData, gnssDataPacket.data.size());
+  memcpy(data + gnssDataPacket.data.size(), sensingSData, sensingStatusPacket.data.size());
+  memcpy(data + gnssDataPacket.data.size() + sensingStatusPacket.data.size(), systemData, systemStatusPacket.data.size());
+
+  connection::sendDownlink(data, size);
 }
 
 
@@ -261,69 +329,6 @@ void connection::sendDownlink(const uint8_t* data, uint32_t size) {
   LoRa.write(data, size);
   LoRa.endPacket();
   indicator::loRaSend.toggle();
-}
-
-
-/// @brief CANの電圧受信処理をまとめた関数
-void connection::handleVoltage() {
-  float voltage_supply, voltage_battery, voltage_pool;
-
-  connection::can.receiveVoltage(&voltage_supply, &voltage_pool, &voltage_battery);
-
-
-  // 電源情報をそのままダウンリンクで送信
-  const auto& powerDataPacket = MsgPacketizer::encode(
-    static_cast<uint8_t>(connection::Index::POWER_DATA),
-    voltage_supply,
-    voltage_battery,
-    voltage_pool
-  );
-
-  connection::sendDownlink(powerDataPacket.data.data(), powerDataPacket.data.size());
-}
-
-
-/// @brief CANのシステムステータス受信処理をまとめた関数
-void connection::handleSystemStatus() {
-  Var::FlightMode flightMode;
-  Var::State cameraState, sn3State;
-  bool doLogging;
-  uint32_t flightTime;
-
-  connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging, &flightTime);
-
-  // システムステータスをそのままダウンリンクで送信
-  const auto& systemStatusPacket = MsgPacketizer::encode(
-    static_cast<uint8_t>(connection::Index::SYSTEM_STATUS),
-    static_cast<uint8_t>(flightMode),
-    static_cast<bool>(cameraState),
-    static_cast<bool>(sn3State),
-    doLogging,
-    flightTime
-  );
-
-  connection::sendDownlink(systemStatusPacket.data.data(), systemStatusPacket.data.size());
-}
-
-
-/// @brief CANの計測ステータス受信処理をまとめた関数
-void connection::handleSensingStatus() {
-  float referencePressure;
-  bool isSystemCalibrated, isGyroscopeCalibrated, isAccelerometerCalibrated, isMagnetometerCalibrated;
-
-  connection::can.receiveSensingStatus(&referencePressure, &isSystemCalibrated, &isGyroscopeCalibrated, &isAccelerometerCalibrated, &isMagnetometerCalibrated);
-
-  // 計測ステータスをそのままダウンリンクで送信
-  const auto& sensingStatusPacket = MsgPacketizer::encode(
-    static_cast<uint8_t>(connection::Index::SENSING_STATUS),
-    referencePressure,
-    isSystemCalibrated,
-    isGyroscopeCalibrated,
-    isAccelerometerCalibrated,
-    isMagnetometerCalibrated
-  );
-
-  connection::sendDownlink(sensingStatusPacket.data.data(), sensingStatusPacket.data.size());
 }
 
 
