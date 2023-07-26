@@ -296,8 +296,8 @@ void connection::handleSystemStatus() {
   const auto& systemStatusPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::SYSTEM_STATUS),
     static_cast<uint8_t>(flightMode),
-    static_cast<uint8_t>(cameraState),
-    static_cast<uint8_t>(sn3State),
+    static_cast<bool>(cameraState),
+    static_cast<bool>(sn3State),
     doLogging,
     flightTime
   );
