@@ -89,7 +89,8 @@ public:
   /// @param cameraState カメラの状態
   /// @param sn3State 不知火3の状態
   /// @param doLogging ログ保存するか
-  void sendSystemStatus(Var::FlightMode flightMode, Var::State cameraState, Var::State sn3State, bool doLogging);
+  /// @param flightTime 飛翔時間
+  void sendSystemStatus(Var::FlightMode flightMode, Var::State cameraState, Var::State sn3State, bool doLogging, uint32_t flightTime);
 
   /// @brief イベントを送信する
   /// @param publisher どのモジュールがイベントを発行したか
@@ -147,7 +148,8 @@ public:
   /// @param cameraState カメラの状態
   /// @param sn3State 不知火3の状態
   /// @param doLogging ログ保存するか
-  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging);
+  /// @param flightTime 飛翔時間
+  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint32_t* flightTime);
 
   /// @brief スカラー値を受信する
   /// @param value 値のポインタ

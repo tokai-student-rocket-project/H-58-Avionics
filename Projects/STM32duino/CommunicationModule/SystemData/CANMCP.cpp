@@ -90,11 +90,12 @@ void CANMCP::sendFlightModeOn() {
 /// @param cameraState カメラの状態
 /// @param sn3State 不知火3の状態
 /// @param doLogging ログ保存するか
-void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging) {
+void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint32_t* flightTime) {
   *flightMode = static_cast<Var::FlightMode>(_latestData[0]);
   *cameraState = static_cast<Var::State>(_latestData[1]);
   *sn3State = static_cast<Var::State>(_latestData[2]);
   *doLogging = _latestData[3];
+  memcpy(flightTime, _latestData + 4, 4);
 }
 
 

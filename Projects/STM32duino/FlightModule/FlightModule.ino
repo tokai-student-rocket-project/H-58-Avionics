@@ -169,7 +169,8 @@ void internal::task50Hz() {
     internal::flightModeManager.currentMode(),
     static_cast<Var::State>(device::peripheral::camera.get()),
     static_cast<Var::State>(device::peripheral::sn3.get()),
-    device::peripheral::logger.isLogging()
+    device::peripheral::logger.isLogging(),
+    internal::flightModeManager.isFlying() ? internal::timeManager.flightTime() : -1
   );
 
   device::indicator::canSend.toggle();

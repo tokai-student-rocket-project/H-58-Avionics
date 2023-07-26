@@ -217,8 +217,9 @@ void canbus::handleSystemStatus() {
   Var::FlightMode flightMode;
   Var::State cameraState, sn3State;
   bool doLogging;
+  uint32_t flightTime;
 
-  canbus::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
+  canbus::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging, &flightTime);
 
   // ログ保存を"やるはず"なのに"やっていない"なら開始
   if (doLogging && !device::peripheral::logger.isLogging()) {

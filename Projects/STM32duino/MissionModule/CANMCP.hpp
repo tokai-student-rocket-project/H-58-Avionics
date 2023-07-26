@@ -114,7 +114,8 @@ public:
   /// @param cameraState カメラの状態
   /// @param sn3State 不知火3の状態
   /// @param doLogging ログ保存するか
-  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging);
+  /// @param flightTime 飛翔時間
+  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint32_t* flightTime);
 
   /// @brief 計測ステータスを受信する
   /// @param referencePressure 参照気圧 [hPa]

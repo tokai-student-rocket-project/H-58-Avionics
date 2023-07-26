@@ -288,8 +288,9 @@ void connection::handleSystemStatus() {
   Var::FlightMode flightMode;
   Var::State cameraState, sn3State;
   bool doLogging;
+  uint32_t flightTime;
 
-  connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
+  connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging, &flightTime);
 
   // システムステータスをそのままダウンリンクで送信
   const auto& systemStatusPacket = MsgPacketizer::encode(
@@ -297,7 +298,8 @@ void connection::handleSystemStatus() {
     static_cast<uint8_t>(flightMode),
     static_cast<uint8_t>(cameraState),
     static_cast<uint8_t>(sn3State),
-    doLogging
+    doLogging,
+    flightTime
   );
 
   connection::sendDownlink(systemStatusPacket.data.data(), systemStatusPacket.data.size());
