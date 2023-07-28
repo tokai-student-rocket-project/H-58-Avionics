@@ -13,6 +13,7 @@ public:
 
   bool is(Var::FlightMode mode);
   bool isNot(Var::FlightMode mode);
+  bool isFlying();
 
 private:
   Var::FlightMode _currentMode = Var::FlightMode::SLEEP;

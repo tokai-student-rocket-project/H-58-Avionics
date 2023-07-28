@@ -15,9 +15,7 @@ public:
     LINEAR_ACCELERATION,
     ALTITUDE,
     OUTSIDE_TEMPERATURE,
-    VOLTAGE_SUPPLY,
-    VOLTAGE_BATTERY,
-    VOLTAGE_POOL,
+    VOLTAGE,
     SYSTEM_STATUS,
     EVENT,
     ERROR,
@@ -25,6 +23,7 @@ public:
     TRAJECTORY_DATA,
     SENSING_STATUS,
     FLIGHT_MODE_ON_COMMAND,
+    CLIMB_RATE,
     CURRENT_POSITION = 0x103,
     CURRENT_DESIRED_POSITION,
     CURRENT_VELOCITY,
@@ -90,7 +89,8 @@ public:
   /// @param cameraState カメラの状態
   /// @param sn3State 不知火3の状態
   /// @param doLogging ログ保存するか
-  void sendSystemStatus(Var::FlightMode flightMode, Var::State cameraState, Var::State sn3State, bool doLogging);
+  /// @param flightTime 飛翔時間
+  void sendSystemStatus(Var::FlightMode flightMode, Var::State cameraState, Var::State sn3State, bool doLogging, uint32_t flightTime);
 
   /// @brief イベントを送信する
   /// @param publisher どのモジュールがイベントを発行したか
@@ -117,6 +117,12 @@ public:
   /// @param isMagnetometerCalibrated BNO055地磁気計のキャリブレーションが完了しているか
   void sendSensingStatus(float referencePressure, bool isSystemCalibrated, bool isGyroscopeCalibrated, bool isAccelerometerCalibrated, bool isMagnetometerCalibrated);
 
+  /// @brief 電圧を送信する
+  /// @param supply 供給電圧 [V]
+  /// @param pool プール電圧 [V]
+  /// @param battery バッテリー電圧 [V]
+  void sendVoltage(float supply, float pool, float battery);
+
 
   /// @brief スカラー値を送信する
   /// @param label データの種類
@@ -142,7 +148,8 @@ public:
   /// @param cameraState カメラの状態
   /// @param sn3State 不知火3の状態
   /// @param doLogging ログ保存するか
-  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging);
+  /// @param flightTime 飛翔時間
+  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint32_t* flightTime);
 
   /// @brief スカラー値を受信する
   /// @param value 値のポインタ
