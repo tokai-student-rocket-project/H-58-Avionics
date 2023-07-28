@@ -33,8 +33,8 @@ void setup() {
       transmitter::packet["BatteryVoltage"] = voltage_battery;
       transmitter::packet["PoolVoltage"] = voltage_pool;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
@@ -54,8 +54,8 @@ void setup() {
       transmitter::packet["Latitude"] = latitude;
       transmitter::packet["Longitude"] = longitude;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
@@ -66,7 +66,8 @@ void setup() {
       uint8_t flightMode,
       bool cameraStatus,
       bool sn3Status,
-      bool doLogging
+      bool doLogging,
+      uint32_t flightTime
       )
     {
       transmitter::packet.clear();
@@ -78,9 +79,10 @@ void setup() {
       transmitter::packet["CameraStatus"] = cameraStatus;
       transmitter::packet["SN3Status"] = sn3Status;
       transmitter::packet["DoLogging"] = doLogging;
+      transmitter::packet["FlightTime"] = flightTime;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
@@ -106,8 +108,8 @@ void setup() {
       transmitter::packet["IsAccelerometerCalibrated"] = isAccelerometerCalibrated;
       transmitter::packet["IsMagnetometerCalibrated"] = isMagnetometerCalibrated;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }
@@ -148,14 +150,13 @@ void setup() {
       transmitter::packet["PacketInfo"]["Type"] = "Error";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
-      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       transmitter::packet["Publisher"] = publisher;
       transmitter::packet["ErrorCode"] = errorCode;
       transmitter::packet["ErrorReason"] = errorReason;
       transmitter::packet["Timestamp"] = timestamp;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     });
@@ -176,7 +177,6 @@ void setup() {
       transmitter::packet["PacketInfo"]["Type"] = "ValveStatus";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
-      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       transmitter::packet["CurrentPosition"] = currentPosition;
       transmitter::packet["CurrentDesiredPosition"] = currentDesiredPosition;
       transmitter::packet["CurrentVelocity"] = currentVelocity;
@@ -185,8 +185,8 @@ void setup() {
       transmitter::packet["Current"] = current;
       transmitter::packet["InputVoltage"] = inputVoltage;
 
-      // serializeJson(transmitter::packet, Serial);
-      // Serial.println();
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     });

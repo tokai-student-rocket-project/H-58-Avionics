@@ -40,15 +40,17 @@ CANSTM::Label CANSTM::getLatestMessageLabel() {
 /// @param cameraState カメラの状態
 /// @param sn3State 不知火3の状態
 /// @param doLogging ログ保存するか
-void CANSTM::sendSystemStatus(Var::FlightMode flightMode, Var::State cameraState, Var::State sn3State, bool doLogging) {
+/// @param flightTime 飛翔時間
+void CANSTM::sendSystemStatus(Var::FlightMode flightMode, Var::State cameraState, Var::State sn3State, bool doLogging, uint32_t flightTime) {
   CANMessage message;
   message.id = static_cast<uint32_t>(Label::SYSTEM_STATUS);
-  message.len = 4;
+  message.len = 8;
 
   message.data[0] = static_cast<uint8_t>(flightMode);
   message.data[1] = static_cast<uint8_t>(cameraState);
   message.data[2] = static_cast<uint8_t>(sn3State);
   message.data[3] = doLogging;
+  memcpy(message.data + 4, &flightTime, 4);
 
   can.tryToSendReturnStatus(message);
 }
@@ -124,6 +126,27 @@ void CANSTM::sendSensingStatus(float referencePressure, bool isSystemCalibrated,
 }
 
 
+/// @brief 電圧を送信する
+/// @param supply 供給電圧 [V]
+/// @param pool プール電圧 [V]
+/// @param battery バッテリー電圧 [V]
+void CANSTM::sendVoltage(float supply, float pool, float battery) {
+  CANMessage message;
+  message.id = static_cast<uint32_t>(Label::VOLTAGE);
+  message.len = 6;
+
+  int16_t supplyInt = (int16_t)(supply * 100.0);
+  int16_t poolInt = (int16_t)(pool * 100.0);
+  int16_t batteryInt = (int16_t)(battery * 100.0);
+
+  memcpy(message.data + 0, &supplyInt, 2);
+  memcpy(message.data + 2, &poolInt, 2);
+  memcpy(message.data + 4, &batteryInt, 2);
+
+  can.tryToSendReturnStatus(message);
+}
+
+
 /// @brief スカラー値を送信する
 /// @param label データの種類
 /// @param value 値
@@ -172,11 +195,13 @@ void CANSTM::sendVector3D(Label label, float xValue, float yValue, float zValue)
 /// @param cameraState カメラの状態
 /// @param sn3State 不知火3の状態
 /// @param doLogging ログ保存するか
-void CANSTM::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging) {
+/// @param flightTime 飛翔時間
+void CANSTM::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint32_t* flightTime) {
   *flightMode = static_cast<Var::FlightMode>(_latestData[0]);
   *cameraState = static_cast<Var::State>(_latestData[1]);
   *sn3State = static_cast<Var::State>(_latestData[2]);
   *doLogging = _latestData[3];
+  memcpy(flightTime, _latestData + 4, 4);
 }
 
 

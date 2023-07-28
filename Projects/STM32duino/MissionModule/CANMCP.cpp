@@ -90,11 +90,12 @@ void CANMCP::sendFlightModeOn() {
 /// @param cameraState カメラの状態
 /// @param sn3State 不知火3の状態
 /// @param doLogging ログ保存するか
-void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging) {
+void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint32_t* flightTime) {
   *flightMode = static_cast<Var::FlightMode>(_latestData[0]);
   *cameraState = static_cast<Var::State>(_latestData[1]);
   *sn3State = static_cast<Var::State>(_latestData[2]);
   *doLogging = _latestData[3];
+  memcpy(flightTime, _latestData + 4, 4);
 }
 
 
@@ -172,4 +173,20 @@ void CANMCP::receiveServo(float* value) {
   memcpy(&raw, _latestData, 2);
 
   *value = (float)raw / 100.0;
+}
+
+
+/// @brief 電圧を受信する
+/// @param supply 供給電圧 [V]
+/// @param pool プール電圧 [V]
+/// @param battery バッテリー電圧 [V]
+void CANMCP::receiveVoltage(float* supply, float* pool, float* battery) {
+  int16_t supplyInt, poolInt, batteryInt;
+  memcpy(&supplyInt, _latestData + 0, 2);
+  memcpy(&poolInt, _latestData + 2, 2);
+  memcpy(&batteryInt, _latestData + 4, 2);
+
+  *supply = (float)supplyInt / 100.0;
+  *pool = (float)poolInt / 100.0;
+  *battery = (float)batteryInt / 100.0;
 }
