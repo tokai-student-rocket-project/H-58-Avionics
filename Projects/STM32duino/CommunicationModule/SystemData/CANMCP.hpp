@@ -153,6 +153,7 @@ public:
   void receiveServo(float* value);
 
   void receiveValveData(uint8_t* motorTemperature, uint8_t* mcuTemperature, uint8_t* current, uint8_t* inputVoltage);
+  void receiveValveMode(bool* isWaiting);
 
   /// @brief 電圧を受信する
   /// @param supply 供給電圧 [V]

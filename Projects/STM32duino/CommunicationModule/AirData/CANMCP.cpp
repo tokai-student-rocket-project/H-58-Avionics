@@ -176,6 +176,24 @@ void CANMCP::receiveServo(float* value) {
 }
 
 
+void CANMCP::receiveValveData(uint8_t* motorTemperature, uint8_t* mcuTemperature, uint8_t* current, uint8_t* inputVoltage) {
+  uint8_t currentRaw, inputVoltageRaw;
+
+  memcpy(motorTemperature, _latestData, 1);
+  memcpy(mcuTemperature, _latestData + 1, 1);
+  memcpy(&currentRaw, _latestData + 2, 1);
+  memcpy(&inputVoltageRaw, _latestData + 3, 1);
+
+  *current = (float)currentRaw / 100.0;
+  *inputVoltage = (float)inputVoltageRaw / 10.0;
+}
+
+
+void CANMCP::receiveValveMode(bool* isWaiting) {
+  *isWaiting = _latestData[0];
+}
+
+
 /// @brief 電圧を受信する
 /// @param supply 供給電圧 [V]
 /// @param pool プール電圧 [V]

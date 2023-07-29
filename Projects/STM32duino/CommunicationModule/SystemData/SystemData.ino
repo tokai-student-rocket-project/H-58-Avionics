@@ -45,12 +45,16 @@ namespace connection {
     SENSING_STATUS,
     EVENT,
     ERROR,
-    VALVE_STATUS,
+    VALVE_DATA,
     SET_REFERENCE_PRESSURE_COMMAND = 0xF0,
     SET_FLIGHT_MODE_ON
   };
 
+  void reserveDownlink(const uint8_t* data, uint32_t size);
+  void sendReservedDownlink();
   void sendDownlink(const uint8_t* data, uint32_t size);
+  uint8_t reservedData[4096];
+  uint32_t reservedSize = 0;
   bool isListenMode = false;
 
   CANMCP can(7);
@@ -62,13 +66,12 @@ namespace connection {
 namespace data {
   float latitude, longitude;
 
-  float currentPosition;
-  float currentDesiredPosition;
-  float currentVelocity;
-  float mcuTemperature;
-  float motorTemperature;
-  float current;
-  float inputVoltage;
+  // float currentPosition;
+  // float currentDesiredPosition;
+  // float currentVelocity;
+
+  uint8_t motorTemperature, mcuTemperature, current, inputVoltage;
+  bool isWaiting;
 
   Var::FlightMode flightMode;
   Var::State cameraState, sn3State;
@@ -161,39 +164,23 @@ void loop() {
       connection::handleError();
       indicator::canReceive.toggle();
       break;
-    case CANMCP::Label::CURRENT_POSITION:
-      connection::can.receiveServo(&data::currentPosition);
+      // case CANMCP::Label::CURRENT_POSITION:
+      //   connection::can.receiveServo(&data::currentPosition);
+      //   break;
+      // case CANMCP::Label::CURRENT_DESIRED_POSITION:
+      //   connection::can.receiveServo(&data::currentDesiredPosition);
+      //   break;
+      // case CANMCP::Label::CURRENT_VELOCITY:
+      //   connection::can.receiveServo(&data::currentVelocity);
+      //   break;
+    case CANMCP::Label::VALVE_DATA:
+      connection::can.receiveValveData(&data::motorTemperature, &data::mcuTemperature, &data::current, &data::inputVoltage);
+      indicator::canReceive.toggle();
       break;
-    case CANMCP::Label::CURRENT_DESIRED_POSITION:
-      connection::can.receiveServo(&data::currentDesiredPosition);
+    case CANMCP::Label::VALVE_MODE:
+      connection::can.receiveValveMode(&data::isWaiting);
+      indicator::canReceive.toggle();
       break;
-    case CANMCP::Label::CURRENT_VELOCITY:
-      connection::can.receiveServo(&data::currentVelocity);
-      break;
-    case CANMCP::Label::MCU_TEMPERATURE:
-      connection::can.receiveServo(&data::mcuTemperature);
-      break;
-    case CANMCP::Label::MOTOR_TEMPERATURE:
-      connection::can.receiveServo(&data::motorTemperature);
-      break;
-    case CANMCP::Label::CURRENT:
-      connection::can.receiveServo(&data::current);
-      break;
-    case CANMCP::Label::INPUT_VOLTAGE:
-      connection::can.receiveServo(&data::inputVoltage);
-      break;
-    case CANMCP::Label::VALVE_DATA: {
-      uint8_t motorTemperature, mcuTemperature, current, inputVoltage;
-      connection::can.receiveValveData(&motorTemperature, &mcuTemperature, &current, &inputVoltage);
-      Serial.print(motorTemperature);
-      Serial.print(",");
-      Serial.print(mcuTemperature);
-      Serial.print(",");
-      Serial.print(current, 2);
-      Serial.print(",");
-      Serial.println(inputVoltage, 1);
-      break;
-    }
     }
   }
 }
@@ -202,20 +189,18 @@ void loop() {
 /// @brief 5Hzで実行したい処理
 void timer::lowRateDownlinkTask() {
   // バルブ情報をダウンリンクで送信する
-  // const auto& valveStatusPacket = MsgPacketizer::encode(
-  //   static_cast<uint8_t>(connection::Index::VALVE_STATUS),
-  //   data::currentPosition,
-  //   data::currentDesiredPosition,
-  //   data::currentVelocity,
-  //   data::mcuTemperature,
-  //   data::motorTemperature,
-  //   data::current,
-  //   data::inputVoltage
-  // );
+  const auto& valveDataPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::VALVE_DATA),
+    data::isWaiting,
+    data::mcuTemperature,
+    data::motorTemperature,
+    data::current,
+    data::inputVoltage
+  );
 
-  // connection::sendDownlink(valveStatusPacket.data.data(), valveStatusPacket.data.size());
+  connection::reserveDownlink(valveDataPacket.data.data(), valveDataPacket.data.size());
 
-    // 電源情報をダウンリンクで送信する
+  // 電源情報をダウンリンクで送信する
   const auto& powerDataPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::POWER_DATA),
     data::voltage_supply,
@@ -223,7 +208,7 @@ void timer::lowRateDownlinkTask() {
     data::voltage_pool
   );
 
-  connection::sendDownlink(powerDataPacket.data.data(), powerDataPacket.data.size());
+  connection::reserveDownlink(powerDataPacket.data.data(), powerDataPacket.data.size());
 }
 
 
@@ -243,20 +228,8 @@ void timer::highRateDownlinkTask() {
       data::longitude
     );
 
-    connection::sendDownlink(gnssDataPacket.data.data(), gnssDataPacket.data.size());
+    connection::reserveDownlink(gnssDataPacket.data.data(), gnssDataPacket.data.size());
   }
-
-  // 計測ステータスをダウンリンクで送信する
-  const auto& sensingStatusPacket = MsgPacketizer::encode(
-    static_cast<uint8_t>(connection::Index::SENSING_STATUS),
-    data::referencePressure,
-    data::isSystemCalibrated,
-    data::isGyroscopeCalibrated,
-    data::isAccelerometerCalibrated,
-    data::isMagnetometerCalibrated
-  );
-
-  connection::sendDownlink(sensingStatusPacket.data.data(), sensingStatusPacket.data.size());
 
   // システムステータスをダウンリンクで送信する
   const auto& systemStatusPacket = MsgPacketizer::encode(
@@ -268,15 +241,20 @@ void timer::highRateDownlinkTask() {
     data::flightTime
   );
 
-  const uint32_t size = sensingStatusPacket.data.size() + systemStatusPacket.data.size();
-  const uint8_t* sensingData = sensingStatusPacket.data.data();
-  const uint8_t* systemData = systemStatusPacket.data.data();
+  connection::reserveDownlink(systemStatusPacket.data.data(), systemStatusPacket.data.size());
 
-  uint8_t data[size];
-  memcpy(data, sensingData, sensingStatusPacket.data.size());
-  memcpy(data + sensingStatusPacket.data.size(), systemData, systemStatusPacket.data.size());
+  // 計測ステータスをダウンリンクで送信する
+  const auto& sensingStatusPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::SENSING_STATUS),
+    data::referencePressure,
+    data::isSystemCalibrated,
+    data::isGyroscopeCalibrated,
+    data::isAccelerometerCalibrated,
+    data::isMagnetometerCalibrated
+  );
 
-  connection::sendDownlink(data, size);
+  connection::reserveDownlink(sensingStatusPacket.data.data(), sensingStatusPacket.data.size());
+  connection::sendReservedDownlink();
 }
 
 
@@ -295,7 +273,7 @@ void command::executeSetReferencePressureCommand(uint8_t key, float referencePre
       millis()
     );
 
-    connection::sendDownlink(errorPacket.data.data(), errorPacket.data.size());
+    connection::reserveDownlink(errorPacket.data.data(), errorPacket.data.size());
 
     return;
   }
@@ -320,7 +298,7 @@ void command::executeFlightModeOnCommand(uint8_t key) {
       millis()
     );
 
-    connection::sendDownlink(errorPacket.data.data(), errorPacket.data.size());
+    connection::reserveDownlink(errorPacket.data.data(), errorPacket.data.size());
 
     return;
   }
@@ -328,6 +306,22 @@ void command::executeFlightModeOnCommand(uint8_t key) {
   // CANにフライトモードオンを送信する
   connection::can.sendFlightModeOn();
   indicator::canSend.toggle();
+}
+
+
+void connection::reserveDownlink(const uint8_t* data, uint32_t size) {
+  if (connection::reservedSize + size > 4096) {
+    return;
+  }
+
+  memcpy(connection::reservedData + connection::reservedSize, data, size);
+  connection::reservedSize += size;
+}
+
+
+void connection::sendReservedDownlink() {
+  connection::sendDownlink(connection::reservedData, connection::reservedSize);
+  connection::reservedSize = 0;
 }
 
 
@@ -358,7 +352,7 @@ void connection::handleEvent() {
     timestamp
   );
 
-  connection::sendDownlink(eventPacket.data.data(), eventPacket.data.size());
+  connection::reserveDownlink(eventPacket.data.data(), eventPacket.data.size());
 }
 
 
@@ -380,5 +374,5 @@ void connection::handleError() {
     timestamp
   );
 
-  connection::sendDownlink(errorPacket.data.data(), errorPacket.data.size());
+  connection::reserveDownlink(errorPacket.data.data(), errorPacket.data.size());
 }

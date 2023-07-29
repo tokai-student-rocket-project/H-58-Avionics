@@ -189,6 +189,11 @@ void CANMCP::receiveValveData(uint8_t* motorTemperature, uint8_t* mcuTemperature
 }
 
 
+void CANMCP::receiveValveMode(bool* isWaiting) {
+  *isWaiting = _latestData[0];
+}
+
+
 /// @brief 電圧を受信する
 /// @param supply 供給電圧 [V]
 /// @param pool プール電圧 [V]
