@@ -164,6 +164,9 @@ void setup() {
   MsgPacketizer::subscribe(LoRa, 0x07,
     [](
       bool isWaiting,
+      float currentPosition,
+      float currentDesiredPosition,
+      float currentVelocity,
       float mcuTemperature,
       float motorTemperature,
       float current,
@@ -176,6 +179,9 @@ void setup() {
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       transmitter::packet["IsWaiting"] = isWaiting;
+      transmitter::packet["CurrentPosition"] = currentPosition;
+      transmitter::packet["CurrentDesiredPosition"] = currentDesiredPosition;
+      transmitter::packet["CurrentVelocity"] = currentVelocity;
       transmitter::packet["McuTemperature"] = mcuTemperature;
       transmitter::packet["MotorTemperature"] = motorTemperature;
       transmitter::packet["Current"] = current;

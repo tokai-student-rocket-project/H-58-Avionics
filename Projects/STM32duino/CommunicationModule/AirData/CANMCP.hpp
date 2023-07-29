@@ -32,7 +32,8 @@ public:
     CURRENT,
     INPUT_VOLTAGE,
     VALVE_MODE,
-    VALVE_DATA = 0x10B
+    VALVE_DATA_1 = 0x10B,
+    VALVE_DATA_2
   };
 
   /// @brief イベントとエラーを発行するモジュールを列挙型で定義しておく
@@ -150,9 +151,21 @@ public:
   /// @param timestamp イベントを発行した時刻 (不要ならデフォルトで0)
   void receiveError(Publisher* publisher, ErrorCode* errorCode, ErrorReason* errorReason, uint32_t* timestamp);
 
-  void receiveServo(float* value);
+  /// @brief バルブ情報を受信する
+  /// @param motorTemperature モーター温度 [degC]
+  /// @param mcuTemperature マイコン温度 [degC]
+  /// @param current 電流 [A]
+  /// @param inputVoltage 電圧 [V]
+  void receiveValveData1(float* motorTemperature, float* mcuTemperature, float* current, float* inputVoltage);
 
-  void receiveValveData(uint8_t* motorTemperature, uint8_t* mcuTemperature, uint8_t* current, uint8_t* inputVoltage);
+  /// @brief バルブ情報を受信する
+  /// @param currentPosition 現在の角度 [deg]
+  /// @param currentDesiredPosition 目標の角度 [deg]
+  /// @param currentVelocity 角速度 [dps]
+  void receiveValveData2(float* currentPosition, float* currentDesiredPosition, float* currentVelocity);
+
+  /// @brief バルブモードを受信する
+  /// @param isWaiting WAITINGモードか
   void receiveValveMode(bool* isWaiting);
 
   /// @brief 電圧を受信する

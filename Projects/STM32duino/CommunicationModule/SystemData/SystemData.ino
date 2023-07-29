@@ -66,12 +66,9 @@ namespace connection {
 namespace data {
   float latitude, longitude;
 
-  // float currentPosition;
-  // float currentDesiredPosition;
-  // float currentVelocity;
-
-  uint8_t motorTemperature, mcuTemperature, current, inputVoltage;
+  float motorTemperature, mcuTemperature, current, inputVoltage;
   bool isWaiting;
+  float currentPosition, currentDesiredPosition, currentVelocity;
 
   Var::FlightMode flightMode;
   Var::State cameraState, sn3State;
@@ -164,17 +161,12 @@ void loop() {
       connection::handleError();
       indicator::canReceive.toggle();
       break;
-      // case CANMCP::Label::CURRENT_POSITION:
-      //   connection::can.receiveServo(&data::currentPosition);
-      //   break;
-      // case CANMCP::Label::CURRENT_DESIRED_POSITION:
-      //   connection::can.receiveServo(&data::currentDesiredPosition);
-      //   break;
-      // case CANMCP::Label::CURRENT_VELOCITY:
-      //   connection::can.receiveServo(&data::currentVelocity);
-      //   break;
-    case CANMCP::Label::VALVE_DATA:
-      connection::can.receiveValveData(&data::motorTemperature, &data::mcuTemperature, &data::current, &data::inputVoltage);
+    case CANMCP::Label::VALVE_DATA_1:
+      connection::can.receiveValveData1(&data::motorTemperature, &data::mcuTemperature, &data::current, &data::inputVoltage);
+      indicator::canReceive.toggle();
+      break;
+    case CANMCP::Label::VALVE_DATA_2:
+      connection::can.receiveValveData2(&data::currentPosition, &data::currentDesiredPosition, &data::currentVelocity);
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::VALVE_MODE:
@@ -192,6 +184,9 @@ void timer::lowRateDownlinkTask() {
   const auto& valveDataPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::VALVE_DATA),
     data::isWaiting,
+    data::currentPosition,
+    data::currentDesiredPosition,
+    data::currentVelocity,
     data::mcuTemperature,
     data::motorTemperature,
     data::current,

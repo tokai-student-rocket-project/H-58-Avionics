@@ -168,27 +168,45 @@ void CANMCP::receiveError(Publisher* publisher, ErrorCode* errorCode, ErrorReaso
 }
 
 
-void CANMCP::receiveServo(float* value) {
-  int16_t raw;
-  memcpy(&raw, _latestData, 2);
+/// @brief バルブ情報を受信する
+/// @param motorTemperature モーター温度 [degC]
+/// @param mcuTemperature マイコン温度 [degC]
+/// @param current 電流 [A]
+/// @param inputVoltage 電圧 [V]
+void CANMCP::receiveValveData1(float* motorTemperature, float* mcuTemperature, float* current, float* inputVoltage) {
+  uint8_t motorTemperatureRaw, mcuTemperatureRaw, currentRaw, inputVoltageRaw;
 
-  *value = (float)raw / 100.0;
-}
-
-
-void CANMCP::receiveValveData(uint8_t* motorTemperature, uint8_t* mcuTemperature, uint8_t* current, uint8_t* inputVoltage) {
-  uint8_t currentRaw, inputVoltageRaw;
-
-  memcpy(motorTemperature, _latestData, 1);
-  memcpy(mcuTemperature, _latestData + 1, 1);
+  memcpy(&motorTemperatureRaw, _latestData, 1);
+  memcpy(&mcuTemperatureRaw, _latestData + 1, 1);
   memcpy(&currentRaw, _latestData + 2, 1);
   memcpy(&inputVoltageRaw, _latestData + 3, 1);
 
+  *motorTemperature = (float)motorTemperatureRaw;
+  *mcuTemperature = (float)mcuTemperatureRaw;
   *current = (float)currentRaw / 100.0;
   *inputVoltage = (float)inputVoltageRaw / 10.0;
 }
 
 
+/// @brief バルブ情報を受信する
+/// @param currentPosition 現在の角度 [deg]
+/// @param currentDesiredPosition 目標の角度 [deg]
+/// @param currentVelocity 角速度 [dps]
+void CANMCP::receiveValveData2(float* currentPosition, float* currentDesiredPosition, float* currentVelocity) {
+  int16_t currentPositionRaw, currentDesiredPositionRaw, currentVelocityRaw;
+
+  memcpy(&currentPositionRaw, _latestData, 2);
+  memcpy(&currentDesiredPositionRaw, _latestData + 2, 2);
+  memcpy(&currentVelocityRaw, _latestData + 4, 2);
+
+  *currentPosition = (float)currentPositionRaw;
+  *currentDesiredPosition = (float)currentDesiredPositionRaw;
+  *currentVelocity = (float)currentVelocityRaw;
+}
+
+
+/// @brief バルブモードを受信する
+/// @param isWaiting WAITINGモードか
 void CANMCP::receiveValveMode(bool* isWaiting) {
   *isWaiting = _latestData[0];
 }
