@@ -6,7 +6,7 @@
 LED recorderPower(D7);
 FRAM fram0(A2);
 FRAM fram1(A3);
-void dumpRaw();
+void dump(FRAM* fram);
 
 
 void setup() {
@@ -58,8 +58,8 @@ void setup() {
     }
   );
 
-  dumpRaw(&fram0);
-  dumpRaw(&fram1);
+  dump(&fram0);
+  dump(&fram1);
 }
 
 
@@ -67,7 +67,7 @@ void loop() {
 }
 
 
-void dumpRaw(FRAM* fram) {
+void dump(FRAM* fram) {
   uint8_t data[256];
   uint32_t size = 0;
   uint32_t writeAddress = 0;
