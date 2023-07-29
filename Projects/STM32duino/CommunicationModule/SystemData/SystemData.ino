@@ -27,13 +27,13 @@ namespace sensor {
 }
 
 namespace indicator {
-  LED canSend(2);
-  LED canReceive(1);
+  // LED canSend(2);
+  // LED canReceive(1);
 
-  LED loRaSend(4);
-  LED loRaReceive(3);
+  // LED loRaSend(4);
+  // LED loRaReceive(3);
 
-  LED gpsStatus(5);
+  // LED gpsStatus(5);
 }
 
 namespace connection {
@@ -97,14 +97,14 @@ void setup() {
 
   // 参照気圧設定コマンド
   MsgPacketizer::subscribe(LoRa, 0xF0, [](uint8_t key, float referencePressure) {
-    indicator::loRaReceive.toggle();
+    // indicator::loRaReceive.toggle();
     // 長くなるので処理は関数にまとめている
     command::executeSetReferencePressureCommand(key, referencePressure);
     });
 
   // フライトモードオンコマンド
   MsgPacketizer::subscribe(LoRa, 0xF1, [](uint8_t key) {
-    indicator::loRaReceive.toggle();
+    // indicator::loRaReceive.toggle();
     // 長くなるので処理は関数にまとめている
     command::executeFlightModeOnCommand(key);
     });
@@ -124,7 +124,7 @@ void loop() {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS: {
       connection::can.receiveSystemStatus(&data::flightMode, &data::cameraState, &data::sn3State, &data::doLogging, &data::flightTime);
-      indicator::canReceive.toggle();
+      // indicator::canReceive.toggle();
 
       // コマンドを受信しやすようにSLEEPモードの時はダウンリンクの頻度を落とす
       if (data::flightMode == Var::FlightMode::SLEEP && connection::isListenMode == false) {
@@ -147,19 +147,19 @@ void loop() {
     }
     case CANMCP::Label::SENSING_STATUS:
       connection::can.receiveSensingStatus(&data::referencePressure, &data::isSystemCalibrated, &data::isGyroscopeCalibrated, &data::isAccelerometerCalibrated, &data::isMagnetometerCalibrated);
-      indicator::canReceive.toggle();
+      // indicator::canReceive.toggle();
       break;
     case CANMCP::Label::VOLTAGE:
       connection::can.receiveVoltage(&data::voltage_supply, &data::voltage_pool, &data::voltage_battery);
-      indicator::canReceive.toggle();
+      // indicator::canReceive.toggle();
       break;
     case CANMCP::Label::EVENT:
       connection::handleEvent();
-      indicator::canReceive.toggle();
+      // indicator::canReceive.toggle();
       break;
     case CANMCP::Label::ERROR:
       connection::handleError();
-      indicator::canReceive.toggle();
+      // indicator::canReceive.toggle();
       break;
     case CANMCP::Label::CURRENT_POSITION:
       connection::can.receiveServo(&data::currentPosition);
@@ -222,17 +222,17 @@ void timer::highRateDownlinkTask() {
     data::latitude = sensor::gnss.getLatitude();
     data::longitude = sensor::gnss.getLongitude();
 
-    indicator::gpsStatus.toggle();
+    // indicator::gpsStatus.toggle();
+
+    // GNSS情報をダウンリンクで送信する
+    const auto& gnssDataPacket = MsgPacketizer::encode(
+      static_cast<uint8_t>(connection::Index::GNSS_DATA),
+      data::latitude,
+      data::longitude
+    );
+
+    connection::sendDownlink(gnssDataPacket.data.data(), gnssDataPacket.data.size());
   }
-
-  // GNSS情報をダウンリンクで送信する
-  const auto& gnssDataPacket = MsgPacketizer::encode(
-    static_cast<uint8_t>(connection::Index::GNSS_DATA),
-    data::latitude,
-    data::longitude
-  );
-
-  connection::sendDownlink(gnssDataPacket.data.data(), gnssDataPacket.data.size());
 
   // 計測ステータスをダウンリンクで送信する
   const auto& sensingStatusPacket = MsgPacketizer::encode(
@@ -256,15 +256,13 @@ void timer::highRateDownlinkTask() {
     data::flightTime
   );
 
-  const uint32_t size = gnssDataPacket.data.size() + sensingStatusPacket.data.size() + systemStatusPacket.data.size();
-  const uint8_t* gnssData = gnssDataPacket.data.data();
-  const uint8_t* sensingSData = sensingStatusPacket.data.data();
+  const uint32_t size = sensingStatusPacket.data.size() + systemStatusPacket.data.size();
+  const uint8_t* sensingData = sensingStatusPacket.data.data();
   const uint8_t* systemData = systemStatusPacket.data.data();
 
   uint8_t data[size];
-  memcpy(data, gnssData, gnssDataPacket.data.size());
-  memcpy(data + gnssDataPacket.data.size(), sensingSData, sensingStatusPacket.data.size());
-  memcpy(data + gnssDataPacket.data.size() + sensingStatusPacket.data.size(), systemData, systemStatusPacket.data.size());
+  memcpy(data, sensingData, sensingStatusPacket.data.size());
+  memcpy(data + sensingStatusPacket.data.size(), systemData, systemStatusPacket.data.size());
 
   connection::sendDownlink(data, size);
 }
@@ -292,7 +290,7 @@ void command::executeSetReferencePressureCommand(uint8_t key, float referencePre
 
   // CANに参照気圧設定を送信する
   connection::can.sendSetReferencePressure(referencePressure);
-  indicator::canSend.toggle();
+  // indicator::canSend.toggle();
 }
 
 
@@ -317,7 +315,7 @@ void command::executeFlightModeOnCommand(uint8_t key) {
 
   // CANにフライトモードオンを送信する
   connection::can.sendFlightModeOn();
-  indicator::canSend.toggle();
+  // indicator::canSend.toggle();
 }
 
 
@@ -328,7 +326,7 @@ void connection::sendDownlink(const uint8_t* data, uint32_t size) {
   LoRa.beginPacket();
   LoRa.write(data, size);
   LoRa.endPacket();
-  indicator::loRaSend.toggle();
+  // indicator::loRaSend.toggle();
 }
 
 

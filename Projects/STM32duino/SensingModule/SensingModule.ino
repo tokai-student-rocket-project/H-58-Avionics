@@ -29,10 +29,10 @@ namespace device {
   }
 
   namespace indicator {
-    LED canSend(D12);
-    LED canReceive(D11);
+    // LED canSend(D12);
+    // LED canReceive(D11);
     LED sdStatus(D9);
-    LED loggerStatus(D6);
+    // LED loggerStatus(D6);
   }
 
   namespace detection {
@@ -112,11 +112,11 @@ void loop() {
     switch (canbus::can.getLatestMessageLabel()) {
     case CANSTM::Label::SYSTEM_STATUS:
       canbus::handleSystemStatus();
-      device::indicator::canReceive.toggle();
+      // device::indicator::canReceive.toggle();
       break;
     case CANSTM::Label::SET_REFERENCE_PRESSURE:
       canbus::handleSetReferencePressure();
-      device::indicator::canReceive.toggle();
+      // device::indicator::canReceive.toggle();
       break;
     }
   }
@@ -163,7 +163,7 @@ void internal::task20Hz() {
   canbus::can.sendScalar(CANSTM::Label::CLIMB_RATE, data::climbRate_mps);
   canbus::can.sendVector3D(CANSTM::Label::ORIENTATION, data::orientation_x_deg, data::orientation_y_deg, data::orientation_z_deg);
   canbus::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2);
-  device::indicator::canSend.toggle();
+  // device::indicator::canSend.toggle();
 }
 
 
@@ -179,7 +179,7 @@ void internal::task50Hz() {
   // CANにデータを流す
   // 安全のため、高度50m以上でないと落下判定しない
   canbus::can.sendTrajectoryData(internal::trajectory.isFalling() && data::altitude_m >= 50.0);
-  device::indicator::canSend.toggle();
+  // device::indicator::canSend.toggle();
 }
 
 
@@ -230,13 +230,13 @@ void canbus::handleSystemStatus() {
       canbus::can.sendError(CANSTM::Publisher::SENSING_MODULE, CANSTM::ErrorCode::LOGGER_FAILURE, CANSTM::ErrorReason::INVALID_SD);
     }
 
-    device::indicator::loggerStatus.on();
+    // device::indicator::loggerStatus.on();
   }
 
   // ログ保存を"やらない"はずなのに"やっている"なら終了
   if (!doLogging && device::peripheral::logger.isLogging()) {
     device::peripheral::logger.endLogging();
-    device::indicator::loggerStatus.off();
+    // device::indicator::loggerStatus.off();
   }
 }
 
@@ -250,7 +250,7 @@ void canbus::handleSetReferencePressure() {
 
   // 参照気圧を更新したことをイベントとして知らせる
   canbus::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::REFERENCE_PRESSURE_UPDATED);
-  device::indicator::canSend.toggle();
+  // device::indicator::canSend.toggle();
 
   // 高度算出用のライブラリに新しい参照気圧を設定する
   internal::trajectory.setReferencePressure(newReferencePressure_hPa);
