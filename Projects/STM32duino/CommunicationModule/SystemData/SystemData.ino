@@ -27,13 +27,13 @@ namespace sensor {
 }
 
 namespace indicator {
-  // LED canSend(2);
-  // LED canReceive(1);
+  LED canSend(2);
+  LED canReceive(1);
 
-  // LED loRaSend(4);
-  // LED loRaReceive(3);
+  LED loRaSend(4);
+  LED loRaReceive(3);
 
-  // LED gpsStatus(5);
+  LED gpsStatus(5);
 }
 
 namespace connection {
@@ -124,7 +124,7 @@ void loop() {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS: {
       connection::can.receiveSystemStatus(&data::flightMode, &data::cameraState, &data::sn3State, &data::doLogging, &data::flightTime);
-      // indicator::canReceive.toggle();
+      indicator::canReceive.toggle();
 
       // コマンドを受信しやすようにSLEEPモードの時はダウンリンクの頻度を落とす
       if (data::flightMode == Var::FlightMode::SLEEP && connection::isListenMode == false) {
@@ -147,19 +147,19 @@ void loop() {
     }
     case CANMCP::Label::SENSING_STATUS:
       connection::can.receiveSensingStatus(&data::referencePressure, &data::isSystemCalibrated, &data::isGyroscopeCalibrated, &data::isAccelerometerCalibrated, &data::isMagnetometerCalibrated);
-      // indicator::canReceive.toggle();
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::VOLTAGE:
       connection::can.receiveVoltage(&data::voltage_supply, &data::voltage_pool, &data::voltage_battery);
-      // indicator::canReceive.toggle();
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::EVENT:
       connection::handleEvent();
-      // indicator::canReceive.toggle();
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::ERROR:
       connection::handleError();
-      // indicator::canReceive.toggle();
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::CURRENT_POSITION:
       connection::can.receiveServo(&data::currentPosition);
@@ -182,6 +182,18 @@ void loop() {
     case CANMCP::Label::INPUT_VOLTAGE:
       connection::can.receiveServo(&data::inputVoltage);
       break;
+    case CANMCP::Label::VALVE_DATA: {
+      uint8_t motorTemperature, mcuTemperature, current, inputVoltage;
+      connection::can.receiveValveData(&motorTemperature, &mcuTemperature, &current, &inputVoltage);
+      Serial.print(motorTemperature);
+      Serial.print(",");
+      Serial.print(mcuTemperature);
+      Serial.print(",");
+      Serial.print(current, 2);
+      Serial.print(",");
+      Serial.println(inputVoltage, 1);
+      break;
+    }
     }
   }
 }
@@ -222,7 +234,7 @@ void timer::highRateDownlinkTask() {
     data::latitude = sensor::gnss.getLatitude();
     data::longitude = sensor::gnss.getLongitude();
 
-    // indicator::gpsStatus.toggle();
+    indicator::gpsStatus.toggle();
 
     // GNSS情報をダウンリンクで送信する
     const auto& gnssDataPacket = MsgPacketizer::encode(
@@ -290,7 +302,7 @@ void command::executeSetReferencePressureCommand(uint8_t key, float referencePre
 
   // CANに参照気圧設定を送信する
   connection::can.sendSetReferencePressure(referencePressure);
-  // indicator::canSend.toggle();
+  indicator::canSend.toggle();
 }
 
 
@@ -315,7 +327,7 @@ void command::executeFlightModeOnCommand(uint8_t key) {
 
   // CANにフライトモードオンを送信する
   connection::can.sendFlightModeOn();
-  // indicator::canSend.toggle();
+  indicator::canSend.toggle();
 }
 
 
@@ -326,7 +338,7 @@ void connection::sendDownlink(const uint8_t* data, uint32_t size) {
   LoRa.beginPacket();
   LoRa.write(data, size);
   LoRa.endPacket();
-  // indicator::loRaSend.toggle();
+  indicator::loRaSend.toggle();
 }
 
 
