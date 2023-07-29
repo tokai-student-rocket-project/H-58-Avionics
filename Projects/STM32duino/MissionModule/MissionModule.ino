@@ -39,12 +39,12 @@ namespace recorder {
 }
 
 namespace indicator {
-  LED canReceive(0);
+  // LED canReceive(0);
 
-  LED loRaSend(A1);
+  // LED loRaSend(A1);
 
   Blinker sdStatus(4, "invalidSd");
-  LED recorderStatus(2);
+  // LED recorderStatus(2);
 }
 
 namespace control {
@@ -61,6 +61,7 @@ namespace data {
   Var::FlightMode mode;
   Var::State camera, sn3;
   bool doLogging;
+  uint32_t flightTime;
 
   float acceleration_x, acceleration_y, acceleration_z;
 }
@@ -112,8 +113,8 @@ void loop() {
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS:
-      connection::can.receiveSystemStatus(&data::mode, &data::camera, &data::sn3, &data::doLogging);
-      indicator::canReceive.toggle();
+      connection::can.receiveSystemStatus(&data::mode, &data::camera, &data::sn3, &data::doLogging, &data::flightTime);
+      // indicator::canReceive.toggle();
       break;
     }
   }
@@ -137,7 +138,7 @@ void timer::task50Hz() {
   LoRa.beginPacket();
   LoRa.write(data, 19);
   LoRa.endPacket();
-  indicator::loRaSend.toggle();
+  // indicator::loRaSend.toggle();
 
   // 50Hz分に間引く
   scheduler::readPosition += 380;
@@ -168,11 +169,13 @@ void timer::task1kHz() {
 
 
 void connection::handleSystemStatus() {
-  uint8_t flightMode;
-  bool cameraState, sn3State, doLogging;
+  Var::FlightMode flightMode;
+  Var::State camera, sn3;
+  bool doLogging;
+  uint32_t flightTime;
 
-  connection::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
+  connection::can.receiveSystemStatus(&flightMode, &camera, &sn3, &doLogging, &flightTime);
 
   // フライトモードがSTANDBYかTHRUSTなら加速度の計測を行う
-  scheduler::doSensing = (flightMode == 1 || flightMode == 2);
+  scheduler::doSensing = (flightMode == Var::FlightMode::STANDBY || flightMode == Var::FlightMode::THRUST);
 }
