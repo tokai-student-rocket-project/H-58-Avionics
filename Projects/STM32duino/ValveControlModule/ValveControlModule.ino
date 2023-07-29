@@ -30,11 +30,12 @@ namespace Error
     ErrorCode ErrorCode;
 }
 
-// union Converter
-// {
-//     int16_t
-//     uint8_t
-// } converter;
+union Converter
+{
+    uint8_t data[6];
+    int16_t data_16[3];
+} converter;
+
 
 /* CANDATA Config END */
 
@@ -107,38 +108,44 @@ void setup()
               {
                   ToggleTasksLED();
 
+                  
                   int16_t recieveCurrentposition = b3mReadcurrentPosition(0x01);
-                  int16_t recieveCurrentverosity = b3mReadcurrentVelosity(0x01);
                   int16_t recieveDesiredPosition = b3mReaddesiredPosition(0x01);
+                  int16_t recieveCurrentvelosity = b3mReadcurrentVelosity(0x01);
                   uint8_t recieveCurrent = b3mReadcurrent(0x01);
                   uint8_t recieveMcutemperature = b3mReadmcuTemperature(0x01);
                   uint8_t recieveMotortemperature = b3mReadmotorTemperature(0x01);
                   uint8_t recieveinputVoltage = b3mreadInputvoltage(0x01);
+                //   Serial.print(b3mreadStatus(0x01));
 
-                  // Serial.print(recieveCurrentposition);
-                  // Serial.print(" | ");
-                  // Serial.print(recieveDesiredPosition);
-                  // Serial.print(" | ");
-                  
-                  Serial.print(recieveMotortemperature);
+                  Serial.print(recieveCurrentposition);
                   Serial.print(" <| ");
-                  Serial.print(recieveMcutemperature);
+                  Serial.print(recieveDesiredPosition);
                   Serial.print(" <| ");
-                  Serial.print(recieveCurrent);
+                  Serial.print(recieveCurrentvelosity);
                   Serial.print(" <| ");
-                  Serial.print(recieveinputVoltage);
-                  Serial.print(" <| ");
-                  // Serial.print(recieveCurrentverosity);
-                  // Serial.println(" | ");
+                //   Serial.print(recieveStatus);
+                //   Serial.print(" <| ");
 
-                  canSendcurrentPosition(recieveCurrentposition);
-                  canSendinputVoltage(recieveinputVoltage);
-                  canSendcurrentDesiredposition(recieveDesiredPosition);
-                  canSendcurrentVelosity(recieveCurrentverosity);
-                  canSendTemperature(recieveMotortemperature, recieveMcutemperature, recieveCurrent, recieveinputVoltage);
+                  //   Serial.print(recieveMotortemperature);
+                  //   Serial.print(" <| ");
+                  //   Serial.print(recieveMcutemperature);
+                  //   Serial.print(" <| ");
+                  //   Serial.print(recieveCurrent);
+                  //   Serial.print(" <| ");
+                  //   Serial.print(recieveinputVoltage);
+                  //   Serial.print(" <| ");
 
+                  //   canSendcurrentPosition(recieveCurrentposition);
+                  //   canSendinputVoltage(recieveinputVoltage);
+                  //   canSendcurrentDesiredposition(recieveDesiredPosition);
+                  //   canSendcurrentVelosity(recieveCurrentverosity);
                   //   canSendmotorTemperature(recieveMotortemperature);
                   //   canSendmcuTemperature(recieveMcutemperature);
+
+                  canSendmcuInfomation(recieveMotortemperature, recieveMcutemperature, recieveCurrent, recieveinputVoltage);
+                  canSendmotorInfomation(recieveCurrentposition, recieveDesiredPosition, recieveCurrentvelosity);
+                //   canSendservoStatus(recieveStatus)
               })
         ->startFps(13);
 
@@ -529,7 +536,7 @@ int16_t b3mReaddesiredPosition(byte id)
 
     reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
 
-    return reData;
+    return reData / 100;
 }
 
 int16_t b3mReadcurrentPosition(byte id)
@@ -577,7 +584,7 @@ int16_t b3mReadcurrentPosition(byte id)
 
     reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
 
-    return reData;
+    return reData /100;
 }
 
 int16_t b3mReadcurrentVelosity(byte id)
@@ -625,7 +632,7 @@ int16_t b3mReadcurrentVelosity(byte id)
 
     reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
 
-    return reData;
+    return reData /100;
 }
 
 int16_t b3mReadmcuTemperature(byte id)
@@ -820,43 +827,140 @@ int16_t b3mreadInputvoltage(byte id)
     return reData / 100;
 }
 
-// void canSendServo
-// void canSendservoEnviromentinfomation()
-void canSendcurrentPosition(int16_t currentposition)
+uint8_t b3mreadStatus(byte id)
 {
-    uint8_t data[2];
-    memcpy(data, &currentposition, 2);
-    CAN.sendMsgBuf(0x103, 0, 2, data);
-    // memcpy(&currentposition, data, 2);
+    byte txCmd[7];
+    byte rxCmd[7];
+    // uint8_t value;
+    uint8_t reData;
+    bool flag;
+
+    txCmd[0] = (byte)(0x07); // SIZE
+    txCmd[1] = (byte)(0x03); // COMMAND
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
+
+    txCmd[4] = (byte)(0x00); // ADDRESS  //エラーステータスを取得
+    txCmd[5] = (byte)(0x01); // LENGTH
+
+    txCmd[6] = 0x00; // SUM
+
+    for (int i = 0; i < 6; i++)
+    {
+        txCmd[6] += txCmd[i];
+        // Serial.print(txCmd[i]);
+        // Serial.print("|");
+    }
+    // Serial.println("");
+
+    txCmd[6] = (byte)(txCmd[6]);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 7);
+
+    if (flag == false)
+    {
+        return -1;
+    }
+
+    // for (int o = 4; o < 8; o++)
+    // {
+    //     value = (rxCmd[o] << 8) | rxCmd[o + 1];
+    //     reData |= value << ((o -4)*8);
+    //     o++;
+    // }
+
+    // reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
+    reData = rxCmd[4];
+    return reData;
+}
+
+int16_t uint8_to_int16(uint8_t* array) {
+  // uint8_t型の配列をint16_t型の値に変換する
+  int16_t value;
+  memcpy(&value, array, sizeof(value));
+  return value;
+}
+
+void canSendmotorInfomation(int16_t currentposition, int16_t currentDesiredposition, int16_t currentVelosity)
+{
+    converter.data_16[0] = currentposition;
+    converter.data_16[1] = currentDesiredposition;
+    converter.data_16[2] = currentVelosity;
+    
+    CAN.sendMsgBuf(0x10C, 0, 6, converter.data);
+
+    int16_t currentposition_back = uint8_to_int16(converter.data);
+    int16_t currentDesiredposition_back = uint8_to_int16(converter.data + 2);
+    int16_t currentVelosity_back = uint8_to_int16(converter.data + 4);
+
+    //デバック用
+    Serial.print(currentposition_back);
+    Serial.print(" | ");
+    Serial.print(currentDesiredposition_back);
+    Serial.print(" | ");
+    Serial.print(currentVelosity_back);
+    Serial.println(" | ");
+
+}
+
+void canSendmcuInfomation(uint8_t motorTemperature, uint8_t mcuTemperature, uint8_t current, uint8_t inputVoltage)
+{
+    uint8_t data[4];
+    memcpy(data, &motorTemperature, sizeof(motorTemperature));
+    memcpy(data + sizeof(mcuTemperature), &mcuTemperature, sizeof(mcuTemperature));
+    memcpy(data + sizeof(mcuTemperature) + sizeof(current), &current, sizeof(current));
+    memcpy(data + sizeof(mcuTemperature) + sizeof(current) + sizeof(inputVoltage), &inputVoltage, sizeof(inputVoltage));
+
+    CAN.sendMsgBuf(0x10B, 0, 4, data);
+
+    //デバック用
+    // memcpy(&motorTemperature, data, sizeof(motorTemperature));
+    // memcpy(&mcuTemperature, data + sizeof(mcuTemperature), sizeof(mcuTemperature));
     // Serial.print(data[0]);
     // Serial.print(" | ");
     // Serial.print(data[1]);
     // Serial.print(" | ");
-    // Serial.print(currentposition);
+    // Serial.print(data[2]);
     // Serial.print(" | ");
+    // Serial.print(data[3]);
+    // Serial.println(" | ");
 }
 
-void canSendcurrentDesiredposition(int16_t currentDesiredposition)
-{
-    uint8_t data[2];
-    memcpy(data, &currentDesiredposition, 2);
-    CAN.sendMsgBuf(0x104, 0, 2, data);
-}
-
-void canSendcurrentVelosity(int16_t currentVelosity)
-{
-    uint8_t data[2];
-    memcpy(data, &currentVelosity, 2);
-    CAN.sendMsgBuf(0x105, 0, 2, data);
-}
-
-// void canSendmcuTemperature(uint8_t mcuTemperature)
+// void canSendcurrentPosition(int16_t currentposition)
 // {
 //     uint8_t data[2];
-//     memcpy(data, &mcuTemperature, 2);
-//     CAN.sendMsgBuf(0x106, 0, 2, data);
-//     // memcpy(&mcuTemperature, data, 2);
+//     memcpy(data, &currentposition, 2);
+//     CAN.sendMsgBuf(0x103, 0, 2, data);
+//     // memcpy(&currentposition, data, 2);
+//     // Serial.print(data[0]);
+//     // Serial.print(" | ");
+//     // Serial.print(data[1]);
+//     // Serial.print(" | ");
+//     // Serial.print(currentposition);
+//     // Serial.print(" | ");
 // }
+
+// void canSendcurrentDesiredposition(int16_t currentDesiredposition)
+// {
+//     uint8_t data[2];
+//     memcpy(data, &currentDesiredposition, 2);
+//     CAN.sendMsgBuf(0x104, 0, 2, data);
+// }
+
+// void canSendcurrentVelosity(int16_t currentVelosity)
+// {
+//     uint8_t data[2];
+//     memcpy(data, &currentVelosity, 2);
+//     CAN.sendMsgBuf(0x105, 0, 2, data);
+// }
+
+void canSendservoStatus(uint8_t servoStatus)
+{
+    uint8_t data[1];
+    memcpy(data, &servoStatus, 1);
+    CAN.sendMsgBuf(0x106, 0, 1, data);
+    // memcpy(&mcuTemperature, data, 2);
+}
+// canSendTemperatureに結合
 
 // void canSendmotorTemperature(uint8_t motorTemperature)
 // {
@@ -867,30 +971,27 @@ void canSendcurrentVelosity(int16_t currentVelosity)
 //
 // canSendTemperatureに結合
 
-void canSendTemperature(uint8_t motorTemperature, uint8_t mcuTemperature, uint8_t current, uint8_t inputVoltage)
-{
-    uint8_t data[4];
-    memcpy(data, &motorTemperature, sizeof(motorTemperature));
-    memcpy(data + sizeof(mcuTemperature), &mcuTemperature, sizeof(mcuTemperature));
-    memcpy(data + sizeof(mcuTemperature)+ sizeof(current) , &current, sizeof(current));
-    memcpy(data + sizeof(mcuTemperature)+ sizeof(current)+ sizeof(inputVoltage) , &inputVoltage, sizeof(inputVoltage));
+// void canSendTemperature(uint8_t motorTemperature, uint8_t mcuTemperature, uint8_t current, uint8_t inputVoltage)
+// {
+//     uint8_t data[4];
+//     memcpy(data, &motorTemperature, sizeof(motorTemperature));
+//     memcpy(data + sizeof(mcuTemperature), &mcuTemperature, sizeof(mcuTemperature));
+//     memcpy(data + sizeof(mcuTemperature)+ sizeof(current) , &current, sizeof(current));
+//     memcpy(data + sizeof(mcuTemperature)+ sizeof(current)+ sizeof(inputVoltage) , &inputVoltage, sizeof(inputVoltage));
 
-    CAN.sendMsgBuf(0x10B, 0, 4, data);
+//     CAN.sendMsgBuf(0x10B, 0, 4, data);
 
-    memcpy(&motorTemperature, data, sizeof(motorTemperature));
-    memcpy(&mcuTemperature, data + sizeof(mcuTemperature), sizeof(mcuTemperature));
-    Serial.print(data[0]);
-    Serial.print(" | ");
-    Serial.print(data[1]);
-    Serial.print(" | ");
-    Serial.print(data[2]);
-    Serial.print(" | ");
-    Serial.print(data[3]);
-    Serial.println(" | ");
-    // Serial.print(mcuTemperature);
-    // Serial.print(" | ");
-    // Serial.println(motorTemperature);
-}
+//     memcpy(&motorTemperature, data, sizeof(motorTemperature));
+//     memcpy(&mcuTemperature, data + sizeof(mcuTemperature), sizeof(mcuTemperature));
+//     Serial.print(data[0]);
+//     Serial.print(" | ");
+//     Serial.print(data[1]);
+//     Serial.print(" | ");
+//     Serial.print(data[2]);
+//     Serial.print(" | ");
+//     Serial.print(data[3]);
+//     Serial.println(" | ");
+// }
 
 // void canSendtemperature(uint8_t motorTemperature, uint8_t mcuTemperature)
 // {
@@ -929,21 +1030,23 @@ void canSendTemperature(uint8_t motorTemperature, uint8_t mcuTemperature, uint8_
 // }
 // XXX
 
-void canSendcurrent(uint8_t current)
-{
-    uint8_t data[2];
-    memcpy(data, &current, 2);
-    CAN.sendMsgBuf(0x108, 0, 2, data);
-}
+// void canSendcurrent(uint8_t current)
+// {
+//     uint8_t data[2];
+//     memcpy(data, &current, 2);
+//     CAN.sendMsgBuf(0x108, 0, 2, data);
+// }
+// canSendTemperatureに結合
 
-void canSendinputVoltage(uint8_t inputVoltage)
-{
-    uint8_t data[2];
-    memcpy(data, &inputVoltage, 2);
-    CAN.sendMsgBuf(0x109, 0, 2, data);
-    // memcpy(&inputVoltage, data, 2);
-    // Serial.print(inputVoltage);
-}
+// void canSendinputVoltage(uint8_t inputVoltage)
+// {
+//     uint8_t data[2];
+//     memcpy(data, &inputVoltage, 2);
+//     CAN.sendMsgBuf(0x109, 0, 2, data);
+//     // memcpy(&inputVoltage, data, 2);
+//     // Serial.print(inputVoltage);
+// }
+// canSendTemperatureに結合
 
 // 関数の定義
 // int16_t getServoPosition() {
