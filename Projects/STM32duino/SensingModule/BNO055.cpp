@@ -131,9 +131,9 @@ void BNO055::readVector3D(uint8_t address, float lsb, float* x, float* y, float*
   int16_t zRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
 
   // 座標軸を合わせるためにxyzを入れ替えているので注意
-  *x = ((float)zRaw) / lsb;
-  *y = ((float)xRaw) / lsb;
-  *z = ((float)yRaw) / lsb;
+  *x = -((float)zRaw) / lsb;
+  *y = -((float)xRaw) / lsb;
+  *z = -((float)yRaw) / lsb;
 }
 
 
