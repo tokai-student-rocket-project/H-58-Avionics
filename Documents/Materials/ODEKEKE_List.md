@@ -18,4 +18,4 @@
 # おまえらが「自分これ持ってくな」って思うもの挙げてけwww　【2ch面白スレ】
 
 ## 中原
-RasPad 予備のRaspberrypi、赤外線カメラ　
+RasPad 予備のRaspberrypi、赤外線カメラ　忌々しきM2.6口径たち
