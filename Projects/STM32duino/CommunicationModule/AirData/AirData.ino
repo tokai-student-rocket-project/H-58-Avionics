@@ -93,6 +93,7 @@ void loop() {
 void timer::task20Hz() {
   // エアデータをダウンリンクで送信する
   const auto& airDataPacket = MsgPacketizer::encode(static_cast<uint8_t>(connection::Index::AIR_DATA),
+    millis(),
     data::altitude,
     data::climbRate,
     data::outsideTemperature,

@@ -41,6 +41,7 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x00,
     [](
+      uint32_t millis,
       float altitude,
       float climbRate,
       float outsideTemperature,
@@ -57,6 +58,7 @@ void setup() {
       transmitter::packet["PacketInfo"]["Type"] = "AirData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["Alt"] = (float)smooth::altitudeSmooth.reading((int16_t)(altitude * 100)) / 100.0;
       transmitter::packet["CR"] = (float)smooth::climbRateSmooth.reading((int16_t)(climbRate * 100)) / 100.0;
       transmitter::packet["OutTemp"] = (float)smooth::outsideTemperatureSmooth.reading((int16_t)(outsideTemperature * 100)) / 100.0;
