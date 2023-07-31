@@ -19,6 +19,7 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x01,
     [](
+      uint32_t millis,
       float voltage_supply,
       float voltage_battery,
       float voltage_pool
@@ -29,6 +30,7 @@ void setup() {
       transmitter::packet["PacketInfo"]["Type"] = "PowerData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["SupplyVoltage"] = voltage_supply;
       transmitter::packet["BatteryVoltage"] = voltage_battery;
       transmitter::packet["PoolVoltage"] = voltage_pool;
@@ -42,6 +44,7 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x02,
     [](
+      uint32_t millis,
       float latitude,
       float longitude
       )
@@ -51,6 +54,7 @@ void setup() {
       transmitter::packet["PacketInfo"]["Type"] = "PositionData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["Latitude"] = latitude;
       transmitter::packet["Longitude"] = longitude;
 
@@ -63,6 +67,7 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x03,
     [](
+      uint32_t millis,
       uint8_t flightMode,
       bool cameraStatus,
       bool sn3Status,
@@ -75,6 +80,7 @@ void setup() {
       transmitter::packet["PacketInfo"]["Type"] = "SystemData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["FlightMode"] = flightMode;
       transmitter::packet["CameraStatus"] = cameraStatus;
       transmitter::packet["SN3Status"] = sn3Status;
@@ -90,6 +96,7 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x04,
     [](
+      uint32_t millis,
       float referencePressure,
       bool isSystemCalibrated,
       bool isGyroscopeCalibrated,
@@ -102,6 +109,7 @@ void setup() {
       transmitter::packet["PacketInfo"]["Type"] = "SensingData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["ReferencePressure"] = referencePressure;
       transmitter::packet["IsSystemCalibrated"] = isSystemCalibrated;
       transmitter::packet["IsGyroscopeCalibrated"] = isGyroscopeCalibrated;
@@ -117,9 +125,10 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x05,
     [](
+      uint32_t millis,
       uint8_t publisher,
       uint8_t eventCode,
-      uint32_t timestamp
+      uint32_t senderTimestamp
       )
     {
       transmitter::packet.clear();
@@ -127,9 +136,10 @@ void setup() {
       transmitter::packet["PacketInfo"]["Type"] = "Event";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["Publisher"] = publisher;
       transmitter::packet["EventCode"] = eventCode;
-      transmitter::packet["Timestamp"] = timestamp;
+      transmitter::packet["Timestamp"] = senderTimestamp;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();
@@ -139,10 +149,11 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x06,
     [](
+      uint32_t millis,
       uint8_t publisher,
       uint8_t errorCode,
       uint8_t errorReason,
-      uint32_t timestamp
+      uint32_t senderTimestamp
       )
     {
       transmitter::packet.clear();
@@ -150,10 +161,11 @@ void setup() {
       transmitter::packet["PacketInfo"]["Type"] = "Error";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["Publisher"] = publisher;
       transmitter::packet["ErrorCode"] = errorCode;
       transmitter::packet["ErrorReason"] = errorReason;
-      transmitter::packet["Timestamp"] = timestamp;
+      transmitter::packet["Timestamp"] = senderTimestamp;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();
@@ -163,6 +175,7 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x07,
     [](
+      uint32_t millis,
       bool isWaiting,
       float currentPosition,
       float currentDesiredPosition,
@@ -178,6 +191,7 @@ void setup() {
       transmitter::packet["PacketInfo"]["Type"] = "ValveData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["IsWaiting"] = isWaiting;
       transmitter::packet["CurrentPosition"] = currentPosition;
       transmitter::packet["CurrentDesiredPosition"] = currentDesiredPosition;
