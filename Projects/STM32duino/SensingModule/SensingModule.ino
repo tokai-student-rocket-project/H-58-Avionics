@@ -194,7 +194,6 @@ void internal::task100Hz() {
   // 高度も解析用にできるだけ早い100Hzで読み出したい
   device::sensor::bme.getPressure(&data::pressure_hPa);
 
-
   // doLoggingのフラグが立っている時はログを保存する
   // 内部的にはFRAMとSDに書き込んでいる
   if (device::peripheral::logger.isLogging()) {
