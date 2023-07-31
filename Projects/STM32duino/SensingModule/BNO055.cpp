@@ -149,7 +149,7 @@ void BNO055::readInvVector3D(uint8_t address, float lsb, float* x, float* y, flo
 
   // 座標軸を合わせるためにxyzを入れ替えているので注意
   *x = -((float)zRaw) / lsb;
-  *y = -((float)xRaw) / lsb;
+  *y = (-((float)xRaw) / lsb) + 360;
   *z = -((float)yRaw) / lsb;
 }
 

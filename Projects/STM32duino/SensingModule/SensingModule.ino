@@ -71,9 +71,9 @@ namespace data {
 
 void setup() {
   // デバッグ用シリアルポート
-  // Serial.begin(115200);
-  // while (!Serial);
-  // delay(800);
+  Serial.begin(115200);
+  while (!Serial);
+  delay(800);
 
   // FRAMとSDの電源は常にON
   device::peripheral::recorderPower.on();
@@ -186,13 +186,15 @@ void internal::task50Hz() {
 /// @brief 100Hzで実行したい処理
 void internal::task100Hz() {
   // BNO055からのデータは基本的に100Hzで読み出す
-  device::sensor::bno.getAcceleration(&data::acceleration_x_mps2, &data::acceleration_y_mps2, &data::acceleration_z_mps2);
-  device::sensor::bno.getGyroscope(&data::gyroscope_x_dps, &data::gyroscope_y_dps, &data::gyroscope_z_dps);
+  // device::sensor::bno.getAcceleration(&data::acceleration_x_mps2, &data::acceleration_y_mps2, &data::acceleration_z_mps2);
+  // device::sensor::bno.getGyroscope(&data::gyroscope_x_dps, &data::gyroscope_y_dps, &data::gyroscope_z_dps);
   device::sensor::bno.getOrientation(&data::orientation_x_deg, &data::orientation_y_deg, &data::orientation_z_deg);
-  device::sensor::bno.getLinearAcceleration(&data::linear_acceleration_x_mps2, &data::linear_acceleration_y_mps2, &data::linear_acceleration_z_mps2);
-  device::sensor::bno.getGravityVector(&data::gravity_x_mps2, &data::gravity_y_mps2, &data::gravity_z_mps2);
+  // device::sensor::bno.getLinearAcceleration(&data::linear_acceleration_x_mps2, &data::linear_acceleration_y_mps2, &data::linear_acceleration_z_mps2);
+  // device::sensor::bno.getGravityVector(&data::gravity_x_mps2, &data::gravity_y_mps2, &data::gravity_z_mps2);
   // 高度も解析用にできるだけ早い100Hzで読み出したい
   device::sensor::bme.getPressure(&data::pressure_hPa);
+
+  Serial.println(data::orientation_y_deg);
 
   // doLoggingのフラグが立っている時はログを保存する
   // 内部的にはFRAMとSDに書き込んでいる
