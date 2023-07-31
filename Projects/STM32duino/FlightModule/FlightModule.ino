@@ -36,15 +36,15 @@ namespace device {
   }
 
   namespace indicator {
-    // LED canSend(D0);
-    // LED canReceive(D1);
+    LED canSend(D0);
+    LED canReceive(D1);
 
     Buzzer buzzer(A1, "buzzer");
 
-    // LED flightModeBit0(D8);
-    // LED flightModeBit1(D7);
-    // LED flightModeBit2(D6);
-    // LED flightModeBit3(D3);
+    LED flightModeBit0(D8);
+    LED flightModeBit1(D7);
+    LED flightModeBit2(D6);
+    LED flightModeBit3(D3);
 
     void indicateFlightMode(Var::FlightMode mode);
   }
@@ -120,7 +120,7 @@ void loop() {
     switch (canbus::can.getLatestMessageLabel()) {
     case CANSTM::Label::TRAJECTORY_DATA:
       canbus::can.receiveTrajectoryData(&internal::flag::isFalling);
-      // device::indicator::canReceive.toggle();
+      device::indicator::canReceive.toggle();
       break;
     case CANSTM::Label::FLIGHT_MODE_ON_COMMAND:
       if (internal::flightModeManager.is(Var::FlightMode::SLEEP)) {
@@ -131,7 +131,7 @@ void loop() {
         canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
       }
 
-      // device::indicator::canReceive.toggle();
+      device::indicator::canReceive.toggle();
       break;
     case CANSTM::Label::VALVE_MODE: {
       bool isWaitingMode;
@@ -154,7 +154,7 @@ void internal::task4Hz() {
   }
 
   canbus::can.sendVoltage(data::voltageSupply, data::voltagePool, data::voltageBattery);
-  // device::indicator::canSend.toggle();
+  device::indicator::canSend.toggle();
 }
 
 
@@ -173,7 +173,7 @@ void internal::task50Hz() {
     internal::flightModeManager.isFlying() ? internal::timeManager.flightTime() : -1
   );
 
-  // device::indicator::canSend.toggle();
+  device::indicator::canSend.toggle();
 }
 
 
@@ -333,8 +333,8 @@ void internal::task100Hz() {
 void device::indicator::indicateFlightMode(Var::FlightMode mode) {
   uint8_t modeNumber = static_cast<uint8_t>(mode);
   // 1つのLEDに1ビット分を当てはめる
-  // device::indicator::flightModeBit0.set(modeNumber & (1 << 0) ? Var::State::ON : Var::State::OFF);
-  // device::indicator::flightModeBit1.set(modeNumber & (1 << 1) ? Var::State::ON : Var::State::OFF);
-  // device::indicator::flightModeBit2.set(modeNumber & (1 << 2) ? Var::State::ON : Var::State::OFF);
-  // device::indicator::flightModeBit3.set(modeNumber & (1 << 3) ? Var::State::ON : Var::State::OFF);
+  device::indicator::flightModeBit0.set(modeNumber & (1 << 0) ? Var::State::ON : Var::State::OFF);
+  device::indicator::flightModeBit1.set(modeNumber & (1 << 1) ? Var::State::ON : Var::State::OFF);
+  device::indicator::flightModeBit2.set(modeNumber & (1 << 2) ? Var::State::ON : Var::State::OFF);
+  device::indicator::flightModeBit3.set(modeNumber & (1 << 3) ? Var::State::ON : Var::State::OFF);
 }
