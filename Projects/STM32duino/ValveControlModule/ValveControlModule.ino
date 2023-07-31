@@ -106,15 +106,14 @@ void setup()
     Tasks.add("CAN", []()
               {
                   ToggleTasksLED();
-
-                  int16_t recieveCurrentposition = b3mReadcurrentPosition(0x01);
-                  int16_t recieveDesiredPosition = b3mReaddesiredPosition(0x01);
-                  int16_t recieveCurrentvelosity = b3mReadcurrentVelosity(0x01);
-                  uint8_t recieveCurrent = b3mReadcurrent(0x01);
-                  uint8_t recieveMcutemperature = b3mReadmcuTemperature(0x01);
-                  uint8_t recieveMotortemperature = b3mReadmotorTemperature(0x01);
-                  uint8_t recieveinputVoltage = b3mreadInputvoltage(0x01);
-                  //   Serial.print(b3mreadStatus(0x01));
+                  //   int16_t recieveCurrentposition = b3mReadcurrentPosition(0x01);
+                  //   int16_t recieveDesiredPosition = b3mReaddesiredPosition(0x01);
+                  //   int16_t recieveCurrentvelosity = b3mReadcurrentVelosity(0x01);
+                  //   uint8_t recieveCurrent = b3mReadcurrent(0x01);
+                  //   uint8_t recieveMcutemperature = b3mReadmcuTemperature(0x01);
+                  //   uint8_t recieveMotortemperature = b3mReadmotorTemperature(0x01);
+                  //   uint8_t recieveinputVoltage = b3mreadInputvoltage(0x01);
+                  //   uint8_t recieveStatus = b3mreadStatus(0x01);
 
                   //   Serial.print(recieveCurrentposition);
                   //   Serial.print(" <| ");
@@ -133,9 +132,10 @@ void setup()
                   //   Serial.print(recieveinputVoltage);
                   //   Serial.print(" <| ");
 
-                  canSendmcuInfomation(recieveMotortemperature, recieveMcutemperature, recieveCurrent, recieveinputVoltage);
-                  canSendmotorInfomation(recieveCurrentposition, recieveDesiredPosition, recieveCurrentvelosity);
-              })
+                  //   canSendmcuInfomation(recieveMotortemperature, recieveMcutemperature, recieveCurrent, recieveinputVoltage);
+                  //   canSendmotorInfomation(recieveCurrentposition, recieveDesiredPosition, recieveCurrentvelosity);
+                  canSendmcuInfomation(b3mReadmotorTemperature(0x01), b3mReadmcuTemperature(0x01), b3mReadcurrent(0x01), b3mreadInputvoltage(0x01));
+                  canSendmotorInfomation(b3mReadcurrentPosition(0x01), b3mReaddesiredPosition(0x01), b3mReadcurrentVelosity(0x01)); })
         ->startFps(13);
 
     // Tasks.add("Count", []()
@@ -819,7 +819,7 @@ int16_t b3mreadInputvoltage(byte id)
 uint8_t b3mreadStatus(byte id)
 {
     byte txCmd[7];
-    byte rxCmd[7];
+    byte rxCmd[6];
     // uint8_t value;
     uint8_t reData;
     bool flag;
@@ -829,7 +829,7 @@ uint8_t b3mreadStatus(byte id)
     txCmd[2] = (byte)(0x00); // OPTION
     txCmd[3] = (byte)(id);   // ID
 
-    txCmd[4] = (byte)(0x00); // ADDRESS  //エラーステータスを取得
+    txCmd[4] = (byte)(0x9D); // ADDRESS  //エラーステータスを取得
     txCmd[5] = (byte)(0x01); // LENGTH
 
     txCmd[6] = 0x00; // SUM
@@ -843,7 +843,7 @@ uint8_t b3mreadStatus(byte id)
     // Serial.println("");
 
     txCmd[6] = (byte)(txCmd[6]);
-    flag = B3M.synchronize(txCmd, 7, rxCmd, 7);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 6);
 
     if (flag == false)
     {
