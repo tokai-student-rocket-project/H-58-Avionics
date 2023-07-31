@@ -24,6 +24,7 @@ public:
     SENSING_STATUS,
     FLIGHT_MODE_ON_COMMAND,
     CLIMB_RATE,
+    RESET_COMMAND,
     COLLECTED_TEMPERATURE = 0x100,
     COLD_JUNCTION_TEMPERATURE,
     THERMO_COUPLE_TEMPERATURE,
@@ -113,8 +114,10 @@ public:
   void sendSetReferencePressure(float referencePressure);
 
   /// @brief 参照気圧セットを送信する
-  /// @param referencePressure 参照気圧
   void sendFlightModeOn();
+
+  /// @brief リセットを送信する
+  void sendReset();
 
 
   /// @brief システムステータスを受信する

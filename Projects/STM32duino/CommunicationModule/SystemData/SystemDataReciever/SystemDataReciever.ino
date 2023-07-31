@@ -213,12 +213,21 @@ void loop() {
   Tasks.update();
 
   if (Serial.available()) {
-    Serial.read();
+    char command = Serial.read();
 
-    const auto& packet = MsgPacketizer::encode(0xF1, (uint8_t)0);
-    LoRa.beginPacket();
-    LoRa.write(packet.data.data(), packet.data.size());
-    LoRa.endPacket();
+    if (command == 'F') {
+      const auto& packet = MsgPacketizer::encode(0xF1, (uint8_t)0);
+      LoRa.beginPacket();
+      LoRa.write(packet.data.data(), packet.data.size());
+      LoRa.endPacket();
+    }
+
+    if (command == 'R') {
+      const auto& packet = MsgPacketizer::encode(0xF2, (uint8_t)0);
+      LoRa.beginPacket();
+      LoRa.write(packet.data.data(), packet.data.size());
+      LoRa.endPacket();
+    }
   }
 
   if (LoRa.parsePacket()) {
