@@ -64,7 +64,7 @@ void setup()
                   Serial.print(F(" | "));
                   Serial.print(F("Temperature: "));
                   Serial.print(thermocouple.readCelsius());
-                  Serial.print(F(" | ")); })
+                  Serial.println(F(" | ")); })
         ->startFps(23);
 }
 
