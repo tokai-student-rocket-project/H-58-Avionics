@@ -78,10 +78,16 @@ void CANMCP::sendSetReferencePressure(float payload) {
 
 
 /// @brief 参照気圧セットを送信する
-/// @param referencePressure 参照気圧
 void CANMCP::sendFlightModeOn() {
   uint8_t data[0];
   _can->sendMsgBuf(static_cast<uint32_t>(Label::FLIGHT_MODE_ON_COMMAND), 0, 0, data);
+}
+
+
+/// @brief リセットを送信する
+void CANMCP::sendReset() {
+  uint8_t data[0];
+  _can->sendMsgBuf(static_cast<uint32_t>(Label::RESET_COMMAND), 0, 0, data);
 }
 
 

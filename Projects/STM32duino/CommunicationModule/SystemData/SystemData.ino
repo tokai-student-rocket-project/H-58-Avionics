@@ -20,6 +20,7 @@ namespace command {
 
   void executeSetReferencePressureCommand(uint8_t key, float referencePressure);
   void executeFlightModeOnCommand(uint8_t key);
+  void executeResetCommand(uint8_t key);
 }
 
 namespace sensor {
@@ -97,16 +98,23 @@ void setup() {
 
   // 参照気圧設定コマンド
   MsgPacketizer::subscribe(LoRa, 0xF0, [](uint8_t key, float referencePressure) {
-    // indicator::loRaReceive.toggle();
+    indicator::loRaReceive.toggle();
     // 長くなるので処理は関数にまとめている
     command::executeSetReferencePressureCommand(key, referencePressure);
     });
 
   // フライトモードオンコマンド
   MsgPacketizer::subscribe(LoRa, 0xF1, [](uint8_t key) {
-    // indicator::loRaReceive.toggle();
+    indicator::loRaReceive.toggle();
     // 長くなるので処理は関数にまとめている
     command::executeFlightModeOnCommand(key);
+    });
+
+  // リセットコマンド
+  MsgPacketizer::subscribe(LoRa, 0xF2, [](uint8_t key) {
+    indicator::loRaReceive.toggle();
+    // 長くなるので処理は関数にまとめている
+    command::executeResetCommand(key);
     });
 }
 
@@ -307,6 +315,32 @@ void command::executeFlightModeOnCommand(uint8_t key) {
 
   // CANにフライトモードオンを送信する
   connection::can.sendFlightModeOn();
+  indicator::canSend.toggle();
+}
+
+
+/// @brief リセットコマンドを処理する
+/// @param key 認証キー
+void command::executeResetCommand(uint8_t key) {
+  // 認証キーが不正のときはエラーを送信して終わり
+  if (key != command::innerKey) {
+    // エラーをダウンリンクで送信する
+    const auto& errorPacket = MsgPacketizer::encode(
+      static_cast<uint8_t>(connection::Index::ERROR),
+      millis(),
+      static_cast<uint8_t>(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE),
+      static_cast<uint8_t>(CANMCP::ErrorCode::COMMAND_RECEIVE_FAILED),
+      static_cast<uint8_t>(CANMCP::ErrorReason::INVALID_KEY),
+      millis()
+    );
+
+    connection::reserveDownlink(errorPacket.data.data(), errorPacket.data.size());
+
+    return;
+  }
+
+  // CANにリセットを送信する
+  connection::can.sendReset();
   indicator::canSend.toggle();
 }
 

@@ -133,6 +133,25 @@ void loop() {
 
       device::indicator::canReceive.toggle();
       break;
+    case CANSTM::Label::RESET_COMMAND:
+      if (internal::flightModeManager.is(Var::FlightMode::STANDBY)) {
+        internal::flightModeManager.changeMode(Var::FlightMode::SLEEP);
+        device::peripheral::camera.off();
+        device::peripheral::logger.endLogging();
+        device::indicator::buzzer.beepLongOnce();
+        canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
+      }
+
+      if (internal::flightModeManager.isNot(Var::FlightMode::SLEEP) && internal::flightModeManager.isNot(Var::FlightMode::STANDBY)) {
+        internal::flightModeManager.changeMode(Var::FlightMode::SHUTDOWN);
+        device::peripheral::camera.off();
+        device::peripheral::logger.endLogging();
+        device::indicator::buzzer.beepLongOnce();
+        canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, internal::timeManager.flightTime());
+      }
+
+      device::indicator::canReceive.toggle();
+      break;
     case CANSTM::Label::VALVE_MODE: {
       bool isWaitingMode;
       canbus::can.receiveValveMode(&isWaitingMode);
