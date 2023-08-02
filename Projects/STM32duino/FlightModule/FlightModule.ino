@@ -83,11 +83,11 @@ void setup() {
   // while (!Serial);
   // delay(800);
 
-  internal::timeManager.THRUST_TIME = 2110;
-  internal::timeManager.PROTECTION_SEPARATION_TIME = 99999;
-  internal::timeManager.FORCE_SEPARATION_TIME = 9949;
-  internal::timeManager.LANDING_TIME = 38649;
-  internal::timeManager.SHUTDOWN_TIME = 43649;
+  internal::timeManager.THRUST_TIME = 960;
+  internal::timeManager.PROTECTION_SEPARATION_TIME = 5119;
+  internal::timeManager.FORCE_SEPARATION_TIME = 6619;
+  internal::timeManager.LANDING_TIME = 16700;
+  internal::timeManager.SHUTDOWN_TIME = 21700;
 
   // デバッグ中はピンが干渉するので電圧監視を行わない
   if (!internal::flag::isDebugMode) {
