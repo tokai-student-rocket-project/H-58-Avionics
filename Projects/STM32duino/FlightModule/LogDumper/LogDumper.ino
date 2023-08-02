@@ -8,8 +8,6 @@ void dump(FRAM* fram);
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial);
-  delay(800);
 
   SPI.setMOSI(A6);
   SPI.setMISO(A5);
@@ -37,7 +35,12 @@ void setup() {
     }
   );
 
+  while (!Serial);
+  delay(5000);
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
   dump(&fram);
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 
