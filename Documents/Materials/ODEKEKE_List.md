@@ -96,6 +96,22 @@
 - [ ] 熱収縮チューブφ10【住友重工エファインポリマー株式会社】(x1) [秋月電子通商](https://akizukidenshi.com/catalog/g/gP-08985/)
 - [ ] 熱収縮チューブφ3【住友重工エファインポリマー株式会社】(x1) [秋月電子通商](https://akizukidenshi.com/catalog/g/gP-06789/)
 
+### Can:star:Do SIKIRI (コネクタ | ヒロセ電機)
+
+- [ ] DF11-8DP-2DS(24)【ヒロセ電機】(x) [ヒロセ電機 | DF11-8DP-2DS(24)](https://www.hirose.com/ja/product/p/CL0543-0535-7-24)
+- [ ] DF11-8DS-2C【ヒロセ電機】(x) [ヒロセ電機 | DF11-8DS-2C](https://www.hirose.com/ja/product/p/CL0543-0503-0-00)
+- [ ] DF11-2428SCF【ヒロセ電機】(x) [ヒロセ電機 | DF11-2428SCF](https://www.hirose.com/ja/product/p/CL0543-0500-2-00)
+- [ ] DF11EP-2428PCF【ヒロセ電機】(x) [ヒロセ電機 | DF11EP-2428PCF](https://www.hirose.com/ja/product/p/CL0543-0615-4-00)
+- [ ] DF51-6DS-2C【ヒロセ電機】(x) [ヒロセ電機 | DF51-6DS-2C](https://www.hirose.com/ja/product/p/CL0543-5031-0-00)
+- [ ] DF51A-6DP-2DSA【ヒロセ電機】(x) [ヒロセ電機 | DF51A-6DP-2DSA](https://www.hirose.com/ja/product/p/CL0543-5044-0-00)
+- [ ] DF51-6DEP-2C【ヒロセ電機】(x) [ヒロセ電機 | DF51-6DEP-2C](https://www.hirose.com/ja/product/p/CL0543-5072-0-00)
+
+
+### Can:star:Do SIKIRI (コネクタ)
+
+- [ ] DF1B-6DS-2.5RC【ヒロセ電機】(x) [ヒロセ電機 | DF1B-6DS-2.5RC](https://www.hirose.com/ja/product/p/CL0541-0649-3-00)
+- [ ] DF1BA-6DEP-2.5RC【ヒロセ電機】(x) [ヒロセ電機 | DF1BA-6DEP-2.5RC](https://www.hirose.com/product/p/CL0541-0720-6-00)
+- [ ] DF1B-2428PCF【ヒロセ電機】(x) [ヒロセ電機 | DF1B-2428PCF](https://www.hirose.com/ja/product/p/CL0541-0664-7-00)
 
 ### Can:star:Do SIKIRI (ダイオード)
 
