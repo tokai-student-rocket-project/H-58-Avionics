@@ -78,10 +78,10 @@ void Logger::log(
   const uint32_t size = packet.data.size();
 
   // FRAMの容量を超えたら何もしない (容量オーバー)
-  if (_offset + size < FRAM::LENGTH) {
-    _fram->setWriteEnable();
-    _fram->write(_offset, data, size);
-  }
+  if (_offset + size >= FRAM::LENGTH) return;
+
+  _fram->setWriteEnable();
+  _fram->write(_offset, data, size);
 
   _offset += size;
 }
