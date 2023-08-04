@@ -26,7 +26,7 @@ void setup() {
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "PowerData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
@@ -50,7 +50,7 @@ void setup() {
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "PositionData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
@@ -76,7 +76,7 @@ void setup() {
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "SystemData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
@@ -105,7 +105,7 @@ void setup() {
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "SensingData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
@@ -132,7 +132,7 @@ void setup() {
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "Event";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
@@ -157,7 +157,7 @@ void setup() {
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "Error";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
@@ -187,7 +187,7 @@ void setup() {
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "ValveData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();

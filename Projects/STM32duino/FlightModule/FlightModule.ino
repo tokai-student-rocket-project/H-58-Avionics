@@ -62,7 +62,7 @@ namespace device {
   namespace peripheral {
     Logger logger(D4);
     Camera camera(D9);
-    Shiranui sn3(A0, "sn3");
+    Shiranui sn3(D13, "sn3");
   }
 }
 
