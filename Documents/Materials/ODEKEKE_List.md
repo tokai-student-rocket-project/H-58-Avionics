@@ -28,6 +28,15 @@
   - [ ] 各種取り付け工具
     - [ ] レンチ
 
+- [ ] RaspberryPi関係
+  -[ ] RasPad【】() [ | ]()
+  -[ ] 赤外線カメラモジュールV2【RSコンポーネンツ株式会社(OKdo)】(x1) [RSコンポーネンツ株式会社(OKdo) | 913-2673](https://jp.rs-online.com/web/p/raspberry-pi-cameras/9132673)
+  -[ ] カメラモジュールV2【RSコンポーネンツ株式会社(OKdo)】(x1) [RSコンポーネンツ株式会社(OKdo) | 913-2664](https://jp.rs-online.com/web/p/raspberry-pi-cameras/9132664)
+  -[ ] 【】() [ | ]()
+  -[ ] 【】() [ | ]()
+  -[ ] 【】() [ | ]()
+  -[ ] 【】() [ | ]()
+
 
 ---
 ### E1 エレキ工具箱(23Wx49Dx29H)
@@ -245,7 +254,3 @@
 - [ ] 電動はんだ吸い取り機【HAKKO】(x1) [HAKKO | FR-301](https://www.hakko.com/japan/products/hakko_fr301.html)
 
 ---
-## 中原
-
-
-RasPad 予備のRaspberrypi、赤外線カメラ　忌々しきM2.6口径たち
