@@ -135,6 +135,8 @@ void loop() {
       connection::can.receiveSystemStatus(&data::flightMode, &data::cameraState, &data::sn3State, &data::doLogging, &data::flightTime, &data::flightModuleLoggerUsage);
       indicator::canReceive.toggle();
 
+      Serial.println(data::flightModuleLoggerUsage);
+
       // コマンドを受信しやすようにSLEEPモードの時はダウンリンクの頻度を落とす
       if (data::flightMode == Var::FlightMode::SLEEP && connection::isListenMode == false) {
         Tasks["lowRateDownlinkTask"]->stop();

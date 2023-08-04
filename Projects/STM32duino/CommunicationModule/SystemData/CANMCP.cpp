@@ -104,7 +104,7 @@ void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* camera
   *sn3State = static_cast<Var::State>(_latestData[2]);
   *doLogging = _latestData[3];
   memcpy(flightTime, _latestData + 4, 2);
-  *loggerUsage = _latestData[7];
+  *loggerUsage = _latestData[6];
 }
 
 
