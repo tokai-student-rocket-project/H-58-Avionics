@@ -45,8 +45,13 @@ void setup() {
   MsgPacketizer::subscribe(LoRa, 0x02,
     [](
       uint32_t millis,
+      bool isFixed,
+      uint8_t fixType,
+      uint8_t satellites,
       float latitude,
-      float longitude
+      float longitude,
+      float altitude,
+      float speed
       )
     {
       transmitter::packet.clear();
@@ -55,8 +60,13 @@ void setup() {
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       transmitter::packet["PacketInfo"]["Millis"] = millis;
+      transmitter::packet["IsFixed"] = isFixed;
+      transmitter::packet["FixType"] = fixType;
+      transmitter::packet["Satellites"] = satellites;
       transmitter::packet["Latitude"] = latitude;
       transmitter::packet["Longitude"] = longitude;
+      transmitter::packet["Altitude"] = altitude;
+      transmitter::packet["Speed"] = speed;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();

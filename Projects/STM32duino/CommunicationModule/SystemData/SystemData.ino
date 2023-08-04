@@ -135,8 +135,6 @@ void loop() {
       connection::can.receiveSystemStatus(&data::flightMode, &data::cameraState, &data::sn3State, &data::doLogging, &data::flightTime, &data::flightModuleLoggerUsage);
       indicator::canReceive.toggle();
 
-      Serial.println(data::flightModuleLoggerUsage);
-
       // コマンドを受信しやすようにSLEEPモードの時はダウンリンクの頻度を落とす
       if (data::flightMode == Var::FlightMode::SLEEP && connection::isListenMode == false) {
         Tasks["lowRateDownlinkTask"]->stop();
@@ -224,17 +222,19 @@ void timer::lowRateDownlinkTask() {
 void timer::highRateDownlinkTask() {
   // GNSS情報を受信する
   if (sensor::gnss.available()) {
-    data::latitude = sensor::gnss.getLatitude();
-    data::longitude = sensor::gnss.getLongitude();
-
     indicator::gpsStatus.toggle();
 
     // GNSS情報をダウンリンクで送信する
     const auto& gnssDataPacket = MsgPacketizer::encode(
       static_cast<uint8_t>(connection::Index::GNSS_DATA),
       millis(),
-      data::latitude,
-      data::longitude
+      sensor::gnss.isFixed(),
+      sensor::gnss.getFixType(),
+      sensor::gnss.getSatelliteCount(),
+      sensor::gnss.getLatitude(),
+      sensor::gnss.getLongitude(),
+      sensor::gnss.getAltitude(),
+      sensor::gnss.getSpeed()
     );
 
     connection::reserveDownlink(gnssDataPacket.data.data(), gnssDataPacket.data.size());
