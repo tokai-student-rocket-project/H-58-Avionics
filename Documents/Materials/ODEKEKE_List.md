@@ -143,11 +143,16 @@
 
 
 ---
-### Can:star:Do SIKIRI (ダイオード)
+### Can:star:Do SIKIRI20 (ダイオードBOX)
 
+- [ ] 赤色チップLED【OptoSupply】(x28) [参考 | 秋月電子通商 | OSHR1608C1A](https://akizukidenshi.com/catalog/g/gI-03978/)
+- [ ] 緑色チップLED【OptoSupply】(x7) [参考 | 秋月電子通商 | OSG50603C1E](https://akizukidenshi.com/catalog/g/gI-08275/)
+- [ ] オレンジ色チップLED【OptoSupply】(x15) [参考 | 秋月電子通商 OSOR1608C1A](https://akizukidenshi.com/catalog/g/gI-06416/)
+- [ ] チップダイオード【PANJIT INTERNATIONAL INC.】(x17) [秋月電子通商 | GS1010FL](https://akizukidenshi.com/catalog/g/gI-06014/)
+- [ ] 定電圧ダイオード(ツェナーダイオード)【ROHM株式会社】(x19) [秋月電子通商 | UDZVTE-175.1B](https://akizukidenshi.com/catalog/g/gI-07434/)
 
 ---
-### Can:star:Do SIKIRI20 (抵抗&キャパシタ)
+### Can:star:Do SIKIRI20 (抵抗&キャパシタBOX)
 
 
 - [ ] 2012 100Ω チップ抵抗【KOA】(x) [参考 | KOA | RK73B1JTTD101J](https://www.koaglobal.com/-/media/Files/KOA_Global/product/commonpdf/rk73b.pdf)
@@ -172,12 +177,12 @@
 
 
 ---
-### Can:star:Do SIKIRI (マイコン)
+### Can:star:Do SIKIRI6 (マイコンBOX)
 
 
 - [ ] Arduino NANO Every【Arduino】(x1) [Arduino | ABX00028](https://docs.arduino.cc/hardware/nano-every)
 - [ ] Nucleo-32 STM32F303K8【STMicro】(x3) [STMicro | Nucleo-F303K8](https://www.stmcu.jp/design/hwdevelop/nucleo/51842/)
-
+- [ ] RP2040マイコンボードキット【秋月電子通商】(x2) [秋月電子通商 | AE-RP2040](https://akizukidenshi.com/catalog/g/gK-17542/)
 
 ---
 ### Can:star:DO SIKIRI20(能動素子BOX)
