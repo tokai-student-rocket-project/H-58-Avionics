@@ -123,14 +123,18 @@
 
 
 ---
-### Can:star:Do SIKIRI (コネクタ | ヒロセ電機)
+### Can:star:Do SIKIRI (コネクタなど)
 
-
-- [ ] DF11-8DP-2DS(24)【ヒロセ電機】(x) [ヒロセ電機 | DF11-8DP-2DS(24)](https://www.hirose.com/ja/product/p/CL0543-0535-7-24)
-- [ ] DF11-8DS-2C【ヒロセ電機】(x) [ヒロセ電機 | DF11-8DS-2C](https://www.hirose.com/ja/product/p/CL0543-0503-0-00)
-- [ ] DF11-2428SCF【ヒロセ電機】(x) [ヒロセ電機 | DF11-2428SCF](https://www.hirose.com/ja/product/p/CL0543-0500-2-00)
-- [ ] DF11EP-2428PCF【ヒロセ電機】(x) [ヒロセ電機 | DF11EP-2428PCF](https://www.hirose.com/ja/product/p/CL0543-0615-4-00)
-- [ ] DF51-6DS-2C【ヒロセ電機】(x) [ヒロセ電機 | DF51-6DS-2C](https://www.hirose.com/ja/product/p/CL0543-5031-0-00)
+- [ ] DF11-8DS-2C【ヒロセ電機】(x20) [ヒロセ電機 | DF11-8DS-2C](https://www.hirose.com/ja/product/p/CL0543-0503-0-00)
+- [ ] DF51-6DS-2C【ヒロセ電機】(x20) [ヒロセ電機 | DF51-6DS-2C](https://www.hirose.com/ja/product/p/CL0543-5031-0-00)
+- [ ] DF11-8DP-2DS(24)【ヒロセ電機】(x21) [ヒロセ電機 | DF11-8DP-2DS(24)](https://www.hirose.com/ja/product/p/CL0543-0535-7-24)
+- [ ] DF11-2428SCF【ヒロセ電機】(x36) [ヒロセ電機 | DF11-2428SCF](https://www.hirose.com/ja/product/p/CL0543-0500-2-00)
+- [ ] DF11EP-2428PCF【ヒロセ電機】(x36) [ヒロセ電機 | DF11EP-2428PCF](https://www.hirose.com/ja/product/p/CL0543-0615-4-00)
+- [ ] バスパワーライン用線材
+  - [ ] 赤(AWG24)-40mm
+  - [ ] 黒(AWG24)-40mm
+  - [ ] 黄(AWG24)-40mm
+  - [ ] 青(AWG24)-40mm
 
 
 ---
