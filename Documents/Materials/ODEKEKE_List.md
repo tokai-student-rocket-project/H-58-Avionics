@@ -197,11 +197,11 @@
 
 
 - [ ] スペーサーM3x25mm【指定なし】(x必要に応じて) [参考 | MISUMI](https://jp.misumi-ec.com/vona2/detail/110500137860/?ProductCode=SBD-S3-25)
-- [ ] RENY 樹脂ジョイント M4x20mm【日本ケミカルスクリュー】(x必要に応じて) [日本ケミカルスクリュー | RENY-BK/AJ4-20](https://www.chemis.co.jp/products/item?id=3260000300082)
-- [ ] RENY 樹脂ジョイント M4x10mm【日本ケミカルスクリュー】(x必要に応じて) [日本ケミカルスクリュー | RENY-BK/AJ4-10](https://www.chemis.co.jp/products/item?id=3260000300082)
-- [ ] RENY ワッシャー M4【日本ケミカルスクリュー】(x必要に応じて) [日本ケミカルスクリュー | RENY-BK/W4.3-9-0.8](https://www.chemis.co.jp/products/item?id=50700320070)
-- [ ] RENY 六角穴付きボルト M4x6mm【日本ケミカルスクリュー】(x必要に応じて) [日本ケミカルスクリュー | RENY-BK/CB4-6](https://www.chemis.co.jp/products/item?id=470000300062)
-- [ ] RENY ナット M4【日本ケミカルスクリュー】(x必要に応じて) [日本ケミカルスクリュー | RENY-BK/NT4](https://www.chemis.co.jp/products/item?id=2070000000200)
+- [ ] RENY 樹脂ジョイント M4x20mm【日本ケミカルスクリュー】(x10) [日本ケミカルスクリュー | RENY-BK/AJ4-20](https://www.chemis.co.jp/products/item?id=3260000300082)
+- [ ] RENY 樹脂ジョイント M4x10mm【日本ケミカルスクリュー】(x8) [日本ケミカルスクリュー | RENY-BK/AJ4-10](https://www.chemis.co.jp/products/item?id=3260000300082)
+- [ ] RENY ワッシャー M4【日本ケミカルスクリュー】(x10) [日本ケミカルスクリュー | RENY-BK/W4.3-9-0.8](https://www.chemis.co.jp/products/item?id=50700320070)
+- [ ] RENY 六角穴付きボルト M4x6mm【日本ケミカルスクリュー】(x10) [日本ケミカルスクリュー | RENY-BK/CB4-6](https://www.chemis.co.jp/products/item?id=470000300062)
+- [ ] RENY ナット M4【日本ケミカルスクリュー】(x10) [日本ケミカルスクリュー | RENY-BK/NT4](https://www.chemis.co.jp/products/item?id=2070000000200)
 - [ ] アンテナ固定用タイラップ【指定なし】(x12) [あくまでも参考 | HellermannTyton](https://www.hellermanntyton.co.jp/product/cabletie.html)
 - [ ] トラス頭小ねじ M3x15mm【指定なし】(x24以上) [あくまでも参考 | CSPTRT-STSP5-M3-15](https://jp.misumi-ec.com/vona2/detail/221000547337/?ProductCode=CSPTRT-STSP5-M3-15)
 - [ ] ナット M3【指定なし】(x24以上) [あくまでも参考 | LBNR3](https://jp.misumi-ec.com/vona2/detail/110300250540/?ProductCode=LBNR3)
