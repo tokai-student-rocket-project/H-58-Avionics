@@ -27,15 +27,20 @@
   - [ ] 各種取り付けねじ【Onset社】(x1) [Z-Storage](https://drive.google.com/drive/folders/1pr7K7Y3kVD4iESg3JlFsGhEIkhMSgURr)
   - [ ] 各種取り付け工具
     - [ ] レンチ
+    - [ ] タイラップ等
+
+- [ ]　その他類
+  - [ ] 三脚「安定感マシマシ」【わからん】(x1) [わからん]()
+  - [ ] 三脚「チビヒョロ」【わからん】(x1) [わからん]()
 
 - [ ] RaspberryPi関係
-  -[ ] RasPad【】() [ | ]()
-  -[ ] 赤外線カメラモジュールV2【RSコンポーネンツ株式会社(OKdo)】(x1) [RSコンポーネンツ株式会社(OKdo) | 913-2673](https://jp.rs-online.com/web/p/raspberry-pi-cameras/9132673)
-  -[ ] カメラモジュールV2【RSコンポーネンツ株式会社(OKdo)】(x1) [RSコンポーネンツ株式会社(OKdo) | 913-2664](https://jp.rs-online.com/web/p/raspberry-pi-cameras/9132664)
-  -[ ] 【】() [ | ]()
-  -[ ] 【】() [ | ]()
-  -[ ] 【】() [ | ]()
-  -[ ] 【】() [ | ]()
+  - [ ] RasPad【】() [ | ]()
+  - [ ] 赤外線カメラモジュールV2【RSコンポーネンツ株式会社(OKdo)】(x1) [RSコンポーネンツ株式会社(OKdo) | 913-2673](https://jp.rs-online.com/web/p/raspberry-pi-cameras/9132673)
+  - [ ] カメラモジュールV2【RSコンポーネンツ株式会社(OKdo)】(x1) [RSコンポーネンツ株式会社(OKdo) | 913-2664](https://jp.rs-online.com/web/p/raspberry-pi-cameras/9132664)
+  - [ ] 【】() [ | ]()
+  - [ ] 【】() [ | ]()
+  - [ ] 【】() [ | ]()
+  - [ ] 【】() [ | ]()
 
 
 ---
