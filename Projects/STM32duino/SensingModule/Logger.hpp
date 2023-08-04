@@ -51,6 +51,10 @@ public:
     float gravity_x, float gravity_y, float gravity_z
   );
 
+  /// @brief ロガーの使用率
+  /// @return FRAM全て合わせた使用率 パーセント
+  float getUsage();
+
 private:
   bool _isLogging = false;
   uint32_t _offset = 0;

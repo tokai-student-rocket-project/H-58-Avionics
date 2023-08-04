@@ -72,7 +72,8 @@ void setup() {
       bool cameraStatus,
       bool sn3Status,
       bool doLogging,
-      uint32_t flightTime
+      uint16_t flightTime,
+      uint8_t loggerUsage
       )
     {
       transmitter::packet.clear();
@@ -86,6 +87,7 @@ void setup() {
       transmitter::packet["SN3Status"] = sn3Status;
       transmitter::packet["DoLogging"] = doLogging;
       transmitter::packet["FlightTime"] = flightTime;
+      transmitter::packet["LoggerUsage"] = loggerUsage;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();
@@ -99,9 +101,7 @@ void setup() {
       uint32_t millis,
       float referencePressure,
       bool isSystemCalibrated,
-      bool isGyroscopeCalibrated,
-      bool isAccelerometerCalibrated,
-      bool isMagnetometerCalibrated
+      uint8_t loggerUsage
       )
     {
       transmitter::packet.clear();
@@ -112,9 +112,7 @@ void setup() {
       transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["ReferencePressure"] = referencePressure;
       transmitter::packet["IsSystemCalibrated"] = isSystemCalibrated;
-      transmitter::packet["IsGyroscopeCalibrated"] = isGyroscopeCalibrated;
-      transmitter::packet["IsAccelerometerCalibrated"] = isAccelerometerCalibrated;
-      transmitter::packet["IsMagnetometerCalibrated"] = isMagnetometerCalibrated;
+      transmitter::packet["LoggerUsage"] = loggerUsage;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();

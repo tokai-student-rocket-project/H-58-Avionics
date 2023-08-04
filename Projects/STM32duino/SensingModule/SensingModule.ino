@@ -127,14 +127,7 @@ void loop() {
 
 /// @brief 5秒間隔で実行したい処理
 void internal::task02Hz() {
-  // 計測ステータスの送信
-  canbus::can.sendSensingStatus(
-    internal::trajectory.getReferencePressure(),
-    device::sensor::bno.isSystemCalibrated(),
-    device::sensor::bno.isGyroscopeCalibrated(),
-    device::sensor::bno.isAccelerometerCalibrated(),
-    device::sensor::bno.isMagnetometerCalibrated()
-  );
+  // そんなものはない
 }
 
 
@@ -165,6 +158,11 @@ void internal::task20Hz() {
   canbus::can.sendScalar(CANSTM::Label::CLIMB_RATE, data::climbRate_mps);
   canbus::can.sendVector3D(CANSTM::Label::ORIENTATION, data::orientation_x_deg, data::orientation_y_deg, data::orientation_z_deg);
   canbus::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2);
+  canbus::can.sendSensingStatus(
+    internal::trajectory.getReferencePressure(),
+    device::sensor::bno.isSystemCalibrated(),
+    static_cast<uint8_t>(device::peripheral::logger.getUsage())
+  );
   device::indicator::canSend.toggle();
 }
 
@@ -218,9 +216,10 @@ void internal::task100Hz() {
 void canbus::handleSystemStatus() {
   Var::State cameraState, sn3State;
   bool doLogging;
-  uint32_t flightTime;
+  uint16_t flightTime;
+  uint8_t loggerUsage;
 
-  canbus::can.receiveSystemStatus(&data::flightMode, &cameraState, &sn3State, &doLogging, &flightTime);
+  canbus::can.receiveSystemStatus(&data::flightMode, &cameraState, &sn3State, &doLogging, &flightTime, &loggerUsage);
 
   // ログ保存を"やるはず"なのに"やっていない"なら開始
   if (doLogging && !device::peripheral::logger.isLogging()) {

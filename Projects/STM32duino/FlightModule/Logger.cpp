@@ -60,7 +60,7 @@ bool Logger::isLogging() {
 
 /// @brief ログを保存する
 void Logger::log(
-  uint32_t millis, uint32_t flightTime,
+  uint32_t millis, uint16_t flightTime,
   uint8_t flightMode, bool cameraState, bool sn3State, bool doLogging,
   bool isFalling, bool flightPinState, bool resetPinState,
   float supplyVoltage, float batteryVoltage, float poolVoltage
@@ -84,4 +84,11 @@ void Logger::log(
   }
 
   _offset += size;
+}
+
+
+/// @brief ロガーの使用率
+/// @return FRAM全て合わせた使用率 パーセント
+float Logger::getUsage() {
+  return ((float)_offset / (float)FRAM::LENGTH) * 100.0;
 }

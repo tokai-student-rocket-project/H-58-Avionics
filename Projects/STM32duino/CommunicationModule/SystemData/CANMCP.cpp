@@ -96,27 +96,26 @@ void CANMCP::sendReset() {
 /// @param cameraState カメラの状態
 /// @param sn3State 不知火3の状態
 /// @param doLogging ログ保存するか
-void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint32_t* flightTime) {
+/// @param flightTime 飛翔時間
+/// @param loggerUsage ロガーの使用率
+void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint16_t* flightTime, uint8_t* loggerUsage) {
   *flightMode = static_cast<Var::FlightMode>(_latestData[0]);
   *cameraState = static_cast<Var::State>(_latestData[1]);
   *sn3State = static_cast<Var::State>(_latestData[2]);
   *doLogging = _latestData[3];
-  memcpy(flightTime, _latestData + 4, 4);
+  memcpy(flightTime, _latestData + 4, 2);
+  *loggerUsage = _latestData[6];
 }
 
 
 /// @brief 計測ステータスを受信する
 /// @param referencePressure 参照気圧 [hPa]
 /// @param isSystemCalibrated BNO055システムのキャリブレーションが完了しているか
-/// @param isGyroscopeCalibrated BNO055角加速度計のキャリブレーションが完了しているか
-/// @param isAccelerometerCalibrated BNO055加速度計のキャリブレーションが完了しているか
-/// @param isMagnetometerCalibrated BNO055地磁気計のキャリブレーションが完了しているか
-void CANMCP::receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, bool* isGyroscopeCalibrated, bool* isAccelerometerCalibrated, bool* isMagnetometerCalibrated) {
+/// @param loggerUsage ロガーの使用率
+void CANMCP::receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, uint8_t* loggerUsage) {
   memcpy(referencePressure, _latestData, 4);
   *isSystemCalibrated = _latestData[4];
-  *isGyroscopeCalibrated = _latestData[5];
-  *isAccelerometerCalibrated = _latestData[6];
-  *isMagnetometerCalibrated = _latestData[7];
+  *loggerUsage = _latestData[5];
 }
 
 
