@@ -122,8 +122,6 @@
 - [ ] DF11-2428SCF【ヒロセ電機】(x) [ヒロセ電機 | DF11-2428SCF](https://www.hirose.com/ja/product/p/CL0543-0500-2-00)
 - [ ] DF11EP-2428PCF【ヒロセ電機】(x) [ヒロセ電機 | DF11EP-2428PCF](https://www.hirose.com/ja/product/p/CL0543-0615-4-00)
 - [ ] DF51-6DS-2C【ヒロセ電機】(x) [ヒロセ電機 | DF51-6DS-2C](https://www.hirose.com/ja/product/p/CL0543-5031-0-00)
-- [ ] DF51A-6DP-2DSA【ヒロセ電機】(x) [ヒロセ電機 | DF51A-6DP-2DSA](https://www.hirose.com/ja/product/p/CL0543-5044-0-00)
-- [ ] DF51-6DEP-2C【ヒロセ電機】(x) [ヒロセ電機 | DF51-6DEP-2C](https://www.hirose.com/ja/product/p/CL0543-5072-0-00)
 
 
 ---
@@ -217,19 +215,21 @@
 - [ ] RCY/SMコネクタ ピンコンタクト【日本圧着端子製造】(x20?) [日本圧着端子製造 | SYM-001T-P0.6](https://akizukidenshi.com/catalog/g/gC-13902/)
 - [ ] RCY/コネクタ ソケットコンタクト【日本圧着端子製造】(x20?) [日本圧着端子製造 | SYF-001T-P0.6(LF)(SN)](https://akizukidenshi.com/catalog/g/gC-13903/)
 - [ ] XHコネクタ ハウジング 4P【日本圧着端子製造】(x9) [日本圧着端子製造 | XHP-4](https://akizukidenshi.com/catalog/g/gC-12257/)
-- [ ] XHコネクタ ハウジング用コンタクト【日本圧着端子製造】(x40?) [日本圧着端子製造 | SXH-001T-P0.6](https://akizukidenshi.com/catalog/g/gC-12265/)
+- [ ] XHコネクタ ハウジング用コンタクト【日本圧着端子製造】(x40) [日本圧着端子製造 | SXH-001T-P0.6](https://akizukidenshi.com/catalog/g/gC-12265/)
 - [ ] EHコネクタ ハウジング【日本圧着端子製造】(x10) [日本圧着端子製造 | EHR-4](https://www.jst-mfg.com/product/pdf/jpn/EH.pdf?64cb486b5f768)
 - [ ] EHコネクタ コンタクト【日本圧着端子製造】(x40) [日本圧着端子製造 | SEH-001T-P0.6](https://www.jst-mfg.com/product/pdf/jpn/EH.pdf?64cb486b5f768)
-- [ ] DF1B-2S-2.5R【ヒロセ電機】(x必要に応じて) [ヒロセ電機 | DF1B-2S-2.5R](https://www.hirose.com/ja/product/p/CL0541-0200-6-00)
-- [ ] DF1BZ-2P-2.5DS【ヒロセ電機】(x必要に応じて) [ヒロセ電機 | DF1B-2P-2.5DS](https://www.hirose.com/ja/product/p/CL0541-2034-0-00)
-- [ ] DF1BZ-2P-2.5DSA【ヒロセ電機】(x必要に応じて) [ヒロセ電機 | DF1B-2P-2.5DSA](https://www.hirose.com/ja/product/p/CL0541-2000-8-00)
-- [ ] DF1BZ-4P-2.5DS【ヒロセ電機】(x必要に応じて) [ヒロセ電機 | DF1BZ-4P-2.5DS](https://www.hirose.com/ja/product/p/CL0541-2036-5-00)
+- [ ] DF1B-2S-2.5R【ヒロセ電機】(x33) [ヒロセ電機 | DF1B-2S-2.5R](https://www.hirose.com/ja/product/p/CL0541-0200-6-00)
+- [ ] DF1BZ-2P-2.5DS【ヒロセ電機】(x37) [ヒロセ電機 | DF1B-2P-2.5DS](https://www.hirose.com/ja/product/p/CL0541-2034-0-00)
+- [ ] DF1BZ-2P-2.5DSA【ヒロセ電機】(x30) [ヒロセ電機 | DF1B-2P-2.5DSA](https://www.hirose.com/ja/product/p/CL0541-2000-8-00)
+- [ ] DF1BZ-4P-2.5DS【ヒロセ電機】(x18) [ヒロセ電機 | DF1BZ-4P-2.5DS](https://www.hirose.com/ja/product/p/CL0541-2036-5-00)
 - [ ] DF1B-2EP-2.5RC【ヒロセ電機】(x5) [ヒロセ電機 | DF1B-2EP-2.5RC](https://www.hirose.com/ja/product/p/CL0541-0332-7-00)
 - [ ] DF1B-2ES-2.5RC【ヒロセ電機】(x5) [ヒロセ電機 | DF1B-2ES-2.5RC](https://www.hirose.com/ja/product/p/CL0541-0320-8-00)
-- [ ] DF1B-6DS-2.5RC【ヒロセ電機】(x) [ヒロセ電機 | DF1B-6DS-2.5RC](https://www.hirose.com/ja/product/p/CL0541-0649-3-00)
-- [ ] DF1BA-6DEP-2.5RC【ヒロセ電機】(x) [ヒロセ電機 | DF1BA-6DEP-2.5RC](https://www.hirose.com/product/p/CL0541-0720-6-00)
-- [ ] DF1B-2428PCF【ヒロセ電機】(x) [ヒロセ電機 | DF1B-2428PCF](https://www.hirose.com/ja/product/p/CL0541-0664-7-00)
-- [ ] DF1B-2428SCF【ヒロセ電機】(xたくさん) [ヒロセ電機 | DF1B-2428SCF](https://www.hirose.com/ja/product/p/CL0541-0678-1-00)
+- [ ] DF1B-6DS-2.5RC【ヒロセ電機】(x26) [ヒロセ電機 | DF1B-6DS-2.5RC](https://www.hirose.com/ja/product/p/CL0541-0649-3-00)
+- [ ] DF1BA-6DEP-2.5RC【ヒロセ電機】(x11) [ヒロセ電機 | DF1BA-6DEP-2.5RC](https://www.hirose.com/product/p/CL0541-0720-6-00)
+- [ ] DF1B-2428PCF【ヒロセ電機】(x48) [ヒロセ電機 | DF1B-2428PCF](https://www.hirose.com/ja/product/p/CL0541-0664-7-00)
+- [ ] DF1B-2428SCF【ヒロセ電機】(x100) [ヒロセ電機 | DF1B-2428SCF](https://www.hirose.com/ja/product/p/CL0541-0678-1-00)
+- [ ] DF51-6DEP-2C【ヒロセ電機】(x14) [ヒロセ電機 | DF51-6DEP-2C](https://www.hirose.com/ja/product/p/CL0543-5072-0-00)
+- [ ] DF51A-6DP-2DSA【ヒロセ電機】(x20) [ヒロセ電機 | DF51A-6DP-2DSA](https://www.hirose.com/ja/product/p/CL0543-5044-0-00)
 
 
 ---
