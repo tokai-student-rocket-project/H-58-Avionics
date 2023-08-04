@@ -74,10 +74,11 @@ namespace data {
   Var::FlightMode flightMode;
   Var::State cameraState, sn3State;
   bool doLogging;
-  uint32_t flightTime;
+  uint16_t flightTime;
+  uint8_t sensingModuleLoggerUsage, flightModuleLoggerUsage;
   float voltage_supply, voltage_battery, voltage_pool;
   float referencePressure;
-  bool isSystemCalibrated, isGyroscopeCalibrated, isAccelerometerCalibrated, isMagnetometerCalibrated;
+  bool isSystemCalibrated;
 }
 
 
@@ -131,7 +132,7 @@ void loop() {
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS: {
-      connection::can.receiveSystemStatus(&data::flightMode, &data::cameraState, &data::sn3State, &data::doLogging, &data::flightTime);
+      connection::can.receiveSystemStatus(&data::flightMode, &data::cameraState, &data::sn3State, &data::doLogging, &data::flightTime, &data::flightModuleLoggerUsage);
       indicator::canReceive.toggle();
 
       // コマンドを受信しやすようにSLEEPモードの時はダウンリンクの頻度を落とす
@@ -154,7 +155,7 @@ void loop() {
       break;
     }
     case CANMCP::Label::SENSING_STATUS:
-      connection::can.receiveSensingStatus(&data::referencePressure, &data::isSystemCalibrated, &data::isGyroscopeCalibrated, &data::isAccelerometerCalibrated, &data::isMagnetometerCalibrated);
+      connection::can.receiveSensingStatus(&data::referencePressure, &data::isSystemCalibrated, &data::sensingModuleLoggerUsage);
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::VOLTAGE:
@@ -245,7 +246,8 @@ void timer::highRateDownlinkTask() {
     static_cast<bool>(data::cameraState),
     static_cast<bool>(data::sn3State),
     data::doLogging,
-    data::flightTime
+    data::flightTime,
+    data::flightModuleLoggerUsage
   );
 
   connection::reserveDownlink(systemStatusPacket.data.data(), systemStatusPacket.data.size());
@@ -256,9 +258,7 @@ void timer::highRateDownlinkTask() {
     millis(),
     data::referencePressure,
     data::isSystemCalibrated,
-    data::isGyroscopeCalibrated,
-    data::isAccelerometerCalibrated,
-    data::isMagnetometerCalibrated
+    data::sensingModuleLoggerUsage
   );
 
   connection::reserveDownlink(sensingStatusPacket.data.data(), sensingStatusPacket.data.size());

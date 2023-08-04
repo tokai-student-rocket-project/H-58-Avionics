@@ -40,17 +40,18 @@ CANSTM::Label CANSTM::getLatestMessageLabel() {
 /// @param cameraState カメラの状態
 /// @param sn3State 不知火3の状態
 /// @param doLogging ログ保存するか
-/// @param flightTime 飛翔時間
-void CANSTM::sendSystemStatus(Var::FlightMode flightMode, Var::State cameraState, Var::State sn3State, bool doLogging, uint32_t flightTime) {
+/// @param timestamp 飛翔時間
+void CANSTM::sendSystemStatus(Var::FlightMode flightMode, Var::State cameraState, Var::State sn3State, bool doLogging, uint16_t flightTime, uint8_t loggerUsage) {
   CANMessage message;
   message.id = static_cast<uint32_t>(Label::SYSTEM_STATUS);
-  message.len = 8;
+  message.len = 7;
 
   message.data[0] = static_cast<uint8_t>(flightMode);
   message.data[1] = static_cast<uint8_t>(cameraState);
   message.data[2] = static_cast<uint8_t>(sn3State);
   message.data[3] = doLogging;
-  memcpy(message.data + 4, &flightTime, 4);
+  memcpy(message.data + 4, &flightTime, 2);
+  message.data[6] = loggerUsage;
 
   can.tryToSendReturnStatus(message);
 }
@@ -108,19 +109,15 @@ void CANSTM::sendTrajectoryData(bool isFalling) {
 /// @brief 計測ステータスを送信する
 /// @param referencePressure 参照気圧 [hPa]
 /// @param isSystemCalibrated BNO055システムのキャリブレーションが完了しているか
-/// @param isGyroscopeCalibrated BNO055角加速度計のキャリブレーションが完了しているか
-/// @param isAccelerometerCalibrated BNO055加速度計のキャリブレーションが完了しているか
-/// @param isMagnetometerCalibrated BNO055地磁気計のキャリブレーションが完了しているか
-void CANSTM::sendSensingStatus(float referencePressure, bool isSystemCalibrated, bool isGyroscopeCalibrated, bool isAccelerometerCalibrated, bool isMagnetometerCalibrated) {
+/// @param loggerUsage ロガーの使用率
+void CANSTM::sendSensingStatus(float referencePressure, bool isSystemCalibrated, uint8_t loggerUsage) {
   CANMessage message;
   message.id = static_cast<uint32_t>(Label::SENSING_STATUS);
-  message.len = 8;
+  message.len = 6;
 
   memcpy(message.data, &referencePressure, 4);
   message.data[4] = isSystemCalibrated;
-  message.data[5] = isGyroscopeCalibrated;
-  message.data[6] = isAccelerometerCalibrated;
-  message.data[7] = isMagnetometerCalibrated;
+  message.data[5] = loggerUsage;
 
   can.tryToSendReturnStatus(message);
 }
@@ -196,12 +193,13 @@ void CANSTM::sendVector3D(Label label, float xValue, float yValue, float zValue)
 /// @param sn3State 不知火3の状態
 /// @param doLogging ログ保存するか
 /// @param flightTime 飛翔時間
-void CANSTM::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint32_t* flightTime) {
+void CANSTM::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint16_t* flightTime, uint8_t* loggerUsage) {
   *flightMode = static_cast<Var::FlightMode>(_latestData[0]);
   *cameraState = static_cast<Var::State>(_latestData[1]);
   *sn3State = static_cast<Var::State>(_latestData[2]);
   *doLogging = _latestData[3];
-  memcpy(flightTime, _latestData + 4, 4);
+  memcpy(flightTime, _latestData + 4, 2);
+  *loggerUsage = _latestData[6];
 }
 
 

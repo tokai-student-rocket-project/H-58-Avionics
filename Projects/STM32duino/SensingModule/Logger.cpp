@@ -121,3 +121,10 @@ void Logger::log(
   // SDへの保存
   _sd->write(data, size);
 }
+
+
+/// @brief ロガーの使用率
+/// @return FRAM全て合わせた使用率 パーセント
+float Logger::getUsage() {
+  return ((float)_offset / (float)(FRAM::LENGTH * 2)) * 100.0;
+}

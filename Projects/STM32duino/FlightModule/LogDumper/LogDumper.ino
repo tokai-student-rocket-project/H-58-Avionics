@@ -16,7 +16,7 @@ void setup() {
 
 
   MsgPacketizer::subscribe_manual(0xAA,
-    [&](uint32_t millis, uint32_t flightTime,
+    [&](uint32_t millis, uint16_t flightTime,
       uint8_t flightMode, bool cameraState, bool sn3State, bool doLogging,
       bool isFalling, bool flightPinState, bool resetPinState,
       float supplyVoltage, float batteryVoltage, float poolVoltage) {
