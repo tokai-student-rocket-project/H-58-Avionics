@@ -66,6 +66,8 @@ namespace data {
   float orientation_x_deg, orientation_y_deg, orientation_z_deg;
   float linear_acceleration_x_mps2, linear_acceleration_y_mps2, linear_acceleration_z_mps2;
   float gravity_x_mps2, gravity_y_mps2, gravity_z_mps2;
+
+  Var::FlightMode flightMode;
 }
 
 
@@ -198,7 +200,7 @@ void internal::task100Hz() {
   // 内部的にはFRAMとSDに書き込んでいる
   if (device::peripheral::logger.isLogging()) {
     device::peripheral::logger.log(
-      millis(),
+      millis(), static_cast<uint8_t>(data::flightMode),
       data::outsideTemperature_degC, data::pressure_hPa, data::altitude_m, internal::trajectory.climbIndex(), internal::trajectory.isFalling(),
       data::acceleration_x_mps2, data::acceleration_y_mps2, data::acceleration_z_mps2,
       data::gyroscope_x_dps, data::gyroscope_y_dps, data::gyroscope_z_dps,
@@ -214,12 +216,11 @@ void internal::task100Hz() {
 /// @brief CANで受け取ったSystemStatusを使って処理を行う関数
 ///        loop()内のCAN受信処理から呼び出される用
 void canbus::handleSystemStatus() {
-  Var::FlightMode flightMode;
   Var::State cameraState, sn3State;
   bool doLogging;
   uint32_t flightTime;
 
-  canbus::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging, &flightTime);
+  canbus::can.receiveSystemStatus(&data::flightMode, &cameraState, &sn3State, &doLogging, &flightTime);
 
   // ログ保存を"やるはず"なのに"やっていない"なら開始
   if (doLogging && !device::peripheral::logger.isLogging()) {
@@ -230,6 +231,7 @@ void canbus::handleSystemStatus() {
       canbus::can.sendError(CANSTM::Publisher::SENSING_MODULE, CANSTM::ErrorCode::LOGGER_FAILURE, CANSTM::ErrorReason::INVALID_SD);
     }
 
+    internal::trajectory.setReferencePressure(data::pressure_hPa);
     device::indicator::loggerStatus.on();
   }
 

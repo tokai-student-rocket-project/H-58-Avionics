@@ -74,7 +74,7 @@ bool Logger::isLogging() {
 
 /// @brief ログを保存する
 void Logger::log(
-  uint32_t millis,
+  uint32_t millis, uint8_t flightMode,
   float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,
   float acceleration_x, float acceleration_y, float acceleration_z,
   float gyroscope_x, float gyroscope_y, float gyroscope_z,
@@ -86,7 +86,7 @@ void Logger::log(
   // MessagePackでパケットを生成
   // ラベルは認識しやすいように0xAAにしている
   const auto& packet = MsgPacketizer::encode(
-    0xAA, millis,
+    0xAA, millis, flightMode,
     outsideTemperature, pressure, altitude, climbIndex, isFalling,
     acceleration_x, acceleration_y, acceleration_z,
     gyroscope_x, gyroscope_y, gyroscope_z,

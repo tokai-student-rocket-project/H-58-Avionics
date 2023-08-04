@@ -41,7 +41,7 @@ public:
 
   /// @brief ログを保存する
   void log(
-    uint32_t millis,
+    uint32_t millis, uint8_t flightMode,
     float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,
     float acceleration_x, float acceleration_y, float acceleration_z,
     float gyroscope_x, float gyroscope_y, float gyroscope_z,

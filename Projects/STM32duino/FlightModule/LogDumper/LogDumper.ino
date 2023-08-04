@@ -49,7 +49,7 @@ void loop() {
 
 
 void dump(FRAM* fram) {
-  uint8_t data[256];
+  uint8_t data[4096];
   uint32_t size = 0;
   uint32_t writeAddress = 0;
 
@@ -59,7 +59,10 @@ void dump(FRAM* fram) {
 
     if (data[writeAddress] == 0x00) {
       writeAddress = 0;
-      MsgPacketizer::feed(data, size);
+
+      if (data[1] == 0xAA) {
+        MsgPacketizer::feed(data, size);
+      }
     }
     else {
       writeAddress++;
