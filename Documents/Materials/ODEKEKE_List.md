@@ -128,7 +128,7 @@
 
 
 ---
-### Can:star:Do SIKIRI (コネクタなど)
+### Can:star:Do SIKIRI20 (バスパワーラインなどBOX)
 
 - [ ] DF11-8DS-2C【ヒロセ電機】(x20) [ヒロセ電機 | DF11-8DS-2C](https://www.hirose.com/ja/product/p/CL0543-0503-0-00)
 - [ ] DF51-6DS-2C【ヒロセ電機】(x20) [ヒロセ電機 | DF51-6DS-2C](https://www.hirose.com/ja/product/p/CL0543-5031-0-00)
@@ -143,14 +143,11 @@
 
 
 ---
-### Can:star:Do SIKIRI (コネクタ)
-
----
 ### Can:star:Do SIKIRI (ダイオード)
 
 
 ---
-### Can:star:Do SIKIRI (抵抗&キャパシタ)
+### Can:star:Do SIKIRI20 (抵抗&キャパシタ)
 
 
 - [ ] 2012 100Ω チップ抵抗【KOA】(x) [参考 | KOA | RK73B1JTTD101J](https://www.koaglobal.com/-/media/Files/KOA_Global/product/commonpdf/rk73b.pdf)
