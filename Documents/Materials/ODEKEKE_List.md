@@ -250,7 +250,7 @@
 - [ ] DF1B-2428SCF【ヒロセ電機】(x100) [ヒロセ電機 | DF1B-2428SCF](https://www.hirose.com/ja/product/p/CL0541-0678-1-00)
 - [ ] DF51-6DEP-2C【ヒロセ電機】(x14) [ヒロセ電機 | DF51-6DEP-2C](https://www.hirose.com/ja/product/p/CL0543-5072-0-00)
 - [ ] DF51A-6DP-2DSA【ヒロセ電機】(x20) [ヒロセ電機 | DF51A-6DP-2DSA](https://www.hirose.com/ja/product/p/CL0543-5044-0-00)
-
+- [ ] DF1B-4S-2.5R【ヒロセ電機】(x15) [ヒロセ電機 | DF1B-4S-2.5R](https://www.hirose.com/ja/product/p/CL0541-0202-1-00)
 
 ---
 ### 収納場所未定
