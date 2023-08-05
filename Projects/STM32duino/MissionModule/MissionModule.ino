@@ -21,7 +21,6 @@ namespace timer {
 
 namespace scheduler {
   bool doSensing = false;
-
   uint32_t writePosition = 0;
   uint32_t readPosition = 0;
 }
@@ -31,20 +30,14 @@ namespace sensor {
 }
 
 namespace recorder {
-  Sd sd(6);
-
-  Switch cardDetection(3);
-
   bool doRecording;
 }
 
 namespace indicator {
-  // LED canReceive(0);
+  LED canReceive(0);
+  LED loRaSend(A1);
 
-  // LED loRaSend(A1);
-
-  Blinker sdStatus(4, "invalidSd");
-  // LED recorderStatus(2);
+  LED recorderStatus(2);
 }
 
 namespace control {
@@ -88,32 +81,18 @@ void setup() {
   connection::can.sendEvent(CANMCP::Publisher::MISSION_MODULE, CANMCP::EventCode::SETUP);
 
   Tasks.add(timer::task50Hz)->startFps(50);
-  Tasks.add(timer::task1kHz)->startFps(1000);
+  Tasks.add(timer::task1kHz)->startFps(1200);
 }
 
 
 void loop() {
   Tasks.update();
 
-  // SDの検知の更新
-  // SDを新しく検知した時
-  if (!recorder::sd.isRunning() && recorder::cardDetection.is(Var::SwitchState::CLOSE)) {
-    recorder::sd.begin();
-    indicator::sdStatus.stopBlink();
-    indicator::sdStatus.on();
-  }
-
-  // SDが検知できなくなった時
-  if (recorder::sd.isRunning() && recorder::cardDetection.is(Var::SwitchState::OPEN)) {
-    recorder::sd.end();
-    indicator::sdStatus.startBlink(2);
-  }
-
   //CAN受信処理
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS:
-      connection::can.receiveSystemStatus(&data::mode, &data::camera, &data::sn3, &data::doLogging, &data::flightTime);
+      // connection::can.receiveSystemStatus(&data::mode, &data::camera, &data::sn3, &data::doLogging, &data::flightTime);
       // indicator::canReceive.toggle();
       break;
     }
@@ -122,49 +101,56 @@ void loop() {
 
 
 void timer::task50Hz() {
-  // 計測中はダウンリンクを送信しない
-  if (scheduler::doSensing) {
-    return;
-  }
+  // // 計測中はダウンリンクを送信しない
+  // if (scheduler::doSensing) {
+  //   return;
+  // }
 
-  // 全て送信し終えているなら何もしない
-  if (scheduler::readPosition >= scheduler::writePosition) {
-    return;
-  }
+  // // 全て送信し終えているなら何もしない
+  // if (scheduler::readPosition >= scheduler::writePosition) {
+  //   return;
+  // }
 
-  // 本当は可変長
-  uint8_t data[19];
+  // // 本当は可変長
+  // uint8_t data[19];
 
-  LoRa.beginPacket();
-  LoRa.write(data, 19);
-  LoRa.endPacket();
-  // indicator::loRaSend.toggle();
+  // LoRa.beginPacket();
+  // LoRa.write(data, 19);
+  // LoRa.endPacket();
+  // // indicator::loRaSend.toggle();
 
-  // 50Hz分に間引く
-  scheduler::readPosition += 380;
+  // // 50Hz分に間引く
+  // scheduler::readPosition += 380;
 }
 
 
 void timer::task1kHz() {
   sensor::adxl.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
 
-  if (scheduler::doSensing) {
-    const auto& packet = MsgPacketizer::encode(
-      0xAA,
-      data::acceleration_x, data::acceleration_y, data::acceleration_z
-    );
+  Serial.print(data::acceleration_x);
+  Serial.print(",");
+  Serial.print(data::acceleration_y);
+  Serial.print(",");
+  Serial.print(data::acceleration_z);
+  Serial.println();
 
-    const uint8_t* data = packet.data.data();
-    const uint32_t size = packet.data.size();
+  // if (scheduler::doSensing) {
+  //   const auto& packet = MsgPacketizer::encode(
+  //     0xAA,
+  //     data::acceleration_x, data::acceleration_y, data::acceleration_z
+  //   );
 
-    scheduler::writePosition += size;
-  }
+  //   const uint8_t* data = packet.data.data();
+  //   const uint32_t size = packet.data.size();
 
-  Serial.print(millis() / 1000.0, 3);
-  Serial.print(" ");
-  Serial.print(scheduler::writePosition);
-  Serial.print(" ");
-  Serial.println(scheduler::readPosition);
+  //   scheduler::writePosition += size;
+  // }
+
+  // Serial.print(millis() / 1000.0, 3);
+  // Serial.print(" ");
+  // Serial.print(scheduler::writePosition);
+  // Serial.print(" ");
+  // Serial.println(scheduler::readPosition);
 }
 
 
@@ -174,7 +160,7 @@ void connection::handleSystemStatus() {
   bool doLogging;
   uint32_t flightTime;
 
-  connection::can.receiveSystemStatus(&flightMode, &camera, &sn3, &doLogging, &flightTime);
+  // connection::can.receiveSystemStatus(&flightMode, &camera, &sn3, &doLogging, &flightTime);
 
   // フライトモードがSTANDBYかTHRUSTなら加速度の計測を行う
   scheduler::doSensing = (flightMode == Var::FlightMode::STANDBY || flightMode == Var::FlightMode::THRUST);
