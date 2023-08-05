@@ -10,6 +10,8 @@
 #include "ADXL375.hpp"
 #include "Sd.hpp"
 #include "Var.hpp"
+#include "Logger.hpp"
+#include "Sender.hpp"
 
 
 namespace timer {
@@ -24,20 +26,10 @@ namespace timer {
 namespace scheduler {
   Var::FlightMode flightModePrevious;
 
-  uint32_t thrustOffset = 0;
-  uint32_t thrustSize = 0;
-  uint32_t openOffset = 0;
-  uint32_t openSize = 0;
-
-  // 保存
-  bool doThrustLogging = false;
-  bool doOpenLogging = false;
-  uint32_t writeOffset = 0;
-
-  // 送信
-  bool doSendThrust = false;
-  bool doSendOpen = false;
-  uint32_t readOffset = 0;
+  Logger logger(A6, A5);
+  Sender sender(A6, A5);
+  bool doLogging = false;
+  bool doSend = false;
 }
 
 namespace sensor {
@@ -66,6 +58,8 @@ namespace connection {
 void setup() {
   // デバッグ用シリアルポートの準備
   Serial.begin(115200);
+  // while (!Serial);
+  // delay(800);
 
   // FRAMとSDの電源は常にON
   control::recorderPower.on();
@@ -84,13 +78,9 @@ void setup() {
   Tasks.add(timer::task50Hz)->startFps(50);
   Tasks.add(timer::task1kHz)->startFps(1200);
 
-  Tasks.add("stop-thrust-logging", [&]() {
-    scheduler::doThrustLogging = false;
-    scheduler::doSendThrust = true;
-    });
-  Tasks.add("stop-open-logging", [&]() {
-    scheduler::doOpenLogging = false;
-    scheduler::doSendOpen = true;
+  Tasks.add("stop-logging", [&]() {
+    scheduler::doLogging = false;
+    scheduler::doSend = true;
     });
 }
 
@@ -111,10 +101,9 @@ void loop() {
 
 
 void timer::task20Hz() {
-  float loggerUsage = ((float)scheduler::writeOffset / (float)(262144 * 2)) * 100.0;
   // CANにデータを流す
   connection::can.sendMissionStatus(
-    static_cast<uint8_t>(loggerUsage)
+    static_cast<uint8_t>(scheduler::logger.getUsage())
     // ,timer::dataRate
   );
 
@@ -126,32 +115,70 @@ void timer::task20Hz() {
 
 
 void timer::task50Hz() {
-  // TODO FRAMから読み出し
-  uint32_t readSize = 32 * 20;
+  if (!scheduler::doSend) return;
 
-  if (scheduler::doSendThrust) {
-    // 送信し切ったら終わり
-    if ((int32_t)(scheduler::thrustSize - readSize) < 0) {
-      scheduler::doSendThrust = false;
-      return;
-    }
+  // if (scheduler::count * 32 >= FRAM::LENGTH) {
+    // uint32_t readAddress = scheduler::readOffset - FRAM::LENGTH;
+    //   while (true) {
+    //     data[dataOffset] = scheduler::fram1.read(readAddress);
+    //     size = readAddress + 1;
 
-    // TODO 送信
+    //     if (data[1] == 0xAA && data[dataOffset] == 0x00) {
+    //       scheduler::readOffset += readAddress;
+    //       break;
+    //     }
+    //     else {
+    //       dataOffset++;
+    //       readAddress++;
+    //     }
+    //   }
+  // }
+  // else {
+  //   uint32_t readAddress = scheduler::readOffset - FRAM::LENGTH;
+    //     while (scheduler::readOffset <= FRAM::LENGTH) {
+    //       data[dataOffset] = scheduler::fram0.read(scheduler::readOffset);
+    //       size = dataOffset + 1;
 
-    scheduler::thrustSize -= readSize;
+    //       if (data[1] == 0xAA && data[dataOffset] == 0x00) {
+    //         break;
+    //       }
+    //       else {
+    //         dataOffset++;
+    //         scheduler::readOffset++;
+    //       }
+    //     }
+  // }
+
+  // if (scheduler::doSendThrust) {
+  //   // 送信し切ったら終わり
+  //   if ((scheduler::thrustCount - 1) < 0) {
+  //     scheduler::doSendThrust = false;
+  //     return;
+  //   }
+
+  //   // TODO 送信
+
+  //   scheduler::thrustCount--;;
+  // }
+
+  // if (scheduler::doSendOpen) {
+  //   // 送信し切ったら終わり
+  //   if ((scheduler::openCount - 1) < 0) {
+  //     scheduler::doSendOpen = false;
+  //     return;
+  //   }
+
+  //   // TODO 送信
+
+  //   scheduler::openCount--;
+  // }
+
+  if (scheduler::sender.getOffset() > scheduler::logger.getOffset()) {
+    scheduler::doSend = false;
+    return;
   }
 
-  if (scheduler::doSendOpen) {
-    // 送信し切ったら終わり
-    if ((int32_t)(scheduler::openSize - readSize) < 0) {
-      scheduler::doSendOpen = false;
-      return;
-    }
-
-    // TODO 送信
-
-    scheduler::openSize -= readSize;
-  }
+  scheduler::sender.send();
 }
 
 
@@ -159,38 +186,16 @@ void timer::task1kHz() {
   float x, y, z;
   sensor::adxl.getAcceleration(&x, &y, &z);
 
-  // 燃焼時計測
-  if (scheduler::doThrustLogging) {
-    const auto& packet = MsgPacketizer::encode(0xAA, x, y, z);
-    const uint8_t* data = packet.data.data();
-    const uint32_t size = packet.data.size();
-
-    scheduler::writeOffset += size;
-    scheduler::thrustSize += size;
-
-    // TODO FRAMへ保存
+  if (scheduler::doLogging) {
+    scheduler::logger.log(
+      millis(), static_cast<uint8_t>(scheduler::flightModePrevious),
+      x, y, z);
   }
 
-  // 開傘時計測
-  if (scheduler::doOpenLogging) {
-    const auto& packet = MsgPacketizer::encode(0xAA, x, y, z);
-    const uint8_t* data = packet.data.data();
-    const uint32_t size = packet.data.size();
-
-    scheduler::writeOffset += size;
-    scheduler::openSize += size;
-
-    // TODO FRAMへ保存
-  }
-
-  Serial.print(scheduler::thrustOffset);
+  Serial.print(scheduler::logger.getOffset());
   Serial.print("\t");
-  Serial.print(scheduler::thrustSize);
-  Serial.print("\t");
-  Serial.print(scheduler::openOffset);
-  Serial.print("\t");
-  Serial.print(scheduler::openSize);
-  Serial.println();
+  Serial.print(scheduler::sender.getOffset());
+  Serial.print("\n");
 
   // ODR情報
   // 1kHzを超えるとmillis()では見れない
@@ -214,33 +219,28 @@ void connection::handleSystemStatus() {
 
   // 燃焼時計測
   if (flightMode == Var::FlightMode::STANDBY || flightMode == Var::FlightMode::THRUST) {
-    if (!scheduler::doThrustLogging) {
-      // 書き込み位置のリセット
-      scheduler::writeOffset = 0;
-      scheduler::thrustOffset = 0;
-      scheduler::thrustSize = 0;
-      scheduler::openOffset = 0;
-      scheduler::openSize = 0;
-
-      scheduler::thrustOffset = scheduler::writeOffset;
-      scheduler::doThrustLogging = true;
+    if (!scheduler::doLogging) {
+      scheduler::logger.reset();
+      scheduler::sender.reset();
+      scheduler::doSend = false;
+      scheduler::doLogging = true;
     }
 
     // 3秒間計測
     if (flightMode == Var::FlightMode::THRUST) {
-      Tasks["stop-thrust-logging"]->startOnceAfterSec(3.0);
+      Tasks["stop-logging"]->startOnceAfterSec(3.0);
     }
   }
 
   // 開傘時計測
   if (flightMode == Var::FlightMode::PARACHUTE) {
-    if (!scheduler::doOpenLogging) {
-      scheduler::openOffset = scheduler::writeOffset;
-      scheduler::doOpenLogging = true;
+    if (!scheduler::doLogging) {
+      scheduler::doSend = false;
+      scheduler::doLogging = true;
     }
 
     // 6秒間計測
-    Tasks["stop-open-logging"]->startOnceAfterSec(6.0);
+    Tasks["stop-logging"]->startOnceAfterSec(6.0);
   }
 
   scheduler::flightModePrevious = flightMode;
