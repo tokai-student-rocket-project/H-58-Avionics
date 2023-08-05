@@ -117,62 +117,7 @@ void timer::task20Hz() {
 void timer::task50Hz() {
   if (!scheduler::doSend) return;
 
-  // if (scheduler::count * 32 >= FRAM::LENGTH) {
-    // uint32_t readAddress = scheduler::readOffset - FRAM::LENGTH;
-    //   while (true) {
-    //     data[dataOffset] = scheduler::fram1.read(readAddress);
-    //     size = readAddress + 1;
-
-    //     if (data[1] == 0xAA && data[dataOffset] == 0x00) {
-    //       scheduler::readOffset += readAddress;
-    //       break;
-    //     }
-    //     else {
-    //       dataOffset++;
-    //       readAddress++;
-    //     }
-    //   }
-  // }
-  // else {
-  //   uint32_t readAddress = scheduler::readOffset - FRAM::LENGTH;
-    //     while (scheduler::readOffset <= FRAM::LENGTH) {
-    //       data[dataOffset] = scheduler::fram0.read(scheduler::readOffset);
-    //       size = dataOffset + 1;
-
-    //       if (data[1] == 0xAA && data[dataOffset] == 0x00) {
-    //         break;
-    //       }
-    //       else {
-    //         dataOffset++;
-    //         scheduler::readOffset++;
-    //       }
-    //     }
-  // }
-
-  // if (scheduler::doSendThrust) {
-  //   // 送信し切ったら終わり
-  //   if ((scheduler::thrustCount - 1) < 0) {
-  //     scheduler::doSendThrust = false;
-  //     return;
-  //   }
-
-  //   // TODO 送信
-
-  //   scheduler::thrustCount--;;
-  // }
-
-  // if (scheduler::doSendOpen) {
-  //   // 送信し切ったら終わり
-  //   if ((scheduler::openCount - 1) < 0) {
-  //     scheduler::doSendOpen = false;
-  //     return;
-  //   }
-
-  //   // TODO 送信
-
-  //   scheduler::openCount--;
-  // }
-
+  // 送信し切ったら終了
   if (scheduler::sender.getOffset() > scheduler::logger.getOffset()) {
     scheduler::doSend = false;
     return;
@@ -192,6 +137,7 @@ void timer::task1kHz() {
       x, y, z);
   }
 
+  // 計測と送信の進捗を表示
   Serial.print(scheduler::logger.getOffset());
   Serial.print("\t");
   Serial.print(scheduler::sender.getOffset());
