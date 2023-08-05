@@ -53,8 +53,6 @@ namespace connection {
 void setup() {
   // デバッグ用シリアルポートの準備
   Serial.begin(115200);
-  // while (!Serial);
-  // delay(800);
 
   // FRAMとSDの電源は常にON
   control::recorderPower.on();
@@ -100,8 +98,6 @@ void timer::task20Hz() {
     static_cast<uint8_t>(loggerUsage)
   );
 
-  // Serial.println(loggerUsage);
-
   indicator::canSend.toggle();
 }
 
@@ -143,10 +139,6 @@ void timer::task1kHz() {
 
     // Serial.println(scheduler::writePosition);
   }
-
-  if (scheduler::doOpenLogging) {
-    // Serial.println("open");
-  }
 }
 
 
@@ -163,8 +155,10 @@ void connection::handleSystemStatus() {
 
   if (flightMode == Var::FlightMode::STANDBY) {
     scheduler::writePosition = 0;
-
     scheduler::doThrustLogging = true;
+  }
+
+  if (flightMode == Var::FlightMode::THRUST) {
     Tasks["stop-thrust-logging"]->startOnceAfterSec(3.0);
   }
 
