@@ -13,24 +13,19 @@
 
 
 namespace timer {
-  uint32_t referenceTime;
-
   void task50Hz();
   void task1kHz();
 }
 
 namespace scheduler {
-  bool doSensing = false;
-  uint32_t writePosition = 0;
-  uint32_t readPosition = 0;
+  Var::FlightMode flightModePrevious;
+
+  bool doThrustLogging = false;
+  bool doOpenLogging = false;
 }
 
 namespace sensor {
   ADXL375 adxl(15);
-}
-
-namespace recorder {
-  bool doRecording;
 }
 
 namespace indicator {
@@ -62,9 +57,9 @@ namespace data {
 
 void setup() {
   // デバッグ用シリアルポートの準備
-  // Serial.begin(115200);
-  // while (!Serial);
-  // delay(800);
+  Serial.begin(115200);
+  while (!Serial);
+  delay(800);
 
   // FRAMとSDの電源は常にON
   control::recorderPower.on();
@@ -82,6 +77,9 @@ void setup() {
 
   Tasks.add(timer::task50Hz)->startFps(50);
   Tasks.add(timer::task1kHz)->startFps(1200);
+
+  Tasks.add("stop-thrust-logging", [&]() {scheduler::doThrustLogging = false;});
+  Tasks.add("stop-open-logging", [&]() {scheduler::doOpenLogging = false;});
 }
 
 
@@ -92,8 +90,8 @@ void loop() {
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS:
-      // connection::can.receiveSystemStatus(&data::mode, &data::camera, &data::sn3, &data::doLogging, &data::flightTime);
-      // indicator::canReceive.toggle();
+      connection::handleSystemStatus();
+      indicator::canReceive.toggle();
       break;
     }
   }
@@ -127,12 +125,13 @@ void timer::task50Hz() {
 void timer::task1kHz() {
   sensor::adxl.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
 
-  Serial.print(data::acceleration_x);
-  Serial.print(",");
-  Serial.print(data::acceleration_y);
-  Serial.print(",");
-  Serial.print(data::acceleration_z);
-  Serial.println();
+  if (scheduler::doThrustLogging) {
+    Serial.println("thrust");
+  }
+
+  if (scheduler::doOpenLogging) {
+    Serial.println("open");
+  }
 
   // if (scheduler::doSensing) {
   //   const auto& packet = MsgPacketizer::encode(
@@ -158,10 +157,22 @@ void connection::handleSystemStatus() {
   Var::FlightMode flightMode;
   Var::State camera, sn3;
   bool doLogging;
-  uint32_t flightTime;
+  uint16_t flightTime;
+  uint8_t loggerUsage;
 
-  // connection::can.receiveSystemStatus(&flightMode, &camera, &sn3, &doLogging, &flightTime);
+  connection::can.receiveSystemStatus(&flightMode, &camera, &sn3, &doLogging, &flightTime, &loggerUsage);
 
-  // フライトモードがSTANDBYかTHRUSTなら加速度の計測を行う
-  scheduler::doSensing = (flightMode == Var::FlightMode::STANDBY || flightMode == Var::FlightMode::THRUST);
+  if (flightMode == scheduler::flightModePrevious) return;
+
+  if (flightMode == Var::FlightMode::STANDBY) {
+    scheduler::doThrustLogging = true;
+    Tasks["stop-thrust-logging"]->startOnceAfterSec(3.0);
+  }
+
+  if (flightMode == Var::FlightMode::PARACHUTE) {
+    scheduler::doOpenLogging = true;
+    Tasks["stop-open-logging"]->startOnceAfterSec(3.0);
+  }
+
+  scheduler::flightModePrevious = flightMode;
 }
