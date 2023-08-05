@@ -91,6 +91,13 @@ void CANMCP::sendReset() {
 }
 
 
+void CANMCP::sendMissionStatus(uint8_t loggerUsage) {
+  uint8_t data[1];
+  data[0] = loggerUsage;
+  _can->sendMsgBuf(static_cast<uint32_t>(Label::MISSION_STATUS), 0, 1, data);
+}
+
+
 /// @brief システムステータスを受信する
 /// @param flightMode フライトモード
 /// @param cameraState カメラの状態
@@ -240,4 +247,9 @@ void CANMCP::receiveVoltage(float* supply, float* pool, float* battery) {
   *supply = (float)supplyInt / 100.0;
   *pool = (float)poolInt / 100.0;
   *battery = (float)batteryInt / 100.0;
+}
+
+
+void CANMCP::receiveMissionStatus(uint8_t* loggerUsage) {
+  *loggerUsage = _latestData[0];
 }

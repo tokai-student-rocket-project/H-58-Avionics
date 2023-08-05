@@ -9,6 +9,7 @@ ADXL375::ADXL375(uint32_t cs) {
 
 
 void ADXL375::begin() {
+  // TODO 高ODR LSB問題
   // BW_RATE <- 3200Hz
   write(0x2C, 0b00001111);
 
