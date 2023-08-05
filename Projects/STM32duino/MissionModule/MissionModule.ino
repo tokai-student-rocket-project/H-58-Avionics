@@ -15,9 +15,9 @@
 
 
 namespace timer {
-  void task20Hz();
-  void task50Hz();
-  void task1kHz();
+  void sendStatusTask();
+  void sendDataTask();
+  void measurementTask();
 
   uint32_t referenceTime;
   float dataRate;
@@ -74,9 +74,9 @@ void setup() {
   connection::can.begin();
   connection::can.sendEvent(CANMCP::Publisher::MISSION_MODULE, CANMCP::EventCode::SETUP);
 
-  Tasks.add(timer::task20Hz)->startFps(19);
-  Tasks.add(timer::task50Hz)->startFps(50);
-  Tasks.add(timer::task1kHz)->startFps(1200);
+  Tasks.add(timer::sendStatusTask)->startFps(19);
+  Tasks.add(timer::sendDataTask)->startFps(50);
+  Tasks.add(timer::measurementTask)->startFps(1200);
 
   Tasks.add("stop-logging", [&]() {
     scheduler::doLogging = false;
@@ -100,7 +100,7 @@ void loop() {
 }
 
 
-void timer::task20Hz() {
+void timer::sendStatusTask() {
   // CANにデータを流す
   connection::can.sendMissionStatus(
     static_cast<uint8_t>(scheduler::logger.getUsage())
@@ -114,7 +114,7 @@ void timer::task20Hz() {
 }
 
 
-void timer::task50Hz() {
+void timer::sendDataTask() {
   if (!scheduler::doSend) return;
 
   // 送信し切ったら終了
@@ -127,7 +127,7 @@ void timer::task50Hz() {
 }
 
 
-void timer::task1kHz() {
+void timer::measurementTask() {
   float x, y, z;
   sensor::adxl.getAcceleration(&x, &y, &z);
 
