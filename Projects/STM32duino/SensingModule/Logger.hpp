@@ -41,7 +41,7 @@ public:
 
   /// @brief ログを保存する
   void log(
-    uint32_t millis,
+    uint32_t millis, uint8_t flightMode,
     float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,
     float acceleration_x, float acceleration_y, float acceleration_z,
     float gyroscope_x, float gyroscope_y, float gyroscope_z,
@@ -50,6 +50,10 @@ public:
     float linear_acceleration_x, float linear_acceleration_y, float linear_acceleration_z,
     float gravity_x, float gravity_y, float gravity_z
   );
+
+  /// @brief ロガーの使用率
+  /// @return FRAM全て合わせた使用率 パーセント
+  float getUsage();
 
 private:
   bool _isLogging = false;

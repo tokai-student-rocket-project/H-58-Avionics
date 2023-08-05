@@ -15,15 +15,24 @@ public:
     LINEAR_ACCELERATION,
     ALTITUDE,
     OUTSIDE_TEMPERATURE,
-    VOLTAGE_SUPPLY,
-    VOLTAGE_BATTERY,
-    VOLTAGE_POOL,
+    VOLTAGE,
     SYSTEM_STATUS,
     EVENT,
     ERROR,
     SET_REFERENCE_PRESSURE,
     TRAJECTORY_DATA,
-    SENSING_STATUS
+    SENSING_STATUS,
+    FLIGHT_MODE_ON_COMMAND,
+    CLIMB_RATE,
+    RESET_COMMAND,
+    CURRENT_POSITION = 0x103,
+    CURRENT_DESIRED_POSITION,
+    CURRENT_VELOCITY,
+    MCU_TEMPERATURE,
+    MOTOR_TEMPERATURE,
+    CURRENT,
+    INPUT_VOLTAGE,
+    VALVE_MODE,
   };
 
   /// @brief イベントとエラーを発行するモジュールを列挙型で定義しておく
@@ -81,7 +90,9 @@ public:
   /// @param cameraState カメラの状態
   /// @param sn3State 不知火3の状態
   /// @param doLogging ログ保存するか
-  void sendSystemStatus(Var::FlightMode flightMode, Var::State cameraState, Var::State sn3State, bool doLogging);
+  /// @param flightTime 飛翔時間
+  /// @param loggerUsage ロガーの使用率
+  void sendSystemStatus(Var::FlightMode flightMode, Var::State cameraState, Var::State sn3State, bool doLogging, uint16_t flightTime, uint8_t loggerUsage);
 
   /// @brief イベントを送信する
   /// @param publisher どのモジュールがイベントを発行したか
@@ -103,10 +114,14 @@ public:
   /// @brief 計測ステータスを送信する
   /// @param referencePressure 参照気圧 [hPa]
   /// @param isSystemCalibrated BNO055システムのキャリブレーションが完了しているか
-  /// @param isGyroscopeCalibrated BNO055角加速度計のキャリブレーションが完了しているか
-  /// @param isAccelerometerCalibrated BNO055加速度計のキャリブレーションが完了しているか
-  /// @param isMagnetometerCalibrated BNO055地磁気計のキャリブレーションが完了しているか
-  void sendSensingStatus(float referencePressure, bool isSystemCalibrated, bool isGyroscopeCalibrated, bool isAccelerometerCalibrated, bool isMagnetometerCalibrated);
+  /// @param loggerUsage ロガーの使用率
+  void sendSensingStatus(float referencePressure, bool isSystemCalibrated, uint8_t loggerUsage);
+
+  /// @brief 電圧を送信する
+  /// @param supply 供給電圧 [V]
+  /// @param pool プール電圧 [V]
+  /// @param battery バッテリー電圧 [V]
+  void sendVoltage(float supply, float pool, float battery);
 
 
   /// @brief スカラー値を送信する
@@ -133,7 +148,9 @@ public:
   /// @param cameraState カメラの状態
   /// @param sn3State 不知火3の状態
   /// @param doLogging ログ保存するか
-  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging);
+  /// @param flightTime 飛翔時間
+  /// @param loggerUsage ロガーの使用率
+  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint16_t* flightTime, uint8_t* loggerUsage);
 
   /// @brief スカラー値を受信する
   /// @param value 値のポインタ
@@ -152,6 +169,11 @@ public:
   /// @brief 軌道情報の受信する
   /// @param isFalling true: 落下中, false: 落下中でない
   void receiveTrajectoryData(bool* isFalling);
+
+  /// @brief バルブ制御モードを受信する
+  /// @param isWaiting true: WAITING, false: LAUNCH
+  void receiveValveMode(bool* isWaiting);
+
 
 private:
   uint32_t _latestLabel;

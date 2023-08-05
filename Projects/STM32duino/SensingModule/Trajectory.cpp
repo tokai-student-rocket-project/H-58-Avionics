@@ -27,28 +27,47 @@ float Trajectory::getReferencePressure() {
 /// @brief 気圧と気温から高度を算出して更新
 /// @param pressure 気圧 [hPa]
 /// @param temperature 気温 [degC]
-/// @return 算出した高度 [m]
-float Trajectory::update(float pressure, float temperature) {
+void Trajectory::update(float pressure, float temperature) {
   // 高度を算出する
   float altitude = (((pow((_referencePressure / pressure), (1.0 / 5.257))) - 1.0) * (temperature + 273.15)) / 0.0065;
-
-  // 指数移動平均を更新する
-  _altitudeAverageWeak->update(altitude);
-  _altitudeAverageStrong->update(altitude);
-
-  return altitude;
+  update(altitude);
 }
 
 
 /// @brief 既知の高度から更新
 /// @param altitude 高度 [m]
-/// @return 高度 [m]
-float Trajectory::update(float altitude) {
+void Trajectory::update(float altitude) {
+  _latestAltitude = altitude;
+
   // 指数移動平均を更新する
   _altitudeAverageWeak->update(altitude);
   _altitudeAverageStrong->update(altitude);
 
-  return altitude;
+  // 上昇率を算出する
+  float time = (float)millis() / 1000.0;
+  float altitudeDifference = _latestAltitude - _lastAltitude;
+  float timeDifference = time - _lastTime;
+
+  if (altitudeDifference == 0.0 || timeDifference == 0.0) return;
+
+  // 高度を時間で微分
+  _latestClimbRate = altitudeDifference / timeDifference;
+  _lastAltitude = _latestAltitude;
+  _lastTime = time;
+}
+
+
+/// @brief 算出済みの高度を返す
+/// @return 高度 [m]
+float Trajectory::getAltitude() {
+  return _latestAltitude;
+}
+
+
+/// @brief 算出済みの上昇率を返す
+/// @return 上昇率 [m/s]
+float Trajectory::getClimbRate() {
+  return _latestClimbRate;
 }
 
 

@@ -12,11 +12,26 @@ namespace timer {
 
 namespace indicator {
   LED canReceive(1);
-
   LED loRaSend(4);
 }
 
 namespace connection {
+  enum class Index : uint8_t {
+    AIR_DATA,
+    POWER_DATA,
+    GNSS_DATA,
+    SYSTEM_STATUS,
+    SENSING_STATUS,
+    EVENT,
+    ERROR,
+    VALVE_STATUS,
+    SET_REFERENCE_PRESSURE_COMMAND = 0xF0,
+    SET_FLIGHT_MODE_ON
+  };
+
+  void sendDownlink(const uint8_t* data, uint32_t size);
+
+
   CANMCP can(7);
 }
 
@@ -25,7 +40,9 @@ namespace data {
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 
   float outsideTemperature;
+  float coldTemperature;
   float altitude;
+  float climbRate;
 }
 
 
@@ -36,7 +53,6 @@ void setup() {
   LoRa.setSignalBandwidth(500E3);
 
   connection::can.begin();
-
   connection::can.sendEvent(CANMCP::Publisher::AIR_DATA_COMMUNICATION_MODULE, CANMCP::EventCode::SETUP);
 
   Tasks.add(timer::task20Hz)->startFps(20);
@@ -46,6 +62,7 @@ void setup() {
 void loop() {
   Tasks.update();
 
+  // CANの受信処理
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::ORIENTATION:
@@ -64,16 +81,28 @@ void loop() {
       connection::can.receiveScalar(&data::outsideTemperature);
       indicator::canReceive.toggle();
       break;
+    case CANMCP::Label::COLD_JUNCTION_TEMPERATURE:
+      connection::can.receiveScalaDouble(&data::coldTemperature);
+      indicator::canReceive.toggle();
+      break;
+    case CANMCP::Label::CLIMB_RATE:
+      connection::can.receiveScalar(&data::climbRate);
+      indicator::canReceive.toggle();
+      break;
     }
   }
 }
 
 
+/// @brief 20Hzで実行したい処理
 void timer::task20Hz() {
-  const auto& packet = MsgPacketizer::encode(
-    0x00,
+  // エアデータをダウンリンクで送信する
+  const auto& airDataPacket = MsgPacketizer::encode(static_cast<uint8_t>(connection::Index::AIR_DATA),
+    millis(),
     data::altitude,
+    data::climbRate,
     data::outsideTemperature,
+    data::coldTemperature,
     data::orientation_x,
     data::orientation_y,
     data::orientation_z,
@@ -82,8 +111,16 @@ void timer::task20Hz() {
     data::linear_acceleration_z
   );
 
+  connection::sendDownlink(airDataPacket.data.data(), airDataPacket.data.size());
+}
+
+
+/// @brief LoRaの送信処理をまとめた関数
+/// @param data 送信するデータ配列 イミュータブル
+/// @param size 送信するデータ長
+void connection::sendDownlink(const uint8_t* data, uint32_t size) {
   LoRa.beginPacket();
-  LoRa.write(packet.data.data(), packet.data.size());
+  LoRa.write(data, size);
   LoRa.endPacket();
   indicator::loRaSend.toggle();
 }

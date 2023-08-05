@@ -108,7 +108,7 @@ void BNO055::getLinearAcceleration(float* x, float* y, float* z) {
 /// @param y y軸(Pitch)姿勢角のポインタ [deg]
 /// @param z y軸(Yaw)姿勢角のポインタ [deg]
 void BNO055::getOrientation(float* x, float* y, float* z) {
-  readVector3D(0x1A, 16.0, x, y, z);
+  readInvVector3D(0x1A, 16.0, x, y, z);
 }
 
 
@@ -134,6 +134,23 @@ void BNO055::readVector3D(uint8_t address, float lsb, float* x, float* y, float*
   *x = ((float)zRaw) / lsb;
   *y = ((float)xRaw) / lsb;
   *z = ((float)yRaw) / lsb;
+}
+
+
+void BNO055::readInvVector3D(uint8_t address, float lsb, float* x, float* y, float* z) {
+  Wire.beginTransmission(0x28);
+  Wire.write(address);
+  Wire.endTransmission();
+  Wire.requestFrom(0x28, 6);
+
+  int16_t xRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  int16_t yRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  int16_t zRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+
+  // 座標軸を合わせるためにxyzを入れ替えているので注意
+  *x = (-((float)xRaw) / lsb) + 360.0;
+  *y = -((float)zRaw) / lsb;
+  *z = -((float)yRaw) / lsb;
 }
 
 

@@ -74,7 +74,7 @@ bool Logger::isLogging() {
 
 /// @brief ログを保存する
 void Logger::log(
-  uint32_t millis,
+  uint32_t millis, uint8_t flightMode,
   float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,
   float acceleration_x, float acceleration_y, float acceleration_z,
   float gyroscope_x, float gyroscope_y, float gyroscope_z,
@@ -86,7 +86,7 @@ void Logger::log(
   // MessagePackでパケットを生成
   // ラベルは認識しやすいように0xAAにしている
   const auto& packet = MsgPacketizer::encode(
-    0xAA, millis,
+    0xAA, millis, flightMode,
     outsideTemperature, pressure, altitude, climbIndex, isFalling,
     acceleration_x, acceleration_y, acceleration_z,
     gyroscope_x, gyroscope_y, gyroscope_z,
@@ -99,25 +99,32 @@ void Logger::log(
   const uint8_t* data = packet.data.data();
   const uint32_t size = packet.data.size();
 
+  // SDへの保存
+  _sd->write(data, size);
+
   // FRAMの2個分の容量を超えたら何もしない (容量オーバー)
-  if (_offset + size < FRAM::LENGTH * 2) {
-    // FRAMの1個分の容量を超えたらFRAM1に書き込み
-    // 超えていなければFRAM0に書き込み
-    if (_offset + size >= FRAM::LENGTH) {
-      uint32_t writeAddress = _offset - FRAM::LENGTH;
-      _fram1->setWriteEnable();
-      _fram1->write(writeAddress, data, size);
-    }
-    else {
-      uint32_t writeAddress = _offset;
-      _fram0->setWriteEnable();
-      _fram0->write(writeAddress, data, size);
-    }
+  if (_offset + size >= FRAM::LENGTH * 2) return;
+
+  if (_offset + size >= FRAM::LENGTH) {
+    uint32_t writeAddress = _offset - FRAM::LENGTH;
+    _fram1->setWriteEnable();
+    _fram1->write(writeAddress, data, size);
+  }
+  else {
+    uint32_t writeAddress = _offset;
+    _fram0->setWriteEnable();
+    _fram0->write(writeAddress, data, size);
   }
 
   _offset += size;
 
 
-  // SDへの保存
-  _sd->write(data, size);
+
+}
+
+
+/// @brief ロガーの使用率
+/// @return FRAM全て合わせた使用率 パーセント
+float Logger::getUsage() {
+  return ((float)_offset / (float)(FRAM::LENGTH * 2)) * 100.0;
 }

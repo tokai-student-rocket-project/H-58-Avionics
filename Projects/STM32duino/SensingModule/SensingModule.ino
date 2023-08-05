@@ -15,6 +15,7 @@ namespace internal {
   void task02Hz();
   void task2Hz();
   void task20Hz();
+  void task50Hz();
   void task100Hz();
 
   Trajectory trajectory;
@@ -58,12 +59,15 @@ namespace data {
   float pressure_hPa;
   float outsideTemperature_degC;
   float altitude_m;
+  float climbRate_mps;
   float acceleration_x_mps2, acceleration_y_mps2, acceleration_z_mps2;
   float magnetometer_x_nT, magnetometer_y_nT, magnetometer_z_nT;
   float gyroscope_x_dps, gyroscope_y_dps, gyroscope_z_dps;
   float orientation_x_deg, orientation_y_deg, orientation_z_deg;
   float linear_acceleration_x_mps2, linear_acceleration_y_mps2, linear_acceleration_z_mps2;
   float gravity_x_mps2, gravity_y_mps2, gravity_z_mps2;
+
+  Var::FlightMode flightMode;
 }
 
 
@@ -93,9 +97,11 @@ void setup() {
   canbus::can.begin();
   canbus::can.sendEvent(CANSTM::Publisher::SENSING_MODULE, CANSTM::EventCode::SETUP);
 
+  // CANで送り損ねないように若干ずらしたレートにする
   Tasks.add(internal::task02Hz)->startIntervalSec(5);
   Tasks.add(internal::task2Hz)->startFps(2);
-  Tasks.add(internal::task20Hz)->startFps(20);
+  Tasks.add(internal::task20Hz)->startFps(29);
+  Tasks.add(internal::task50Hz)->startFps(53);
   Tasks.add(internal::task100Hz)->startFps(100);
 }
 
@@ -121,14 +127,7 @@ void loop() {
 
 /// @brief 5秒間隔で実行したい処理
 void internal::task02Hz() {
-  // 計測ステータスの送信
-  canbus::can.sendSensingStatus(
-    internal::trajectory.getReferencePressure(),
-    device::sensor::bno.isSystemCalibrated(),
-    device::sensor::bno.isGyroscopeCalibrated(),
-    device::sensor::bno.isAccelerometerCalibrated(),
-    device::sensor::bno.isMagnetometerCalibrated()
-  );
+  // そんなものはない
 }
 
 
@@ -153,17 +152,33 @@ void internal::task20Hz() {
   // CAN送信が20Hzなので、外気温はそれに合わせて20Hzで読み出す
   device::sensor::thermistor.getTemperature(&data::outsideTemperature_degC);
 
+  // CANにデータを流す
+  canbus::can.sendScalar(CANSTM::Label::OUTSIDE_TEMPERATURE, data::outsideTemperature_degC);
+  canbus::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude_m);
+  canbus::can.sendScalar(CANSTM::Label::CLIMB_RATE, data::climbRate_mps);
+  canbus::can.sendVector3D(CANSTM::Label::ORIENTATION, data::orientation_x_deg, data::orientation_y_deg, data::orientation_z_deg);
+  canbus::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2);
+  canbus::can.sendSensingStatus(
+    internal::trajectory.getReferencePressure(),
+    device::sensor::bno.isSystemCalibrated(),
+    static_cast<uint8_t>(device::peripheral::logger.getUsage())
+  );
+  device::indicator::canSend.toggle();
+}
+
+
+/// @brief 50Hzで実行したい処理
+void internal::task50Hz() {
   // 気圧と気温から高度を算出する
   // 内部的には落下検知の処理もやっている
-  data::altitude_m = internal::trajectory.update(data::pressure_hPa, data::outsideTemperature_degC);
+  internal::trajectory.update(data::pressure_hPa, data::outsideTemperature_degC);
+
+  data::altitude_m = internal::trajectory.getAltitude();
+  data::climbRate_mps = internal::trajectory.getClimbRate();
 
   // CANにデータを流す
   // 安全のため、高度50m以上でないと落下判定しない
   canbus::can.sendTrajectoryData(internal::trajectory.isFalling() && data::altitude_m >= 50.0);
-  canbus::can.sendScalar(CANSTM::Label::OUTSIDE_TEMPERATURE, data::outsideTemperature_degC);
-  canbus::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude_m);
-  canbus::can.sendVector3D(CANSTM::Label::ORIENTATION, data::magnetometer_x_nT, data::magnetometer_y_nT, data::magnetometer_z_nT);
-  canbus::can.sendVector3D(CANSTM::Label::LINEAR_ACCELERATION, data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2);
   device::indicator::canSend.toggle();
 }
 
@@ -183,7 +198,7 @@ void internal::task100Hz() {
   // 内部的にはFRAMとSDに書き込んでいる
   if (device::peripheral::logger.isLogging()) {
     device::peripheral::logger.log(
-      millis(),
+      millis(), static_cast<uint8_t>(data::flightMode),
       data::outsideTemperature_degC, data::pressure_hPa, data::altitude_m, internal::trajectory.climbIndex(), internal::trajectory.isFalling(),
       data::acceleration_x_mps2, data::acceleration_y_mps2, data::acceleration_z_mps2,
       data::gyroscope_x_dps, data::gyroscope_y_dps, data::gyroscope_z_dps,
@@ -199,11 +214,12 @@ void internal::task100Hz() {
 /// @brief CANで受け取ったSystemStatusを使って処理を行う関数
 ///        loop()内のCAN受信処理から呼び出される用
 void canbus::handleSystemStatus() {
-  Var::FlightMode flightMode;
   Var::State cameraState, sn3State;
   bool doLogging;
+  uint16_t flightTime;
+  uint8_t loggerUsage;
 
-  canbus::can.receiveSystemStatus(&flightMode, &cameraState, &sn3State, &doLogging);
+  canbus::can.receiveSystemStatus(&data::flightMode, &cameraState, &sn3State, &doLogging, &flightTime, &loggerUsage);
 
   // ログ保存を"やるはず"なのに"やっていない"なら開始
   if (doLogging && !device::peripheral::logger.isLogging()) {
@@ -214,6 +230,7 @@ void canbus::handleSystemStatus() {
       canbus::can.sendError(CANSTM::Publisher::SENSING_MODULE, CANSTM::ErrorCode::LOGGER_FAILURE, CANSTM::ErrorReason::INVALID_SD);
     }
 
+    internal::trajectory.setReferencePressure(data::pressure_hPa);
     device::indicator::loggerStatus.on();
   }
 

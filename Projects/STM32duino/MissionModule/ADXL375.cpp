@@ -18,9 +18,9 @@ void ADXL375::begin() {
 
 
 void ADXL375::getAcceleration(float* x, float* y, float* z) {
-  *x = read16(0x32) * 0.049 * 9.80665;
-  *y = read16(0x34) * 0.049 * 9.80665;
-  *z = read16(0x36) * 0.049 * 9.80665;
+  *x = (float)read16(0x32) * 0.049 * 9.80665;
+  *y = (float)read16(0x34) * 0.049 * 9.80665;
+  *z = (float)read16(0x36) * 0.049 * 9.80665;
 }
 
 
