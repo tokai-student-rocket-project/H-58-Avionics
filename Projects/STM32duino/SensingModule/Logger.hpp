@@ -48,7 +48,8 @@ public:
     float magnetometer_x, float magnetometer_y, float magnetometer_z,
     float orientation_x, float orientation_y, float orientation_z,
     float linear_acceleration_x, float linear_acceleration_y, float linear_acceleration_z,
-    float gravity_x, float gravity_y, float gravity_z
+    float gravity_x, float gravity_y, float gravity_z,
+    float quaternion_w, float quaternion_x, float quaternion_y, float quaternion_z
   );
 
   /// @brief ロガーの使用率

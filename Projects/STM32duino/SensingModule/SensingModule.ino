@@ -66,6 +66,7 @@ namespace data {
   float orientation_x_deg, orientation_y_deg, orientation_z_deg;
   float linear_acceleration_x_mps2, linear_acceleration_y_mps2, linear_acceleration_z_mps2;
   float gravity_x_mps2, gravity_y_mps2, gravity_z_mps2;
+  float quaternion_w, quaternion_x, quaternion_y, quaternion_z;
 
   Var::FlightMode flightMode;
 }
@@ -116,7 +117,7 @@ void loop() {
       canbus::handleSystemStatus();
       device::indicator::canReceive.toggle();
       break;
-    case CANSTM::Label::SET_REFERENCE_PRESSURE:
+    case CANSTM::Label::SET_REFERENCE_PRESSURE_COMMAND:
       canbus::handleSetReferencePressure();
       device::indicator::canReceive.toggle();
       break;
@@ -191,6 +192,7 @@ void internal::task100Hz() {
   device::sensor::bno.getOrientation(&data::orientation_x_deg, &data::orientation_y_deg, &data::orientation_z_deg);
   device::sensor::bno.getLinearAcceleration(&data::linear_acceleration_x_mps2, &data::linear_acceleration_y_mps2, &data::linear_acceleration_z_mps2);
   device::sensor::bno.getGravityVector(&data::gravity_x_mps2, &data::gravity_y_mps2, &data::gravity_z_mps2);
+  device::sensor::bno.getQuaternion(&data::quaternion_w, &data::quaternion_x, &data::quaternion_y, &data::quaternion_z);
   // 高度も解析用にできるだけ早い100Hzで読み出したい
   device::sensor::bme.getPressure(&data::pressure_hPa);
 
@@ -205,7 +207,8 @@ void internal::task100Hz() {
       data::magnetometer_x_nT, data::magnetometer_y_nT, data::magnetometer_z_nT,
       data::orientation_x_deg, data::orientation_y_deg, data::orientation_z_deg,
       data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2,
-      data::gravity_x_mps2, data::gravity_y_mps2, data::gravity_z_mps2
+      data::gravity_x_mps2, data::gravity_y_mps2, data::gravity_z_mps2,
+      data::quaternion_w, data::quaternion_x, data::quaternion_y, data::quaternion_z
     );
   }
 }
