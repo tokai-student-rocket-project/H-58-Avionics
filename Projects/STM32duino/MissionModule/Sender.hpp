@@ -21,7 +21,7 @@ public:
 
   /// @brief ログを送信する
   /// @return 読み出したサイズ
-  uint32_t send();
+  void send(uint32_t count);
 
   uint32_t getOffset();
 

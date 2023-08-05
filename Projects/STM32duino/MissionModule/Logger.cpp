@@ -45,7 +45,8 @@ uint32_t Logger::log(
   );
 
   const uint8_t* data = packet.data.data();
-  const uint32_t size = packet.data.size();
+  // const uint32_t size = packet.data.size();
+  const uint32_t size = 32;
 
   // FRAMの2個分の容量を超えたら何もしない (容量オーバー)
   if (_offset + size >= FRAM::LENGTH * 2) return size;

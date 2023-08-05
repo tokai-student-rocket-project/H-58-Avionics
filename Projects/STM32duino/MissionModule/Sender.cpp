@@ -17,25 +17,52 @@ void Sender::reset() {
 
 
 /// @brief ログを送信する
-uint32_t Sender::send() {
-  const uint32_t size = 19 * 25;
+void Sender::send(uint32_t count) {
+  uint32_t tempSize = 32 * 25;
+  uint32_t offset = count * tempSize;
 
-  // // FRAMの2個分の容量を超えたら何もしない (容量オーバー)
-  // if (_offset + size >= FRAM::LENGTH * 2) return size;
+  uint8_t data[32];
+  uint32_t size = 0;
 
-  // if (_offset + size >= FRAM::LENGTH) {
-  //   uint32_t writeAddress = _offset - FRAM::LENGTH;
-  //   _fram1->setWriteEnable();
-  //   _fram1->write(writeAddress, data, size);
-  // }
-  // else {
-  //   uint32_t writeAddress = _offset;
-  //   _fram0->setWriteEnable();
-  //   _fram0->write(writeAddress, data, size);
-  // }
+  // FRAMの2個分の容量を超えたら何もしない (容量オーバー)
+  if (offset + tempSize >= FRAM::LENGTH * 2) return;
 
-  _offset += size;
-  return size;
+  if (offset + tempSize >= FRAM::LENGTH) {
+    uint32_t writeAddress = offset - FRAM::LENGTH;
+    for (uint32_t i = 0; i < 32; i++) {
+      uint8_t iData = _fram1->read(writeAddress + i);
+      data[i] = iData;
+
+      Serial.print(iData, HEX);
+      Serial.print(" ");
+
+      if (data[1] == 0xAA && data[i] == 0x00) {
+        Serial.println();
+        size = i + 1;
+        break;
+      };
+    }
+  }
+  else {
+    uint32_t writeAddress = offset;
+    for (uint32_t i = 0; i < 32; i++) {
+      uint8_t iData = _fram0->read(writeAddress + i);
+      data[i] = iData;
+
+      Serial.print(iData, HEX);
+      Serial.print(" ");
+
+      if (data[1] == 0xAA && data[i] == 0x00) {
+        Serial.println();
+        size = i + 1;
+        break;
+      };
+    }
+  }
+
+  // TODO あとはdata, sizeで送信するだけ
+
+  _offset += tempSize;
 }
 
 

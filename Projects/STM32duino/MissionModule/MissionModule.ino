@@ -30,6 +30,8 @@ namespace scheduler {
   Sender sender(A6, A5);
   bool doLogging = false;
   bool doSend = false;
+
+  uint32_t count;
 }
 
 namespace sensor {
@@ -107,6 +109,8 @@ void timer::sendStatusTask() {
     // ,timer::dataRate
   );
 
+  // TODO 送信進捗送信
+
   indicator::canSend.toggle();
 
   // Serial.println(loggerUsage);
@@ -123,7 +127,8 @@ void timer::sendDataTask() {
     return;
   }
 
-  scheduler::sender.send();
+  scheduler::sender.send(scheduler::count);
+  scheduler::count++;
 }
 
 
@@ -136,12 +141,6 @@ void timer::measurementTask() {
       millis(), static_cast<uint8_t>(scheduler::flightModePrevious),
       x, y, z);
   }
-
-  // 計測と送信の進捗を表示
-  Serial.print(scheduler::logger.getOffset());
-  Serial.print("\t");
-  Serial.print(scheduler::sender.getOffset());
-  Serial.print("\n");
 
   // ODR情報
   // 1kHzを超えるとmillis()では見れない
