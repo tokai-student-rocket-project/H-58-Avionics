@@ -112,6 +112,16 @@ void BNO055::getOrientation(float* x, float* y, float* z) {
 }
 
 
+/// @brief クオータニオンを返す
+/// @param w
+/// @param x
+/// @param y
+/// @param z
+void BNO055::getQuaternion(float* w, float* x, float* y, float* z) {
+  readVector4D(0x20, (1.0 / (1 << 14)), w, x, y, z);
+}
+
+
 void BNO055::write(uint8_t address, uint8_t data) {
   Wire.beginTransmission(0x28);
   Wire.write(address);
@@ -134,6 +144,24 @@ void BNO055::readVector3D(uint8_t address, float lsb, float* x, float* y, float*
   *x = ((float)zRaw) / lsb;
   *y = ((float)xRaw) / lsb;
   *z = ((float)yRaw) / lsb;
+}
+
+
+void BNO055::readVector4D(uint8_t address, float lsb, float* w, float* x, float* y, float* z) {
+  Wire.beginTransmission(0x28);
+  Wire.write(address);
+  Wire.endTransmission();
+  Wire.requestFrom(0x28, 8);
+
+  int16_t wRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  int16_t xRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  int16_t yRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+  int16_t zRaw = ((int16_t)Wire.read()) | (((int16_t)Wire.read()) << 8);
+
+  *w = ((float)wRaw) / lsb;
+  *x = ((float)xRaw) / lsb;
+  *y = ((float)yRaw) / lsb;
+  *z = ((float)zRaw) / lsb;
 }
 
 

@@ -81,7 +81,8 @@ void Logger::log(
   float magnetometer_x, float magnetometer_y, float magnetometer_z,
   float orientation_x, float orientation_y, float orientation_z,
   float linear_acceleration_x, float linear_acceleration_y, float linear_acceleration_z,
-  float gravity_x, float gravity_y, float gravity_z
+  float gravity_x, float gravity_y, float gravity_z,
+  float quaternion_w, float quaternion_x, float quaternion_y, float quaternion_z
 ) {
   // MessagePackでパケットを生成
   // ラベルは認識しやすいように0xAAにしている
@@ -93,7 +94,8 @@ void Logger::log(
     magnetometer_x, magnetometer_y, magnetometer_z,
     orientation_x, orientation_y, orientation_z,
     linear_acceleration_x, linear_acceleration_y, linear_acceleration_z,
-    gravity_x, gravity_y, gravity_z
+    gravity_x, gravity_y, gravity_z,
+    quaternion_w, quaternion_x, quaternion_y, quaternion_z
   );
 
   const uint8_t* data = packet.data.data();
