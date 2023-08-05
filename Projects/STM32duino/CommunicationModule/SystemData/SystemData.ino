@@ -47,6 +47,7 @@ namespace connection {
     EVENT,
     ERROR,
     VALVE_DATA,
+    MISSION_STATUS,
     SET_REFERENCE_PRESSURE_COMMAND = 0xF0,
     SET_FLIGHT_MODE_ON
   };
@@ -75,7 +76,7 @@ namespace data {
   Var::State cameraState, sn3State;
   bool doLogging;
   uint16_t flightTime;
-  uint8_t sensingModuleLoggerUsage, flightModuleLoggerUsage;
+  uint8_t sensingModuleLoggerUsage, flightModuleLoggerUsage, missionModuleLoggerUsage;
   float voltage_supply, voltage_battery, voltage_pool;
   float referencePressure;
   bool isSystemCalibrated;
@@ -156,6 +157,10 @@ void loop() {
     }
     case CANMCP::Label::SENSING_STATUS:
       connection::can.receiveSensingStatus(&data::referencePressure, &data::isSystemCalibrated, &data::sensingModuleLoggerUsage);
+      indicator::canReceive.toggle();
+      break;
+    case CANMCP::Label::MISSION_STATUS:
+      connection::can.receiveMissionStatus(&data::missionModuleLoggerUsage);
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::VOLTAGE:
@@ -264,6 +269,15 @@ void timer::highRateDownlinkTask() {
   );
 
   connection::reserveDownlink(sensingStatusPacket.data.data(), sensingStatusPacket.data.size());
+
+  // ミッションステータスをダウンリンクで送信する
+  const auto& missionStatusPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::MISSION_STATUS),
+    millis(),
+    data::missionModuleLoggerUsage
+  );
+
+  connection::reserveDownlink(missionStatusPacket.data.data(), missionStatusPacket.data.size());
   connection::sendReservedDownlink();
 }
 

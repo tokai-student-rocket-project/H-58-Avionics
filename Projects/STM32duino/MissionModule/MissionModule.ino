@@ -13,6 +13,7 @@
 
 
 namespace timer {
+  void task20Hz();
   void task50Hz();
   void task1kHz();
 }
@@ -22,6 +23,8 @@ namespace scheduler {
 
   bool doThrustLogging = false;
   bool doOpenLogging = false;
+
+  uint32_t writePosition = 0;
 }
 
 namespace sensor {
@@ -29,6 +32,7 @@ namespace sensor {
 }
 
 namespace indicator {
+  LED canSend(1);
   LED canReceive(0);
   LED loRaSend(A1);
 
@@ -45,21 +49,12 @@ namespace connection {
   void handleSystemStatus();
 }
 
-namespace data {
-  Var::FlightMode mode;
-  Var::State camera, sn3;
-  bool doLogging;
-  uint32_t flightTime;
-
-  float acceleration_x, acceleration_y, acceleration_z;
-}
-
 
 void setup() {
   // デバッグ用シリアルポートの準備
   Serial.begin(115200);
-  while (!Serial);
-  delay(800);
+  // while (!Serial);
+  // delay(800);
 
   // FRAMとSDの電源は常にON
   control::recorderPower.on();
@@ -72,9 +67,9 @@ void setup() {
   sensor::adxl.begin();
 
   connection::can.begin();
-
   connection::can.sendEvent(CANMCP::Publisher::MISSION_MODULE, CANMCP::EventCode::SETUP);
 
+  Tasks.add(timer::task20Hz)->startFps(19);
   Tasks.add(timer::task50Hz)->startFps(50);
   Tasks.add(timer::task1kHz)->startFps(1200);
 
@@ -95,6 +90,19 @@ void loop() {
       break;
     }
   }
+}
+
+
+void timer::task20Hz() {
+  float loggerUsage = ((float)scheduler::writePosition / (float)(262144 * 2)) * 100.0;
+  // CANにデータを流す
+  connection::can.sendMissionStatus(
+    static_cast<uint8_t>(loggerUsage)
+  );
+
+  // Serial.println(loggerUsage);
+
+  indicator::canSend.toggle();
 }
 
 
@@ -123,33 +131,22 @@ void timer::task50Hz() {
 
 
 void timer::task1kHz() {
-  sensor::adxl.getAcceleration(&data::acceleration_x, &data::acceleration_y, &data::acceleration_z);
+  float x, y, z;
+  sensor::adxl.getAcceleration(&x, &y, &z);
 
-  if (scheduler::doThrustLogging) {
-    Serial.println("thrust");
+  if (scheduler::doThrustLogging || scheduler::doOpenLogging) {
+    const auto& packet = MsgPacketizer::encode(0xAA, x, y, z);
+    const uint8_t* data = packet.data.data();
+    const uint32_t size = packet.data.size();
+
+    scheduler::writePosition += size;
+
+    // Serial.println(scheduler::writePosition);
   }
 
   if (scheduler::doOpenLogging) {
-    Serial.println("open");
+    // Serial.println("open");
   }
-
-  // if (scheduler::doSensing) {
-  //   const auto& packet = MsgPacketizer::encode(
-  //     0xAA,
-  //     data::acceleration_x, data::acceleration_y, data::acceleration_z
-  //   );
-
-  //   const uint8_t* data = packet.data.data();
-  //   const uint32_t size = packet.data.size();
-
-  //   scheduler::writePosition += size;
-  // }
-
-  // Serial.print(millis() / 1000.0, 3);
-  // Serial.print(" ");
-  // Serial.print(scheduler::writePosition);
-  // Serial.print(" ");
-  // Serial.println(scheduler::readPosition);
 }
 
 
@@ -165,13 +162,15 @@ void connection::handleSystemStatus() {
   if (flightMode == scheduler::flightModePrevious) return;
 
   if (flightMode == Var::FlightMode::STANDBY) {
+    scheduler::writePosition = 0;
+
     scheduler::doThrustLogging = true;
     Tasks["stop-thrust-logging"]->startOnceAfterSec(3.0);
   }
 
   if (flightMode == Var::FlightMode::PARACHUTE) {
     scheduler::doOpenLogging = true;
-    Tasks["stop-open-logging"]->startOnceAfterSec(3.0);
+    Tasks["stop-open-logging"]->startOnceAfterSec(6.0);
   }
 
   scheduler::flightModePrevious = flightMode;
