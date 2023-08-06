@@ -25,7 +25,6 @@ public:
     FLIGHT_MODE_ON_COMMAND,
     CLIMB_RATE,
     RESET_COMMAND,
-    MISSION_STATUS,
     COLLECTED_TEMPERATURE = 0x100,
     COLD_JUNCTION_TEMPERATURE,
     THERMO_COUPLE_TEMPERATURE,
@@ -120,8 +119,6 @@ public:
   /// @brief リセットを送信する
   void sendReset();
 
-  void sendMissionStatus(uint8_t loggerUsage);
-
   /// @brief システムステータスを受信する
   /// @param flightMode フライトモード
   /// @param cameraState カメラの状態
@@ -186,8 +183,6 @@ public:
   /// @param pool プール電圧 [V]
   /// @param battery バッテリー電圧 [V]
   void receiveVoltage(float* supply, float* pool, float* battery);
-
-  void receiveMissionStatus(uint8_t* loggerUsage);
 
 private:
   mcp2515_can* _can;

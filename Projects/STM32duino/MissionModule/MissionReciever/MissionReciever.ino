@@ -25,7 +25,7 @@ void setup() {
       float z
       )
     {
-      transmitter::packet["PacketInfo"]["Sender"] = "MissionModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "MM";
       transmitter::packet["PacketInfo"]["Type"] = "MissionData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
@@ -38,6 +38,27 @@ void setup() {
       serializeJson(transmitter::packet, Serial);
       Serial.println();
       transmitter::packet.clear();
+
+      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    }
+  );
+
+  MsgPacketizer::subscribe(LoRa, 0xAB,
+    [](
+      uint32_t millis,
+      uint8_t loggerUsage
+      )
+    {
+      transmitter::packet.clear();
+      transmitter::packet["PacketInfo"]["Sender"] = "MM";
+      transmitter::packet["PacketInfo"]["Type"] = "MissionStatus";
+      transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
+      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
+      transmitter::packet["LoggerUsage"] = loggerUsage;
+
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     }

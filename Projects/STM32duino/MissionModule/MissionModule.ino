@@ -76,7 +76,7 @@ void setup() {
   connection::can.begin();
   connection::can.sendEvent(CANMCP::Publisher::MISSION_MODULE, CANMCP::EventCode::SETUP);
 
-  Tasks.add(timer::sendStatusTask)->startFps(19);
+  Tasks.add(timer::sendStatusTask)->startFps(7);
   Tasks.add(timer::sendDataTask)->startFps(50);
   Tasks.add(timer::measurementTask)->startFps(1200);
 
@@ -103,15 +103,19 @@ void loop() {
 
 
 void timer::sendStatusTask() {
-  // CANにデータを流す
-  connection::can.sendMissionStatus(
+  const auto& missionStatusPacket = MsgPacketizer::encode(
+    0xAB,
+    millis(),
     static_cast<uint8_t>(scheduler::logger.getUsage())
-    // ,timer::dataRate
   );
 
-  // TODO 送信進捗送信
+  LoRa.beginPacket();
+  LoRa.write(missionStatusPacket.data.data(), missionStatusPacket.data.size());
+  LoRa.endPacket();
+  indicator::loRaSend.toggle();
 
-  indicator::canSend.toggle();
+
+  // TODO 送信進捗送信
 
   // Serial.println(loggerUsage);
   // Serial.println(timer::dataRate);
