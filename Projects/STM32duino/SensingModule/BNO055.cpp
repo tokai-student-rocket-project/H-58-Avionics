@@ -118,7 +118,7 @@ void BNO055::getOrientation(float* x, float* y, float* z) {
 /// @param y
 /// @param z
 void BNO055::getQuaternion(float* w, float* x, float* y, float* z) {
-  readVector4D(0x20, (1.0 / (1 << 14)), w, x, y, z);
+  readVector4D(0x20, 16384.0, w, x, y, z);
 }
 
 
