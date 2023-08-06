@@ -33,11 +33,7 @@ void Sender::send(uint32_t count) {
       uint8_t iData = _fram1->read(writeAddress + i);
       data[i] = iData;
 
-      Serial.print(iData, HEX);
-      Serial.print(" ");
-
       if (data[1] == 0xAA && data[i] == 0x00) {
-        Serial.println();
         size = i + 1;
         break;
       };
@@ -49,18 +45,16 @@ void Sender::send(uint32_t count) {
       uint8_t iData = _fram0->read(writeAddress + i);
       data[i] = iData;
 
-      Serial.print(iData, HEX);
-      Serial.print(" ");
-
       if (data[1] == 0xAA && data[i] == 0x00) {
-        Serial.println();
         size = i + 1;
         break;
       };
     }
   }
 
-  // TODO あとはdata, sizeで送信するだけ
+  LoRa.beginPacket();
+  LoRa.write(data, size);
+  LoRa.endPacket();
 
   _offset += tempSize;
 }

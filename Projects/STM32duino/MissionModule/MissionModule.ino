@@ -76,7 +76,7 @@ void setup() {
   connection::can.begin();
   connection::can.sendEvent(CANMCP::Publisher::MISSION_MODULE, CANMCP::EventCode::SETUP);
 
-  Tasks.add(timer::sendStatusTask)->startFps(19);
+  Tasks.add(timer::sendStatusTask)->startFps(7);
   Tasks.add(timer::sendDataTask)->startFps(50);
   Tasks.add(timer::measurementTask)->startFps(1200);
 
@@ -103,18 +103,21 @@ void loop() {
 
 
 void timer::sendStatusTask() {
-  // CANにデータを流す
-  connection::can.sendMissionStatus(
-    static_cast<uint8_t>(scheduler::logger.getUsage())
-    // ,timer::dataRate
+  const auto& missionStatusPacket = MsgPacketizer::encode(
+    0xAB,
+    millis(),
+    static_cast<uint8_t>(scheduler::logger.getUsage()),
+    timer::dataRate,
+    scheduler::logger.getOffset(),
+    scheduler::sender.getOffset(),
+    scheduler::doLogging,
+    scheduler::doSend
   );
 
-  // TODO 送信進捗送信
-
-  indicator::canSend.toggle();
-
-  // Serial.println(loggerUsage);
-  // Serial.println(timer::dataRate);
+  LoRa.beginPacket();
+  LoRa.write(missionStatusPacket.data.data(), missionStatusPacket.data.size());
+  LoRa.endPacket();
+  indicator::loRaSend.toggle();
 }
 
 
@@ -124,10 +127,12 @@ void timer::sendDataTask() {
   // 送信し切ったら終了
   if (scheduler::sender.getOffset() > scheduler::logger.getOffset()) {
     scheduler::doSend = false;
+    indicator::loRaSend.off();
     return;
   }
 
   scheduler::sender.send(scheduler::count);
+  indicator::loRaSend.toggle();
   scheduler::count++;
 }
 
@@ -169,6 +174,7 @@ void connection::handleSystemStatus() {
       scheduler::sender.reset();
       scheduler::doSend = false;
       scheduler::doLogging = true;
+      scheduler::count = 0;
     }
 
     // 3秒間計測
