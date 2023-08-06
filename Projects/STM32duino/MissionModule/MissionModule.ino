@@ -106,24 +106,18 @@ void timer::sendStatusTask() {
   const auto& missionStatusPacket = MsgPacketizer::encode(
     0xAB,
     millis(),
-    static_cast<uint8_t>(scheduler::logger.getUsage())
+    static_cast<uint8_t>(scheduler::logger.getUsage()),
+    timer::dataRate,
+    scheduler::logger.getOffset(),
+    scheduler::sender.getOffset(),
+    scheduler::doLogging,
+    scheduler::doSend
   );
 
   LoRa.beginPacket();
   LoRa.write(missionStatusPacket.data.data(), missionStatusPacket.data.size());
   LoRa.endPacket();
   indicator::loRaSend.toggle();
-
-
-  // TODO 送信進捗送信
-
-  // Serial.println(loggerUsage);
-  // Serial.println(timer::dataRate);
-
-  // Serial.print(scheduler::logger.getOffset());
-  // Serial.print("\t");
-  // Serial.print(scheduler::sender.getOffset());
-  // Serial.print("\n");
 }
 
 

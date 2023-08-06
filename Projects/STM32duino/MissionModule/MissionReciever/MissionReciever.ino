@@ -46,7 +46,12 @@ void setup() {
   MsgPacketizer::subscribe(LoRa, 0xAB,
     [](
       uint32_t millis,
-      uint8_t loggerUsage
+      uint8_t loggerUsage,
+      float dataRate,
+      uint32_t loggerOffset,
+      uint32_t senderOffset,
+      bool doLogging,
+      bool doSending
       )
     {
       transmitter::packet.clear();
@@ -56,6 +61,11 @@ void setup() {
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
       transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["LoggerUsage"] = loggerUsage;
+      transmitter::packet["DataRate"] = dataRate;
+      transmitter::packet["LoggerOffset"] = loggerOffset;
+      transmitter::packet["SenderOffset"] = senderOffset;
+      transmitter::packet["DoLogging"] = doLogging;
+      transmitter::packet["DoSending"] = doSending;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();
