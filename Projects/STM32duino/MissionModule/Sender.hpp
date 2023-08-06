@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <MsgPacketizer.h>
+#include <LoRa.h>
 #include "FRAM.hpp"
 
 

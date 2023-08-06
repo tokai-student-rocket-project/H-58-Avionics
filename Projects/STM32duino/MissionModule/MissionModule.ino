@@ -115,6 +115,11 @@ void timer::sendStatusTask() {
 
   // Serial.println(loggerUsage);
   // Serial.println(timer::dataRate);
+
+  // Serial.print(scheduler::logger.getOffset());
+  // Serial.print("\t");
+  // Serial.print(scheduler::sender.getOffset());
+  // Serial.print("\n");
 }
 
 
@@ -124,10 +129,12 @@ void timer::sendDataTask() {
   // 送信し切ったら終了
   if (scheduler::sender.getOffset() > scheduler::logger.getOffset()) {
     scheduler::doSend = false;
+    indicator::loRaSend.off();
     return;
   }
 
   scheduler::sender.send(scheduler::count);
+  indicator::loRaSend.toggle();
   scheduler::count++;
 }
 
@@ -169,6 +176,7 @@ void connection::handleSystemStatus() {
       scheduler::sender.reset();
       scheduler::doSend = false;
       scheduler::doLogging = true;
+      scheduler::count = 0;
     }
 
     // 3秒間計測

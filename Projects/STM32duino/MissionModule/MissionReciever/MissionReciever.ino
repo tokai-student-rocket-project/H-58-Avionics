@@ -16,20 +16,24 @@ void setup() {
   LoRa.begin(925.8E6);
   LoRa.setSignalBandwidth(500E3);
 
-  MsgPacketizer::subscribe(LoRa, 0x00,
+  MsgPacketizer::subscribe(LoRa, 0xAA,
     [](
-      float acceleration_x,
-      float acceleration_y,
-      float acceleration_z
+      uint32_t millis,
+      uint8_t flightMode,
+      float x,
+      float y,
+      float z
       )
     {
       transmitter::packet["PacketInfo"]["Sender"] = "MissionModule";
       transmitter::packet["PacketInfo"]["Type"] = "MissionData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
-      transmitter::packet["Acc"]["x"] = acceleration_x;
-      transmitter::packet["Acc"]["y"] = acceleration_y;
-      transmitter::packet["Acc"]["z"] = acceleration_z;
+      transmitter::packet["Millis"] = millis;
+      transmitter::packet["FlightMode"] = flightMode;
+      transmitter::packet["Acc"]["x"] = x;
+      transmitter::packet["Acc"]["y"] = y;
+      transmitter::packet["Acc"]["z"] = z;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();
