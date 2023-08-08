@@ -1,3 +1,0 @@
-C:/H-58-Avionics/Projects/STM32/THRControlModule/build/debug/build/CMakeFiles/THRControlModule.dir
-C:/H-58-Avionics/Projects/STM32/THRControlModule/build/debug/build/CMakeFiles/edit_cache.dir
-C:/H-58-Avionics/Projects/STM32/THRControlModule/build/debug/build/CMakeFiles/rebuild_cache.dir
