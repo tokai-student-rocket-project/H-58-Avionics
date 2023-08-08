@@ -20,6 +20,7 @@ namespace command {
 
   void executeSetReferencePressureCommand(uint8_t key, float referencePressure);
   void executeFlightModeOnCommand(uint8_t key);
+  void executeResetCommand(uint8_t key);
 }
 
 namespace sensor {
@@ -46,6 +47,7 @@ namespace connection {
     EVENT,
     ERROR,
     VALVE_DATA,
+    MISSION_STATUS,
     SET_REFERENCE_PRESSURE_COMMAND = 0xF0,
     SET_FLIGHT_MODE_ON
   };
@@ -73,10 +75,11 @@ namespace data {
   Var::FlightMode flightMode;
   Var::State cameraState, sn3State;
   bool doLogging;
-  uint32_t flightTime;
+  uint16_t flightTime;
+  uint8_t sensingModuleLoggerUsage, flightModuleLoggerUsage;
   float voltage_supply, voltage_battery, voltage_pool;
   float referencePressure;
-  bool isSystemCalibrated, isGyroscopeCalibrated, isAccelerometerCalibrated, isMagnetometerCalibrated;
+  bool isSystemCalibrated;
 }
 
 
@@ -97,16 +100,23 @@ void setup() {
 
   // 参照気圧設定コマンド
   MsgPacketizer::subscribe(LoRa, 0xF0, [](uint8_t key, float referencePressure) {
-    // indicator::loRaReceive.toggle();
+    indicator::loRaReceive.toggle();
     // 長くなるので処理は関数にまとめている
     command::executeSetReferencePressureCommand(key, referencePressure);
     });
 
   // フライトモードオンコマンド
   MsgPacketizer::subscribe(LoRa, 0xF1, [](uint8_t key) {
-    // indicator::loRaReceive.toggle();
+    indicator::loRaReceive.toggle();
     // 長くなるので処理は関数にまとめている
     command::executeFlightModeOnCommand(key);
+    });
+
+  // リセットコマンド
+  MsgPacketizer::subscribe(LoRa, 0xF2, [](uint8_t key) {
+    indicator::loRaReceive.toggle();
+    // 長くなるので処理は関数にまとめている
+    command::executeResetCommand(key);
     });
 }
 
@@ -123,7 +133,7 @@ void loop() {
   if (connection::can.available()) {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::SYSTEM_STATUS: {
-      connection::can.receiveSystemStatus(&data::flightMode, &data::cameraState, &data::sn3State, &data::doLogging, &data::flightTime);
+      connection::can.receiveSystemStatus(&data::flightMode, &data::cameraState, &data::sn3State, &data::doLogging, &data::flightTime, &data::flightModuleLoggerUsage);
       indicator::canReceive.toggle();
 
       // コマンドを受信しやすようにSLEEPモードの時はダウンリンクの頻度を落とす
@@ -146,7 +156,7 @@ void loop() {
       break;
     }
     case CANMCP::Label::SENSING_STATUS:
-      connection::can.receiveSensingStatus(&data::referencePressure, &data::isSystemCalibrated, &data::isGyroscopeCalibrated, &data::isAccelerometerCalibrated, &data::isMagnetometerCalibrated);
+      connection::can.receiveSensingStatus(&data::referencePressure, &data::isSystemCalibrated, &data::sensingModuleLoggerUsage);
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::VOLTAGE:
@@ -183,6 +193,7 @@ void timer::lowRateDownlinkTask() {
   // バルブ情報をダウンリンクで送信する
   const auto& valveDataPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::VALVE_DATA),
+    millis(),
     data::isWaiting,
     data::currentPosition,
     data::currentDesiredPosition,
@@ -198,6 +209,7 @@ void timer::lowRateDownlinkTask() {
   // 電源情報をダウンリンクで送信する
   const auto& powerDataPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::POWER_DATA),
+    millis(),
     data::voltage_supply,
     data::voltage_battery,
     data::voltage_pool
@@ -211,16 +223,19 @@ void timer::lowRateDownlinkTask() {
 void timer::highRateDownlinkTask() {
   // GNSS情報を受信する
   if (sensor::gnss.available()) {
-    data::latitude = sensor::gnss.getLatitude();
-    data::longitude = sensor::gnss.getLongitude();
-
     indicator::gpsStatus.toggle();
 
     // GNSS情報をダウンリンクで送信する
     const auto& gnssDataPacket = MsgPacketizer::encode(
       static_cast<uint8_t>(connection::Index::GNSS_DATA),
-      data::latitude,
-      data::longitude
+      millis(),
+      sensor::gnss.isFixed(),
+      sensor::gnss.getFixType(),
+      sensor::gnss.getSatelliteCount(),
+      sensor::gnss.getLatitude(),
+      sensor::gnss.getLongitude(),
+      sensor::gnss.getAltitude(),
+      sensor::gnss.getSpeed()
     );
 
     connection::reserveDownlink(gnssDataPacket.data.data(), gnssDataPacket.data.size());
@@ -229,11 +244,13 @@ void timer::highRateDownlinkTask() {
   // システムステータスをダウンリンクで送信する
   const auto& systemStatusPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::SYSTEM_STATUS),
+    millis(),
     static_cast<uint8_t>(data::flightMode),
     static_cast<bool>(data::cameraState),
     static_cast<bool>(data::sn3State),
     data::doLogging,
-    data::flightTime
+    data::flightTime,
+    data::flightModuleLoggerUsage
   );
 
   connection::reserveDownlink(systemStatusPacket.data.data(), systemStatusPacket.data.size());
@@ -241,14 +258,14 @@ void timer::highRateDownlinkTask() {
   // 計測ステータスをダウンリンクで送信する
   const auto& sensingStatusPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::SENSING_STATUS),
+    millis(),
     data::referencePressure,
     data::isSystemCalibrated,
-    data::isGyroscopeCalibrated,
-    data::isAccelerometerCalibrated,
-    data::isMagnetometerCalibrated
+    data::sensingModuleLoggerUsage
   );
 
   connection::reserveDownlink(sensingStatusPacket.data.data(), sensingStatusPacket.data.size());
+
   connection::sendReservedDownlink();
 }
 
@@ -262,6 +279,7 @@ void command::executeSetReferencePressureCommand(uint8_t key, float referencePre
     // エラーをダウンリンクで送信する
     const auto& errorPacket = MsgPacketizer::encode(
       static_cast<uint8_t>(connection::Index::ERROR),
+      millis(),
       static_cast<uint8_t>(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE),
       static_cast<uint8_t>(CANMCP::ErrorCode::COMMAND_RECEIVE_FAILED),
       static_cast<uint8_t>(CANMCP::ErrorReason::INVALID_KEY),
@@ -287,6 +305,7 @@ void command::executeFlightModeOnCommand(uint8_t key) {
     // エラーをダウンリンクで送信する
     const auto& errorPacket = MsgPacketizer::encode(
       static_cast<uint8_t>(connection::Index::ERROR),
+      millis(),
       static_cast<uint8_t>(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE),
       static_cast<uint8_t>(CANMCP::ErrorCode::COMMAND_RECEIVE_FAILED),
       static_cast<uint8_t>(CANMCP::ErrorReason::INVALID_KEY),
@@ -300,6 +319,32 @@ void command::executeFlightModeOnCommand(uint8_t key) {
 
   // CANにフライトモードオンを送信する
   connection::can.sendFlightModeOn();
+  indicator::canSend.toggle();
+}
+
+
+/// @brief リセットコマンドを処理する
+/// @param key 認証キー
+void command::executeResetCommand(uint8_t key) {
+  // 認証キーが不正のときはエラーを送信して終わり
+  if (key != command::innerKey) {
+    // エラーをダウンリンクで送信する
+    const auto& errorPacket = MsgPacketizer::encode(
+      static_cast<uint8_t>(connection::Index::ERROR),
+      millis(),
+      static_cast<uint8_t>(CANMCP::Publisher::SYSTEM_DATA_COMMUNICATION_MODULE),
+      static_cast<uint8_t>(CANMCP::ErrorCode::COMMAND_RECEIVE_FAILED),
+      static_cast<uint8_t>(CANMCP::ErrorReason::INVALID_KEY),
+      millis()
+    );
+
+    connection::reserveDownlink(errorPacket.data.data(), errorPacket.data.size());
+
+    return;
+  }
+
+  // CANにリセットを送信する
+  connection::can.sendReset();
   indicator::canSend.toggle();
 }
 
@@ -342,6 +387,7 @@ void connection::handleEvent() {
   // イベントをそのままダウンリンクで送信
   const auto& eventPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::EVENT),
+    millis(),
     static_cast<uint8_t>(publisher),
     static_cast<uint8_t>(eventCode),
     timestamp
@@ -363,6 +409,7 @@ void connection::handleError() {
   // エラーをそのままダウンリンクで送信
   const auto& errorPacket = MsgPacketizer::encode(
     static_cast<uint8_t>(connection::Index::ERROR),
+    millis(),
     static_cast<uint8_t>(publisher),
     static_cast<uint8_t>(errorCode),
     static_cast<uint8_t>(errorReason),

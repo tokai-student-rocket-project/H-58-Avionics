@@ -141,8 +141,6 @@ bool IcsHardSerialClass::synchronize(byte *txBuf, byte txLen, byte *rxBuf, byte 
   icsHardSerial->write(txBuf, txLen);
   icsHardSerial->flush(); // 待つ
 
-
-
   while (icsHardSerial->available() > 0) // 受信バッファを消す
   {
     // buff = icsSerial->read();	//空読み

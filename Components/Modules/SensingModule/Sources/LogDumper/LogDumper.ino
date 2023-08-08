@@ -11,8 +11,6 @@ void dump(FRAM* fram);
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial);
-  delay(800);
 
   recorderPower.on();
 
@@ -21,17 +19,19 @@ void setup() {
   SPI.setSCLK(A4);
   SPI.begin();
 
-
   MsgPacketizer::subscribe_manual(0xAA,
-    [&](uint32_t millis,
+    [&](uint32_t millis, uint8_t flightMode,
       float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,
       float acceleration_x, float acceleration_y, float acceleration_z,
       float gyroscope_x, float gyroscope_y, float gyroscope_z,
       float magnetometer_x, float magnetometer_y, float magnetometer_z,
       float orientation_x, float orientation_y, float orientation_z,
       float linear_acceleration_x, float linear_acceleration_y, float linear_acceleration_z,
-      float gravity_x, float gravity_y, float gravity_z) {
+      float gravity_x, float gravity_y, float gravity_z,
+      float quaternion_w, float quaternion_x, float quaternion_y, float quaternion_z
+      ) {
         Serial.print(millis); Serial.print(",");
+        Serial.print(flightMode); Serial.print(",");
         Serial.print(outsideTemperature); Serial.print(",");
         Serial.print(pressure); Serial.print(",");
         Serial.print(altitude); Serial.print(",");
@@ -54,12 +54,21 @@ void setup() {
         Serial.print(linear_acceleration_z); Serial.print(",");
         Serial.print(gravity_x); Serial.print(",");
         Serial.print(gravity_y); Serial.print(",");
-        Serial.print(gravity_z); Serial.println();
+        Serial.print(gravity_z); Serial.print(",");
+        Serial.print(quaternion_w); Serial.print(",");
+        Serial.print(quaternion_x); Serial.print(",");
+        Serial.print(quaternion_y); Serial.print(",");
+        Serial.print(quaternion_z); Serial.println();
     }
   );
 
+  while (!Serial);
+  delay(5000);
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
   dump(&fram0);
   dump(&fram1);
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 
@@ -68,7 +77,7 @@ void loop() {
 
 
 void dump(FRAM* fram) {
-  uint8_t data[256];
+  uint8_t data[4096];
   uint32_t size = 0;
   uint32_t writeAddress = 0;
 
@@ -78,7 +87,10 @@ void dump(FRAM* fram) {
 
     if (data[writeAddress] == 0x00) {
       writeAddress = 0;
-      MsgPacketizer::feed(data, size);
+
+      if (data[1] == 0xAA) {
+        MsgPacketizer::feed(data, size);
+      }
     }
     else {
       writeAddress++;
