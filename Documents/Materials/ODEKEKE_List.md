@@ -72,6 +72,8 @@
   - [ ] 六角レンチ【わからん】(x1) [わからん]()
   - [ ] 布絶縁テープ【わからん】(x1) [わからん]()
   - [ ] マスキングテープ【3M】(x3) [3M | ](https://www.3mcompany.jp/3M/ja_JP/p/d/v000452993/)
+  - [ ] 熱収縮チューブφ10【住友重工エファインポリマー株式会社】(x1) [秋月電子通商](https://akizukidenshi.com/catalog/g/gP-08985/)
+  - [ ] 熱収縮チューブφ3【住友重工エファインポリマー株式会社】(x1) [秋月電子通商](https://akizukidenshi.com/catalog/g/gP-06789/)
 - 3段目
   - [ ] ドリル刃セット【わからん】(x1) [わからん]()
   - [ ] プラスドライバー【わからん】(x2) [わからん]()
@@ -125,14 +127,6 @@
   - [ ] AirDataReciever【TSRP】(x1) [Github | ]()
   - [ ] MissionReciever【TSRP】(x1) [Github | ]()
     - [ ] 地上局用USBケーブル (x3) 
-
-
----
-### Can:star:Do SIKIRI
-
-
-- [ ] 熱収縮チューブφ10【住友重工エファインポリマー株式会社】(x1) [秋月電子通商](https://akizukidenshi.com/catalog/g/gP-08985/)
-- [ ] 熱収縮チューブφ3【住友重工エファインポリマー株式会社】(x1) [秋月電子通商](https://akizukidenshi.com/catalog/g/gP-06789/)
 
 
 ---
