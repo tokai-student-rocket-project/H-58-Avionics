@@ -1,5 +1,0 @@
-(fp_lib_table
-  (version 7)
-  (lib (name "2MS1T1B4M7QES")(type "KiCad")(uri "${KIPRJMOD}/../../../Libraries/2MS1T1B4M7QES/2MS1T1B4M7QES.pretty")(options "")(descr ""))
-  (lib (name "Hirose_Connector")(type "KiCad")(uri "${KIPRJMOD}/../../../Libraries/Hirose_Connector/Hirose_Connector.pretty")(options "")(descr ""))
-)

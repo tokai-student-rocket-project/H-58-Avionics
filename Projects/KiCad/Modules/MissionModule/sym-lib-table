@@ -1,6 +1,0 @@
-(sym_lib_table
-  (version 7)
-  (lib (name "ABX00012")(type "KiCad")(uri "${KIPRJMOD}/../../Libraries/ABX00012/ABX00012.kicad_sym")(options "")(descr ""))
-  (lib (name "MCP2515-I_P")(type "KiCad")(uri "${KIPRJMOD}/../../Libraries/MCP2515-I_P/MCP2515-I_P.kicad_sym")(options "")(descr ""))
-  (lib (name "StrawberryLinux_ADXL375_Module")(type "KiCad")(uri "${KIPRJMOD}/../../Libraries/StrawberryLinux_ADXL375_Module/StrawberryLinux_ADXL375_Module.kicad_sym")(options "")(descr ""))
-)
