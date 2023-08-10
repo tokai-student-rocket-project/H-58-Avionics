@@ -19,7 +19,6 @@ void setup() {
   SPI.setSCLK(A4);
   SPI.begin();
 
-  // TODO 対応
   MsgPacketizer::subscribe_manual(0xAA,
     [&](uint32_t millis, uint8_t flightMode,
       float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,
@@ -29,7 +28,8 @@ void setup() {
       float orientation_x, float orientation_y, float orientation_z,
       float linear_acceleration_x, float linear_acceleration_y, float linear_acceleration_z,
       float gravity_x, float gravity_y, float gravity_z,
-      float quaternion_w, float quaternion_x, float quaternion_y, float quaternion_z
+      float quaternion_w, float quaternion_x, float quaternion_y, float quaternion_z,
+      float collected_temperature, float cold_junction_temperature, float thermo_couple_temperature
       ) {
         Serial.print(millis); Serial.print(",");
         Serial.print(flightMode); Serial.print(",");
@@ -59,7 +59,10 @@ void setup() {
         Serial.print(quaternion_w); Serial.print(",");
         Serial.print(quaternion_x); Serial.print(",");
         Serial.print(quaternion_y); Serial.print(",");
-        Serial.print(quaternion_z); Serial.println();
+        Serial.print(quaternion_z); Serial.print(",");
+        Serial.print(collected_temperature); Serial.print(",");
+        Serial.print(cold_junction_temperature); Serial.print(",");
+        Serial.print(thermo_couple_temperature); Serial.println();
     }
   );
 
