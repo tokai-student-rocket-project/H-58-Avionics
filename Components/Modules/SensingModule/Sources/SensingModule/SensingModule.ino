@@ -208,7 +208,6 @@ void internal::task100Hz() {
 
   // doLoggingのフラグが立っている時はログを保存する
   // 内部的にはFRAMとSDに書き込んでいる
-  // TODO 追加 collected_temperature, cold_junction_temperature, thermo_couple_temperature
   if (device::peripheral::logger.isLogging()) {
     device::peripheral::logger.log(
       millis(), static_cast<uint8_t>(data::flightMode),
@@ -219,7 +218,8 @@ void internal::task100Hz() {
       data::orientation_x_deg, data::orientation_y_deg, data::orientation_z_deg,
       data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2,
       data::gravity_x_mps2, data::gravity_y_mps2, data::gravity_z_mps2,
-      data::quaternion_w, data::quaternion_x, data::quaternion_y, data::quaternion_z
+      data::quaternion_w, data::quaternion_x, data::quaternion_y, data::quaternion_z,
+      data::collected_temperature, data::cold_junction_temperature, data::thermo_couple_temperature
     );
   }
 }
