@@ -210,6 +210,16 @@ void CANSTM::receiveScalar(float* value) {
 }
 
 
+/// @brief double型のスカラー値を受信する
+/// @param value 値のポインタ
+void CANSTM::receiveScalaDouble(float* value) {
+  double valueDouble;
+  memcpy(&valueDouble, _latestData, 8);
+
+  *value = (float)valueDouble;
+}
+
+
 /// @brief 3次元のベクトル値を受信する
 /// @param xValue x軸の値のポインタ
 /// @param yValue y軸の値のポインタ
@@ -252,4 +262,40 @@ void CANSTM::receiveTrajectoryData(bool* isFalling) {
 /// @param isWaiting true: WAITING, false: LAUNCH
 void CANSTM::receiveValveMode(bool* isWaiting) {
   *isWaiting = _latestData[0];
+}
+
+
+/// @brief バルブ情報を受信する
+/// @param motorTemperature モーター温度 [degC]
+/// @param mcuTemperature マイコン温度 [degC]
+/// @param current 電流 [A]
+/// @param inputVoltage 電圧 [V]
+void CANSTM::receiveValveData1(float* motorTemperature, float* mcuTemperature, float* current, float* inputVoltage) {
+  uint8_t motorTemperatureRaw, mcuTemperatureRaw, currentRaw, inputVoltageRaw;
+
+  memcpy(&motorTemperatureRaw, _latestData, 1);
+  memcpy(&mcuTemperatureRaw, _latestData + 1, 1);
+  memcpy(&currentRaw, _latestData + 2, 1);
+  memcpy(&inputVoltageRaw, _latestData + 3, 1);
+
+  *motorTemperature = (float)motorTemperatureRaw;
+  *mcuTemperature = (float)mcuTemperatureRaw;
+  *current = (float)currentRaw / 100.0;
+  *inputVoltage = (float)inputVoltageRaw / 10.0;
+}
+
+/// @brief バルブ情報を受信する
+/// @param currentPosition 現在の角度 [deg]
+/// @param currentDesiredPosition 目標の角度 [deg]
+/// @param currentVelocity 角速度 [dps]
+void CANSTM::receiveValveData2(float* currentPosition, float* currentDesiredPosition, float* currentVelocity) {
+  int16_t currentPositionRaw, currentDesiredPositionRaw, currentVelocityRaw;
+
+  memcpy(&currentPositionRaw, _latestData, 2);
+  memcpy(&currentDesiredPositionRaw, _latestData + 2, 2);
+  memcpy(&currentVelocityRaw, _latestData + 4, 2);
+
+  *currentPosition = (float)currentPositionRaw;
+  *currentDesiredPosition = (float)currentDesiredPositionRaw;
+  *currentVelocity = (float)currentVelocityRaw;
 }
