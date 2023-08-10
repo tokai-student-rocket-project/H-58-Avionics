@@ -344,8 +344,6 @@ void internal::task100Hz() {
   }
 
 
-  // ログ保存
-  // TODO 追加 internal::flag::isLaunchMode, motorTemperature, mcuTemperature, current, inputVoltage, currentPosition, currentDesiredPosition, currentVelocity
   if (device::peripheral::logger.isLogging()) {
     device::peripheral::logger.log(
       millis(), internal::timeManager.flightTime(),
@@ -356,7 +354,10 @@ void internal::task100Hz() {
       internal::flag::isFalling,
       static_cast<uint8_t>(device::detection::flightPin.is(Var::SwitchState::CLOSE)),
       static_cast<uint8_t>(device::detection::flightPin.is(Var::SwitchState::OPEN)),
-      data::voltageSupply, data::voltageBattery, data::voltagePool
+      data::voltageSupply, data::voltageBattery, data::voltagePool,
+      internal::flag::isLaunchMode,
+      data::motorTemperature, data::mcuTemperature, data::current, data::inputVoltage,
+      data::currentPosition, data::currentDesiredPosition, data::currentVelocity
     );
   }
 }
