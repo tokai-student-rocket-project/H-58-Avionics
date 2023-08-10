@@ -19,6 +19,7 @@ void setup() {
   SPI.setSCLK(A4);
   SPI.begin();
 
+  // TODO 対応
   MsgPacketizer::subscribe_manual(0xAA,
     [&](uint32_t millis, uint8_t flightMode,
       float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,

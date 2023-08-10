@@ -14,7 +14,7 @@ void setup() {
   SPI.setSCLK(A4);
   SPI.begin();
 
-
+  // TODO 対応
   MsgPacketizer::subscribe_manual(0xAA,
     [&](uint32_t millis, uint16_t flightTime,
       uint8_t flightMode, bool cameraState, bool sn3State, bool doLogging,

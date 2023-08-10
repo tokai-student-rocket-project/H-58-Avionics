@@ -73,6 +73,8 @@ namespace canbus {
 
 namespace data {
   float voltageSupply, voltageBattery, voltagePool;
+  float motorTemperature, mcuTemperature, current, inputVoltage;
+  float currentPosition, currentDesiredPosition, currentVelocity;
 }
 
 
@@ -156,6 +158,17 @@ void loop() {
       bool isWaitingMode;
       canbus::can.receiveValveMode(&isWaitingMode);
       internal::flag::isLaunchMode = !isWaitingMode;
+      device::indicator::canReceive.toggle();
+      break;
+    }
+    case CANSTM::Label::VALVE_DATA_1: {
+      canbus::can.receiveValveData1(&data::motorTemperature, &data::mcuTemperature, &data::current, &data::inputVoltage);
+      device::indicator::canReceive.toggle();
+      break;
+    }
+    case CANSTM::Label::VALVE_DATA_2: {
+      canbus::can.receiveValveData2(&data::currentPosition, &data::currentDesiredPosition, &data::currentVelocity);
+      device::indicator::canReceive.toggle();
       break;
     }
     }
@@ -332,6 +345,7 @@ void internal::task100Hz() {
 
 
   // ログ保存
+  // TODO 追加 internal::flag::isLaunchMode, motorTemperature, mcuTemperature, current, inputVoltage, currentPosition, currentDesiredPosition, currentVelocity
   if (device::peripheral::logger.isLogging()) {
     device::peripheral::logger.log(
       millis(), internal::timeManager.flightTime(),

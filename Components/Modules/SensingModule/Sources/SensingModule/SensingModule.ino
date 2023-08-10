@@ -67,6 +67,7 @@ namespace data {
   float linear_acceleration_x_mps2, linear_acceleration_y_mps2, linear_acceleration_z_mps2;
   float gravity_x_mps2, gravity_y_mps2, gravity_z_mps2;
   float quaternion_w, quaternion_x, quaternion_y, quaternion_z;
+  float collected_temperature, cold_junction_temperature, thermo_couple_temperature;
 
   Var::FlightMode flightMode;
 }
@@ -120,6 +121,15 @@ void loop() {
     case CANSTM::Label::SET_REFERENCE_PRESSURE_COMMAND:
       canbus::handleSetReferencePressure();
       device::indicator::canReceive.toggle();
+      break;
+    case CANSTM::Label::COLLECTED_TEMPERATURE:
+      canbus::can.receiveScalaDouble(&data::collected_temperature);
+      break;
+    case CANSTM::Label::COLD_JUNCTION_TEMPERATURE:
+      canbus::can.receiveScalaDouble(&data::cold_junction_temperature);
+      break;
+    case CANSTM::Label::THERMO_COUPLE_TEMPERATURE:
+      canbus::can.receiveScalaDouble(&data::thermo_couple_temperature);
       break;
     }
   }
@@ -198,6 +208,7 @@ void internal::task100Hz() {
 
   // doLoggingのフラグが立っている時はログを保存する
   // 内部的にはFRAMとSDに書き込んでいる
+  // TODO 追加 collected_temperature, cold_junction_temperature, thermo_couple_temperature
   if (device::peripheral::logger.isLogging()) {
     device::peripheral::logger.log(
       millis(), static_cast<uint8_t>(data::flightMode),
