@@ -81,7 +81,7 @@ void loop() {
       connection::can.receiveScalar(&data::outsideTemperature);
       indicator::canReceive.toggle();
       break;
-    case CANMCP::Label::COLD_JUNCTION_TEMPERATURE:
+    case CANMCP::Label::COLLECTED_TEMPERATURE:
       connection::can.receiveScalaDouble(&data::coldTemperature);
       indicator::canReceive.toggle();
       break;
