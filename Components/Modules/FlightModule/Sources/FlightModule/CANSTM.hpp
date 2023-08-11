@@ -161,6 +161,10 @@ public:
   /// @param value 値のポインタ
   void receiveScalar(float* value);
 
+  /// @brief double型のスカラー値を受信する
+  /// @param value 値のポインタ
+  void receiveScalaDouble(float* value);
+
   /// @brief 3次元のベクトル値を受信する
   /// @param xValue x軸の値のポインタ
   /// @param yValue y軸の値のポインタ
@@ -178,6 +182,19 @@ public:
   /// @brief バルブ制御モードを受信する
   /// @param isWaiting true: WAITING, false: LAUNCH
   void receiveValveMode(bool* isWaiting);
+
+  /// @brief バルブ情報を受信する
+  /// @param motorTemperature モーター温度 [degC]
+  /// @param mcuTemperature マイコン温度 [degC]
+  /// @param current 電流 [A]
+  /// @param inputVoltage 電圧 [V]
+  void receiveValveData1(float* motorTemperature, float* mcuTemperature, float* current, float* inputVoltage);
+
+  /// @brief バルブ情報を受信する
+  /// @param currentPosition 現在の角度 [deg]
+  /// @param currentDesiredPosition 目標の角度 [deg]
+  /// @param currentVelocity 角速度 [dps]
+  void receiveValveData2(float* currentPosition, float* currentDesiredPosition, float* currentVelocity);
 
 
 private:

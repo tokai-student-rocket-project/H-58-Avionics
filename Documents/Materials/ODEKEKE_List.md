@@ -47,30 +47,39 @@
 ---
 ### E1 エレキ工具箱(23Wx49Dx29H)
 
-
-- [ ] ワイヤーストリッパー【SKII】(x1) [藤原産業 | DVC-WS102](http://www.fujiwarasangyo-markeweb2.com/DispDetail.do?volumeName=00017&itemID=t000100184313)
-- [ ] ワイヤーストリッパー【HOZAN】(x1) [HOZAN | P-978](https://www.hozan.co.jp/corp/g/g6978/)
-- [ ] はんだごて【HAKKO】(x2) [HAKKO | FX-600](https://www.hakko.com/japan/products/hakko_fx600.html)
-  - [ ] こて先【HAKKO】(x2) [HAKKO | ]()
-- [ ] 精密圧着ペンチ【エンジニアー】(x1) [エンジニアー | PA-09](https://www.nejisaurus.engineer.jp/product-page/pa-09-%E7%B2%BE%E5%AF%86%E5%9C%A7%E7%9D%80%E3%83%9A%E3%83%B3%E3%83%81-1)
-- [ ] 精密圧着ペンチ【エンジニアー】(x1) [エンジニアー | PA-21](https://www.nejisaurus.engineer.jp/product-page/pa-21-%E7%B2%BE%E5%AF%86%E5%9C%A7%E7%9D%80%E3%83%9A%E3%83%B3%E3%83%81-1)
-- [ ] ニッパー【エンジニアー】(x1) [エンジニアー | NZ-13G ESD](https://www.nejisaurus.engineer.jp/product-page/nz-13g-esd%E3%83%9F%E3%82%AF%E3%83%AD%E3%82%AB%E3%83%83%E3%82%BF%E3%83%BC-1)
-- [ ] 斜ニッパー【HOZAN】(x1) [HOZAN | N-5-125](https://www.hozan.co.jp/corp/g/g6055/)
-- [ ] ESDチップピンセット【HOZAN】(x1) [HOZAN | P-642-S](https://www.hozan.co.jp/corp/g/g6612/)
-- [ ] ピンセット【goot】(x2) [goot | TS-16](https://www.goot.jp/products/detail/ts_16)
-- [ ] はさみ【わからん】(x1) [わからん]()
-- [ ] 六角レンチ【わからん】(x1) [わからん]()
-- [ ] プラスドライバー【わからん】(x2) [わからん]()
-- [ ] ドリル刃セット【わからん】(x1) [わからん]()
-- [ ] ビット変換可能ドライバー【わからん】(x1) [わからん]()
-- [ ] グルーガン【100均】(x1) [100均]()
-- [ ] 布絶縁テープ【わからん】(x1) [わからん]()
-- [ ] マスキングテープ【3M】(x3) [3M | ](https://www.3mcompany.jp/3M/ja_JP/p/d/v000452993/)
-- [ ] 鉛フリーはんだ【わからん】(x1) [わからん]()
-- [ ] 低融点はんだ【わからん】(x1) [わからん]()
-- [ ] タイラップ【わからん】(x2) [わからん]()
-- [ ] やすりセット【HOZAN】(x1) [HOZAN | K-155-L]()
-- [ ] ソルダーアシストセット【わからん】(x1) [わからん]()
+- 1段目
+  - [ ] はんだごて【HAKKO】(x2) [HAKKO | FX-600](https://www.hakko.com/japan/products/hakko_fx600.html)
+    - [ ] こて先【HAKKO】(x2) [HAKKO | ]()
+  - [ ] グルーガン【100均】(x1) [100均]()
+  - [ ] 鉛フリーはんだ【わからん】(x1) [わからん]()
+  - [ ] 低融点はんだ【わからん】(x1) [わからん]()
+  - [ ] はんだ吸い取り線【わからん】(x3) [わからん]()
+  - [ ] タイラップ【わからん】(x2) [わからん]()
+  - [ ] やすりセット【HOZAN】(x1) [HOZAN | K-155-L]()
+  - [ ] ソルダーアシストセット【わからん】(x1) [わからん]()
+  - [ ] 接着剤セット【セメダイン】(x1) [セメダイン]()
+- 2段目
+  - [ ] ワイヤーストリッパー【SKII】(x1) [藤原産業 | DVC-WS102](http://www.fujiwarasangyo-markeweb2.com/DispDetail.do?volumeName=00017&itemID=t000100184313)
+  - [ ] ワイヤーストリッパー【HOZAN】(x1) [HOZAN | P-978](https://www.hozan.co.jp/corp/g/g6978/)
+  - [ ] 精密圧着ペンチ【エンジニアー】(x1) [エンジニアー | PA-09](https://www.nejisaurus.engineer.jp/product-page/pa-09-%E7%B2%BE%E5%AF%86%E5%9C%A7%E7%9D%80%E3%83%9A%E3%83%B3%E3%83%81-1)
+  - [ ] 精密圧着ペンチ【エンジニアー】(x1) [エンジニアー | PA-21](https://www.nejisaurus.engineer.jp/product-page/pa-21-%E7%B2%BE%E5%AF%86%E5%9C%A7%E7%9D%80%E3%83%9A%E3%83%B3%E3%83%81-1)
+  - [ ] ニッパー【エンジニアー】(x1) [エンジニアー | NZ-13G ESD](https://www.nejisaurus.engineer.jp/product-page/nz-13g-esd%E3%83%9F%E3%82%AF%E3%83%AD%E3%82%AB%E3%83%83%E3%82%BF%E3%83%BC-1)
+  - [ ] 斜ニッパー【HOZAN】(x1) [HOZAN | N-5-125](https://www.hozan.co.jp/corp/g/g6055/)
+  - [ ] ラジオペンチ【HOZAN】(x1) [HOZAN]()
+  - [ ] ESDチップピンセット【HOZAN】(x1) [HOZAN | P-642-S](https://www.hozan.co.jp/corp/g/g6612/)
+  - [ ] ピンセット【goot】(x2) [goot | TS-16](https://www.goot.jp/products/detail/ts_16)
+  - [ ] はさみ【わからん】(x1) [わからん]()
+  - [ ] 六角レンチ【わからん】(x1) [わからん]()
+  - [ ] 布絶縁テープ【わからん】(x1) [わからん]()
+  - [ ] マスキングテープ【3M】(x3) [3M | ](https://www.3mcompany.jp/3M/ja_JP/p/d/v000452993/)
+  - [ ] 熱収縮チューブφ10【住友重工エファインポリマー株式会社】(x1) [秋月電子通商](https://akizukidenshi.com/catalog/g/gP-08985/)
+  - [ ] 熱収縮チューブφ3【住友重工エファインポリマー株式会社】(x1) [秋月電子通商](https://akizukidenshi.com/catalog/g/gP-06789/)
+- 3段目
+  - [ ] ドリル刃セット【わからん】(x1) [わからん]()
+  - [ ] プラスドライバー【わからん】(x2) [わからん]()
+  - [ ] ビット変換可能ドライバー【わからん】(x1) [わからん]()
+  - [ ] デジタルマルチメーター【Kaise】(x1) [Kaise株式会社 | KU-2602](https://www.kaise.com/j_dmm_ku2602.html)
+  - [ ] ペン型デジタルマルチメーター【イチネンTASCO株式会社】(x1) [イチネンTASCO株式会社 | TA452CT](https://www.tascojapan.co.jp/product.php?prc=detail&sid=2901)
 
 
 ---
@@ -118,14 +127,6 @@
   - [ ] AirDataReciever【TSRP】(x1) [Github | ]()
   - [ ] MissionReciever【TSRP】(x1) [Github | ]()
     - [ ] 地上局用USBケーブル (x3) 
-
-
----
-### Can:star:Do SIKIRI
-
-
-- [ ] 熱収縮チューブφ10【住友重工エファインポリマー株式会社】(x1) [秋月電子通商](https://akizukidenshi.com/catalog/g/gP-08985/)
-- [ ] 熱収縮チューブφ3【住友重工エファインポリマー株式会社】(x1) [秋月電子通商](https://akizukidenshi.com/catalog/g/gP-06789/)
 
 
 ---
@@ -257,8 +258,6 @@
 ### 収納場所未定
 
 
-- [ ] デジタルマルチメーター【Kaise】(x1) [Kaise株式会社 | KU-2602](https://www.kaise.com/j_dmm_ku2602.html)
-- [ ] ペン型デジタルマルチメーター【イチネンTASCO株式会社】(x1) [イチネンTASCO株式会社 | TA452CT](https://www.tascojapan.co.jp/product.php?prc=detail&sid=2901)
 - [ ] 安定化電源【A&D】(x1) [株式会社A&D | AD-8724D](https://www.aandd.co.jp/products/electronic/electrical_measuring_equipment/sp-dc_power_supply/ad8724d/)
 - [ ] 安定化電源【菊水電子工業株式会社】(x1) [菊水電子工業株式会社 | PMM18-2.5DU](../Datasheets/PMM18-2.5DU/PMM_V2_J2.PDF)
 - [ ] モニター【BenQ】(x1) [BenQ]()

@@ -41,7 +41,10 @@ public:
     uint32_t millis, uint16_t flightTime,
     uint8_t flightMode, bool cameraState, bool sn3State, bool doLogging,
     bool isFalling, bool flightPinState, bool resetPinState,
-    float supplyVoltage, float batteryVoltage, float poolVoltage
+    float supplyVoltage, float batteryVoltage, float poolVoltage,
+    bool isLaunchMode,
+    float motorTemperature, float mcuTemperature, float current, float inputVoltage,
+    float currentPosition, float currentDesiredPosition, float currentVelocity
   );
 
 

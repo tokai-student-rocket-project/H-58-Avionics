@@ -67,6 +67,7 @@ namespace data {
   float linear_acceleration_x_mps2, linear_acceleration_y_mps2, linear_acceleration_z_mps2;
   float gravity_x_mps2, gravity_y_mps2, gravity_z_mps2;
   float quaternion_w, quaternion_x, quaternion_y, quaternion_z;
+  float collected_temperature, cold_junction_temperature, thermo_couple_temperature;
 
   Var::FlightMode flightMode;
 }
@@ -120,6 +121,15 @@ void loop() {
     case CANSTM::Label::SET_REFERENCE_PRESSURE_COMMAND:
       canbus::handleSetReferencePressure();
       device::indicator::canReceive.toggle();
+      break;
+    case CANSTM::Label::COLLECTED_TEMPERATURE:
+      canbus::can.receiveScalaDouble(&data::collected_temperature);
+      break;
+    case CANSTM::Label::COLD_JUNCTION_TEMPERATURE:
+      canbus::can.receiveScalaDouble(&data::cold_junction_temperature);
+      break;
+    case CANSTM::Label::THERMO_COUPLE_TEMPERATURE:
+      canbus::can.receiveScalaDouble(&data::thermo_couple_temperature);
       break;
     }
   }
@@ -208,7 +218,8 @@ void internal::task100Hz() {
       data::orientation_x_deg, data::orientation_y_deg, data::orientation_z_deg,
       data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2,
       data::gravity_x_mps2, data::gravity_y_mps2, data::gravity_z_mps2,
-      data::quaternion_w, data::quaternion_x, data::quaternion_y, data::quaternion_z
+      data::quaternion_w, data::quaternion_x, data::quaternion_y, data::quaternion_z,
+      data::collected_temperature, data::cold_junction_temperature, data::thermo_couple_temperature
     );
   }
 }

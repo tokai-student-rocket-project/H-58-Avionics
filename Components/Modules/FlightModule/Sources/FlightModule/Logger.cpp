@@ -63,7 +63,10 @@ void Logger::log(
   uint32_t millis, uint16_t flightTime,
   uint8_t flightMode, bool cameraState, bool sn3State, bool doLogging,
   bool isFalling, bool flightPinState, bool resetPinState,
-  float supplyVoltage, float batteryVoltage, float poolVoltage
+  float supplyVoltage, float batteryVoltage, float poolVoltage,
+  bool isLaunchMode,
+  float motorTemperature, float mcuTemperature, float current, float inputVoltage,
+  float currentPosition, float currentDesiredPosition, float currentVelocity
 ) {
   // MessagePackでパケットを生成
   // ラベルは認識しやすいように0xAAにしている
@@ -71,7 +74,10 @@ void Logger::log(
     0xAA, millis, flightTime,
     flightMode, cameraState, sn3State, doLogging,
     isFalling, flightPinState, resetPinState,
-    supplyVoltage, batteryVoltage, poolVoltage
+    supplyVoltage, batteryVoltage, poolVoltage,
+    isLaunchMode,
+    motorTemperature, mcuTemperature, current, inputVoltage,
+    currentPosition, currentDesiredPosition, currentVelocity
   );
 
   const uint8_t* data = packet.data.data();
