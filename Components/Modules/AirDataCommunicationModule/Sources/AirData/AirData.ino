@@ -40,6 +40,7 @@ namespace data {
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 
   float outsideTemperature;
+  float internalTemperature;
   float coldTemperature;
   float altitude;
   float climbRate;
@@ -81,6 +82,10 @@ void loop() {
       connection::can.receiveScalar(&data::outsideTemperature);
       indicator::canReceive.toggle();
       break;
+    case CANMCP::Label::INTERNAL_TEMPERATURE:
+      connection::can.receiveScalar(&data::internalTemperature);
+      indicator::canReceive.toggle();
+      break;
     case CANMCP::Label::COLLECTED_TEMPERATURE:
       connection::can.receiveScalaDouble(&data::coldTemperature);
       indicator::canReceive.toggle();
@@ -102,6 +107,7 @@ void timer::task20Hz() {
     data::altitude,
     data::climbRate,
     data::outsideTemperature,
+    data::internalTemperature,
     data::coldTemperature,
     data::orientation_x,
     data::orientation_y,
