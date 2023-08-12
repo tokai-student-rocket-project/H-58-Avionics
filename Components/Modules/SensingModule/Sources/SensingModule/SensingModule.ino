@@ -188,8 +188,8 @@ void internal::task50Hz() {
   data::climbRate_mps = internal::trajectory.getClimbRate();
 
   // CANにデータを流す
-  // 安全のため、高度50m以上でないと落下判定しない
-  canbus::can.sendTrajectoryData(internal::trajectory.isFalling() && data::altitude_m >= 50.0);
+  // 安全のため、高度32m以上でないと落下判定しない
+  canbus::can.sendTrajectoryData(internal::trajectory.isFalling() && data::altitude_m >= 32.0);
   device::indicator::canSend.toggle();
 }
 
