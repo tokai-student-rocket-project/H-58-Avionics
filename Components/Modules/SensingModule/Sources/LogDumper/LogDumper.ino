@@ -29,7 +29,8 @@ void setup() {
       float linear_acceleration_x, float linear_acceleration_y, float linear_acceleration_z,
       float gravity_x, float gravity_y, float gravity_z,
       float quaternion_w, float quaternion_x, float quaternion_y, float quaternion_z,
-      float collected_temperature, float cold_junction_temperature, float thermo_couple_temperature
+      float collected_temperature, float cold_junction_temperature, float thermo_couple_temperature,
+      float internalTemperature
       ) {
         Serial.print(millis); Serial.print(",");
         Serial.print(flightMode); Serial.print(",");
@@ -62,7 +63,8 @@ void setup() {
         Serial.print(quaternion_z); Serial.print(",");
         Serial.print(collected_temperature); Serial.print(",");
         Serial.print(cold_junction_temperature); Serial.print(",");
-        Serial.print(thermo_couple_temperature); Serial.println();
+        Serial.print(thermo_couple_temperature); Serial.print(",");
+        Serial.print(internalTemperature); Serial.println();
     }
   );
 

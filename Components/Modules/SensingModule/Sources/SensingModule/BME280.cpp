@@ -19,3 +19,10 @@ void BME::getPressure(float* pressure_hPa) {
   float pressure_Pa = _bme280.readFloatPressure();
   *pressure_hPa = pressure_Pa / 100.0;
 }
+
+
+/// @brief 現在の気温を返す
+/// @param temperature_degC 気温のポインタ [degC]
+void BME::getTemperature(float* temperature_degC) {
+  *temperature_degC = _bme280.readTempC();
+}

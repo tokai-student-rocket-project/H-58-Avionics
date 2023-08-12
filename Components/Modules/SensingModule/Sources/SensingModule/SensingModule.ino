@@ -57,7 +57,7 @@ namespace canbus {
 
 namespace data {
   float pressure_hPa;
-  float outsideTemperature_degC;
+  float outsideTemperature_degC, internalTemperature_degC;
   float altitude_m;
   float climbRate_mps;
   float acceleration_x_mps2, acceleration_y_mps2, acceleration_z_mps2;
@@ -162,9 +162,11 @@ void internal::task20Hz() {
   device::sensor::bno.getMagnetometer(&data::magnetometer_x_nT, &data::magnetometer_y_nT, &data::magnetometer_z_nT);
   // CAN送信が20Hzなので、外気温はそれに合わせて20Hzで読み出す
   device::sensor::thermistor.getTemperature(&data::outsideTemperature_degC);
+  device::sensor::bme.getTemperature(&data::internalTemperature_degC);
 
   // CANにデータを流す
   canbus::can.sendScalar(CANSTM::Label::OUTSIDE_TEMPERATURE, data::outsideTemperature_degC);
+  canbus::can.sendScalar(CANSTM::Label::INTERNAL_TEMPERATURE, data::internalTemperature_degC);
   canbus::can.sendScalar(CANSTM::Label::ALTITUDE, data::altitude_m);
   canbus::can.sendScalar(CANSTM::Label::CLIMB_RATE, data::climbRate_mps);
   canbus::can.sendVector3D(CANSTM::Label::ORIENTATION, data::orientation_x_deg, data::orientation_y_deg, data::orientation_z_deg);
@@ -219,7 +221,8 @@ void internal::task100Hz() {
       data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2,
       data::gravity_x_mps2, data::gravity_y_mps2, data::gravity_z_mps2,
       data::quaternion_w, data::quaternion_x, data::quaternion_y, data::quaternion_z,
-      data::collected_temperature, data::cold_junction_temperature, data::thermo_couple_temperature
+      data::collected_temperature, data::cold_junction_temperature, data::thermo_couple_temperature,
+      data::internalTemperature_degC
     );
   }
 }
