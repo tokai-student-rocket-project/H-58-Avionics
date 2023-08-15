@@ -197,13 +197,13 @@ void loop()
     // Tasks["Error"]
 }
 
-void canSendmode()
-{
-    uint8_t can[1];
-    can[0] = static_cast<uint8_t>(StateTransition::ChangeMode);
-    CAN.sendMsgBuf(0x10A, 0, 1, can);
-    Serial.print(can[0]);
-}
+// void canSendmode()
+// {
+//     uint8_t can[1];
+//     can[0] = static_cast<uint8_t>(StateTransition::ChangeMode);
+//     CAN.sendMsgBuf(0x10A, 0, 1, can);
+//     Serial.print(can[0]);
+// }
 
 void Torque(unsigned char ID, unsigned char data)
 {

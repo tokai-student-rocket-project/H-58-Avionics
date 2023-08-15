@@ -43,13 +43,15 @@
   - 左側にある大きな四角い形をしたシルクは熱電対の名残．搭載しようとした理由として，センサモジュールではなく，センサを購入してセンサ部を作成してみたかったという理由もある．これにより，手はんだで小さなパッケージのセンサを運用できるのか試してみるという狙いがあった．
 
 ## 設計図
-
 ### 回路図&ボード図
 
 👉 [ValveControlModule (THRControlModule)](../../../Projects/KiCad/THRControlModule/THRControlModule.kicad_pro)
 
 Kicad ProjectsファイルになっているのでKicadで開けばボード図などもすべて紐づいている．
 
+## ソフトウェアドキュメント
+
+[Software Document](./docs/SoftwareDocument.md) にプログラム初心者ながら記載させていただきます．
 ### 部品表
 
 [THRControlModule.csv](./docs/THRControlModule.csv) を参照のこと．なお，名称がValveControlModuleではなく，THRControlModuleになっている点については触れず，ValveControlModuleに頭の中で置き換えて考えてほしい．(ごめん．)

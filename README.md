@@ -32,7 +32,7 @@
 - [ミッションモジュール](./Components/Modules/MissionModule/)
 - [フライトモジュール](./Components/Modules/FlightModule/)
 - [計測モジュール](./Components/Modules/SensingModule/)
-- [バルブ制御モジュール](./Components/Modules/ValveContolModule/)
+- [バルブ制御モジュール](./Components/Modules/ValveContolModule/README.md)
 - 機体間通信実証モジュール
 
 ## 技術・機能
