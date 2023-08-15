@@ -40,3 +40,36 @@ float GNSS::getLongitude() {
   return (float)_gnss.getLongitude() / 10000000.0;
 }
 
+
+/// @brief 衛星数を返す
+/// @return 衛星数
+uint8_t GNSS::getSatelliteCount() {
+  return _gnss.getSIV();
+}
+
+
+/// @brief 固定されたかを返す
+bool GNSS::isFixed() {
+  return _gnss.getGnssFixOk();
+}
+
+
+/// @brief 位置の特定方法を返す
+/// @return 0=no, 3=3D, 4=GNSS+Deadreckoning
+uint8_t GNSS::getFixType() {
+  return _gnss.getFixType();
+}
+
+
+/// @brief 受信した高度を返す
+/// @return 高度 [m]
+float GNSS::getAltitude() {
+  return _gnss.getAltitude() / 1000.0;
+}
+
+
+/// @brief 受信した対地速度を返す
+/// @return 速度 [m/s]
+float GNSS::getSpeed() {
+  return _gnss.getGroundSpeed() / 1000.0;
+}

@@ -24,7 +24,11 @@ public:
     SENSING_STATUS,
     FLIGHT_MODE_ON_COMMAND,
     CLIMB_RATE,
-    CURRENT_POSITION = 0x103,
+    RESET_COMMAND,
+    COLLECTED_TEMPERATURE = 0x100,
+    COLD_JUNCTION_TEMPERATURE,
+    THERMO_COUPLE_TEMPERATURE,
+    CURRENT_POSITION,
     CURRENT_DESIRED_POSITION,
     CURRENT_VELOCITY,
     MCU_TEMPERATURE,
@@ -42,7 +46,8 @@ public:
     FLIGHT_MODULE,
     MISSION_MODULE,
     AIR_DATA_COMMUNICATION_MODULE,
-    SYSTEM_DATA_COMMUNICATION_MODULE
+    SYSTEM_DATA_COMMUNICATION_MODULE,
+    VALVE_CONTROL_MODULE
   };
 
   /// @brief イベントを列挙型で定義しておく
@@ -68,8 +73,9 @@ public:
 
   /// @brief エラーの理由を列挙型で定義しておく
   enum class ErrorReason : uint8_t {
+    UNKNOWN,
     INVALID_KEY,
-    INVALID_SD
+    INVALID_SD,
   };
 
 
@@ -108,9 +114,10 @@ public:
   void sendSetReferencePressure(float referencePressure);
 
   /// @brief 参照気圧セットを送信する
-  /// @param referencePressure 参照気圧
   void sendFlightModeOn();
 
+  /// @brief リセットを送信する
+  void sendReset();
 
   /// @brief システムステータスを受信する
   /// @param flightMode フライトモード
@@ -118,19 +125,22 @@ public:
   /// @param sn3State 不知火3の状態
   /// @param doLogging ログ保存するか
   /// @param flightTime 飛翔時間
-  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint32_t* flightTime);
+  /// @param loggerUsage ロガーの使用率
+  void receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint16_t* flightTime, uint8_t* loggerUsage);
 
   /// @brief 計測ステータスを受信する
   /// @param referencePressure 参照気圧 [hPa]
   /// @param isSystemCalibrated BNO055システムのキャリブレーションが完了しているか
-  /// @param isGyroscopeCalibrated BNO055角加速度計のキャリブレーションが完了しているか
-  /// @param isAccelerometerCalibrated BNO055加速度計のキャリブレーションが完了しているか
-  /// @param isMagnetometerCalibrated BNO055地磁気計のキャリブレーションが完了しているか
-  void receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, bool* isGyroscopeCalibrated, bool* isAccelerometerCalibrated, bool* isMagnetometerCalibrated);
+  /// @param loggerUsage ロガーの使用率
+  void receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, uint8_t* loggerUsage);
 
   /// @brief スカラー値を受信する
   /// @param value 値のポインタ
   void receiveScalar(float* value);
+
+  /// @brief double型のスカラー値を受信する
+  /// @param value 値のポインタ
+  void receiveScalaDouble(float* value);
 
   /// @brief 3次元のベクトル値を受信する
   /// @param xValue x軸の値のポインタ

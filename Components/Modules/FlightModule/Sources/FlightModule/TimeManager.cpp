@@ -8,12 +8,12 @@ void TimeManager::setZero() {
 
 
 /// @brief 離昇してからの経過時間を返す
-uint32_t TimeManager::flightTime() {
-  return millis() - _referenceTime;
+uint16_t TimeManager::flightTime() {
+  return (uint16_t)(millis() - _referenceTime);
 }
 
 
 /// @brief 指定の時間を過ぎたかを返す
-bool TimeManager::isElapsedTime(uint32_t time) {
+bool TimeManager::isElapsedTime(uint16_t time) {
   return flightTime() >= time;
 }

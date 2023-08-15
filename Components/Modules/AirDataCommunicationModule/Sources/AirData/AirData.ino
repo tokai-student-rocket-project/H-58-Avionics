@@ -11,8 +11,8 @@ namespace timer {
 }
 
 namespace indicator {
-  // LED canReceive(1);
-  // LED loRaSend(4);
+  LED canReceive(1);
+  LED loRaSend(4);
 }
 
 namespace connection {
@@ -40,6 +40,7 @@ namespace data {
   float linear_acceleration_x, linear_acceleration_y, linear_acceleration_z;
 
   float outsideTemperature;
+  float coldTemperature;
   float altitude;
   float climbRate;
 }
@@ -66,23 +67,27 @@ void loop() {
     switch (connection::can.getLatestLabel()) {
     case CANMCP::Label::ORIENTATION:
       connection::can.receiveVector(&data::orientation_x, &data::orientation_y, &data::orientation_z);
-      // indicator::canReceive.toggle();
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::LINEAR_ACCELERATION:
       connection::can.receiveVector(&data::linear_acceleration_x, &data::linear_acceleration_y, &data::linear_acceleration_z);
-      // indicator::canReceive.toggle();
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::ALTITUDE:
       connection::can.receiveScalar(&data::altitude);
-      // indicator::canReceive.toggle();
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::OUTSIDE_TEMPERATURE:
       connection::can.receiveScalar(&data::outsideTemperature);
-      // indicator::canReceive.toggle();
+      indicator::canReceive.toggle();
+      break;
+    case CANMCP::Label::COLD_JUNCTION_TEMPERATURE:
+      connection::can.receiveScalaDouble(&data::coldTemperature);
+      indicator::canReceive.toggle();
       break;
     case CANMCP::Label::CLIMB_RATE:
       connection::can.receiveScalar(&data::climbRate);
-      // indicator::canReceive.toggle();
+      indicator::canReceive.toggle();
       break;
     }
   }
@@ -93,9 +98,11 @@ void loop() {
 void timer::task20Hz() {
   // エアデータをダウンリンクで送信する
   const auto& airDataPacket = MsgPacketizer::encode(static_cast<uint8_t>(connection::Index::AIR_DATA),
+    millis(),
     data::altitude,
     data::climbRate,
     data::outsideTemperature,
+    data::coldTemperature,
     data::orientation_x,
     data::orientation_y,
     data::orientation_z,
@@ -115,5 +122,5 @@ void connection::sendDownlink(const uint8_t* data, uint32_t size) {
   LoRa.beginPacket();
   LoRa.write(data, size);
   LoRa.endPacket();
-  // indicator::loRaSend.toggle();
+  indicator::loRaSend.toggle();
 }

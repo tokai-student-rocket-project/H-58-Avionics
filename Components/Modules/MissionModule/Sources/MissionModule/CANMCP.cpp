@@ -78,10 +78,16 @@ void CANMCP::sendSetReferencePressure(float payload) {
 
 
 /// @brief 参照気圧セットを送信する
-/// @param referencePressure 参照気圧
 void CANMCP::sendFlightModeOn() {
   uint8_t data[0];
   _can->sendMsgBuf(static_cast<uint32_t>(Label::FLIGHT_MODE_ON_COMMAND), 0, 0, data);
+}
+
+
+/// @brief リセットを送信する
+void CANMCP::sendReset() {
+  uint8_t data[0];
+  _can->sendMsgBuf(static_cast<uint32_t>(Label::RESET_COMMAND), 0, 0, data);
 }
 
 
@@ -90,27 +96,26 @@ void CANMCP::sendFlightModeOn() {
 /// @param cameraState カメラの状態
 /// @param sn3State 不知火3の状態
 /// @param doLogging ログ保存するか
-void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint32_t* flightTime) {
+/// @param flightTime 飛翔時間
+/// @param loggerUsage ロガーの使用率
+void CANMCP::receiveSystemStatus(Var::FlightMode* flightMode, Var::State* cameraState, Var::State* sn3State, bool* doLogging, uint16_t* flightTime, uint8_t* loggerUsage) {
   *flightMode = static_cast<Var::FlightMode>(_latestData[0]);
   *cameraState = static_cast<Var::State>(_latestData[1]);
   *sn3State = static_cast<Var::State>(_latestData[2]);
   *doLogging = _latestData[3];
-  memcpy(flightTime, _latestData + 4, 4);
+  memcpy(flightTime, _latestData + 4, 2);
+  *loggerUsage = _latestData[6];
 }
 
 
 /// @brief 計測ステータスを受信する
 /// @param referencePressure 参照気圧 [hPa]
 /// @param isSystemCalibrated BNO055システムのキャリブレーションが完了しているか
-/// @param isGyroscopeCalibrated BNO055角加速度計のキャリブレーションが完了しているか
-/// @param isAccelerometerCalibrated BNO055加速度計のキャリブレーションが完了しているか
-/// @param isMagnetometerCalibrated BNO055地磁気計のキャリブレーションが完了しているか
-void CANMCP::receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, bool* isGyroscopeCalibrated, bool* isAccelerometerCalibrated, bool* isMagnetometerCalibrated) {
+/// @param loggerUsage ロガーの使用率
+void CANMCP::receiveSensingStatus(float* referencePressure, bool* isSystemCalibrated, uint8_t* loggerUsage) {
   memcpy(referencePressure, _latestData, 4);
   *isSystemCalibrated = _latestData[4];
-  *isGyroscopeCalibrated = _latestData[5];
-  *isAccelerometerCalibrated = _latestData[6];
-  *isMagnetometerCalibrated = _latestData[7];
+  *loggerUsage = _latestData[5];
 }
 
 
@@ -118,6 +123,16 @@ void CANMCP::receiveSensingStatus(float* referencePressure, bool* isSystemCalibr
 /// @param value 値のポインタ
 void CANMCP::receiveScalar(float* value) {
   memcpy(value, _latestData, 4);
+}
+
+
+/// @brief double型のスカラー値を受信する
+/// @param value 値のポインタ
+void CANMCP::receiveScalaDouble(float* value) {
+  double valueDouble;
+  memcpy(&valueDouble, _latestData, 8);
+
+  *value = (float)valueDouble;
 }
 
 

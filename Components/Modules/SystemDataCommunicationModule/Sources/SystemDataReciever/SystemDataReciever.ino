@@ -19,16 +19,18 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x01,
     [](
+      uint32_t millis,
       float voltage_supply,
       float voltage_battery,
       float voltage_pool
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "PowerData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["SupplyVoltage"] = voltage_supply;
       transmitter::packet["BatteryVoltage"] = voltage_battery;
       transmitter::packet["PoolVoltage"] = voltage_pool;
@@ -42,17 +44,29 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x02,
     [](
+      uint32_t millis,
+      bool isFixed,
+      uint8_t fixType,
+      uint8_t satellites,
       float latitude,
-      float longitude
+      float longitude,
+      float altitude,
+      float speed
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "PositionData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
+      transmitter::packet["IsFixed"] = isFixed;
+      transmitter::packet["FixType"] = fixType;
+      transmitter::packet["Satellites"] = satellites;
       transmitter::packet["Latitude"] = latitude;
       transmitter::packet["Longitude"] = longitude;
+      transmitter::packet["Altitude"] = altitude;
+      transmitter::packet["Speed"] = speed;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();
@@ -63,23 +77,27 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x03,
     [](
+      uint32_t millis,
       uint8_t flightMode,
       bool cameraStatus,
       bool sn3Status,
       bool doLogging,
-      uint32_t flightTime
+      uint16_t flightTime,
+      uint8_t loggerUsage
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "SystemData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["FlightMode"] = flightMode;
       transmitter::packet["CameraStatus"] = cameraStatus;
       transmitter::packet["SN3Status"] = sn3Status;
       transmitter::packet["DoLogging"] = doLogging;
       transmitter::packet["FlightTime"] = flightTime;
+      transmitter::packet["LoggerUsage"] = loggerUsage;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();
@@ -90,23 +108,21 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x04,
     [](
+      uint32_t millis,
       float referencePressure,
       bool isSystemCalibrated,
-      bool isGyroscopeCalibrated,
-      bool isAccelerometerCalibrated,
-      bool isMagnetometerCalibrated
+      uint8_t loggerUsage
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "SensingData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["ReferencePressure"] = referencePressure;
       transmitter::packet["IsSystemCalibrated"] = isSystemCalibrated;
-      transmitter::packet["IsGyroscopeCalibrated"] = isGyroscopeCalibrated;
-      transmitter::packet["IsAccelerometerCalibrated"] = isAccelerometerCalibrated;
-      transmitter::packet["IsMagnetometerCalibrated"] = isMagnetometerCalibrated;
+      transmitter::packet["LoggerUsage"] = loggerUsage;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();
@@ -117,19 +133,21 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x05,
     [](
+      uint32_t millis,
       uint8_t publisher,
       uint8_t eventCode,
-      uint32_t timestamp
+      uint32_t senderTimestamp
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "Event";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["Publisher"] = publisher;
       transmitter::packet["EventCode"] = eventCode;
-      transmitter::packet["Timestamp"] = timestamp;
+      transmitter::packet["Timestamp"] = senderTimestamp;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();
@@ -139,21 +157,23 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x06,
     [](
+      uint32_t millis,
       uint8_t publisher,
       uint8_t errorCode,
       uint8_t errorReason,
-      uint32_t timestamp
+      uint32_t senderTimestamp
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "Error";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["Publisher"] = publisher;
       transmitter::packet["ErrorCode"] = errorCode;
       transmitter::packet["ErrorReason"] = errorReason;
-      transmitter::packet["Timestamp"] = timestamp;
+      transmitter::packet["Timestamp"] = senderTimestamp;
 
       serializeJson(transmitter::packet, Serial);
       Serial.println();
@@ -163,6 +183,7 @@ void setup() {
 
   MsgPacketizer::subscribe(LoRa, 0x07,
     [](
+      uint32_t millis,
       bool isWaiting,
       float currentPosition,
       float currentDesiredPosition,
@@ -174,10 +195,11 @@ void setup() {
       )
     {
       transmitter::packet.clear();
-      transmitter::packet["PacketInfo"]["Sender"] = "SystemDataCommunicationModule";
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
       transmitter::packet["PacketInfo"]["Type"] = "ValveData";
       transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
       transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
       transmitter::packet["IsWaiting"] = isWaiting;
       transmitter::packet["CurrentPosition"] = currentPosition;
       transmitter::packet["CurrentDesiredPosition"] = currentDesiredPosition;
@@ -199,12 +221,21 @@ void loop() {
   Tasks.update();
 
   if (Serial.available()) {
-    Serial.read();
+    char command = Serial.read();
 
-    const auto& packet = MsgPacketizer::encode(0xF1, (uint8_t)0);
-    LoRa.beginPacket();
-    LoRa.write(packet.data.data(), packet.data.size());
-    LoRa.endPacket();
+    if (command == 'F') {
+      const auto& packet = MsgPacketizer::encode(0xF1, (uint8_t)0);
+      LoRa.beginPacket();
+      LoRa.write(packet.data.data(), packet.data.size());
+      LoRa.endPacket();
+    }
+
+    if (command == 'R') {
+      const auto& packet = MsgPacketizer::encode(0xF2, (uint8_t)0);
+      LoRa.beginPacket();
+      LoRa.write(packet.data.data(), packet.data.size());
+      LoRa.endPacket();
+    }
   }
 
   if (LoRa.parsePacket()) {

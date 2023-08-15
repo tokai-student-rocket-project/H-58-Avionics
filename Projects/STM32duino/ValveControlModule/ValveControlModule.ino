@@ -77,8 +77,6 @@ void setup()
 
     Serial.begin(115200);
 
-    Serial.println("CAN init ok!");
-
     pinMode(REDE_PIN, OUTPUT);
     Torque(0x01, 0x01);
     Move(1, rs405cbOpenangle, 100);
@@ -106,15 +104,28 @@ void setup()
     Tasks.add("CAN", []()
               {
                   ToggleTasksLED();
+                  Serial.print(" |Error-Sta|> ");
+                  Serial.print(b3mReaderrorStatus(0x01));
+                  Serial.print(" |System-Error-Sta|> ");
+                  Serial.print(b3mReadsystemError(0x01));
+                  Serial.print(" |Motor-Sta|> ");
+                  Serial.print(b3mReadmotorStatus(0x01));
+                  Serial.print(" |Uart-Rece-Error|> ");
+                  Serial.print(b3mReaduartReceptionerror(0x01));
+                  Serial.print(" |Command-Error|> ");
+                  Serial.println(b3mReadcommandError(0x01));
 
-                  int16_t recieveCurrentposition = b3mReadcurrentPosition(0x01);
-                  int16_t recieveDesiredPosition = b3mReaddesiredPosition(0x01);
-                  int16_t recieveCurrentvelosity = b3mReadcurrentVelosity(0x01);
-                  uint8_t recieveCurrent = b3mReadcurrent(0x01);
-                  uint8_t recieveMcutemperature = b3mReadmcuTemperature(0x01);
-                  uint8_t recieveMotortemperature = b3mReadmotorTemperature(0x01);
-                  uint8_t recieveinputVoltage = b3mreadInputvoltage(0x01);
-                  //   Serial.print(b3mreadStatus(0x01));
+                  uint32_t currentTime = millis();
+
+                  //   147~149の処理で特に問題が無ければ削除
+                    int16_t recieveCurrentposition = b3mReadcurrentPosition(0x01);
+                    int16_t recieveDesiredPosition = b3mReaddesiredPosition(0x01);
+                    int16_t recieveCurrentvelosity = b3mReadcurrentVelosity(0x01);
+                    uint8_t recieveCurrent = b3mReadcurrent(0x01);
+                    uint8_t recieveMcutemperature = b3mReadmcuTemperature(0x01);
+                    uint8_t recieveMotortemperature = b3mReadmotorTemperature(0x01);
+                    uint8_t recieveinputVoltage = b3mreadInputvoltage(0x01);
+                    // uint8_t recieveStatus = b3mreadStatus(0x01);
 
                   //   Serial.print(recieveCurrentposition);
                   //   Serial.print(" <| ");
@@ -128,14 +139,18 @@ void setup()
                   //   Serial.print(" <| ");
                   //   Serial.print(recieveMcutemperature);
                   //   Serial.print(" <| ");
-                  //   Serial.print(recieveCurrent);
-                  //   Serial.print(" <| ");
+                  // Serial.print(b3mReadcurrent(0x01));
+                  // Serial.print(" <| ");
                   //   Serial.print(recieveinputVoltage);
                   //   Serial.print(" <| ");
 
-                  canSendmcuInfomation(recieveMotortemperature, recieveMcutemperature, recieveCurrent, recieveinputVoltage);
-                  canSendmotorInfomation(recieveCurrentposition, recieveDesiredPosition, recieveCurrentvelosity);
-              })
+                    canSendmcuInfomation(recieveMotortemperature, recieveMcutemperature, recieveCurrent, recieveinputVoltage);
+                    canSendmotorInfomation(recieveCurrentposition, recieveDesiredPosition, recieveCurrentvelosity);
+                //   canSendmcuInfomation(b3mReadmotorTemperature(0x01), b3mReadmcuTemperature(0x01), b3mReadcurrent(0x01), b3mreadInputvoltage(0x01));
+                //   canSendmotorInfomation(b3mReadcurrentPosition(0x01), b3mReaddesiredPosition(0x01), b3mReadcurrentVelosity(0x01)); 
+                //   canSendservoStatusinfomation(b3mReaderrorStatus(0x01), b3mReadsystemError(0x01), b3mReadmotorStatus(0x01), b3mReaduartReceptionerror(0x01), b3mReadcommandError(0x01));
+                  canSendmotorStatus(b3mReadmotorStatus(0x01), currentTime);
+                  })
         ->startFps(13);
 
     // Tasks.add("Count", []()
@@ -174,16 +189,6 @@ void setup()
     Tasks.add("Buzzer", []()
               { ToggleBuzzer(); });
 
-    // Tasks.add("Error", []()
-    //           {
-    //     if ((b3mReadcurrentPosition(0x01) > b3mReaddesiredPosition(0x01) -5.0) && (b3mReadcurrentPosition(0x01) < b3mReaddesiredPosition(0x01) +5.0 ))
-    //     {
-    //         Error::ErrorCode = Error::ErrorCode::MOTOR_POSITION_FAILED;
-    //         Serial.print("ERROR");
-    //         CAN.sendMsgBuf(0x10B, 0, 1, static_cast<uint8_t>(Error::ErrorCode));
-    //     } })
-    //     ->startFps(20);
-
     /* Wake Up Buzzer */
     Tasks["Buzzer"]->startIntervalMsecForCount(66, 10);
 }
@@ -193,8 +198,6 @@ void loop()
     Tasks.update();
     ChangeLaunchMode();
     ChangeWaitingMode();
-    // Tasks["Mode"]
-    // Tasks["Error"]
 }
 
 // void canSendmode()
@@ -408,9 +411,9 @@ void ChangeLaunchMode()
     {
         StateTransition::ChangeMode = StateTransition::Mode::LAUNCH;
 
-        Move(1, -800, 10);
-        delay(50);
-        B3M_setposition(0x01, -6500, 10); //-6500/100 = -65deg
+        Move(1, -800, 10); //-800/10 = -80deg
+        delay(100);
+        B3M_setposition(0x01, -5500, 10); //-6500/100 = -65deg
         Tasks["Buzzer"]->startIntervalMsecForCount(50, 6);
 
         LaunchCount = 0;
@@ -816,10 +819,10 @@ int16_t b3mreadInputvoltage(byte id)
     return reData / 100;
 }
 
-uint8_t b3mreadStatus(byte id)
+uint8_t b3mReaderrorStatus(byte id)
 {
     byte txCmd[7];
-    byte rxCmd[7];
+    byte rxCmd[6];
     // uint8_t value;
     uint8_t reData;
     bool flag;
@@ -829,7 +832,7 @@ uint8_t b3mreadStatus(byte id)
     txCmd[2] = (byte)(0x00); // OPTION
     txCmd[3] = (byte)(id);   // ID
 
-    txCmd[4] = (byte)(0x00); // ADDRESS  //エラーステータスを取得
+    txCmd[4] = (byte)(0x9D); // ADDRESS  //エラーステータスを取得
     txCmd[5] = (byte)(0x01); // LENGTH
 
     txCmd[6] = 0x00; // SUM
@@ -837,27 +840,156 @@ uint8_t b3mreadStatus(byte id)
     for (int i = 0; i < 6; i++)
     {
         txCmd[6] += txCmd[i];
-        // Serial.print(txCmd[i]);
-        // Serial.print("|");
     }
-    // Serial.println("");
 
     txCmd[6] = (byte)(txCmd[6]);
-    flag = B3M.synchronize(txCmd, 7, rxCmd, 7);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 6);
 
     if (flag == false)
     {
         return -1;
     }
 
-    // for (int o = 4; o < 8; o++)
-    // {
-    //     value = (rxCmd[o] << 8) | rxCmd[o + 1];
-    //     reData |= value << ((o -4)*8);
-    //     o++;
-    // }
+    reData = rxCmd[4];
+    return reData;
+}
 
-    // reData = (value & 0xFF) << 8 | (value >> 8 & 0xFF);
+uint8_t b3mReadsystemError(byte id)
+{
+    byte txCmd[7];
+    byte rxCmd[6];
+    // uint8_t value;
+    uint8_t reData;
+    bool flag;
+
+    txCmd[0] = (byte)(0x07); // SIZE
+    txCmd[1] = (byte)(0x03); // COMMAND
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
+
+    txCmd[4] = (byte)(0x9E); // ADDRESS  //システムエラーを取得
+    txCmd[5] = (byte)(0x01); // LENGTH
+
+    txCmd[6] = 0x00; // SUM
+
+    for (int i = 0; i < 6; i++)
+    {
+        txCmd[6] += txCmd[i];
+    }
+
+    txCmd[6] = (byte)(txCmd[6]);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 6);
+
+    if (flag == false)
+    {
+        return -1;
+    }
+
+    reData = rxCmd[4];
+    return reData;
+}
+
+uint8_t b3mReadmotorStatus(byte id)
+{
+    byte txCmd[7];
+    byte rxCmd[6];
+    // uint8_t value;
+    uint8_t reData;
+    bool flag;
+
+    txCmd[0] = (byte)(0x07); // SIZE
+    txCmd[1] = (byte)(0x03); // COMMAND
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
+
+    txCmd[4] = (byte)(0x9F); // ADDRESS  //モーターステータス異常を取得
+    txCmd[5] = (byte)(0x01); // LENGTH
+
+    txCmd[6] = 0x00; // SUM
+
+    for (int i = 0; i < 6; i++)
+    {
+        txCmd[6] += txCmd[i];
+    }
+
+    txCmd[6] = (byte)(txCmd[6]);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 6);
+
+    if (flag == false)
+    {
+        return -1;
+    }
+
+    reData = rxCmd[4];
+    return reData;
+}
+
+uint8_t b3mReaduartReceptionerror(byte id)
+{
+    byte txCmd[7];
+    byte rxCmd[6];
+    // uint8_t value;
+    uint8_t reData;
+    bool flag;
+
+    txCmd[0] = (byte)(0x07); // SIZE
+    txCmd[1] = (byte)(0x03); // COMMAND
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
+
+    txCmd[4] = (byte)(0xA0); // ADDRESS  //UART受信エラーを取得
+    txCmd[5] = (byte)(0x01); // LENGTH
+
+    txCmd[6] = 0x00; // SUM
+
+    for (int i = 0; i < 6; i++)
+    {
+        txCmd[6] += txCmd[i];
+    }
+
+    txCmd[6] = (byte)(txCmd[6]);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 6);
+
+    if (flag == false)
+    {
+        return -1;
+    }
+
+    reData = rxCmd[4];
+    return reData;
+}
+
+uint8_t b3mReadcommandError(byte id)
+{
+    byte txCmd[7];
+    byte rxCmd[6];
+    // uint8_t value;
+    uint8_t reData;
+    bool flag;
+
+    txCmd[0] = (byte)(0x07); // SIZE
+    txCmd[1] = (byte)(0x03); // COMMAND
+    txCmd[2] = (byte)(0x00); // OPTION
+    txCmd[3] = (byte)(id);   // ID
+
+    txCmd[4] = (byte)(0xA1); // ADDRESS  //コマンドエラーを取得
+    txCmd[5] = (byte)(0x01); // LENGTH
+
+    txCmd[6] = 0x00; // SUM
+
+    for (int i = 0; i < 6; i++)
+    {
+        txCmd[6] += txCmd[i];
+    }
+
+    txCmd[6] = (byte)(txCmd[6]);
+    flag = B3M.synchronize(txCmd, 7, rxCmd, 6);
+
+    if (flag == false)
+    {
+        return -1;
+    }
+
     reData = rxCmd[4];
     return reData;
 }
@@ -868,27 +1000,6 @@ int16_t uint8_to_int16(uint8_t *array)
     int16_t value;
     memcpy(&value, array, sizeof(value));
     return value;
-}
-
-void canSendmotorInfomation(int16_t currentposition, int16_t currentDesiredposition, int16_t currentVelosity)
-{
-    converter.data_16[0] = currentposition;
-    converter.data_16[1] = currentDesiredposition;
-    converter.data_16[2] = currentVelosity;
-
-    CAN.sendMsgBuf(0x10C, 0, 6, converter.data);
-
-    int16_t currentposition_back = uint8_to_int16(converter.data);
-    int16_t currentDesiredposition_back = uint8_to_int16(converter.data + 2);
-    int16_t currentVelosity_back = uint8_to_int16(converter.data + 4);
-
-    // デバック用
-    Serial.print(currentposition_back);
-    Serial.print(" | ");
-    Serial.print(currentDesiredposition_back);
-    Serial.print(" | ");
-    Serial.print(currentVelosity_back);
-    Serial.println(" | ");
 }
 
 void canSendmcuInfomation(uint8_t motorTemperature, uint8_t mcuTemperature, uint8_t current, uint8_t inputVoltage)
@@ -914,12 +1025,76 @@ void canSendmcuInfomation(uint8_t motorTemperature, uint8_t mcuTemperature, uint
     //  Serial.println(" | ");
 }
 
+void canSendmotorInfomation(int16_t currentposition, int16_t currentDesiredposition, int16_t currentVelosity)
+{
+    converter.data_16[0] = currentposition;
+    converter.data_16[1] = currentDesiredposition;
+    converter.data_16[2] = currentVelosity;
+
+    CAN.sendMsgBuf(0x10C, 0, 6, converter.data);
+
+    int16_t currentposition_back = uint8_to_int16(converter.data);
+    int16_t currentDesiredposition_back = uint8_to_int16(converter.data + 2);
+    int16_t currentVelosity_back = uint8_to_int16(converter.data + 4);
+
+    // デバック用
+    // Serial.print(currentposition_back);
+    // Serial.print(" | ");
+    // Serial.print(currentDesiredposition_back);
+    // Serial.print(" | ");
+    // Serial.print(currentVelosity_back);
+    // Serial.println(" | ");
+}
+
+void canSendservoStatusinfomation(uint8_t errorStatus, uint8_t systemError, uint8_t motorStatus, uint8_t uartReceptionerror, uint8_t commandError)
+{
+    uint8_t data[5];
+    memcpy(data, &errorStatus, sizeof(errorStatus));
+    memcpy(data + sizeof(errorStatus), &systemError, sizeof(systemError));
+    memcpy(data + sizeof(errorStatus) + sizeof(systemError), &motorStatus, sizeof(motorStatus));
+    memcpy(data + sizeof(errorStatus) + sizeof(systemError) + sizeof(motorStatus), &uartReceptionerror, sizeof(uartReceptionerror));
+    memcpy(data + sizeof(errorStatus) + sizeof(systemError) + sizeof(motorStatus) + sizeof(uartReceptionerror), &commandError, sizeof(commandError));
+
+    CAN.sendMsgBuf(0x107, 0, 5, data);
+}
+
+//1byte目 5
+//2byte目 errorcode :
+//3byte目 errorreason :FF
+//4byte目 millis()
+//5byte目 millis()
+
 void canSendservoStatus(uint8_t servoStatus)
 {
     uint8_t data[1];
     memcpy(data, &servoStatus, 1);
     CAN.sendMsgBuf(0x106, 0, 1, data);
 }
+
+void canSendmotorStatus(uint8_t motorStatus, uint32_t currentTime)
+{
+    if(motorStatus == 0)return;
+    uint8_t data[7];
+    data[0] = 5;
+    memcpy(data + 1, &motorStatus, sizeof(motorStatus));
+    data[2] = 0;
+    memcpy(data + 3, &currentTime, sizeof(currentTime));
+
+    CAN.sendMsgBuf(0x07, 0, 7, data);
+}
+
+void canSendcommandError(uint8_t uartReceptionerror, uint8_t currentTime)
+{
+    if(uartReceptionerror == 0)return;
+    uint8_t data[7];
+    data[0] = 5; //valvecontroler君
+    memcpy(data + 1, &uartReceptionerror, sizeof(uartReceptionerror));
+    data[2] = 0;
+    memcpy(data + 3, &currentTime, sizeof(currentTime));
+
+    CAN.sendMsgBuf(0x07, 0, 7, data);
+}
+
 
 // 関数の定義
 // int16_t getServoPosition() {

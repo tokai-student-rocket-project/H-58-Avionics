@@ -8,8 +8,6 @@ void dump(FRAM* fram);
 
 void setup() {
   Serial.begin(115200);
-  while (!Serial);
-  delay(800);
 
   SPI.setMOSI(A6);
   SPI.setMISO(A5);
@@ -18,7 +16,7 @@ void setup() {
 
 
   MsgPacketizer::subscribe_manual(0xAA,
-    [&](uint32_t millis, uint32_t flightTime,
+    [&](uint32_t millis, uint16_t flightTime,
       uint8_t flightMode, bool cameraState, bool sn3State, bool doLogging,
       bool isFalling, bool flightPinState, bool resetPinState,
       float supplyVoltage, float batteryVoltage, float poolVoltage) {
@@ -37,7 +35,12 @@ void setup() {
     }
   );
 
+  while (!Serial);
+  delay(5000);
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
   dump(&fram);
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 
@@ -46,7 +49,7 @@ void loop() {
 
 
 void dump(FRAM* fram) {
-  uint8_t data[256];
+  uint8_t data[4096];
   uint32_t size = 0;
   uint32_t writeAddress = 0;
 
@@ -56,7 +59,10 @@ void dump(FRAM* fram) {
 
     if (data[writeAddress] == 0x00) {
       writeAddress = 0;
-      MsgPacketizer::feed(data, size);
+
+      if (data[1] == 0xAA) {
+        MsgPacketizer::feed(data, size);
+      }
     }
     else {
       writeAddress++;
