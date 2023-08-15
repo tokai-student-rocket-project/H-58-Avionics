@@ -66,7 +66,8 @@ void Logger::log(
   float supplyVoltage, float batteryVoltage, float poolVoltage,
   bool isLaunchMode,
   float motorTemperature, float mcuTemperature, float current, float inputVoltage,
-  float currentPosition, float currentDesiredPosition, float currentVelocity
+  float currentPosition, float currentDesiredPosition, float currentVelocity,
+  uint32_t performanceMillis, float performanceTaskRate
 ) {
   // MessagePackでパケットを生成
   // ラベルは認識しやすいように0xAAにしている
@@ -77,7 +78,8 @@ void Logger::log(
     supplyVoltage, batteryVoltage, poolVoltage,
     isLaunchMode,
     motorTemperature, mcuTemperature, current, inputVoltage,
-    currentPosition, currentDesiredPosition, currentVelocity
+    currentPosition, currentDesiredPosition, currentVelocity,
+    performanceMillis, performanceTaskRate
   );
 
   const uint8_t* data = packet.data.data();

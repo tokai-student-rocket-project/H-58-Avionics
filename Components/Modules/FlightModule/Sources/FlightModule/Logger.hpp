@@ -44,7 +44,8 @@ public:
     float supplyVoltage, float batteryVoltage, float poolVoltage,
     bool isLaunchMode,
     float motorTemperature, float mcuTemperature, float current, float inputVoltage,
-    float currentPosition, float currentDesiredPosition, float currentVelocity
+    float currentPosition, float currentDesiredPosition, float currentVelocity,
+    uint32_t performanceMillis, float performanceTaskRate
   );
 
 

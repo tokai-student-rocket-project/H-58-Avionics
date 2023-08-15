@@ -214,6 +214,28 @@ void setup() {
 
       digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
     });
+
+  MsgPacketizer::subscribe(LoRa, 0x09,
+    [](
+      uint32_t millis,
+      uint32_t performanceMillis,
+      float performanceTaskRate
+      )
+    {
+      transmitter::packet.clear();
+      transmitter::packet["PacketInfo"]["Sender"] = "SCM";
+      transmitter::packet["PacketInfo"]["Type"] = "PerformanceData";
+      transmitter::packet["PacketInfo"]["RSSI"] = LoRa.packetRssi();
+      transmitter::packet["PacketInfo"]["SNR"] = LoRa.packetSnr();
+      transmitter::packet["PacketInfo"]["Millis"] = millis;
+      transmitter::packet["Millis"] = performanceMillis;
+      transmitter::packet["TaskRate"] = performanceTaskRate;
+
+      serializeJson(transmitter::packet, Serial);
+      Serial.println();
+
+      digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
+    });
 }
 
 

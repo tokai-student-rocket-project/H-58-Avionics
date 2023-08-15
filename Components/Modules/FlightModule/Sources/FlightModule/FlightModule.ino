@@ -75,6 +75,9 @@ namespace data {
   float voltageSupply, voltageBattery, voltagePool;
   float motorTemperature, mcuTemperature, current, inputVoltage;
   float currentPosition, currentDesiredPosition, currentVelocity;
+
+  uint32_t performanceMillis;
+  float performanceTaskRate;
 }
 
 
@@ -170,6 +173,10 @@ void loop() {
       canbus::can.receiveValveData2(&data::currentPosition, &data::currentDesiredPosition, &data::currentVelocity);
       device::indicator::canReceive.toggle();
       break;
+    }
+    case CANSTM::Label::PERFORMANCE: {
+      canbus::can.receivePerformance(&data::performanceMillis, &data::performanceTaskRate);
+      device::indicator::canReceive.toggle();
     }
     }
   }
@@ -357,7 +364,8 @@ void internal::task100Hz() {
       data::voltageSupply, data::voltageBattery, data::voltagePool,
       internal::flag::isLaunchMode,
       data::motorTemperature, data::mcuTemperature, data::current, data::inputVoltage,
-      data::currentPosition, data::currentDesiredPosition, data::currentVelocity
+      data::currentPosition, data::currentDesiredPosition, data::currentVelocity,
+      data::performanceMillis, data::performanceTaskRate
     );
   }
 }
