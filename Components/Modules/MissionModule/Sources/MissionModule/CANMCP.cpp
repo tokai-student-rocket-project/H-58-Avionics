@@ -241,3 +241,12 @@ void CANMCP::receiveVoltage(float* supply, float* pool, float* battery) {
   *pool = (float)poolInt / 100.0;
   *battery = (float)batteryInt / 100.0;
 }
+
+
+/// @brief 機体間通信実証モジュールの性能情報を受信す
+/// @param millis モジュール起動からの経過時間 [ms]
+/// @param taskRate タスクの実行周波数 [Hz]
+void CANMCP::receivePerformance(uint32_t* millis, float* taskRate) {
+  memcpy(millis, _latestData, 4);
+  memcpy(taskRate, _latestData + 4, 4);
+}
