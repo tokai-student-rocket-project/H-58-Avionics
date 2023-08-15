@@ -21,24 +21,26 @@ void setup() {
 
   MsgPacketizer::subscribe_manual(0xAA,
     [&](uint32_t millis, uint8_t flightMode,
-      float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,
+      float outsideTemperature, float pressure,
+      // float altitude, float climbIndex, bool isFalling,
       float acceleration_x, float acceleration_y, float acceleration_z,
       float gyroscope_x, float gyroscope_y, float gyroscope_z,
       float magnetometer_x, float magnetometer_y, float magnetometer_z,
-      float orientation_x, float orientation_y, float orientation_z,
+      // float orientation_x, float orientation_y, float orientation_z,
       float linear_acceleration_x, float linear_acceleration_y, float linear_acceleration_z,
-      float gravity_x, float gravity_y, float gravity_z,
+      // float gravity_x, float gravity_y, float gravity_z,
       float quaternion_w, float quaternion_x, float quaternion_y, float quaternion_z,
-      float collected_temperature, float cold_junction_temperature, float thermo_couple_temperature,
+      float collected_temperature,
+      // float cold_junction_temperature, float thermo_couple_temperature,
       float internalTemperature
       ) {
         Serial.print(millis); Serial.print(",");
         Serial.print(flightMode); Serial.print(",");
         Serial.print(outsideTemperature); Serial.print(",");
         Serial.print(pressure); Serial.print(",");
-        Serial.print(altitude); Serial.print(",");
-        Serial.print(climbIndex); Serial.print(",");
-        Serial.print(isFalling); Serial.print(",");
+        // Serial.print(altitude); Serial.print(",");
+        // Serial.print(climbIndex); Serial.print(",");
+        // Serial.print(isFalling); Serial.print(",");
         Serial.print(acceleration_x); Serial.print(",");
         Serial.print(acceleration_y); Serial.print(",");
         Serial.print(acceleration_z); Serial.print(",");
@@ -48,22 +50,22 @@ void setup() {
         Serial.print(magnetometer_x); Serial.print(",");
         Serial.print(magnetometer_y); Serial.print(",");
         Serial.print(magnetometer_z); Serial.print(",");
-        Serial.print(orientation_x); Serial.print(",");
-        Serial.print(orientation_y); Serial.print(",");
-        Serial.print(orientation_z); Serial.print(",");
+        // Serial.print(orientation_x); Serial.print(",");
+        // Serial.print(orientation_y); Serial.print(",");
+        // Serial.print(orientation_z); Serial.print(",");
         Serial.print(linear_acceleration_x); Serial.print(",");
         Serial.print(linear_acceleration_y); Serial.print(",");
         Serial.print(linear_acceleration_z); Serial.print(",");
-        Serial.print(gravity_x); Serial.print(",");
-        Serial.print(gravity_y); Serial.print(",");
-        Serial.print(gravity_z); Serial.print(",");
+        // Serial.print(gravity_x); Serial.print(",");
+        // Serial.print(gravity_y); Serial.print(",");
+        // Serial.print(gravity_z); Serial.print(",");
         Serial.print(quaternion_w); Serial.print(",");
         Serial.print(quaternion_x); Serial.print(",");
         Serial.print(quaternion_y); Serial.print(",");
         Serial.print(quaternion_z); Serial.print(",");
         Serial.print(collected_temperature); Serial.print(",");
-        Serial.print(cold_junction_temperature); Serial.print(",");
-        Serial.print(thermo_couple_temperature); Serial.print(",");
+        // Serial.print(cold_junction_temperature); Serial.print(",");
+        // Serial.print(thermo_couple_temperature); Serial.print(",");
         Serial.print(internalTemperature); Serial.println();
     }
   );

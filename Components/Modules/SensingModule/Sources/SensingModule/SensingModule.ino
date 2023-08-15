@@ -213,15 +213,17 @@ void internal::task100Hz() {
   if (device::peripheral::logger.isLogging()) {
     device::peripheral::logger.log(
       millis(), static_cast<uint8_t>(data::flightMode),
-      data::outsideTemperature_degC, data::pressure_hPa, data::altitude_m, internal::trajectory.climbIndex(), internal::trajectory.isFalling(),
+      data::outsideTemperature_degC, data::pressure_hPa,
+      // data::altitude_m, internal::trajectory.climbIndex(), internal::trajectory.isFalling(),
       data::acceleration_x_mps2, data::acceleration_y_mps2, data::acceleration_z_mps2,
       data::gyroscope_x_dps, data::gyroscope_y_dps, data::gyroscope_z_dps,
       data::magnetometer_x_nT, data::magnetometer_y_nT, data::magnetometer_z_nT,
-      data::orientation_x_deg, data::orientation_y_deg, data::orientation_z_deg,
+      // data::orientation_x_deg, data::orientation_y_deg, data::orientation_z_deg,
       data::linear_acceleration_x_mps2, data::linear_acceleration_y_mps2, data::linear_acceleration_z_mps2,
-      data::gravity_x_mps2, data::gravity_y_mps2, data::gravity_z_mps2,
+      // data::gravity_x_mps2, data::gravity_y_mps2, data::gravity_z_mps2,
       data::quaternion_w, data::quaternion_x, data::quaternion_y, data::quaternion_z,
-      data::collected_temperature, data::cold_junction_temperature, data::thermo_couple_temperature,
+      data::collected_temperature,
+      // data::cold_junction_temperature, data::thermo_couple_temperature,
       data::internalTemperature_degC
     );
   }

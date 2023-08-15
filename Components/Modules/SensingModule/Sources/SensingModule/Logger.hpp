@@ -42,15 +42,17 @@ public:
   /// @brief ログを保存する
   void log(
     uint32_t millis, uint8_t flightMode,
-    float outsideTemperature, float pressure, float altitude, float climbIndex, bool isFalling,
+    float outsideTemperature, float pressure,
+    // float altitude, float climbIndex, bool isFalling,
     float acceleration_x, float acceleration_y, float acceleration_z,
     float gyroscope_x, float gyroscope_y, float gyroscope_z,
     float magnetometer_x, float magnetometer_y, float magnetometer_z,
-    float orientation_x, float orientation_y, float orientation_z,
+    // float orientation_x, float orientation_y, float orientation_z,
     float linear_acceleration_x, float linear_acceleration_y, float linear_acceleration_z,
-    float gravity_x, float gravity_y, float gravity_z,
+    // float gravity_x, float gravity_y, float gravity_z,
     float quaternion_w, float quaternion_x, float quaternion_y, float quaternion_z,
-    float collected_temperature, float cold_junction_temperature, float thermo_couple_temperature,
+    float collected_temperature,
+    // float cold_junction_temperature, float thermo_couple_temperature,
     float internalTemperature
   );
 
