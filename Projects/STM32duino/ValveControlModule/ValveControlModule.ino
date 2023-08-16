@@ -186,11 +186,11 @@ void setup()
               })
         ->startFps(59);
 
-    Tasks.add("Buzzer", []()
-              { ToggleBuzzer(); });
+    // Tasks.add("Buzzer", []()
+    //           { ToggleBuzzer(); });
 
     /* Wake Up Buzzer */
-    Tasks["Buzzer"]->startIntervalMsecForCount(66, 10);
+    // Tasks["Buzzer"]->startIntervalMsecForCount(66, 10);
 }
 
 void loop()
@@ -414,7 +414,7 @@ void ChangeLaunchMode()
         Move(1, -800, 10); //-800/10 = -80deg
         delay(100);
         B3M_setposition(0x01, -5500, 10); //-6500/100 = -65deg
-        Tasks["Buzzer"]->startIntervalMsecForCount(50, 6);
+        // Tasks["Buzzer"]->startIntervalMsecForCount(50, 6);
 
         LaunchCount = 0;
         Position = 2;
@@ -442,7 +442,7 @@ void ChangeWaitingMode()
         Move(1, 0, 100);
         delay(100);
         B3M_setposition(0x01, 0, 1000);
-        Tasks["Buzzer"]->startIntervalMsecForCount(100, 4);
+        // Tasks["Buzzer"]->startIntervalMsecForCount(100, 4);
 
         WaitingCount = 0;
         Position = 1;
