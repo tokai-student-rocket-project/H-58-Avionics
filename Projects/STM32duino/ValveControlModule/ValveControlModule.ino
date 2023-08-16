@@ -188,9 +188,11 @@ void setup()
 
     // Tasks.add("Buzzer", []()
     //           { ToggleBuzzer(); });
+    // TODO
 
     /* Wake Up Buzzer */
     // Tasks["Buzzer"]->startIntervalMsecForCount(66, 10);
+    // TODO
 }
 
 void loop()
@@ -415,6 +417,7 @@ void ChangeLaunchMode()
         delay(100);
         B3M_setposition(0x01, -5500, 10); //-6500/100 = -65deg
         // Tasks["Buzzer"]->startIntervalMsecForCount(50, 6);
+        // TODO
 
         LaunchCount = 0;
         Position = 2;
@@ -443,6 +446,7 @@ void ChangeWaitingMode()
         delay(100);
         B3M_setposition(0x01, 0, 1000);
         // Tasks["Buzzer"]->startIntervalMsecForCount(100, 4);
+        // TODO
 
         WaitingCount = 0;
         Position = 1;
@@ -559,6 +563,7 @@ int16_t b3mReadcurrentPosition(byte id)
 
     txCmd[6] = (byte)(txCmd[6]);
     flag = B3M.synchronize(txCmd, 7, rxCmd, 7);
+
 
     if (flag == false)
     {
@@ -1095,7 +1100,7 @@ void canSendcommandError(uint8_t uartReceptionerror, uint8_t currentTime)
     CAN.sendMsgBuf(0x07, 0, 7, data);
 }
 
-
+// waiwaiに教えてもらった関数
 // 関数の定義
 // int16_t getServoPosition() {
 //   return ポジションを取得する処理
@@ -1112,6 +1117,3 @@ void canSendcommandError(uint8_t uartReceptionerror, uint8_t currentTime)
 // int16_t receivedPosition = getServoPosition();
 // canSendPostion(receivedPosition);
 // Serial.println(receivedPosition);
-
-// エラーデータ送信
-// TODO
