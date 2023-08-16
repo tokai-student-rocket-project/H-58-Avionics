@@ -13,7 +13,10 @@ void setup() {
   Serial.begin(115200);
 
   pinMode(LED_BUILTIN, OUTPUT);
-  LoRa.begin(925.8E6);
+
+  // ① 38ch 923.4E6
+  // ② 31ch 922.0E6
+  LoRa.begin(923.4E6);
   LoRa.setSignalBandwidth(500E3);
 
   MsgPacketizer::subscribe(LoRa, 0xAA,
