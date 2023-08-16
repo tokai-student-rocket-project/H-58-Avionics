@@ -39,7 +39,8 @@ namespace device {
     LED canSend(D0);
     LED canReceive(D1);
 
-    Buzzer buzzer(A1, "buzzer");
+    // TODO コメントアウト戻す
+    // Buzzer buzzer(A1, "buzzer");
 
     LED flightModeBit0(D8);
     LED flightModeBit1(D7);
@@ -129,7 +130,7 @@ void loop() {
         internal::flightModeManager.changeMode(Var::FlightMode::STANDBY);
         device::peripheral::camera.on();
         device::peripheral::logger.beginLogging();
-        device::indicator::buzzer.beepLongOnce();
+        // device::indicator::buzzer.beepLongOnce();
         canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
       }
 
@@ -140,7 +141,7 @@ void loop() {
         internal::flightModeManager.changeMode(Var::FlightMode::SLEEP);
         device::peripheral::camera.off();
         device::peripheral::logger.endLogging();
-        device::indicator::buzzer.beepLongOnce();
+        // device::indicator::buzzer.beepLongOnce();
         canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
       }
 
@@ -148,7 +149,7 @@ void loop() {
         internal::flightModeManager.changeMode(Var::FlightMode::SHUTDOWN);
         device::peripheral::camera.off();
         device::peripheral::logger.endLogging();
-        device::indicator::buzzer.beepLongOnce();
+        // device::indicator::buzzer.beepLongOnce();
         canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, millis());
       }
 
@@ -223,7 +224,7 @@ void internal::task100Hz() {
     internal::flightModeManager.changeMode(Var::FlightMode::SLEEP);
     device::peripheral::camera.off();
     device::peripheral::logger.endLogging();
-    device::indicator::buzzer.beepLongOnce();
+    // device::indicator::buzzer.beepLongOnce();
     canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
   }
 
@@ -232,7 +233,7 @@ void internal::task100Hz() {
   if ((internal::flightModeManager.is(Var::FlightMode::CLIMB) || internal::flightModeManager.is(Var::FlightMode::DESCENT)) && internal::timeManager.isElapsedTime(internal::timeManager.FORCE_SEPARATION_TIME)) {
     internal::flightModeManager.changeMode(Var::FlightMode::PARACHUTE);
     device::peripheral::sn3.separate();
-    device::indicator::buzzer.beepTwice();
+    // device::indicator::buzzer.beepTwice();
     canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FORCE_SEPARATE, millis());
   }
 
@@ -248,7 +249,7 @@ void internal::task100Hz() {
       internal::flightModeManager.changeMode(Var::FlightMode::STANDBY);
       device::peripheral::camera.on();
       device::peripheral::logger.beginLogging();
-      device::indicator::buzzer.beepLongOnce();
+      // device::indicator::buzzer.beepLongOnce();
       canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
     }
 
@@ -264,7 +265,7 @@ void internal::task100Hz() {
       // 現時刻をX=0の基準にする
       internal::timeManager.setZero();
       device::peripheral::logger.beginLogging();
-      device::indicator::buzzer.beepOnce();
+      // device::indicator::buzzer.beepOnce();
       canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::IGNITION);
     }
 
@@ -302,7 +303,7 @@ void internal::task100Hz() {
     if (internal::timeManager.isElapsedTime(internal::timeManager.PROTECTION_SEPARATION_TIME)) {
       internal::flightModeManager.changeMode(Var::FlightMode::PARACHUTE);
       device::peripheral::sn3.separate();
-      device::indicator::buzzer.beepTwice();
+      // device::indicator::buzzer.beepTwice();
       canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, millis());
     }
 
@@ -333,7 +334,7 @@ void internal::task100Hz() {
     if (internal::timeManager.isElapsedTime(internal::timeManager.SHUTDOWN_TIME)) {
       internal::flightModeManager.changeMode(Var::FlightMode::SHUTDOWN);
       device::peripheral::logger.endLogging();
-      device::indicator::buzzer.beepLongOnce();
+      // device::indicator::buzzer.beepLongOnce();
       canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, millis());
       // はめつのうた
       // indicator::buzzer.electricalParade();
