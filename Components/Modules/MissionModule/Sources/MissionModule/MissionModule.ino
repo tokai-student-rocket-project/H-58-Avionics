@@ -66,7 +66,9 @@ void setup() {
   // FRAMとSDの電源は常にON
   control::recorderPower.on();
 
-  LoRa.begin(925.8E6);
+  // ① 38ch 923.4E6
+  // ② 31ch 922.0E6
+  LoRa.begin(923.4E6);
   LoRa.setSignalBandwidth(500E3);
 
   SPI.begin();

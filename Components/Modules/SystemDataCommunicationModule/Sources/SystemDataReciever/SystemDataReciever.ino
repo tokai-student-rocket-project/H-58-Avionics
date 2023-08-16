@@ -14,6 +14,9 @@ void setup() {
   Serial.begin(115200);
 
   pinMode(LED_BUILTIN, OUTPUT);
+
+  // ① 30ch 921.8E6
+  // ② 29ch 921.6E6
   LoRa.begin(921.8E6);
   LoRa.setSignalBandwidth(500E3);
 
