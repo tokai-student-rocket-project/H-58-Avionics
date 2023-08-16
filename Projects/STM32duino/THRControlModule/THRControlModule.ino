@@ -32,6 +32,8 @@ Adafruit_MAX31855 thermocouple(5);
 // 3Vo  -------- N/C
 // Vin  -------- 3~5V
 
+uint32_t referenceTime;
+
 void setup()
 {
     Serial.begin(115200);
@@ -66,6 +68,12 @@ void setup()
                   Serial.print(thermocouple.readCelsius());
                   Serial.println(F(" | ")); })
         ->startFps(23);
+
+        Tasks.add("Rate", [](){
+            uint32_t currentTime = millis();
+            performance(currentTime, taskRate());
+        })
+        ->startFps(100);
 }
 
 void loop()
@@ -83,4 +91,28 @@ float CorrectedTemperature()
     float Voltage = VOLTAGE_PER_DEGREE * (temperature - coldtemperature);
 
     return correcttemperature = Voltage / VOLTAGE_PER_DEGREE + coldtemperature;
+}
+
+uint32_t performance(uint32_t currentTime, float taskRate)
+{
+    uint8_t data[7];
+    memcpy(data, &currentTime, sizeof(currentTime));
+    memcpy(data + sizeof(currentTime), &taskRate, sizeof(taskRate));
+
+
+    CAN.sendMsgBuf(0x10D, 0, 8, data);
+
+    memcpy(&currentTime, data, sizeof(currentTime));
+    memcpy(&taskRate, data + sizeof(taskRate), sizeof(taskRate));
+    Serial.print(currentTime, 4);
+    Serial.print(" | ");
+    Serial.print(taskRate, 4);
+}
+
+float taskRate()
+{
+    uint32_t time = millis();
+    float dataRate = 1000.0 / (float)(time - referenceTime);
+    referenceTime = time;
+    return dataRate;
 }
