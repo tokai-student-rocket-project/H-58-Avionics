@@ -299,3 +299,12 @@ void CANSTM::receiveValveData2(float* currentPosition, float* currentDesiredPosi
   *currentDesiredPosition = (float)currentDesiredPositionRaw;
   *currentVelocity = (float)currentVelocityRaw;
 }
+
+
+/// @brief 機体間通信実証モジュールの性能情報を受信す
+/// @param millis モジュール起動からの経過時間 [ms]
+/// @param taskRate タスクの実行周波数 [Hz]
+void CANSTM::receivePerformance(uint32_t* millis, float* taskRate) {
+  memcpy(millis, _latestData, 4);
+  memcpy(taskRate, _latestData + 4, 4);
+}

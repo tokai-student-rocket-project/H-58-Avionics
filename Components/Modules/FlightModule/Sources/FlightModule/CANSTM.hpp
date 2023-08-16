@@ -38,7 +38,8 @@ public:
     INPUT_VOLTAGE,
     VALVE_MODE,
     VALVE_DATA_1 = 0x10B,
-    VALVE_DATA_2
+    VALVE_DATA_2,
+    PERFORMANCE
   };
 
   /// @brief イベントとエラーを発行するモジュールを列挙型で定義しておく
@@ -197,6 +198,10 @@ public:
   /// @param currentVelocity 角速度 [dps]
   void receiveValveData2(float* currentPosition, float* currentDesiredPosition, float* currentVelocity);
 
+  /// @brief 機体間通信実証モジュールの性能情報を受信す
+  /// @param millis モジュール起動からの経過時間 [ms]
+  /// @param taskRate タスクの実行周波数 [Hz]
+  void receivePerformance(uint32_t* millis, float* taskRate);
 
 private:
   uint32_t _latestLabel;

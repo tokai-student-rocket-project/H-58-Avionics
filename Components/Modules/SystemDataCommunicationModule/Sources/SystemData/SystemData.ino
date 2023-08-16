@@ -48,6 +48,7 @@ namespace connection {
     ERROR,
     VALVE_DATA,
     MISSION_STATUS,
+    PERFORMANCE_DATA,
     SET_REFERENCE_PRESSURE_COMMAND = 0xF0,
     SET_FLIGHT_MODE_ON
   };
@@ -80,6 +81,9 @@ namespace data {
   float voltage_supply, voltage_battery, voltage_pool;
   float referencePressure;
   bool isSystemCalibrated;
+
+  uint32_t performanceMillis;
+  float performanceTaskRate;
 }
 
 
@@ -183,6 +187,10 @@ void loop() {
       connection::can.receiveValveMode(&data::isWaiting);
       indicator::canReceive.toggle();
       break;
+    case CANMCP::Label::PERFORMANCE: {
+      connection::can.receivePerformance(&data::performanceMillis, &data::performanceTaskRate);
+      indicator::canReceive.toggle();
+    }
     }
   }
 }
@@ -265,6 +273,16 @@ void timer::highRateDownlinkTask() {
   );
 
   connection::reserveDownlink(sensingStatusPacket.data.data(), sensingStatusPacket.data.size());
+
+  // 性能情報をダウンリンクで送信する
+  const auto& performanceDataPacket = MsgPacketizer::encode(
+    static_cast<uint8_t>(connection::Index::PERFORMANCE_DATA),
+    millis(),
+    data::performanceMillis,
+    data::performanceTaskRate
+  );
+
+  connection::reserveDownlink(performanceDataPacket.data.data(), performanceDataPacket.data.size());
 
   connection::sendReservedDownlink();
 }
