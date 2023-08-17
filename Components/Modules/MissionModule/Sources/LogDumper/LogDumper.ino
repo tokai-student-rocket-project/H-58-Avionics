@@ -51,17 +51,21 @@ void dump(FRAM* fram) {
     data[writeAddress] = fram->read(address);
     size = writeAddress + 1;
 
-    Serial.println(data[writeAddress], HEX);
+    Serial.println(fram->read(address), HEX);
+    // Serial.println(data[writeAddress], HEX);
+    // Serial.println(address);
 
-    if (data[writeAddress] == 0x00) {
-      writeAddress = 0;
+    if (writeAddress == 32) writeAddress = 0;
 
-      if (data[1] == 0xAA) {
-        MsgPacketizer::feed(data, size);
-      }
-    }
-    else {
-      writeAddress++;
-    }
+    // if (data[writeAddress] == 0x00) {
+    //   writeAddress = 0;
+
+    //   if (data[1] == 0xAA) {
+    //     MsgPacketizer::feed(data, size);
+    //   }
+    // }
+    // else {
+    writeAddress++;
+    // }
   }
 }

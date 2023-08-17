@@ -13,6 +13,17 @@ Logger::Logger(uint32_t csFram0, uint32_t csFram1) {
 /// @brief 書き込み位置を最初に戻す 元のデータは上書きされるので注意
 void Logger::reset() {
   _offset = 0;
+
+  uint8_t buffer[4];
+  _fram0->getId(buffer);
+  Serial.println(buffer[0], BIN);
+  Serial.println(buffer[1], BIN);
+  Serial.println(buffer[2], BIN);
+  Serial.println(buffer[3], BIN);
+
+  _fram0->setWriteEnable();
+  _fram0->write(0, 0xCC);
+  Serial.println(_fram0->read(0), HEX);
 }
 
 
@@ -44,12 +55,26 @@ uint32_t Logger::log(
     x, y, z
   );
 
-  const uint8_t* data = packet.data.data();
-  // const uint32_t size = packet.data.size();
-  const uint32_t size = 32;
+  const uint8_t* packetData = packet.data.data();
+  const uint32_t packetSize = packet.data.size();
+
+  uint8_t data[32];
+  uint32_t size = 32;
+
+  memcpy(data, packetData, packetSize);
+
+  // for (size_t i = 0; i < size; i++) {
+  //   Serial.print(data[i], HEX);
+  //   Serial.print(" ");
+  // }
+
+  // Serial.println(size);
+
 
   // FRAMの2個分の容量を超えたら何もしない (容量オーバー)
   if (_offset + size >= FRAM::LENGTH * 2) return size;
+
+  // Serial.println(_offset);
 
   if (_offset + size >= FRAM::LENGTH) {
     uint32_t writeAddress = _offset - FRAM::LENGTH;
