@@ -145,7 +145,7 @@ void timer::measurementTask() {
 
   if (scheduler::doLogging) {
     scheduler::logger.log(
-      millis(), static_cast<uint8_t>(scheduler::flightModePrevious),
+      micros(), static_cast<uint8_t>(scheduler::flightModePrevious),
       x, y, z);
   }
 

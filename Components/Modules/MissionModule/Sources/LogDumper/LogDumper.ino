@@ -22,10 +22,10 @@ void setup() {
   SPI.begin();
 
   MsgPacketizer::subscribe_manual(0xAA,
-    [&](uint32_t millis, uint8_t flightMode,
+    [&](uint32_t micros, uint8_t flightMode,
       float x, float y, float z
       ) {
-        Serial.print(millis); Serial.print(",");
+        Serial.print(micros); Serial.print(",");
         Serial.print(flightMode); Serial.print(",");
         Serial.print(x); Serial.print(",");
         Serial.print(y); Serial.print(",");

@@ -28,7 +28,7 @@ public:
   /// @brief ログを保存する
   /// @return 書き込んだサイズ
   uint32_t log(
-    uint32_t millis, uint8_t flightMode,
+    uint32_t micros, uint8_t flightMode,
     float x, float y, float z
   );
 

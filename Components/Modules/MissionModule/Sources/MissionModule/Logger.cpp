@@ -34,13 +34,13 @@ void Logger::clear() {
 
 /// @brief ログを保存する
 uint32_t Logger::log(
-  uint32_t millis, uint8_t flightMode,
+  uint32_t micros, uint8_t flightMode,
   float x, float y, float z
 ) {
   // MessagePackでパケットを生成
   // ラベルは認識しやすいように0xAAにしている
   const auto& packet = MsgPacketizer::encode(
-    0xAA, millis, flightMode,
+    0xAA, micros, flightMode,
     x, y, z
   );
 
