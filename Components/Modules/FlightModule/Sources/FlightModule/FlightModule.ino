@@ -90,10 +90,11 @@ void setup() {
   // delay(800);
 
   internal::timeManager.THRUST_TIME = 1600;
-  internal::timeManager.PROTECTION_SEPARATION_TIME = 3200;
-  internal::timeManager.FORCE_SEPARATION_TIME = 4000;
-  internal::timeManager.LANDING_TIME = 9270;
-  internal::timeManager.SHUTDOWN_TIME = 14270;
+  internal::timeManager.PROTECTION_SEPARATION_TIME = 4200;
+  internal::timeManager.FORCE_SEPARATION_TIME = 6900;
+  internal::timeManager.DATA_SAVING_TIME = 12120;
+  internal::timeManager.LANDING_TIME = 16854;
+  internal::timeManager.SHUTDOWN_TIME = 21854;
 
   // デバッグ中はピンが干渉するので電圧監視を行わない
   if (!internal::flag::isDebugMode) {
@@ -321,7 +322,7 @@ void internal::task100Hz() {
     // PARACHUTEモード パラシュート下降中
 
     // 着地3秒前にカメラOFF
-    if (device::peripheral::camera.get() == Var::State::ON && internal::timeManager.isElapsedTime(internal::timeManager.LANDING_TIME - 3000)) {
+    if (device::peripheral::camera.get() == Var::State::ON && internal::timeManager.isElapsedTime(internal::timeManager.DATA_SAVING_TIME)) {
       device::peripheral::camera.off();
     }
 
