@@ -88,8 +88,8 @@ void loop() {
       connection::can.receiveScalar(&data::internalTemperature);
       indicator::canReceive.toggle();
       break;
-    case CANMCP::Label::COLLECTED_TEMPERATURE:
-      connection::can.receiveScalaDouble(&data::coldTemperature);
+    case CANMCP::Label::THERMO_COUPLE_TEMPERATURE:
+      connection::can.receiveScalar(&data::coldTemperature);
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::CLIMB_RATE:
