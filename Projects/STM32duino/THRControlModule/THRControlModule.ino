@@ -11,9 +11,17 @@ mcp2515_can CAN(SPI_CS_PIN);
 
 union Converter
 {
-    double correctedTemperature, coldJunctiontemperature, thermoCoupletemperature;
-    uint8_t correctedTemperatureData[8], coldJunctiontemperatureData[8], thermoCoupletemperatureData[8];
+    double value;
+    uint8_t data[8];
 } converter;
+
+// union Converter
+// {
+//     double correctedTemperature, coldJunctiontemperature, thermoCoupletemperature;
+//     uint8_t correctedTemperatureData[8], coldJunctiontemperatureData[8], thermoCoupletemperatureData[8];
+// } converter;
+
+
 
 /* CAN Config END */
 
@@ -33,6 +41,8 @@ Adafruit_MAX31855 thermocouple(5);
 // Vin  -------- 3~5V
 
 uint32_t referenceTime;
+// float currentRate;
+// uint32_t
 
 void setup()
 {
@@ -50,30 +60,37 @@ void setup()
 
     /* ---  MAX31855 Config END ---*/
 
+
     Tasks.add("task", []()
               {
-                  converter.correctedTemperature = CorrectedTemperature();
-                  CAN.sendMsgBuf(0x100, 0, 8, converter.correctedTemperatureData);
-                  converter.coldJunctiontemperature = thermocouple.readInternal();
-                  CAN.sendMsgBuf(0x101, 0, 8, converter.coldJunctiontemperatureData);
-                  converter.thermoCoupletemperature = thermocouple.readCelsius();
-                  CAN.sendMsgBuf(0x102, 0, 8, converter.thermoCoupletemperatureData);
-                  Serial.print(F("CorrectedTemperature: "));
-                  Serial.print(CorrectedTemperature());
-                  Serial.print(F(" | "));
-                  Serial.print(F("ColdJunctionTemperature: "));
-                  Serial.print(thermocouple.readInternal());
-                  Serial.print(F(" | "));
-                  Serial.print(F("Temperature: "));
-                  Serial.print(thermocouple.readCelsius());
-                  Serial.println(F(" | ")); })
+                  task23Hz();
+
+                //   Serial.print(F("CorrectedTemperature: "));
+                // Serial.print("Temp: ");
+                //   Serial.println(CorrectedTemperature());
+                //   Serial.print(thermocouple.readError());
+
+                
+                  //   Serial.println(F(" | "));
+                  //   performance(currentTime, currentRate);
+                  //   uint32_t currentTime = millis();
+                  //   performance(currentTime, taskRate());
+                  //   Serial.print(F("ColdJunctionTemperature: "));
+                  //   Serial.print(thermocouple.readInternal());
+                  //   Serial.print(F(" | "));
+                  //   Serial.print(F("Temperature: "));
+                  //   Serial.print(thermocouple.readCelsius());
+                  //   Serial.println(F(" | "));
+              })
         ->startFps(23);
 
-        Tasks.add("Rate", [](){
-            uint32_t currentTime = millis();
-            performance(currentTime, taskRate());
-        })
-        ->startFps(100);
+    Tasks.add([]()
+            {
+              uint32_t currentTime = millis();
+              float currentRate = taskRate();
+              performance(currentTime, currentRate);
+            })
+        ->startFps(144);
 }
 
 void loop()
@@ -85,7 +102,6 @@ float CorrectedTemperature()
 {
     const float VOLTAGE_PER_DEGREE = 41.276;
     float correcttemperature;
-
     float temperature = thermocouple.readCelsius();
     float coldtemperature = thermocouple.readInternal();
     float Voltage = VOLTAGE_PER_DEGREE * (temperature - coldtemperature);
@@ -93,20 +109,20 @@ float CorrectedTemperature()
     return correcttemperature = Voltage / VOLTAGE_PER_DEGREE + coldtemperature;
 }
 
-uint32_t performance(uint32_t currentTime, float taskRate)
+void performance(uint32_t currentTime, float taskRate)
 {
-    uint8_t data[7];
+    uint8_t data[8];
     memcpy(data, &currentTime, sizeof(currentTime));
     memcpy(data + sizeof(currentTime), &taskRate, sizeof(taskRate));
-
 
     CAN.sendMsgBuf(0x10D, 0, 8, data);
 
     memcpy(&currentTime, data, sizeof(currentTime));
     memcpy(&taskRate, data + sizeof(taskRate), sizeof(taskRate));
-    Serial.print(currentTime, 4);
-    Serial.print(" | ");
-    Serial.print(taskRate, 4);
+
+    // Serial.print(currentTime);
+    // Serial.print(" | ");
+    // Serial.println(taskRate);
 }
 
 float taskRate()
@@ -115,4 +131,71 @@ float taskRate()
     float dataRate = 1000.0 / (float)(time - referenceTime);
     referenceTime = time;
     return dataRate;
+}
+
+void task23Hz()
+{
+    float getInternal = thermocouple.readInternal();
+    float getCelsius = thermocouple.readInternal(); 
+    float getCorrectedtemperature = CorrectedTemperature();
+
+    canSendinternal(getInternal);
+    canSendcelsius(getCelsius);
+    canSendcorrectedTemperature(getCorrectedtemperature);
+    
+
+
+
+    // converter.value = CorrectedTemperature();
+    // CAN.sendMsgBuf(0x100, 0, 8, converter.data);
+    // converter.value = thermocouple.readInternal();
+    // CAN.sendMsgBuf(0x101, 0, 8, converter.data);
+    // converter.value = thermocouple.readCelsius();
+    // CAN.sendMsgBuf(0x102, 0, 8, converter.data);
+
+    // Serial.print("Temp: ");
+    // Serial.println(thermocouple.readCelsius());
+    // Serial.print("CorrectedTemp: ");
+    // Serial.println(CorrectedTemperature());
+
+    // double doubleData = 1010101;
+    // memcpy(&doubleData, converter.data, 8);
+    // Serial.print("converter.data: ");
+    // Serial.println(doubleData);
+}
+
+void canSendinternal(float getInternal)
+{
+    uint8_t data[8];
+    memcpy(data, &getInternal, sizeof(getInternal));
+
+    Serial.print("Internal: ");
+    Serial.print(getInternal);
+    Serial.print(" | ");
+
+    CAN.sendMsgBuf(0x101, 0, 8, data);
+}
+
+void canSendcelsius(float getCelsius)
+{
+    uint8_t data[8];
+    memcpy(data, &getCelsius, sizeof(getCelsius));
+
+    Serial.print("Celsius: ");
+    Serial.print(getCelsius);
+    Serial.print(" | ");
+
+    CAN.sendMsgBuf(0x102, 0, 8, data);
+}
+
+void canSendcorrectedTemperature(float getCorrectedtemperature)
+{
+    uint8_t data[8];
+    memcpy(data, &getCorrectedtemperature, sizeof(getCorrectedtemperature));
+
+    Serial.print("CoTemp: ");
+    Serial.print(getCorrectedtemperature);
+    Serial.println(" | ");
+    
+    CAN.sendMsgBuf(0x103, 0, 8, data);
 }
