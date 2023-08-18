@@ -35,22 +35,23 @@ void Logger::clear() {
 /// @brief ログを保存する
 uint32_t Logger::log(
   uint32_t micros, uint8_t flightMode,
-  float x, float y, float z
+  uint8_t x0, uint8_t x1,
+  uint8_t y0, uint8_t y1,
+  uint8_t z0, uint8_t z1
 ) {
   // MessagePackでパケットを生成
   // ラベルは認識しやすいように0xAAにしている
   const auto& packet = MsgPacketizer::encode(
     0xAA, micros, flightMode,
-    x, y, z
+    x0, x1, y0, y1, z0, z1
   );
 
   const uint8_t* packetData = packet.data.data();
   const uint32_t packetSize = packet.data.size();
 
-  uint8_t data[32];
-  uint32_t size = 32;
+  uint8_t data[24] = { 0 };
+  uint32_t size = 24;
 
-  memset(data, 0, size);
   memcpy(data, packetData, packetSize);
 
 

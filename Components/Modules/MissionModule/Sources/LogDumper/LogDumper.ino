@@ -23,13 +23,16 @@ void setup() {
 
   MsgPacketizer::subscribe_manual(0xAA,
     [&](uint32_t micros, uint8_t flightMode,
-      float x, float y, float z
+      uint8_t x0, uint8_t x1, uint8_t y0, uint8_t y1, uint8_t z0, uint8_t z1
       ) {
         Serial.print(micros); Serial.print(",");
         Serial.print(flightMode); Serial.print(",");
-        Serial.print(x); Serial.print(",");
-        Serial.print(y); Serial.print(",");
-        Serial.print(z); Serial.println();
+        Serial.print(x0); Serial.print(",");
+        Serial.print(x1); Serial.print(",");
+        Serial.print(y0); Serial.print(",");
+        Serial.print(y1); Serial.print(",");
+        Serial.print(z0); Serial.print(",");
+        Serial.print(z1); Serial.println();
     }
   );
 

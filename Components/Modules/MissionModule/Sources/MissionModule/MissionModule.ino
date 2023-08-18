@@ -140,13 +140,14 @@ void timer::sendDataTask() {
 
 
 void timer::measurementTask() {
-  float x, y, z;
-  sensor::adxl.getAcceleration(&x, &y, &z);
+  uint8_t x0, x1, y0, y1, z0, z1;
+  sensor::adxl.getAcceleration(&x0, &x1, &y0, &y1, &z0, &z1);
 
   if (scheduler::doLogging) {
     scheduler::logger.log(
       micros(), static_cast<uint8_t>(scheduler::flightModePrevious),
-      x, y, z);
+      x0, x1, y0, y1, z0, z1
+    );
   }
 
   // ODR情報
