@@ -29,7 +29,9 @@ public:
   /// @return 書き込んだサイズ
   uint32_t log(
     uint32_t micros, uint8_t flightMode,
-    float x, float y, float z
+    uint8_t x0, uint8_t x1,
+    uint8_t y0, uint8_t y1,
+    uint8_t z0, uint8_t z1
   );
 
   uint32_t getOffset();

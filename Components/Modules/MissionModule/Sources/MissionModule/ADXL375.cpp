@@ -9,7 +9,6 @@ ADXL375::ADXL375(uint32_t cs) {
 
 
 void ADXL375::begin() {
-  // TODO 高ODR LSB問題
   // BW_RATE <- 3200Hz
   write(0x2C, 0b00001111);
 
@@ -18,10 +17,27 @@ void ADXL375::begin() {
 }
 
 
-void ADXL375::getAcceleration(float* x, float* y, float* z) {
-  *x = (float)read16(0x32) * 0.049 * 9.80665;
-  *y = (float)read16(0x34) * 0.049 * 9.80665;
-  *z = (float)read16(0x36) * 0.049 * 9.80665;
+void ADXL375::getAcceleration(uint8_t* x0, uint8_t* x1, uint8_t* y0, uint8_t* y1, uint8_t* z0, uint8_t* z1) {
+  *x0 = read8(0x32);
+  *x1 = read8(0x33);
+  *y0 = read8(0x34);
+  *y1 = read8(0x35);
+  *z0 = read8(0x36);
+  *z1 = read8(0x37);
+}
+
+
+uint8_t ADXL375::read8(uint8_t address) {
+  SPI.beginTransaction(_spiSettings);
+  digitalWrite(_cs, LOW);
+
+  SPI.transfer(address | 0b11000000);
+  uint8_t data = SPI.transfer(0xFF);
+
+  digitalWrite(_cs, HIGH);
+  SPI.endTransaction();
+
+  return data;
 }
 
 
