@@ -49,10 +49,9 @@ uint32_t Logger::log(
   const uint8_t* packetData = packet.data.data();
   const uint32_t packetSize = packet.data.size();
 
-  uint8_t data[32];
-  uint32_t size = 32;
+  uint8_t data[24] = { 0 };
+  uint32_t size = 24;
 
-  memset(data, 0, size);
   memcpy(data, packetData, packetSize);
 
 

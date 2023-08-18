@@ -18,10 +18,10 @@ void Sender::reset() {
 
 /// @brief ログを送信する
 void Sender::send(uint32_t count) {
-  uint32_t tempSize = 32 * 25;
+  uint32_t tempSize = 24 * 25;
   uint32_t offset = count * tempSize;
 
-  uint8_t data[32];
+  uint8_t data[24] = { 0 };
   uint32_t size = 0;
 
   // FRAMの2個分の容量を超えたら何もしない (容量オーバー)
@@ -29,7 +29,7 @@ void Sender::send(uint32_t count) {
 
   if (offset + tempSize >= FRAM::LENGTH) {
     uint32_t writeAddress = offset - FRAM::LENGTH;
-    for (uint32_t i = 0; i < 32; i++) {
+    for (uint32_t i = 0; i < 24; i++) {
       uint8_t iData = _fram1->read(writeAddress + i);
       data[i] = iData;
 
@@ -41,7 +41,7 @@ void Sender::send(uint32_t count) {
   }
   else {
     uint32_t writeAddress = offset;
-    for (uint32_t i = 0; i < 32; i++) {
+    for (uint32_t i = 0; i < 24; i++) {
       uint8_t iData = _fram0->read(writeAddress + i);
       data[i] = iData;
 
