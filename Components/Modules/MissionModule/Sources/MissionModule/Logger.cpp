@@ -34,19 +34,26 @@ void Logger::clear() {
 
 /// @brief ログを保存する
 uint32_t Logger::log(
-  uint32_t millis, uint8_t flightMode,
-  float x, float y, float z
+  uint32_t micros, uint8_t flightMode,
+  uint8_t x0, uint8_t x1,
+  uint8_t y0, uint8_t y1,
+  uint8_t z0, uint8_t z1
 ) {
   // MessagePackでパケットを生成
   // ラベルは認識しやすいように0xAAにしている
   const auto& packet = MsgPacketizer::encode(
-    0xAA, millis, flightMode,
-    x, y, z
+    0xAA, micros, flightMode,
+    x0, x1, y0, y1, z0, z1
   );
 
-  const uint8_t* data = packet.data.data();
-  // const uint32_t size = packet.data.size();
-  const uint32_t size = 32;
+  const uint8_t* packetData = packet.data.data();
+  const uint32_t packetSize = packet.data.size();
+
+  uint8_t data[24] = { 0 };
+  uint32_t size = 24;
+
+  memcpy(data, packetData, packetSize);
+
 
   // FRAMの2個分の容量を超えたら何もしない (容量オーバー)
   if (_offset + size >= FRAM::LENGTH * 2) return size;

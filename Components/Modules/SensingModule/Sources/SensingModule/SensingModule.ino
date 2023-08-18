@@ -123,13 +123,13 @@ void loop() {
       device::indicator::canReceive.toggle();
       break;
     case CANSTM::Label::COLLECTED_TEMPERATURE:
-      canbus::can.receiveScalaDouble(&data::collected_temperature);
+      canbus::can.receiveScalar(&data::collected_temperature);
       break;
     case CANSTM::Label::COLD_JUNCTION_TEMPERATURE:
-      canbus::can.receiveScalaDouble(&data::cold_junction_temperature);
+      canbus::can.receiveScalar(&data::cold_junction_temperature);
       break;
     case CANSTM::Label::THERMO_COUPLE_TEMPERATURE:
-      canbus::can.receiveScalaDouble(&data::thermo_couple_temperature);
+      canbus::can.receiveScalar(&data::thermo_couple_temperature);
       break;
     }
   }
@@ -190,8 +190,8 @@ void internal::task50Hz() {
   data::climbRate_mps = internal::trajectory.getClimbRate();
 
   // CANにデータを流す
-  // 安全のため、高度32m以上でないと落下判定しない
-  canbus::can.sendTrajectoryData(internal::trajectory.isFalling() && data::altitude_m >= 32.0);
+  // 安全のため、燃焼終了時高度27.37m以上でないと落下判定しない
+  canbus::can.sendTrajectoryData(internal::trajectory.isFalling() && data::altitude_m >= 27.37);
   device::indicator::canSend.toggle();
 }
 

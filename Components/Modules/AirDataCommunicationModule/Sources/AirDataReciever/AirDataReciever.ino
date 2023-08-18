@@ -32,7 +32,10 @@ void setup() {
   Serial.begin(115200);
 
   pinMode(LED_BUILTIN, OUTPUT);
-  LoRa.begin(923.8E6);
+
+  // ① 34ch 922.6E6
+  // ② 30ch 921.8E6
+  LoRa.begin(922.6E6);
   LoRa.setSignalBandwidth(500E3);
 
   smooth::altitudeSmooth.begin();

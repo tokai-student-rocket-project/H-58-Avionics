@@ -24,9 +24,9 @@ private:
   const float RESISTANCE_0 = 10000.0;
 
   /// @brief スタインハート式で求めた定数たち サーミスタごとに校正する
-  const float THERM_A = 2.7743616E-4;
-  const float THERM_B = 3.67106347E-4;
-  const float THERM_C = -3.5569334E-7;
+  const float THERM_A = 0.00120952233;
+  const float THERM_B = 1.8595841E-4;
+  const float THERM_C = 5.7552292E-7;
 
   uint8_t _pinNumber;
 };

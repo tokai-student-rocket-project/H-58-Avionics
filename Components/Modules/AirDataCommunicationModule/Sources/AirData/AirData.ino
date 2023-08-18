@@ -50,7 +50,9 @@ namespace data {
 void setup() {
   Serial.begin(115200);
 
-  LoRa.begin(923.8E6);
+  // ① 34ch 922.6E6
+  // ② 30ch 921.8E6
+  LoRa.begin(922.6E6);
   LoRa.setSignalBandwidth(500E3);
 
   connection::can.begin();
@@ -86,8 +88,8 @@ void loop() {
       connection::can.receiveScalar(&data::internalTemperature);
       indicator::canReceive.toggle();
       break;
-    case CANMCP::Label::COLLECTED_TEMPERATURE:
-      connection::can.receiveScalaDouble(&data::coldTemperature);
+    case CANMCP::Label::THERMO_COUPLE_TEMPERATURE:
+      connection::can.receiveScalar(&data::coldTemperature);
       indicator::canReceive.toggle();
       break;
     case CANMCP::Label::CLIMB_RATE:

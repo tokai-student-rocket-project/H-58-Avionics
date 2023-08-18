@@ -90,6 +90,8 @@ namespace data {
 void setup() {
   Serial.begin(115200);
 
+  // ① 30ch 921.8E6
+  // ② 29ch 921.6E6
   LoRa.begin(921.8E6);
   LoRa.setSignalBandwidth(500E3);
 

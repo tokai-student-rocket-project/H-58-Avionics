@@ -39,8 +39,7 @@ namespace device {
     LED canSend(D0);
     LED canReceive(D1);
 
-    // TODO コメントアウト戻す
-    // Buzzer buzzer(A1, "buzzer");
+    Buzzer buzzer(A1, "buzzer");
 
     LED flightModeBit0(D8);
     LED flightModeBit1(D7);
@@ -90,10 +89,11 @@ void setup() {
   // delay(800);
 
   internal::timeManager.THRUST_TIME = 1600;
-  internal::timeManager.PROTECTION_SEPARATION_TIME = 3200;
-  internal::timeManager.FORCE_SEPARATION_TIME = 4000;
-  internal::timeManager.LANDING_TIME = 9270;
-  internal::timeManager.SHUTDOWN_TIME = 14270;
+  internal::timeManager.PROTECTION_SEPARATION_TIME = 4200;
+  internal::timeManager.FORCE_SEPARATION_TIME = 6900;
+  internal::timeManager.DATA_SAVING_TIME = 12120;
+  internal::timeManager.LANDING_TIME = 16854;
+  internal::timeManager.SHUTDOWN_TIME = 21854;
 
   // デバッグ中はピンが干渉するので電圧監視を行わない
   if (!internal::flag::isDebugMode) {
@@ -133,7 +133,7 @@ void loop() {
         internal::flightModeManager.changeMode(Var::FlightMode::STANDBY);
         device::peripheral::camera.on();
         device::peripheral::logger.beginLogging();
-        // device::indicator::buzzer.beepLongOnce();
+        device::indicator::buzzer.beepLongOnce();
         canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
       }
 
@@ -144,7 +144,7 @@ void loop() {
         internal::flightModeManager.changeMode(Var::FlightMode::SLEEP);
         device::peripheral::camera.off();
         device::peripheral::logger.endLogging();
-        // device::indicator::buzzer.beepLongOnce();
+        device::indicator::buzzer.beepLongOnce();
         canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
       }
 
@@ -152,7 +152,7 @@ void loop() {
         internal::flightModeManager.changeMode(Var::FlightMode::SHUTDOWN);
         device::peripheral::camera.off();
         device::peripheral::logger.endLogging();
-        // device::indicator::buzzer.beepLongOnce();
+        device::indicator::buzzer.beepLongOnce();
         canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, millis());
       }
 
@@ -231,7 +231,7 @@ void internal::task100Hz() {
     internal::flightModeManager.changeMode(Var::FlightMode::SLEEP);
     device::peripheral::camera.off();
     device::peripheral::logger.endLogging();
-    // device::indicator::buzzer.beepLongOnce();
+    device::indicator::buzzer.beepLongOnce();
     canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::RESET);
   }
 
@@ -240,7 +240,7 @@ void internal::task100Hz() {
   if ((internal::flightModeManager.is(Var::FlightMode::CLIMB) || internal::flightModeManager.is(Var::FlightMode::DESCENT)) && internal::timeManager.isElapsedTime(internal::timeManager.FORCE_SEPARATION_TIME)) {
     internal::flightModeManager.changeMode(Var::FlightMode::PARACHUTE);
     device::peripheral::sn3.separate();
-    // device::indicator::buzzer.beepTwice();
+    device::indicator::buzzer.beepTwice();
     canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FORCE_SEPARATE, millis());
   }
 
@@ -256,7 +256,7 @@ void internal::task100Hz() {
       internal::flightModeManager.changeMode(Var::FlightMode::STANDBY);
       device::peripheral::camera.on();
       device::peripheral::logger.beginLogging();
-      // device::indicator::buzzer.beepLongOnce();
+      device::indicator::buzzer.beepLongOnce();
       canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_ON);
     }
 
@@ -272,7 +272,7 @@ void internal::task100Hz() {
       // 現時刻をX=0の基準にする
       internal::timeManager.setZero();
       device::peripheral::logger.beginLogging();
-      // device::indicator::buzzer.beepOnce();
+      device::indicator::buzzer.beepOnce();
       canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::IGNITION);
     }
 
@@ -310,7 +310,7 @@ void internal::task100Hz() {
     if (internal::timeManager.isElapsedTime(internal::timeManager.PROTECTION_SEPARATION_TIME)) {
       internal::flightModeManager.changeMode(Var::FlightMode::PARACHUTE);
       device::peripheral::sn3.separate();
-      // device::indicator::buzzer.beepTwice();
+      device::indicator::buzzer.beepTwice();
       canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::SEPARATE, millis());
     }
 
@@ -321,7 +321,7 @@ void internal::task100Hz() {
     // PARACHUTEモード パラシュート下降中
 
     // 着地3秒前にカメラOFF
-    if (device::peripheral::camera.get() == Var::State::ON && internal::timeManager.isElapsedTime(internal::timeManager.LANDING_TIME - 3000)) {
+    if (device::peripheral::camera.get() == Var::State::ON && internal::timeManager.isElapsedTime(internal::timeManager.DATA_SAVING_TIME)) {
       device::peripheral::camera.off();
     }
 
@@ -341,7 +341,7 @@ void internal::task100Hz() {
     if (internal::timeManager.isElapsedTime(internal::timeManager.SHUTDOWN_TIME)) {
       internal::flightModeManager.changeMode(Var::FlightMode::SHUTDOWN);
       device::peripheral::logger.endLogging();
-      // device::indicator::buzzer.beepLongOnce();
+      device::indicator::buzzer.beepLongOnce();
       canbus::can.sendEvent(CANSTM::Publisher::FLIGHT_MODULE, CANSTM::EventCode::FLIGHT_MODE_OFF, millis());
       // はめつのうた
       // indicator::buzzer.electricalParade();

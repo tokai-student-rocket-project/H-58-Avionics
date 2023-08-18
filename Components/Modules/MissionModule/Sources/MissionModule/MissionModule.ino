@@ -66,7 +66,9 @@ void setup() {
   // FRAMとSDの電源は常にON
   control::recorderPower.on();
 
-  LoRa.begin(925.8E6);
+  // ① 38ch 923.4E6
+  // ② 31ch 922.0E6
+  LoRa.begin(923.4E6);
   LoRa.setSignalBandwidth(500E3);
 
   SPI.begin();
@@ -138,13 +140,14 @@ void timer::sendDataTask() {
 
 
 void timer::measurementTask() {
-  float x, y, z;
-  sensor::adxl.getAcceleration(&x, &y, &z);
+  uint8_t x0, x1, y0, y1, z0, z1;
+  sensor::adxl.getAcceleration(&x0, &x1, &y0, &y1, &z0, &z1);
 
   if (scheduler::doLogging) {
     scheduler::logger.log(
-      millis(), static_cast<uint8_t>(scheduler::flightModePrevious),
-      x, y, z);
+      micros(), static_cast<uint8_t>(scheduler::flightModePrevious),
+      x0, x1, y0, y1, z0, z1
+    );
   }
 
   // ODR情報

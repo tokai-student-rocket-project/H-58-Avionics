@@ -28,8 +28,10 @@ public:
   /// @brief ログを保存する
   /// @return 書き込んだサイズ
   uint32_t log(
-    uint32_t millis, uint8_t flightMode,
-    float x, float y, float z
+    uint32_t micros, uint8_t flightMode,
+    uint8_t x0, uint8_t x1,
+    uint8_t y0, uint8_t y1,
+    uint8_t z0, uint8_t z1
   );
 
   uint32_t getOffset();
