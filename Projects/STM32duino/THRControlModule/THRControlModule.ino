@@ -51,29 +51,29 @@ void setup()
     /* ---  MAX31855 Config END ---*/
 
     Tasks.add("task", []()
-              {
-                  converter.correctedTemperature = CorrectedTemperature();
-                  CAN.sendMsgBuf(0x100, 0, 8, converter.correctedTemperatureData);
-                  converter.coldJunctiontemperature = thermocouple.readInternal();
-                  CAN.sendMsgBuf(0x101, 0, 8, converter.coldJunctiontemperatureData);
-                  converter.thermoCoupletemperature = thermocouple.readCelsius();
-                  CAN.sendMsgBuf(0x102, 0, 8, converter.thermoCoupletemperatureData);
-                  Serial.print(F("CorrectedTemperature: "));
-                  Serial.print(CorrectedTemperature());
-                  Serial.print(F(" | "));
-                  Serial.print(F("ColdJunctionTemperature: "));
-                  Serial.print(thermocouple.readInternal());
-                  Serial.print(F(" | "));
-                  Serial.print(F("Temperature: "));
-                  Serial.print(thermocouple.readCelsius());
-                  Serial.println(F(" | ")); })
+        {
+            converter.correctedTemperature = CorrectedTemperature();
+            CAN.sendMsgBuf(0x100, 0, 8, converter.correctedTemperatureData);
+            converter.coldJunctiontemperature = thermocouple.readInternal();
+            CAN.sendMsgBuf(0x101, 0, 8, converter.coldJunctiontemperatureData);
+            converter.thermoCoupletemperature = thermocouple.readCelsius();
+            CAN.sendMsgBuf(0x102, 0, 8, converter.thermoCoupletemperatureData);
+            Serial.print(F("CorrectedTemperature: "));
+            Serial.print(CorrectedTemperature());
+            Serial.print(F(" | "));
+            Serial.print(F("ColdJunctionTemperature: "));
+            Serial.print(thermocouple.readInternal());
+            Serial.print(F(" | "));
+            Serial.print(F("Temperature: "));
+            Serial.print(thermocouple.readCelsius());
+            Serial.println(F(" | ")); })
         ->startFps(23);
 
-        Tasks.add("Rate", [](){
-            uint32_t currentTime = millis();
-            performance(currentTime, taskRate());
-        })
-        ->startFps(100);
+            Tasks.add("Rate", []() {
+                uint32_t currentTime = millis();
+                performance(currentTime, taskRate());
+                })
+                ->startFps(100);
 }
 
 void loop()

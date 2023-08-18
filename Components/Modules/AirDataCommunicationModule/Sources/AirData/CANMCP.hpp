@@ -26,17 +26,10 @@ public:
     CLIMB_RATE,
     RESET_COMMAND,
     INTERNAL_TEMPERATURE,
-    COLLECTED_TEMPERATURE = 0x100,
-    COLD_JUNCTION_TEMPERATURE,
+    COLD_JUNCTION_TEMPERATURE = 0x101,
     THERMO_COUPLE_TEMPERATURE,
-    CURRENT_POSITION,
-    CURRENT_DESIRED_POSITION,
-    CURRENT_VELOCITY,
-    MCU_TEMPERATURE,
-    MOTOR_TEMPERATURE,
-    CURRENT,
-    INPUT_VOLTAGE,
-    VALVE_MODE,
+    COLLECTED_TEMPERATURE,
+    VALVE_MODE = 0x10A,
     VALVE_DATA_1 = 0x10B,
     VALVE_DATA_2,
     PERFORMANCE
@@ -139,10 +132,6 @@ public:
   /// @brief スカラー値を受信する
   /// @param value 値のポインタ
   void receiveScalar(float* value);
-
-  /// @brief double型のスカラー値を受信する
-  /// @param value 値のポインタ
-  void receiveScalaDouble(float* value);
 
   /// @brief 3次元のベクトル値を受信する
   /// @param xValue x軸の値のポインタ

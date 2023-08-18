@@ -123,13 +123,13 @@ void loop() {
       device::indicator::canReceive.toggle();
       break;
     case CANSTM::Label::COLLECTED_TEMPERATURE:
-      canbus::can.receiveScalaDouble(&data::collected_temperature);
+      canbus::can.receiveScalar(&data::collected_temperature);
       break;
     case CANSTM::Label::COLD_JUNCTION_TEMPERATURE:
-      canbus::can.receiveScalaDouble(&data::cold_junction_temperature);
+      canbus::can.receiveScalar(&data::cold_junction_temperature);
       break;
     case CANSTM::Label::THERMO_COUPLE_TEMPERATURE:
-      canbus::can.receiveScalaDouble(&data::thermo_couple_temperature);
+      canbus::can.receiveScalar(&data::thermo_couple_temperature);
       break;
     }
   }

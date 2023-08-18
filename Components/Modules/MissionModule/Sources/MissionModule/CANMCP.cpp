@@ -126,16 +126,6 @@ void CANMCP::receiveScalar(float* value) {
 }
 
 
-/// @brief double型のスカラー値を受信する
-/// @param value 値のポインタ
-void CANMCP::receiveScalaDouble(float* value) {
-  double valueDouble;
-  memcpy(&valueDouble, _latestData, 8);
-
-  *value = (float)valueDouble;
-}
-
-
 /// @brief 3次元のベクトル値を受信する
 /// @param xValue x軸の値のポインタ
 /// @param yValue y軸の値のポインタ
