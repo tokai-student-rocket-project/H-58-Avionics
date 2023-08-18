@@ -70,12 +70,15 @@ const uint8_t WaitingLED = A3;
 const uint8_t TasksLED = A7;
 /* LED Config END */
 
+uint32_t torqueTime;
+
 void setup()
 {
     Serial1.begin(115200);
     Serial1.begin(115200, SERIAL_8N1);
 
     Serial.begin(115200);
+    
 
     pinMode(REDE_PIN, OUTPUT);
     Torque(0x01, 0x01);
@@ -149,8 +152,7 @@ void setup()
                 //   canSendmcuInfomation(b3mReadmotorTemperature(0x01), b3mReadmcuTemperature(0x01), b3mReadcurrent(0x01), b3mreadInputvoltage(0x01));
                 //   canSendmotorInfomation(b3mReadcurrentPosition(0x01), b3mReaddesiredPosition(0x01), b3mReadcurrentVelosity(0x01)); 
                 //   canSendservoStatusinfomation(b3mReaderrorStatus(0x01), b3mReadsystemError(0x01), b3mReadmotorStatus(0x01), b3mReaduartReceptionerror(0x01), b3mReadcommandError(0x01));
-                  canSendmotorStatus(b3mReadmotorStatus(0x01), currentTime);
-                  })
+                  canSendmotorStatus(b3mReadmotorStatus(0x01), currentTime); })
         ->startFps(13);
 
     // Tasks.add("Count", []()
@@ -186,18 +188,46 @@ void setup()
               })
         ->startFps(59);
 
-    Tasks.add("Buzzer", []()
-              { ToggleBuzzer(); });
+        Tasks.add("TorqueOff", []()
+        {
+            TorqueOff();
+        });
+
+        Tasks.add("B3Mon", [](){
+            B3M_setposition(0x01, -5500, 100);
+        });
+
+        Tasks.add("B3Moff", [](){
+            B3M_setposition(0x01, 0, 2000);
+        });
+
+    // Tasks.add("Buzzer", []()
+            //   { ToggleBuzzer(); });
 
     /* Wake Up Buzzer */
-    Tasks["Buzzer"]->startIntervalMsecForCount(66, 10);
+    // Tasks["Buzzer"]->startIntervalMsecForCount(66, 10);
 }
 
 void loop()
 {
     Tasks.update();
-    ChangeLaunchMode();
-    ChangeWaitingMode();
+
+    if (Position == 1 && digitalRead(LaunchPin) == LOW)
+    {
+        // TorqueTime = millis();
+        Tasks["TorqueOff"]->startOnceAfterSec(3);
+        Tasks["B3Mon"]->startOnceAfterMsec(800);
+        Torque(0x01, 0x01);
+        ChangeLaunchMode();
+    }
+
+    if (Position == 2 && digitalRead(WaitingPin) == LOW)
+    {
+        Tasks["TorqueOff"]->startOnceAfterSec(3);
+        Tasks["B3Moff"]->startOnceAfterSec(1);
+        Torque(0x01, 0x01);
+        ChangeWaitingMode();
+    }
 }
 
 void canSendmode()
@@ -409,19 +439,31 @@ void ChangeLaunchMode()
 
     if (LaunchCount >= POSITION_CHANGING_THRESHOLD)
     {
+        // torqueTime = millis();
         StateTransition::ChangeMode = StateTransition::Mode::LAUNCH;
 
-        Move(1, -800, 10); //-800/10 = -80deg
-        delay(100);
-        B3M_setposition(0x01, -5500, 10); //-6500/100 = -65deg
-        Tasks["Buzzer"]->startIntervalMsecForCount(50, 6);
+        Move(1, -800, 80); //-800/10 = -80deg
+        // delay(500);
+        // B3M_setposition(0x01, -5500, 100); //-5500/100 = -55deg
+        // Tasks["Buzzer"]->startIntervalMsecForCount(50, 6);
 
         LaunchCount = 0;
         Position = 2;
 
         digitalWrite(LaunchLED, HIGH);
         digitalWrite(WaitingLED, LOW);
+        
+        // if (millis() - torqueTime >= 5000)
+        // {
+        //     Torque(0x01, 0x00);
+        //     Serial.print("Hello");
+        // }
     }
+}
+
+void TorqueOff()
+{
+    Torque(0x01, 0x00);
 }
 
 void ChangeWaitingMode()
@@ -437,18 +479,27 @@ void ChangeWaitingMode()
 
     if (WaitingCount >= POSITION_CHANGING_THRESHOLD)
     {
+        // torqueTime = millis();
         StateTransition::ChangeMode = StateTransition::Mode::WAITING;
 
-        Move(1, 0, 100);
-        delay(100);
-        B3M_setposition(0x01, 0, 1000);
-        Tasks["Buzzer"]->startIntervalMsecForCount(100, 4);
+        Move(1, 0, 200);
+        // delay(500);
+        B3M_setposition(0x01, 0, 2000);
+        // Tasks["Buzzer"]->startIntervalMsecForCount(100, 4);
 
         WaitingCount = 0;
         Position = 1;
 
         digitalWrite(WaitingLED, HIGH);
         digitalWrite(LaunchLED, LOW);
+
+        // uint32_t nowTime = millis();
+        // if (nowTime - torqueTime >= 5000)
+        // {
+        //     Torque(0x01, 0x00);
+        //     Serial.print("Arduino");
+        // }
+        // torqueTime = nowTime;
     }
 }
 
@@ -1058,11 +1109,11 @@ void canSendservoStatusinfomation(uint8_t errorStatus, uint8_t systemError, uint
     CAN.sendMsgBuf(0x107, 0, 5, data);
 }
 
-//1byte目 5
-//2byte目 errorcode :
-//3byte目 errorreason :FF
-//4byte目 millis()
-//5byte目 millis()
+// 1byte目 5
+// 2byte目 errorcode :
+// 3byte目 errorreason :FF
+// 4byte目 millis()
+// 5byte目 millis()
 
 void canSendservoStatus(uint8_t servoStatus)
 {
@@ -1073,7 +1124,8 @@ void canSendservoStatus(uint8_t servoStatus)
 
 void canSendmotorStatus(uint8_t motorStatus, uint32_t currentTime)
 {
-    if(motorStatus == 0)return;
+    if (motorStatus == 0)
+        return;
     uint8_t data[7];
     data[0] = 5;
     memcpy(data + 1, &motorStatus, sizeof(motorStatus));
@@ -1085,16 +1137,16 @@ void canSendmotorStatus(uint8_t motorStatus, uint32_t currentTime)
 
 void canSendcommandError(uint8_t uartReceptionerror, uint8_t currentTime)
 {
-    if(uartReceptionerror == 0)return;
+    if (uartReceptionerror == 0)
+        return;
     uint8_t data[7];
-    data[0] = 5; //valvecontroler君
+    data[0] = 5; // valvecontroler君
     memcpy(data + 1, &uartReceptionerror, sizeof(uartReceptionerror));
     data[2] = 0;
     memcpy(data + 3, &currentTime, sizeof(currentTime));
 
     CAN.sendMsgBuf(0x07, 0, 7, data);
 }
-
 
 // 関数の定義
 // int16_t getServoPosition() {
