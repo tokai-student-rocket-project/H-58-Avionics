@@ -25,6 +25,7 @@ namespace internal {
     bool isFalling = false;
     bool isDebugMode = false;
     bool isLaunchMode = false;
+    bool isSafeMode = false;
   }
 }
 
@@ -115,6 +116,8 @@ void setup() {
   Tasks.add(internal::task4Hz)->startFps(5);
   Tasks.add(internal::task50Hz)->startFps(61);
   Tasks.add(internal::task100Hz)->startFps(100);
+
+  internal::flag::isSafeMode = device::detection::flightPin.is(Var::SwitchState::OPEN);
 }
 
 
@@ -219,6 +222,8 @@ void internal::task50Hz() {
 
 
 void internal::task100Hz() {
+  if (internal::flag::isSafeMode) return;
+
   // 検知の状態更新
   // フライトピンが解放されたらリフトオフ検知
   device::detection::liftoffDetector.update(device::detection::flightPin.is(Var::SwitchState::OPEN));
