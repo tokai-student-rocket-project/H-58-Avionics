@@ -44,3 +44,5 @@
 ## 渡航
 
 - [物品](./Documents/Materials/ODEKEKE_List.md)
+- [渡航反省会](https://docs.google.com/document/d/1JxgtdWJ_Vn3shQyhxJ2_JLb4oLB41KR0UXwkfCmn7mY/edit#heading=h.nkg454anzory)
+  - 2023 / 9 / 4 に開催済
