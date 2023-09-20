@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="P5jKrBtSUG_OV3gu1oKB" name="ページ1">
-        <mxGraphModel dx="527" dy="388" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+        <mxGraphModel dx="632" dy="465" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -17,7 +17,7 @@
                 <mxCell id="30" value="" style="endArrow=none;html=1;rounded=0;shape=link;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;" edge="1" parent="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="1100" y="560" as="sourcePoint"/>
-                        <mxPoint x="1100" y="50" as="targetPoint"/>
+                        <mxPoint x="1100" y="200" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=6;startArrow=block;startFill=1;" edge="1" parent="1">
@@ -32,13 +32,13 @@
                 </mxCell>
                 <mxCell id="36" value="12V POWER LINE" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=16;" vertex="1" connectable="0" parent="31">
                     <mxGeometry x="-0.07" y="-1" relative="1" as="geometry">
-                        <mxPoint x="-110" as="offset"/>
+                        <mxPoint x="251" as="offset"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="5" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;shape=link;strokeWidth=4;fillColor=#ffe6cc;strokeColor=#d79b00;" parent="1" edge="1">
                     <mxGeometry width="80" relative="1" as="geometry">
                         <mxPoint x="1080" y="560" as="sourcePoint"/>
-                        <mxPoint x="1080" y="174" as="targetPoint"/>
+                        <mxPoint x="1080" y="200" as="targetPoint"/>
                         <Array as="points"/>
                     </mxGeometry>
                 </mxCell>
@@ -68,6 +68,14 @@
                 <mxCell id="18" value="UART" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=16;" vertex="1" connectable="0" parent="16">
                     <mxGeometry x="-0.1309" relative="1" as="geometry">
                         <mxPoint y="8" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="39" style="edgeStyle=elbowEdgeStyle;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;fontSize=9;startArrow=block;startFill=1;endArrow=none;endFill=0;fillColor=#e1d5e7;strokeColor=#9673a6;" edge="1" parent="1" source="3" target="38">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="40" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;SIGNAL&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="39">
+                    <mxGeometry x="-0.3056" y="2" relative="1" as="geometry">
+                        <mxPoint x="-2" y="-2" as="offset"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="3" value="Arduino&lt;br&gt;Nano Every" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -143,7 +151,10 @@
                     <mxGeometry x="360" y="540" width="80" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="37" value="12V POWER LINE" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=16;" vertex="1" connectable="0" parent="1">
-                    <mxGeometry x="889.9965853658539" y="480.00439024390255" as="geometry"/>
+                    <mxGeometry x="739.9965853658539" y="480.00439024390255" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" value="&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 11px;&quot;&gt;Connector&lt;/span&gt;&lt;br&gt;&lt;font style=&quot;font-size: 9px;&quot;&gt;DF1BZ-4P-2.5DS&lt;/font&gt;&lt;br&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="540" y="540" width="80" height="40" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
