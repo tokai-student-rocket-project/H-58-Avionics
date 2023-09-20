@@ -175,6 +175,15 @@
                 <mxCell id="3" value="UART" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
                     <mxGeometry x="260" y="1310" width="60" height="20" as="geometry"/>
                 </mxCell>
+                <mxCell id="4" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=2;fillColor=#fa6800;strokeColor=#C73500;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="170" y="1300" as="sourcePoint"/>
+                        <mxPoint x="250" y="1300" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="5" value="RS485" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
+                    <mxGeometry x="260" y="1290" width="60" height="20" as="geometry"/>
+                </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
