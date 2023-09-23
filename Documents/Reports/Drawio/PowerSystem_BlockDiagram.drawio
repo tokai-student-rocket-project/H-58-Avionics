@@ -1,0 +1,354 @@
+<mxfile host="app.diagrams.net" modified="2023-09-22T12:55:14.147Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="TnlmCygAQRWJTy5Sz_tK" version="21.7.5" type="device">
+  <diagram name="ページ1" id="wtJFmKczoMVmBth9ZRmk">
+    <mxGraphModel dx="2662" dy="1786" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="NaQjXbbP09VLOcweNS_s-93" value="フライト&lt;br&gt;モジュール" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=bottom;" vertex="1" parent="1">
+          <mxGeometry x="960" y="380" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#a20025;strokeColor=#6F0000;strokeWidth=4;endArrow=block;endFill=1;" edge="1" parent="1" source="NaQjXbbP09VLOcweNS_s-34" target="NaQjXbbP09VLOcweNS_s-32">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="240" />
+              <mxPoint x="1020" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#a20025;strokeColor=#6F0000;strokeWidth=4;endArrow=block;endFill=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="NaQjXbbP09VLOcweNS_s-32">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1140" y="140" as="sourcePoint" />
+            <mxPoint x="1040" y="370" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1140" y="240" />
+              <mxPoint x="1040" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=4;fillColor=#a20025;strokeColor=#6F0000;endArrow=block;endFill=1;" edge="1" parent="1" target="NaQjXbbP09VLOcweNS_s-32">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="117.32050807568885" as="sourcePoint" />
+            <mxPoint x="989.96" y="354" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="270" y="260" />
+              <mxPoint x="1000" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=6;endArrow=block;endFill=1;endSize=4;startSize=4;" edge="1" parent="1" source="NaQjXbbP09VLOcweNS_s-1" target="NaQjXbbP09VLOcweNS_s-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-1" value="外部電源" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280.5" y="380" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-2" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=6;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1200" y="-80" as="sourcePoint" />
+            <mxPoint x="-50" y="310" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1199.5" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=6;endArrow=block;endFill=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;startSize=4;endSize=4;" edge="1" parent="1" source="NaQjXbbP09VLOcweNS_s-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="420" y="130" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="340.5" y="130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-4" value="アンビリカルコネクタ" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="260.5" y="290" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=6;endArrow=block;endFill=1;endSize=4;startSize=4;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="230" y="50" as="sourcePoint" />
+            <mxPoint x="420" y="50" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-7" value="電池ユニット" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-30" y="20" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#d5e8d4;strokeColor=#82b366;endArrow=none;endFill=0;strokeWidth=6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="50" as="targetPoint" />
+            <mxPoint x="90" y="130" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-8" value="電池ユニット" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="-30" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=6;startSize=4;endSize=4;" edge="1" parent="1" source="NaQjXbbP09VLOcweNS_s-9" target="NaQjXbbP09VLOcweNS_s-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-9" value="パワーパス&lt;br&gt;コントローラ&lt;br&gt;LTC4416" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="420.5" y="20" width="120" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=6;fillColor=#f8cecc;strokeColor=#b85450;endArrow=block;endFill=1;endSize=4;startSize=4;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="NaQjXbbP09VLOcweNS_s-13" target="NaQjXbbP09VLOcweNS_s-20">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="920" y="90" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-13" value="リニアレギュレータ" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=block;startFill=1;endArrow=none;endFill=0;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=6;endSize=4;startSize=4;" edge="1" parent="1" source="NaQjXbbP09VLOcweNS_s-15">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="640" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=6;fillColor=#f8cecc;strokeColor=#b85450;endArrow=none;endFill=0;" edge="1" parent="1" source="NaQjXbbP09VLOcweNS_s-15">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="920" y="90" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="920" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-15" value="リニアレギュレータ" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="140" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=block;startFill=1;endArrow=none;endFill=0;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=6;startSize=4;endSize=4;" edge="1" parent="1" source="NaQjXbbP09VLOcweNS_s-16">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="640" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=6;endArrow=none;endFill=0;" edge="1" parent="1" source="NaQjXbbP09VLOcweNS_s-16">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="920" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-16" value="リニアレギュレータ" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="-20" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#f8cecc;strokeColor=#b85450;endArrow=block;endFill=1;strokeWidth=6;startSize=4;endSize=4;" edge="1" parent="1" source="NaQjXbbP09VLOcweNS_s-20">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1260" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-20" value="バックアップ電源" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="980" y="60" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-24" value="" style="endArrow=none;html=1;rounded=0;shape=link;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1260" y="480" as="sourcePoint" />
+            <mxPoint x="1260" y="-80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#d5e8d4;strokeColor=#82b366;endArrow=none;endFill=0;strokeWidth=4;" edge="1" parent="1" source="NaQjXbbP09VLOcweNS_s-31">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270.0000000000001" y="50" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-31" value="V" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="250" y="80" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-32" value="ADC" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="980" y="380" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#f8cecc;strokeColor=#b85450;endArrow=none;endFill=0;strokeWidth=4;" edge="1" parent="1" source="NaQjXbbP09VLOcweNS_s-34">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="580" y="90" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-34" value="V" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="560" y="120" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;endArrow=none;endFill=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1140.0000000000002" y="90" as="targetPoint" />
+            <mxPoint x="1140" y="120" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-36" value="V" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="120" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-47" value="" style="endArrow=none;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;jumpStyle=none;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="880" y="10" as="sourcePoint" />
+            <mxPoint x="880" y="10" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="860" y="20" />
+              <mxPoint x="860" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-49" value="" style="endArrow=none;html=1;rounded=0;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="880" y="20" as="sourcePoint" />
+            <mxPoint x="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-50" value="" style="endArrow=none;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;jumpStyle=none;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="880" y="90" as="sourcePoint" />
+            <mxPoint x="880" y="90" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="860" y="100" />
+              <mxPoint x="860" y="80" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-51" value="" style="endArrow=none;html=1;rounded=0;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="880" y="100" as="sourcePoint" />
+            <mxPoint x="880" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-52" value="" style="endArrow=none;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;jumpStyle=none;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="880" y="170" as="sourcePoint" />
+            <mxPoint x="880" y="170" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="860" y="180" />
+              <mxPoint x="860" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-53" value="" style="endArrow=none;html=1;rounded=0;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="880" y="180" as="sourcePoint" />
+            <mxPoint x="880" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-55" value="" style="endArrow=none;html=1;rounded=0;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=6;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="90" y="50" as="sourcePoint" />
+            <mxPoint x="230" y="30" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="190" y="50" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-58" value="" style="endArrow=none;html=1;rounded=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="-20" as="sourcePoint" />
+            <mxPoint x="380" y="-20" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="380" y="90" />
+              <mxPoint x="300" y="90" />
+              <mxPoint x="300" y="190" />
+              <mxPoint x="-50" y="190" />
+              <mxPoint x="-50" y="-20" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-59" value="内部電源部" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="40" y="-20" width="190" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-61" value="電源SW" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="185" y="50" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-64" value="" style="endArrow=none;html=1;rounded=0;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="90" as="sourcePoint" />
+            <mxPoint x="380" y="90" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="300" y="90" />
+              <mxPoint x="300" y="190" />
+              <mxPoint x="240" y="190" />
+              <mxPoint x="240" y="460" />
+              <mxPoint x="440" y="460" />
+              <mxPoint x="440" y="190" />
+              <mxPoint x="380" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-66" value="外部電源部" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="340" y="190" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-67" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="-20" as="sourcePoint" />
+            <mxPoint x="380" y="-20" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="620" y="-20" />
+              <mxPoint x="620" y="190" />
+              <mxPoint x="380" y="190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-68" value="電源切替部" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="400.5" y="-20" width="190" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-69" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="620" y="-60" as="sourcePoint" />
+            <mxPoint x="620" y="-60" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="940" y="-60" />
+              <mxPoint x="940" y="220" />
+              <mxPoint x="620" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-70" value="変圧部" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="665" y="-60" width="190" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-76" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=6;fillColor=#d5e8d4;strokeColor=#82b366;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-40" y="380" as="sourcePoint" />
+            <mxPoint x="40" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-79" value="18V POWER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="50" y="370" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-80" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=6;fillColor=#dae8fc;strokeColor=#6c8ebf;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-40" y="400" as="sourcePoint" />
+            <mxPoint x="40" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-83" value="15V POWER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="50" y="390" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-84" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=6;fillColor=#f8cecc;strokeColor=#b85450;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-40" y="420" as="sourcePoint" />
+            <mxPoint x="40" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-85" value="12V POWER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="50" y="410" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-86" value="" style="endArrow=none;html=1;rounded=0;strokeWidth=4;fillColor=#a0522d;strokeColor=#6D1F00;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-40" y="360" as="sourcePoint" />
+            <mxPoint x="40" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-87" value="ANALOG" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="50" y="350" width="150" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-88" value="" style="endArrow=none;html=1;rounded=0;shape=link;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=4;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="40" y="440" as="sourcePoint" />
+            <mxPoint x="-40" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-89" value="12V POWER BUS" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="50" y="430" width="190" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-90" value="アンビリカル&lt;br&gt;ケーブル" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="350.5" y="340" width="89.5" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-91" value="電圧監視部" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="1070.5" y="340" width="109.5" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="NaQjXbbP09VLOcweNS_s-92" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1170" y="340" as="sourcePoint" />
+            <mxPoint x="1170" y="340" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1170" y="460" />
+              <mxPoint x="940" y="460" />
+              <mxPoint x="940" y="340" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
