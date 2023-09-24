@@ -2468,6 +2468,11 @@
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 -90))
     )
+    (model "D:/H-58-Avionics/Projects/KiCad/Libraries/ArduinoNanoEvery/Arduino Nano Every.STEP"
+      (offset (xyz 7.5 -17.5 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 -90))
+    )
   )
 
   (footprint "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder" (layer "F.Cu")
