@@ -1,6 +1,38 @@
 # H-58 搭載計器
 
-## 資料
+![2023年度 - 夏季](https://img.shields.io/badge/2023年度-夏季-blue)
+![射点 - 能代](https://img.shields.io/badge/射点-秋田県/能代市-orange)
+![形式 - 陸打ち](https://img.shields.io/badge/形式-陸打ち-green)
+
+TSRP-H-58に搭載する計器類のプログラム及び設計書を保存するレポジトリです。
+
+![Hero](./Documents/Images/Hero.png)
+
+## はじめに
+
+学生ロケットの電装系を盛り上げたい思いから、全てのソースコードを含む設計を公開しています。ガバガバ開発ですので、分かりにくい点（資料がまとまっていないなど）が多々あります。ご了承ください。
+
+ご不明な点は以下のSNSからお気軽にお問合せください。
+
+- X (旧Twitter): [@Tokai_SRP](https://twitter.com/Tokai_SRP)
+
+### 計器の概要
+
+H-58搭載計器はCANBUS接続された複数のモジュールから構成されます。
+
+### レポジトリ構成
+
+#### ./Components/Modules/
+
+- [SystemDataCommunicationModule](./Components/Modules/SystemDataCommunicationModule/README.md) ![通信系](https://img.shields.io/badge/通信系-blue) ![センサ系](https://img.shields.io/badge/センサ系-green)
+- [AirDataCommunicationModule](./Components/Modules/AirDataCommunicationModule/README.md) ![通信系](https://img.shields.io/badge/通信系-blue)
+- [FlightModule](./Components/Modules/FlightModule/README.md) ![分離制御系](https://img.shields.io/badge/分離制御系-yellow) ![計装系](https://img.shields.io/badge/計装系-purple)
+- [SensingModule](./Components/Modules/SensingModule/README.md) ![センサ系](https://img.shields.io/badge/センサ系-green)
+- [ValveControlModule](./Components/Modules/ValveContolModule/README.md) ![バルブ制御系](https://img.shields.io/badge/バルブ制御系-orange)
+- [MissionModule](./Components/Modules/MissionModule/README.md) ![ミッション系](https://img.shields.io/badge/ミッション系-green)
+- [PowerModule](./Components/Modules/PowerModule/README.md) ![電源系](https://img.shields.io/badge/電源系-red)
+
+#### ./Documents/
 
 - 開発資料
   - [工程計画書](./Documents/Materials/Schedule.md)
@@ -13,34 +45,5 @@
 - マニュアル
   - [部品一覧](./Documents/Materials/Manual/PartsList.md)
   - 手順書
-    - プログラム書き込み手順書
     - [組み立て手順書](./Documents/Materials/Manual/Procedure/AssemblyProcedure.md)
-    - 機体搭載手順書
-    - 電源投入手順書
-    - 地上局運用手順書
-    - 打ち上げ運用手順書
-    - 回収手順書
-    - 解析手順書
-      - トラブルシューティング
-
-## モジュール
-
-- [カメラモジュール(別レポジトリ)](https://github.com/tokai-student-rocket-project/Camera-Module)
-- 通信モジュール
-  - システムデータ通信モジュール
-  - エアデータ通信モジュール
-- [ミッションモジュール](./Components/Modules/MissionModule/)
-- [フライトモジュール](./Components/Modules/FlightModule/)
-- [計測モジュール](./Components/Modules/SensingModule/)
-- [バルブ制御モジュール](./Components/Modules/ValveContolModule/)
-- 機体間通信実証モジュール
-
-## 技術・機能
-
-- [CANBUS](./Documents/Materials/Features/CANBUS.md)
-
-## 地上局
-
-## 渡航
-
-- [物品](./Documents/Materials/ODEKEKE_List.md)
+- [詳細報告書](./Documents/Reports/DetailedRaport.pdf) (一番情報量多い)
