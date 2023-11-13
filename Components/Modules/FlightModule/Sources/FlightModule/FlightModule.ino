@@ -105,6 +105,12 @@ void setup() {
     device::sensor::pool.initialize(5600, 820);
   }
 
+  if (!sensor.begin()) {
+    Serial.println("失敗したよ");
+    while (true);
+  }
+
+
   SPI.setMOSI(A6);
   SPI.setMISO(A5);
   SPI.setSCLK(A4);
